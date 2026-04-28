@@ -87,7 +87,7 @@ uint8_t NesApu::GetStatus()
 	}
 	status |= _console->GetCpu()->HasIrqSource(IRQSource::DMC) ? 0x80 : 0x00;
 
-	return GetStatus<true>();
+	return status;
 }
 
 uint8_t NesApu::ReadRam(uint16_t addr)
@@ -124,7 +124,7 @@ uint8_t NesApu::PeekRam(uint16_t addr)
 		//Only run the Apu (to catch up) if we're running this in the emulation thread (not 100% accurate, but we can't run the Apu from any other thread without locking)
 		Run();
 	}
-	return GetStatus();
+	return GetStatus<true>();
 }
 
 void NesApu::WriteRam(uint16_t addr, uint8_t value)
