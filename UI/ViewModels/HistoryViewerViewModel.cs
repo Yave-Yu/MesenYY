@@ -115,7 +115,9 @@ namespace Mesen.ViewModels
 						GetScaleMenuItem(wnd, 7),
 						GetScaleMenuItem(wnd, 8),
 						GetScaleMenuItem(wnd, 9),
-						GetScaleMenuItem(wnd, 10)
+						GetScaleMenuItem(wnd, 10),
+						GetScaleMenuItem(wnd, 11),
+						GetScaleMenuItem(wnd, 12)
 					}
 				}
 			};
@@ -199,7 +201,7 @@ namespace Mesen.ViewModels
 			return new ContextMenuAction() {
 				ActionType = ActionType.Custom,
 				CustomText = scale + "x",
-				Shortcut = () => new DbgShortKeys(KeyModifiers.Alt, scale == 10 ? Key.D0 : Key.D0 + scale),
+				Shortcut = () => new DbgShortKeys(KeyModifiers.Alt, scale == 12 ? Key.D0 : Key.D0 + scale),
 				OnClick = () => wnd.SetScale(scale),
 				IsSelected = () => (int)((double)RendererSize.Height / EmuApi.GetBaseScreenSize().Height) == scale
 			};
