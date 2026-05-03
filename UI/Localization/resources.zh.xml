@@ -380,10 +380,10 @@
 			<Control ID="lblGbObj1">活动块2：</Control>
 			<Control ID="btnSelectPreset">选择预设…</Control>
 
-			<Control ID="lblGrayscale">灰阶</Control>
-			<Control ID="lblGrayscaleHighContrast">灰阶（高对比度）</Control>
-			<Control ID="lblGreen">墨绿</Control>
-			<Control ID="lblBrown">铜棕</Control>
+			<Control ID="lblGray">黑白</Control>
+			<Control ID="lblOlive">橄榄</Control>
+			<Control ID="lblLime">青柠</Control>
+			<Control ID="lblTeal">海湖</Control>
 
 			<Control ID="lblLcdSettings">LCD设置</Control>
 			<Control ID="chkGbBlendFrames">LCD帧混合</Control>

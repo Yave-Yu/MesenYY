@@ -113,10 +113,10 @@
 							>
 								<Button.ContextMenu>
 									<ContextMenu Placement="BottomEdgeAlignedLeft">
-										<MenuItem Header="{l:Translate lblGrayscale}" Click="mnuGrayscalePreset_Click" />
-										<MenuItem Header="{l:Translate lblGrayscaleHighContrast}" Click="mnuGrayscaleHighContrastPreset_Click" />
-										<MenuItem Header="{l:Translate lblGreen}" Click="mnuGreenPreset_Click" />
-										<MenuItem Header="{l:Translate lblBrown}" Click="mnuBrownPreset_Click" />
+										<MenuItem Header="{l:Translate lblGray}" Click="mnuGrayPreset_Click" />
+										<MenuItem Header="{l:Translate lblOlive}" Click="mnuOlivePreset_Click" />
+										<MenuItem Header="{l:Translate lblLime}" Click="mnuLimePreset_Click" />
+										<MenuItem Header="{l:Translate lblTeal}" Click="mnuTealPreset_Click" />
 									</ContextMenu>
 								</Button.ContextMenu>
 							</Button>
