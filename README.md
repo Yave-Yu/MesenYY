@@ -10,6 +10,8 @@ Highlight improvement:
 - Separate battery save folder.
 - Bigger window size, suitable for 4K.
 
+If you want latest build, click **Actions** then click latest action, then slide to bottom, you will see compiled Mesen, recommended net8.0 AOT if you are using Windows 10 or later. _Sorry for Linux and Mac users, I don't have them so I don't know how to fix it._
+
 ## Compiling
 
 See [COMPILING.md](COMPILING.md)
