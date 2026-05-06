@@ -164,7 +164,11 @@ void GbaRtc::Reset()
 	struct tm t;
 	time_t now;
 	time(&now);
+#if (defined(WIN32) || defined(_WIN32) || defined(__WIN32__))
 	localtime_s(&t, &now);
+#else
+	localtime_r(&now, &t);
+#endif
 
 	_state.Year = ToBCD(t.tm_year % 100);
 	_state.Month = ToBCD(t.tm_mon + 1);
