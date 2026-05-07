@@ -95,7 +95,7 @@ namespace Mesen.Views
 
 		private void mnuTealPreset_Click(object sender, RoutedEventArgs e)
 		{
-			SetPalette(Color.FromArgb(255, 165, 239, 222), Color.FromArgb(255, 132, 198, 181), Color.FromArgb(255, 66, 132, 115), Color.FromArgb(255, 16, 74, 66));
+			SetPalette(Color.FromArgb(255, 165, 239, 222), Color.FromArgb(255, 115, 198, 181), Color.FromArgb(255, 66, 132, 115), Color.FromArgb(255, 16, 74, 66));
 		}
 
 		private void SetPalette(Color color0, Color color1, Color color2, Color color3)
