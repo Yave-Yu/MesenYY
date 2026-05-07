@@ -545,6 +545,9 @@
     <Compile Update="Views\SnesInputConfigView.axaml.cs">
       <DependentUpon>SnesInputConfigView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\SnesNttDataKeypadControllerView.axaml.cs">
+      <DependentUpon>SnesNttDataKeypadControllerView.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\EmulationConfigView.axaml.cs">
       <DependentUpon>EmulationConfigView.axaml</DependentUpon>
     </Compile>

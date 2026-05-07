@@ -19,6 +19,7 @@ namespace Mesen.ViewModels
 			ControllerType.SnesController,
 			ControllerType.SnesMouse,
 			ControllerType.SuperScope,
+			ControllerType.SnesNttDataKeypad,
 			ControllerType.Multitap,
 			ControllerType.SnesRumbleController,
 		};
@@ -28,6 +29,7 @@ namespace Mesen.ViewModels
 			ControllerType.SnesController,
 			ControllerType.SnesMouse,
 			ControllerType.SuperScope,
+			ControllerType.SnesNttDataKeypad,
 			ControllerType.Multitap
 		};
 

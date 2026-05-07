@@ -18,7 +18,7 @@ namespace Mesen.Config
 		[Reactive] public bool HidePointerForLightGuns { get; set; } = false;
 		[Reactive][MinMax(0, 10)] public UInt32 ForceFeedbackIntensity { get; set; } = 5;
 
-		[Reactive] public InputDisplayPosition DisplayInputPosition { get; set; } = InputDisplayPosition.BottomRight;
+		[Reactive] public InputDisplayPosition DisplayInputPosition { get; set; } = InputDisplayPosition.BottomLeft;
 		[Reactive] public bool DisplayInputPort1 { get; set; } = false;
 		[Reactive] public bool DisplayInputPort2 { get; set; } = false;
 		[Reactive] public bool DisplayInputPort3 { get; set; } = false;
@@ -352,6 +352,7 @@ namespace Mesen.Config
 		SuperScope,
 		Multitap,
 		SnesRumbleController,
+		SnesNttDataKeypad,
 
 		//NES controllers
 		NesController,
@@ -419,6 +420,7 @@ namespace Mesen.Config
 			switch(type) {
 				case ControllerType.SnesController:
 				case ControllerType.SnesRumbleController:
+				case ControllerType.SnesNttDataKeypad:
 				case ControllerType.NesController:
 				case ControllerType.FamicomController:
 				case ControllerType.FamicomControllerP2:
@@ -443,6 +445,7 @@ namespace Mesen.Config
 			switch(type) {
 				case ControllerType.SnesController:
 				case ControllerType.SnesRumbleController:
+				case ControllerType.SnesNttDataKeypad:
 				case ControllerType.NesController:
 				case ControllerType.FamicomController:
 				case ControllerType.FamicomControllerP2:
@@ -467,6 +470,7 @@ namespace Mesen.Config
 			switch(type) {
 				case ControllerType.SnesController:
 				case ControllerType.SnesRumbleController:
+				case ControllerType.SnesNttDataKeypad:
 				case ControllerType.NesController:
 				case ControllerType.FamicomController:
 				case ControllerType.FamicomControllerP2:
