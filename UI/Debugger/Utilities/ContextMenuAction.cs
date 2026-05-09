@@ -616,17 +616,13 @@ namespace Mesen.Debugger.Utilities
 
 		[IconFile("Camera")]
 		TakeScreenshot,
+		[IconFile("Export")]
+		SaveSpcFile,
 
-		[IconFile("Help")]
-		OnlineHelp,
 		[IconFile("CommandLine")]
 		CommandLineHelp,
-		[IconFile("Update")]
-		CheckForUpdates,
 		[IconFile("Exclamation")]
 		About,
-		[IconFile("Comment")]
-		ReportBug,
 
 		[IconFile("Speed")]
 		Speed,

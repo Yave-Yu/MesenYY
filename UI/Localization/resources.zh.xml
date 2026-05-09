@@ -220,10 +220,10 @@
 		</Form>
 
 		<Form ID="VideoConfigOverrideView">
-			<Control ID="lblHeader">全局设置覆盖</Control>
-			<Control ID="chkOverrideBilinearInterpolation">覆盖双线性插值</Control>
-			<Control ID="chkOverrideVideoFilter">覆盖滤镜：</Control>
-			<Control ID="chkOverrideAspectRatio">覆盖比例：</Control>
+			<Control ID="lblHeader">替代全局设置</Control>
+			<Control ID="chkOverrideBilinearInterpolation">替代双线性插值</Control>
+			<Control ID="chkOverrideVideoFilter">替代滤镜：</Control>
+			<Control ID="chkOverrideAspectRatio">替代比例：</Control>
 			<Control ID="lblCustomRatio">自定义：</Control>
 		</Form>
 
@@ -544,8 +544,8 @@
 
 			<Control ID="tpgVideo">视频</Control>
 
-			<Control ID="lblSmsOverrides">SMS全局配置覆盖</Control>
-			<Control ID="lblGgOverrides">Game Gear全局配置覆盖</Control>
+			<Control ID="lblSmsOverrides">SMS替代全局配置</Control>
+			<Control ID="lblGgOverrides">Game Gear替代全局配置</Control>
 
 			<Control ID="lblMiscSettings">杂项设置</Control>
 			<Control ID="chkUseSgPalette">为SG-1000游戏应用SG-1000调色板</Control>
@@ -734,7 +734,7 @@
 			<Control ID="btnChangeStorageFolder">更换目录…</Control>
 			<Control ID="lblDataLocation">目录：</Control>
 
-			<Control ID="grpPathOverrides">目录覆盖</Control>
+			<Control ID="grpPathOverrides">目录设置</Control>
 			<Control ID="chkGameOverride">游戏：</Control>
 			<Control ID="chkAviOverride">录像：</Control>
 			<Control ID="chkScreenshotsOverride">截图：</Control>
@@ -1000,6 +1000,18 @@
 			<Control ID="mnuPs4Layout2AltB">控制器#2-×+□布局</Control>
 
 			<Control ID="btnOK">确定</Control>
+			<Control ID="btnCancel">取消</Control>
+		</Form>
+
+		<Form ID="SaveSpcFileWindow">
+			<Control ID="wndTitle">保存SPC文件</Control>
+
+			<Control ID="grpTags">ID666标签</Control>
+			<Control ID="lblSongTitle">曲目名</Control>
+			<Control ID="lblGameTitle">游戏名</Control>
+			<Control ID="lblSongArtist">作曲者</Control>
+
+			<Control ID="btnOK">保存文件</Control>
 			<Control ID="btnCancel">取消</Control>
 		</Form>
 		
@@ -3545,6 +3557,7 @@ E
 			<Value ID="InstallHdPack">安装HD包</Value>
 			<Value ID="HdPackBuilder">创建HD包</Value>
 			<Value ID="TakeScreenshot">截图</Value>
+			<Value ID="SaveSpcFile">保存SPC文件</Value>
 
 			<Value ID="CommandLineHelp">命令行选项</Value>
 			<Value ID="About">关于</Value>

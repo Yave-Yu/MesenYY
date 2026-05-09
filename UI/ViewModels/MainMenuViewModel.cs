@@ -799,6 +799,14 @@ namespace Mesen.ViewModels
 				new MainMenuAction(EmulatorShortcut.TakeScreenshot) {
 					ActionType = ActionType.TakeScreenshot,
 				},
+
+				new MainMenuAction() {
+					ActionType = ActionType.SaveSpcFile,
+					IsVisible = () => MainWindow.RomInfo.CpuTypes.Contains(CpuType.Spc),
+					OnClick = () => {
+						ApplicationHelper.GetOrCreateUniqueWindow(wnd, () => new SaveSpcFileWindow());
+					}
+				},
 			};
 		}
 
@@ -1132,7 +1140,6 @@ namespace Mesen.ViewModels
 					OnClick = () => CheckForUpdate(wnd, false)
 				},*/
 				new MainMenuAction() {
-					ActionType = ActionType.ReportBug,
 					IsVisible = () => false,
 					OnClick = () => ApplicationHelper.OpenBrowser("https://www.mesen.ca/reportbug/")
 				},

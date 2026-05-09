@@ -1002,7 +1002,19 @@
 			<Control ID="btnOK">OK</Control>
 			<Control ID="btnCancel">Cancel</Control>
 		</Form>
-		
+
+		<Form ID="SaveSpcFileWindow">
+			<Control ID="wndTitle">Save a .SPC file</Control>
+
+			<Control ID="grpTags">ID666 tags</Control>
+			<Control ID="lblSongTitle">Song title</Control>
+			<Control ID="lblGameTitle">Game title</Control>
+			<Control ID="lblSongArtist">Artist</Control>
+
+			<Control ID="btnOK">Save file</Control>
+			<Control ID="btnCancel">Cancel</Control>
+		</Form>
+
 		<Form ID="CheckBoxWarning">
 			<Control ID="Hint">(not recommended)</Control>
 		</Form>
@@ -3545,6 +3557,7 @@ E
 			<Value ID="InstallHdPack">Install HD Pack</Value>
 			<Value ID="HdPackBuilder">HD Pack Builder</Value>
 			<Value ID="TakeScreenshot">Take Screenshot</Value>
+			<Value ID="SaveSpcFile">Save SPC File</Value>
 
 			<Value ID="CommandLineHelp">Command-line options</Value>
 			<Value ID="About">About</Value>
