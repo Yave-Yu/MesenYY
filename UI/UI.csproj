@@ -93,6 +93,7 @@
 	  <None Remove="Styles\MesenStyles.Light.xaml" />
 	  <None Remove="Styles\StartupStyles.xaml" />
 	  <None Remove="Utilities\DipSwitchDefinitions.xml" />
+	  <None Remove="Windows\SaveSpcFileWindow.axaml" />
 	</ItemGroup>
 	<PropertyGroup>
 		<RestoreSources>
@@ -540,6 +541,9 @@
     <Compile Update="Windows\ControllerConfigWindow.axaml.cs">
       <DependentUpon>ControllerConfigWindow.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Windows\SaveSpcFileWindow.axaml.cs">
+      <DependentUpon>SaveSpcFileWindow.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\SnesControllerView.axaml.cs">
       <DependentUpon>SnesControllerView.axaml</DependentUpon>
     </Compile>
@@ -548,9 +552,6 @@
     </Compile>
     <Compile Update="Views\SnesNttDataKeypadControllerView.axaml.cs">
       <DependentUpon>SnesNttDataKeypadControllerView.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\SaveSpcFileWindow.axaml.cs">
-      <DependentUpon>SaveSpcFileWindow.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\EmulationConfigView.axaml.cs">
       <DependentUpon>EmulationConfigView.axaml</DependentUpon>

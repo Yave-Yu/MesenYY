@@ -1004,7 +1004,7 @@
 		</Form>
 
 		<Form ID="SaveSpcFileWindow">
-			<Control ID="wndTitle">Save a .SPC file</Control>
+			<Control ID="wndTitle">Save SPC file</Control>
 
 			<Control ID="grpTags">ID666 tags</Control>
 			<Control ID="lblSongTitle">Song title</Control>
