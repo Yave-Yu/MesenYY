@@ -1,12 +1,14 @@
 # Mesen
 
-Mesen is a multi-system emulator (NES, SNES, Game Boy, Game Boy Advance, PC Engine, SMS/Game Gear, WonderSwan), and Mesen-YY is a Windows only fork, improve casual play experience, update it with interest.
+Mesen is a multi-system emulator (NES, SNES, Game Boy, Game Boy Advance, PC Engine, SMS/Game Gear, WonderSwan), and MesenYY is a fork, improve casual play experience, update it with interest.
 
 Highlight improvement:
 - Less input lag.
 - Louder master volume.
 - Separate battery save folder.
 - Bigger window size, suitable for 4K.
+
+Due to mystery reason that broke Linux and Mac version's compilation, this fork is Windows only at this moment.
 
 ## Development build
 
