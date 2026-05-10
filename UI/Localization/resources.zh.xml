@@ -839,15 +839,16 @@
 			<Control ID="btnCancel">取消</Control>
 		</Form>
 		<Form ID="AboutWindow">
-			<Control ID="wndTitle">关于Mesen</Control>
-			<Control ID="lblName">Mesen</Control>
+			<Control ID="wndTitle">关于</Control>
+			<Control ID="lblName">MesenYY</Control>
 			<Control ID="lblVersion">版本号：</Control>
+			<Control ID="lblOriginal">基于Mesen 2.1.1改造</Control>
 			<Control ID="lblRuntimeVersion">运行库：</Control>
 
 			<Control ID="grpAcknowledgements">致谢</Control>
 			<Control ID="lblAcknowledgeList">感谢以下开发者或项目提供了直接与间接的帮助，才让Mesen成为可能：</Control>
 			<Control ID="lblUsedSoftware">Mesen用了以下开源软件：</Control>
-			<Control ID="lblSpecialThanks">还要感谢为Mesen作过贡献的人（汇报bug、测试、研究等），以及这是有一些改动的分支版本。© 2026 Yave Yu</Control>
+			<Control ID="lblSpecialThanks">还要感谢为Mesen作过贡献（汇报bug、测试、研究等）的人。</Control>
 
 			<Control ID="btnOk">确定</Control>
 		</Form>
@@ -874,8 +875,8 @@
 			<Control ID="btnCancel">取消</Control>
 		</Form>
 		<Form ID="SetupWizardWindow">
-			<Control ID="wndTitle">Mesen</Control>
-			<Control ID="lblMesen">Mesen模拟器</Control>
+			<Control ID="wndTitle">MesenYY</Control>
+			<Control ID="lblMesen">MesenYY</Control>
 			<Control ID="lblConfigWizard">设置向导</Control>
 			<Control ID="lblInitialSetup">请花点时间选择你偏好的设置</Control>
 			<Control ID="lblStorageLocation">数据存放位置</Control>

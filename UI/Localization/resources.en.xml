@@ -840,14 +840,15 @@
 		</Form>
 		<Form ID="AboutWindow">
 			<Control ID="wndTitle">About</Control>
-			<Control ID="lblName">Mesen</Control>
+			<Control ID="lblName">MesenYY</Control>
 			<Control ID="lblVersion">Version:</Control>
+			<Control ID="lblOriginal">Based on Mesen 2.1.1</Control>
 			<Control ID="lblRuntimeVersion">Runtime:</Control>
 
 			<Control ID="grpAcknowledgements">Acknowledgements</Control>
 			<Control ID="lblAcknowledgeList">Thank you to the following people/projects for their direct and indirect help in making Mesen possible:</Control>
 			<Control ID="lblUsedSoftware">Mesen uses the following open-source software:</Control>
-			<Control ID="lblSpecialThanks">And thank you to everybody who has contributed in any way! (bug reports, testing, research, etc.).&#13;This fork has some changes. © 2026 Yave Yu</Control>
+			<Control ID="lblSpecialThanks">And thank you to everybody who has contributed in any way! (bug reports, testing, research, etc.).</Control>
 
 			<Control ID="btnOk">OK</Control>
 		</Form>
@@ -874,8 +875,8 @@
 			<Control ID="btnCancel">Cancel</Control>
 		</Form>
 		<Form ID="SetupWizardWindow">
-			<Control ID="wndTitle">Mesen</Control>
-			<Control ID="lblMesen">Mesen-YY</Control>
+			<Control ID="wndTitle">MesenYY</Control>
+			<Control ID="lblMesen">MesenYY</Control>
 			<Control ID="lblConfigWizard">Configuration</Control>
 			<Control ID="lblInitialSetup">Please take a moment to perform Mesen's initial setup.</Control>
 			<Control ID="lblStorageLocation">Data Storage Location</Control>
