@@ -2466,7 +2466,10 @@ E
 			<Value ID="Prescale4x">Prescale 4x</Value>
 			<Value ID="Prescale5x">Prescale 5x</Value>
 			<Value ID="Prescale6x">Prescale 6x</Value>
+			<Value ID="Prescale7x">Prescale 7x</Value>
 			<Value ID="Prescale8x">Prescale 8x</Value>
+			<Value ID="Prescale9x">Prescale 9x</Value>
+			<Value ID="Prescale10x">Prescale 10x</Value>
 		</Enum>
 		<Enum ID="NtscBisqwitFilterScale">
 			<Value ID="_2x">2x</Value>

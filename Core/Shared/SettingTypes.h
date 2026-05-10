@@ -51,7 +51,10 @@ enum class VideoFilterType
 	Prescale4x,
 	Prescale5x,
 	Prescale6x,
-	Prescale8x
+	Prescale7x,
+	Prescale8x,
+	Prescale9x,
+	Prescale10x
 };
 
 enum class VideoResizeFilter

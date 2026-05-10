@@ -385,7 +385,10 @@ namespace Mesen.ViewModels
 						GetVideoFilterMenuItem(VideoFilterType.Prescale4x),
 						GetVideoFilterMenuItem(VideoFilterType.Prescale5x),
 						GetVideoFilterMenuItem(VideoFilterType.Prescale6x),
+						GetVideoFilterMenuItem(VideoFilterType.Prescale7x),
 						GetVideoFilterMenuItem(VideoFilterType.Prescale8x),
+						GetVideoFilterMenuItem(VideoFilterType.Prescale9x),
+						GetVideoFilterMenuItem(VideoFilterType.Prescale10x),
 						new ContextMenuSeparator(),
 						new MainMenuAction() {
 							ActionType = ActionType.ToggleBilinearInterpolation,

@@ -170,7 +170,10 @@ namespace Mesen.ViewModels
 			new FilterInfo() { Name = ResourceHelper.GetEnumText(VideoFilterType.Prescale4x), FilterType = ScaleFilterType.Prescale, Scale = 4 },
 			new FilterInfo() { Name = ResourceHelper.GetEnumText(VideoFilterType.Prescale5x), FilterType = ScaleFilterType.Prescale, Scale = 5 },
 			new FilterInfo() { Name = ResourceHelper.GetEnumText(VideoFilterType.Prescale6x), FilterType = ScaleFilterType.Prescale, Scale = 6 },
+			new FilterInfo() { Name = ResourceHelper.GetEnumText(VideoFilterType.Prescale7x), FilterType = ScaleFilterType.Prescale, Scale = 7 },
 			new FilterInfo() { Name = ResourceHelper.GetEnumText(VideoFilterType.Prescale8x), FilterType = ScaleFilterType.Prescale, Scale = 8 },
+			new FilterInfo() { Name = ResourceHelper.GetEnumText(VideoFilterType.Prescale9x), FilterType = ScaleFilterType.Prescale, Scale = 9 },
+			new FilterInfo() { Name = ResourceHelper.GetEnumText(VideoFilterType.Prescale10x), FilterType = ScaleFilterType.Prescale, Scale = 10 },
 
 			new FilterInfo() { Name = ResourceHelper.GetEnumText(VideoFilterType.HQ2x), FilterType = ScaleFilterType.HQX, Scale = 2 },
 			new FilterInfo() { Name = ResourceHelper.GetEnumText(VideoFilterType.HQ3x), FilterType = ScaleFilterType.HQX, Scale = 3 },

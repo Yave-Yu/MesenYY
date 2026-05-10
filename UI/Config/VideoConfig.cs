@@ -197,7 +197,10 @@ namespace Mesen.Config
 		Prescale4x,
 		Prescale5x,
 		Prescale6x,
-		Prescale8x
+		Prescale7x,
+		Prescale8x,
+		Prescale9x,
+		Prescale10x
 	}
 
 	public enum VideoAspectRatio
