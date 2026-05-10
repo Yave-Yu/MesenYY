@@ -2469,7 +2469,6 @@ E
 			<Value ID="Prescale7x">预缩放7x</Value>
 			<Value ID="Prescale8x">预缩放8x</Value>
 			<Value ID="Prescale9x">预缩放9x</Value>
-			<Value ID="Prescale10x">预缩放10x</Value>
 		</Enum>
 		<Enum ID="NtscBisqwitFilterScale">
 			<Value ID="_2x">2x</Value>
