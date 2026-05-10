@@ -2809,14 +2809,16 @@ E
 			<Value ID="SufamiTurboSecondCart">Sufami B槽位ROM</Value>
 			<Value ID="SufamiTurboSecondCartRam">Sufami B槽位RAM</Value>
 			
-			<Value ID="GameboyMemory">GB - CPU内存</Value>
-			<Value ID="GbPrgRom">GB - PRG ROM</Value>
-			<Value ID="GbWorkRam">GB - 工作RAM</Value>
-			<Value ID="GbCartRam">GB - 卡带RAM</Value>
-			<Value ID="GbHighRam">GB - 高页RAM</Value>
-			<Value ID="GbBootRom">GB - 引导ROM</Value>
-			<Value ID="GbVideoRam">GB - 显示RAM</Value>
-			<Value ID="GbSpriteRam">GB - 活动块RAM</Value>
+			<Value ID="GameboyMemory">CPU内存</Value>
+			<Value ID="GbPrgRom">PRG ROM</Value>
+			<Value ID="GbWorkRam">工作RAM</Value>
+			<Value ID="GbCartRam">卡带RAM</Value>
+			<Value ID="GbHighRam">高页RAM</Value>
+			<Value ID="GbBootRom">引导ROM</Value>
+			<Value ID="GbVideoRam">显示RAM</Value>
+			<Value ID="GbSpriteRam">活动块RAM</Value>
+			<Value ID="GbBgPaletteRam">背景调色板RAM</Value>
+			<Value ID="GbObjPaletteRam">活动块调色板RAM</Value>
 
 			<Value ID="NesMemory">CPU内存</Value>
 			<Value ID="NesPpuMemory">PPU内存</Value>
