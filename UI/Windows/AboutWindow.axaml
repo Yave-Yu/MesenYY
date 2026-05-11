@@ -59,14 +59,9 @@
 				<TextBlock Text="{l:Translate lblName}" FontSize="20" Margin="0 4 0 0" />
 				<StackPanel Orientation="Horizontal" Margin="3">
 					<TextBlock Text="{l:Translate lblVersion}" Margin="0 0 5 0" />
-					<TextBlock Text="{Binding Version, ElementName=root}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Margin="3">
 					<TextBlock Text="{l:Translate lblOriginal}" Margin="0 0 5 0" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal" Margin="3">
-					<TextBlock Text="{l:Translate lblRuntimeVersion}" Margin="0 0 5 0" />
-					<TextBlock Text="{Binding RuntimeVersion, ElementName=root}" />
 				</StackPanel>
 				<TextBlock Name="lblCopyright" Margin="3" />
 			</StackPanel>
