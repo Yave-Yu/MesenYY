@@ -269,6 +269,10 @@ void SnesConsole::SaveBattery()
 	if(_cart) {
 		_cart->SaveBattery();
 	}
+
+	if(_controlManager) {
+		_controlManager->SaveBattery();
+	}
 }
 
 BaseVideoFilter* SnesConsole::GetVideoFilter(bool getDefaultFilter)

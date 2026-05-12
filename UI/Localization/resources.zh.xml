@@ -2002,6 +2002,8 @@ E
 			<Value ID="SuperScope">超级瞄准镜</Value>
 			<Value ID="SnesNttDataKeypad">NTT数字键盘</Value>
 			<Value ID="Multitap">超级分插器</Value>
+			<Value ID="AsciiTurboFileTwinTf2">Turbo File Twin（TF2模式）</Value>
+			<Value ID="AsciiTurboFileTwinStf">Turbo File Twin（STF模式）</Value>
 
 			<Value ID="NesController">NES控制器</Value>
 			<Value ID="FamicomController">红白机控制器</Value>

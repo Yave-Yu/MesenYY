@@ -589,6 +589,8 @@
     <ClInclude Include="SNES\DSP\DspVoice.h" />
     <ClInclude Include="SNES\Input\SnesNttDataKeypad.h" />
     <ClInclude Include="SNES\Input\SnesRumbleController.h" />
+    <ClInclude Include="SNES\Input\AsciiTurboFileTwinStf.h" />
+    <ClInclude Include="SNES\Input\AsciiTurboFileTwinTf2.h" />
     <ClInclude Include="SNES\SnesCpu.Shared.h" />
     <ClInclude Include="SNES\Coprocessors\SA1\CpuBwRamHandler.h" />
     <ClInclude Include="SNES\Debugger\SnesDebugger.h" />
