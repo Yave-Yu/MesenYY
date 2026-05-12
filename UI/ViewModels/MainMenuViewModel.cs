@@ -1129,19 +1129,10 @@ namespace Mesen.ViewModels
 		private void InitHelpMenu(Window wnd)
 		{
 			HelpMenuItems = new List<object>() {
-				/*new MainMenuAction() {
-					ActionType = ActionType.OnlineHelp,
-					IsVisible = () => false,
-					OnClick = () => ApplicationHelper.OpenBrowser("https://www.mesen.ca/documentation/")
-				},*/
 				new MainMenuAction() {
 					ActionType = ActionType.CommandLineHelp,
 					OnClick = () => { new CommandLineHelpWindow().ShowCenteredDialog((Control)wnd); }
 				},
-				/*new MainMenuAction() {
-					ActionType = ActionType.CheckForUpdates,
-					OnClick = () => CheckForUpdate(wnd, false)
-				},*/
 				new MainMenuAction() {
 					IsVisible = () => false,
 					OnClick = () => ApplicationHelper.OpenBrowser("https://www.mesen.ca/reportbug/")
@@ -1154,34 +1145,6 @@ namespace Mesen.ViewModels
 					}
 				},
 			};
-		}
-
-		public void CheckForUpdate(Window mainWindow, bool silent)
-		{
-			Task.Run(async () => {
-				UpdatePromptViewModel? updateInfo = await UpdatePromptViewModel.GetUpdateInformation(silent);
-				if(updateInfo == null) {
-					if(!silent) {
-						Dispatcher.UIThread.Post(() => {
-							MesenMsgBox.Show(null, "UpdateDownloadFailed", MessageBoxButtons.OK, MessageBoxIcon.Info);
-						});
-					}
-					return;
-				}
-
-				if(updateInfo.LatestVersion > updateInfo.InstalledVersion) {
-					Dispatcher.UIThread.Post(async () => {
-						UpdatePromptWindow updatePrompt = new UpdatePromptWindow(updateInfo);
-						if(await updatePrompt.ShowCenteredDialog<bool>(mainWindow) == true) {
-							mainWindow.Close();
-						}
-					});
-				} else if(!silent) {
-					Dispatcher.UIThread.Post(() => {
-						 MesenMsgBox.Show(null, "MesenUpToDate", MessageBoxButtons.OK, MessageBoxIcon.Info);
-					});
-				}
-			});
 		}
 
 		private async void InstallHdPack(Window wnd)
