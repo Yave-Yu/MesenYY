@@ -70,11 +70,17 @@ string FolderUtilities::GetSaveFolder(string console)
 {
 	string folder;
 	if(_saveFolderOverride.empty()) {
-		folder = CombinePath(GetHomeFolder(), "Saves/" + console);
+		folder = CombinePath(GetHomeFolder(), "Saves");
 	} else {
-		folder = _saveFolderOverride + "/" + console;
+		folder = _saveFolderOverride;
 	}
+	
+	//Create root save folder first
 	CreateFolder(folder);
+	//Then create separate save folder
+	folder += "\\" + console;
+	CreateFolder(folder);
+	
 	return folder;
 }
 
