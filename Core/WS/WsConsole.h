@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "Shared/SettingTypes.h"
 #include "Shared/Interfaces/IConsole.h"
 #include "WS/WsTypes.h"
 
@@ -51,6 +52,7 @@ private:
 	uint32_t _cartEepromSize = 0;
 
 	WsModel _model = {};
+	bool _colorModel = false;
 	bool _verticalMode = false;
 	
 	void InitPostBootRomState();
@@ -59,7 +61,7 @@ public:
 	WsConsole(Emulator* emu);
 	~WsConsole();
 
-	static vector<string> GetSupportedExtensions() { return { ".ws", ".wsc" }; }
+	static vector<string> GetSupportedExtensions() { return { ".ws", ".wsc", ".pc2" }; }
 	static vector<string> GetSupportedSignatures() { return { }; }
 
 	LoadRomResult LoadRom(VirtualFile& romFile) override;
@@ -67,8 +69,10 @@ public:
 
 	void GetScreenRotationOverride(uint32_t& rotation) override;
 	bool IsColorMode();
+	bool IsColorModel();
 	bool IsPowerOff();
 	bool IsVerticalMode();
+	WsAudioMode GetAudioMode();
 	WsModel GetModel();
 
 	void UpdateInput();

@@ -7,6 +7,7 @@
 #include "WS/Debugger/WsTraceLogger.h"
 #include "WS/Debugger/WsPpuTools.h"
 #include "WS/WsController.h"
+#include "WS/PcV2Controller.h"
 #include "WS/WsCpu.h"
 #include "WS/WsPpu.h"
 #include "WS/WsConsole.h"
@@ -500,20 +501,29 @@ void WsDebugger::ProcessInputOverrides(DebugControllerState inputOverrides[8])
 {
 	BaseControlManager* controlManager = _console->GetControlManager();
 	for(int i = 0; i < 8; i++) {
-		shared_ptr<WsController> controller = std::dynamic_pointer_cast<WsController>(controlManager->GetControlDeviceByIndex(i));
-		if(controller && inputOverrides[i].HasPressedButton()) {
-			controller->SetBitValue(WsController::Buttons::A, inputOverrides[i].A);
-			controller->SetBitValue(WsController::Buttons::B, inputOverrides[i].B);
-			controller->SetBitValue(WsController::Buttons::Start, inputOverrides[i].Start);
-			controller->SetBitValue(WsController::Buttons::Sound, inputOverrides[i].Select);
-			controller->SetBitValue(WsController::Buttons::Up, inputOverrides[i].Up);
-			controller->SetBitValue(WsController::Buttons::Down, inputOverrides[i].Down);
-			controller->SetBitValue(WsController::Buttons::Left, inputOverrides[i].Left);
-			controller->SetBitValue(WsController::Buttons::Right, inputOverrides[i].Right);
-			controller->SetBitValue(WsController::Buttons::Up2, inputOverrides[i].U);
-			controller->SetBitValue(WsController::Buttons::Down2, inputOverrides[i].D);
-			controller->SetBitValue(WsController::Buttons::Left2, inputOverrides[i].L);
-			controller->SetBitValue(WsController::Buttons::Right2, inputOverrides[i].R);
+		shared_ptr<WsController> wsController = std::dynamic_pointer_cast<WsController>(controlManager->GetControlDeviceByIndex(i));
+		if(wsController && inputOverrides[i].HasPressedButton()) {
+			wsController->SetBitValue(WsController::Buttons::A, inputOverrides[i].A);
+			wsController->SetBitValue(WsController::Buttons::B, inputOverrides[i].B);
+			wsController->SetBitValue(WsController::Buttons::Start, inputOverrides[i].Start);
+			wsController->SetBitValue(WsController::Buttons::Sound, inputOverrides[i].Select);
+			wsController->SetBitValue(WsController::Buttons::Up, inputOverrides[i].Up);
+			wsController->SetBitValue(WsController::Buttons::Down, inputOverrides[i].Down);
+			wsController->SetBitValue(WsController::Buttons::Left, inputOverrides[i].Left);
+			wsController->SetBitValue(WsController::Buttons::Right, inputOverrides[i].Right);
+			wsController->SetBitValue(WsController::Buttons::Up2, inputOverrides[i].U);
+			wsController->SetBitValue(WsController::Buttons::Down2, inputOverrides[i].D);
+			wsController->SetBitValue(WsController::Buttons::Left2, inputOverrides[i].L);
+			wsController->SetBitValue(WsController::Buttons::Right2, inputOverrides[i].R);
+		}
+
+		shared_ptr<PcV2Controller> pcV2Controller = std::dynamic_pointer_cast<PcV2Controller>(controlManager->GetControlDeviceByIndex(i));
+		if(pcV2Controller && inputOverrides[i].HasPressedButton()) {
+			pcV2Controller->SetBitValue(PcV2Controller::Buttons::Up, inputOverrides[i].Up);
+			pcV2Controller->SetBitValue(PcV2Controller::Buttons::Down, inputOverrides[i].Down);
+			pcV2Controller->SetBitValue(PcV2Controller::Buttons::Left, inputOverrides[i].Left);
+			pcV2Controller->SetBitValue(PcV2Controller::Buttons::Right, inputOverrides[i].Right);
+			//TODOWS other buttons
 		}
 	}
 	controlManager->RefreshHubState();

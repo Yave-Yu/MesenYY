@@ -388,11 +388,13 @@ public:
 		FirmwareType firmwareType;
 		switch(model) {
 			default:
-			case WsModel::Monochrome: filename = "bootrom.ws"; firmwareType = FirmwareType::WonderSwan; break;
+			case WsModel::PocketChallenge:
+			case WsModel::Monochrome:
+				filename = "bootrom.ws"; firmwareType = FirmwareType::WonderSwan; break;
 			case WsModel::Color: filename = "bootrom.wsc"; firmwareType = FirmwareType::WonderSwanColor; break;
 			case WsModel::SwanCrystal: filename = "bootrom_sc.wsc"; firmwareType = FirmwareType::SwanCrystal; break;
 		}
-		uint32_t size = model == WsModel::Monochrome ? 0x1000 : 0x2000;
+		uint32_t size = firmwareType == FirmwareType::WonderSwan ? 0x1000 : 0x2000;
 		string path = FolderUtilities::CombinePath(FolderUtilities::GetFirmwareFolder(), filename);
 		if(AttemptLoadFirmware(bootRom, filename, size)) {
 			return true;

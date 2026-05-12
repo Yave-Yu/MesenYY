@@ -644,8 +644,9 @@
 
 			<Control ID="tpgInput">按键</Control>
 			<Control ID="grpControllers">控制器</Control>
-			<Control ID="lblPlayer1Horizontal">横向控制器</Control>
-			<Control ID="lblPlayer1Vertical">纵向控制器</Control>
+			<Control ID="lblPlayer1Horizontal">横向</Control>
+			<Control ID="lblPlayer1Vertical">纵向</Control>
+			<Control ID="lblPlayer1PcV2">口袋大挑战V2</Control>
 			<Control ID="btnSetup">设置</Control>
 		</Form>
 		
@@ -2385,6 +2386,17 @@ E
 			<Value ID="C">C</Value>
 			<Value ID="EndComunication">挂断</Value>
 		</Enum>
+		<Enum ID="PcV2Buttons">
+			<Value ID="Up">上</Value>
+			<Value ID="Down">下</Value>
+			<Value ID="Left">左</Value>
+			<Value ID="Right">右</Value>
+			<Value ID="Esc">退出</Value>
+			<Value ID="View">视图</Value>
+			<Value ID="Circle">圆圈</Value>
+			<Value ID="Clear">清除</Value>
+			<Value ID="Pass">跳过</Value>
+		</Enum>
 		<Enum ID="NesConsoleType">
 			<Value ID="Nes001">NES灰盒子（NES-001）</Value>
 			<Value ID="Nes101">NES上入式（NES-101）</Value>
@@ -2891,6 +2903,7 @@ E
 			<Value ID="Monochrome">WonderSwan</Value>
 			<Value ID="Color">WonderSwan Color</Value>
 			<Value ID="SwanCrystal">SwanCrystal</Value>
+			<Value ID="PocketChallenge">口袋大挑战V2</Value>
 		</Enum>
 		<Enum ID="WsAudioMode">
 			<Value ID="Headphones">耳机（推荐）</Value>

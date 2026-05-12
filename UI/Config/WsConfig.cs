@@ -13,8 +13,9 @@ public class WsConfig : BaseConfig<WsConfig>
 {
 	[Reactive] public ConsoleOverrideConfig ConfigOverrides { get; set; } = new();
 
-	[Reactive] public ControllerConfig ControllerHorizontal { get; set; } = new();
-	[Reactive] public ControllerConfig ControllerVertical { get; set; } = new();
+	[Reactive] public WsControllerConfig ControllerHorizontal { get; set; } = new();
+	[Reactive] public WsControllerConfig ControllerVertical { get; set; } = new();
+	[Reactive] public WsControllerConfig ControllerPcV2 { get; set; } = new();
 
 	[Reactive] public WsModel Model { get; set; } = WsModel.Auto;
 	[Reactive] public bool UseBootRom { get; set; } = false;
@@ -40,12 +41,14 @@ public class WsConfig : BaseConfig<WsConfig>
 	{
 		ControllerHorizontal.Type = ControllerType.WsController;
 		ControllerVertical.Type = ControllerType.WsControllerVertical;
+		ControllerPcV2.Type = ControllerType.PcV2Controller;
 
 		ConfigManager.Config.Video.ApplyConfig();
 
 		ConfigApi.SetWsConfig(new InteropWsConfig() {
 			ControllerHorizontal = ControllerHorizontal.ToInterop(),
 			ControllerVertical = ControllerVertical.ToInterop(),
+			ControllerPcV2 = ControllerPcV2.ToInterop(),
 
 			Model = Model,
 			UseBootRom = UseBootRom,
@@ -73,6 +76,7 @@ public class WsConfig : BaseConfig<WsConfig>
 	{
 		ControllerHorizontal.InitDefaults(defaultMappings, ControllerType.WsController);
 		ControllerVertical.InitDefaults(defaultMappings, ControllerType.WsControllerVertical);
+		ControllerPcV2.InitDefaults(defaultMappings, ControllerType.PcV2Controller);
 	}
 }
 
@@ -81,6 +85,7 @@ public struct InteropWsConfig
 {
 	public InteropControllerConfig ControllerHorizontal;
 	public InteropControllerConfig ControllerVertical;
+	public InteropControllerConfig ControllerPcV2;
 
 	public WsModel Model;
 	[MarshalAs(UnmanagedType.I1)] public bool UseBootRom;
@@ -108,7 +113,8 @@ public enum WsModel : byte
 	Auto,
 	Monochrome,
 	Color,
-	SwanCrystal
+	SwanCrystal,
+	PocketChallenge
 }
 
 public enum WsAudioMode : byte

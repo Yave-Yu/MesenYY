@@ -646,6 +646,7 @@
 			<Control ID="grpControllers">Controllers</Control>
 			<Control ID="lblPlayer1Horizontal">Controller (Horizontal)</Control>
 			<Control ID="lblPlayer1Vertical">Controller (Vertical)</Control>
+			<Control ID="lblPlayer1PcV2">Controller (Pocket Challenge V2)</Control>
 			<Control ID="btnSetup">Setup</Control>
 		</Form>
 		
@@ -2385,6 +2386,17 @@ E
 			<Value ID="C">C</Value>
 			<Value ID="EndComunication">End communication</Value>
 		</Enum>
+		<Enum ID="PcV2Buttons">
+			<Value ID="Up">Up</Value>
+			<Value ID="Down">Down</Value>
+			<Value ID="Left">Left</Value>
+			<Value ID="Right">Right</Value>
+			<Value ID="Esc">Esc</Value>
+			<Value ID="View">View</Value>
+			<Value ID="Circle">Circle</Value>
+			<Value ID="Clear">Clear</Value>
+			<Value ID="Pass">Pass</Value>
+		</Enum>
 		<Enum ID="NesConsoleType">
 			<Value ID="Nes001">NES - Front loader (NES-001)</Value>
 			<Value ID="Nes101">NES - Top loader (NES-101)</Value>
@@ -2891,6 +2903,7 @@ E
 			<Value ID="Monochrome">WonderSwan</Value>
 			<Value ID="Color">WonderSwan Color</Value>
 			<Value ID="SwanCrystal">SwanCrystal</Value>
+			<Value ID="PocketChallenge">Pocket Challenge V2</Value>
 		</Enum>
 		<Enum ID="WsAudioMode">
 			<Value ID="Headphones">Headphones (recommended)</Value>

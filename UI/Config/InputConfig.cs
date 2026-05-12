@@ -411,6 +411,7 @@ namespace Mesen.Config
 		//WonderSwan
 		WsController,
 		WsControllerVertical,
+		PcV2Controller
 	}
 
 	public static class ControllerTypeExtensions
@@ -506,6 +507,7 @@ namespace Mesen.Config
 				case ControllerType.ColecoVisionController:
 				case ControllerType.WsController:
 				case ControllerType.WsControllerVertical:
+				case ControllerType.PcV2Controller:
 					return true;
 			}
 
