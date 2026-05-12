@@ -159,17 +159,14 @@ uint8_t GbaRtc::ToBCD(uint8_t value)
 
 void GbaRtc::Reset()
 {
-	_state = {};
+	_state = {};	
+	
+#if (defined(WIN32) || defined(_WIN32) || defined(__WIN32__))
 	//With this, each time start a new game, RTC automatically syncs to system clock
 	struct tm t;
 	time_t now;
 	time(&now);
-#if (defined(WIN32) || defined(_WIN32) || defined(__WIN32__))
 	localtime_s(&t, &now);
-#else
-	localtime_r(&now, &t);
-#endif
-
 	_state.Year = ToBCD(t.tm_year % 100);
 	_state.Month = ToBCD(t.tm_mon + 1);
 	_state.Day = ToBCD(t.tm_mday);
@@ -177,6 +174,12 @@ void GbaRtc::Reset()
 	_state.Hour = ToBCD(t.tm_hour);
 	_state.Minute = ToBCD(t.tm_min);
 	_state.Second = ToBCD(t.tm_sec);
+#else
+	//Due to compilation error, Linux and Mac version doesn't read system clock
+	_state.Month = 1;
+	_state.Day = 1;
+#endif
+
 	_state.Status = 0x40;
 }
 
