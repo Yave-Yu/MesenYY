@@ -2988,11 +2988,14 @@
     <ClInclude Include="SNES\Input\SnesRumbleController.h">
       <Filter>SNES\Input</Filter>
     </ClInclude>
-    <ClInclude Include="WS\WsRtc.h">
-      <Filter>WS</Filter>
-    </ClInclude>
     <ClInclude Include="SNES\Input\SnesNttDataKeypad.h">
       <Filter>SNES\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="WS\Carts\WsRtc.h">
+      <Filter>WS\Carts</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\Utilities\S3511ARtc.h">
+      <Filter>Shared\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3359,11 +3362,14 @@
     <ClCompile Include="SNES\Input\SnesRumbleController.cpp">
       <Filter>SNES\Input</Filter>
     </ClCompile>
-    <ClCompile Include="WS\WsRtc.cpp">
-      <Filter>WS</Filter>
-    </ClCompile>
     <ClCompile Include="SNES\Input\SnesNttDataKeypad.cpp">
       <Filter>SNES\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Shared\Utilities\S3511ARtc.cpp">
+      <Filter>Shared\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="WS\Carts\WsRtc.cpp">
+      <Filter>WS\Carts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

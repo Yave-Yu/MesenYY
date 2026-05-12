@@ -165,7 +165,7 @@ void GbaCart::LoadBattery()
 	}
 
 	if(_rtc) {
-		_rtc->LoadBattery();
+		_rtc->LoadBattery("GBA");
 	}
 }
 
@@ -177,7 +177,7 @@ void GbaCart::SaveBattery()
 	}
 
 	if(_rtc) {
-		_rtc->SaveBattery();
+		_rtc->SaveBattery("GBA");
 	}
 }
 
