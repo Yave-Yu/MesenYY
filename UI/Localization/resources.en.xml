@@ -842,7 +842,7 @@
 		<Form ID="AboutWindow">
 			<Control ID="wndTitle">About</Control>
 			<Control ID="lblName">MesenYY</Control>
-			<Control ID="lblVersion">Version: 1.0</Control>
+			<Control ID="lblVersion">Version: 1.1 dev</Control>
 			<Control ID="lblOriginal">Based on Mesen 2.1.1</Control>
 
 			<Control ID="grpAcknowledgements">Acknowledgements</Control>

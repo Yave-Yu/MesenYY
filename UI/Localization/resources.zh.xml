@@ -842,7 +842,7 @@
 		<Form ID="AboutWindow">
 			<Control ID="wndTitle">关于</Control>
 			<Control ID="lblName">MesenYY</Control>
-			<Control ID="lblVersion">版本号：1.0</Control>
+			<Control ID="lblVersion">版本：1.1开发版</Control>
 			<Control ID="lblOriginal">基于Mesen 2.1.1改造</Control>
 
 			<Control ID="grpAcknowledgements">致谢</Control>
