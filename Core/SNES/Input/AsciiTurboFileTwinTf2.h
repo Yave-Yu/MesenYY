@@ -5,6 +5,7 @@
 #include "Shared/BatteryManager.h"
 #include "Shared/Interfaces/IBattery.h"
 #include "Utilities/Serializer.h"
+#include "Utilities/BitUtilities.h"
 
 class AsciiTurboFileTwinTf2 : public BaseControlDevice, public IBattery
 {
@@ -13,11 +14,11 @@ private:
 	static constexpr int BitCount = FileSize * 8;
 	uint16_t _position = 0;
 	uint8_t _data[AsciiTurboFileTwinTf2::FileSize] = {};
-	uint8_t _unlockCounter = 0; // 4-bit counter - consistently 0 at power on
-	bool _unlocked = false; // Memory access is allowed when true
+	uint8_t _unlockCounter = 0; //4-bit counter - consistently 0 at power on
+	bool _unlocked = false; //Memory access is allowed when true
 
 	SnesConsole* _console = nullptr;
-	uint32_t _stateBuffer = 0; // For the status report
+	uint32_t _stateBuffer = 0; //For the status report
 
 protected:
 	void Serialize(Serializer& s) override
@@ -49,7 +50,7 @@ public:
 
 	void RefreshStateBuffer() override
 	{
-		_stateBuffer = 0b111111110111000000000000; // Controller type $E, and then disambiguated with $FF
+		_stateBuffer = 0b111111110111000000000000; //Controller type $E, and then disambiguated with $FF
 		if(_unlocked) {
 			_stateBuffer |= 1 << 11;
 		}
@@ -69,13 +70,13 @@ public:
 				_unlocked = _unlockCounter == 0xF;
 			}
 
-			// Return one bit from the status
+			//Return one bit from the status
 			output = _stateBuffer & 0x01;
 			_stateBuffer >>= 1;
-			_stateBuffer |= 1 << 23; // All bits after the first 24 are 1s in TFII mode
+			_stateBuffer |= 1 << 23; //All bits after the first 24 are 1s in TFII mode
 
-			// Get current bit in the Turbo File data
-			output |= ((_data[_position / 8] >> (_position % 8)) & 0x01) << 1;
+			//Get current bit in the Turbo File data
+			output |= BitUtilities::GetBitInArray(_data, FileSize, _position) << 1;
 		}
 
 		return output;
@@ -92,8 +93,7 @@ public:
 			if(_unlocked) {
 				//Perform write and increase position
 				uint8_t ioPort = _console->GetInternalRegisters()->GetIoPortOutput();
-				_data[_position / 8] &= ~(1 << (_position % 8));
-				_data[_position / 8] |= ((ioPort & 0x80) ? 0x01 : 0x00) << (_position % 8);
+				BitUtilities::SetBitInArray(_data, FileSize, _position, (ioPort & 0x80) == 0x80);
 				_position = (_position + 1) & (AsciiTurboFileTwinTf2::BitCount - 1);
 			}
 		}

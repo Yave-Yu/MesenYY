@@ -177,7 +177,7 @@ void Emulator::ProcessAutoSaveState()
 			//Also update save file if game has
 			if(_console) {
 				//Seems Mesen know how to deal this, if no save file present, it won't create one
-				_console->SaveBattery();
+				SaveBattery();
 			}
 		}
 	} else {
@@ -291,7 +291,7 @@ void Emulator::Stop(bool sendNotification, bool preventRecentGameSave, bool save
 
 	if(_console && saveBattery) {
 		//Only save battery on power off, otherwise SaveBattery() is called by LoadRom()
-		_console->SaveBattery();
+		SaveBattery();
 	}
 
 	if(!preventRecentGameSave && _console && !_settings->GetPreferences().DisableGameSelectionScreen && !_audioPlayerHud) {
@@ -424,7 +424,7 @@ bool Emulator::InternalLoadRom(VirtualFile romFile, VirtualFile patchFile, bool 
 
 	if(_console) {
 		//Make sure the battery is saved to disk before we load another game (or reload the same game)
-		_console->SaveBattery();
+		SaveBattery();
 	}
 
 	_soundMixer->StopAudio();
@@ -604,6 +604,14 @@ void Emulator::TryLoadRom(VirtualFile& romFile, LoadRomResult& result, unique_pt
 				_batteryManager->Initialize(FolderUtilities::GetFilename(_rom.RomFile.GetFileName(), false), this, hasBattery);
 			}
 		}
+	}
+}
+
+void Emulator::SaveBattery()
+{
+	_console->SaveBattery();
+	if(_console->GetControlManager()) {
+		_console->GetControlManager()->SaveBattery();
 	}
 }
 

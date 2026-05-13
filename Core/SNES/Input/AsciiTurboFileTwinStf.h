@@ -9,21 +9,23 @@
 class AsciiTurboFileTwinStf : public BaseControlDevice, public IBattery
 {
 private:
-	// Data access
+	//Data access
 	static constexpr int FileSize = 128 * 1024;
 	uint32_t _position = 0;
 	uint8_t _data[AsciiTurboFileTwinStf::FileSize] = {};
-	uint8_t _currentByte = 0; // 8-bit shift register; current read/write byte
+	uint8_t _currentByte = 0; //8-bit shift register; current read/write byte
+	uint8_t _mostRecentByte; //Byte most recently read or written
 
-	// Command state
+	//Command state
 	bool _writeMode = false;
 	bool _readMode = false;
-	bool _firstAccess = false; // First data access after entering write mode or read mode
-	bool _didReadWithStrobe = false; // Were any $4017 reads done while strobe was on?
-	uint32_t _newCommand = 0; // 28-bit shift register
+	bool _firstAccess = false; //First data access after entering write mode or read mode
+	bool _didReadWithStrobe = false; //Were any $4017 reads done while strobe was on?
+	bool _didWriteAnything = false; //Have any writes actually gone through?
+	uint32_t _newCommand = 0; //28-bit shift register
 
-	// Status report
-	uint32_t _stateBuffer = 0; // For the status report
+	//Status report
+	uint32_t _stateBuffer = 0; //For the status report
 
 	SnesConsole* _console = nullptr;
 
@@ -33,11 +35,13 @@ protected:
 		BaseControlDevice::Serialize(s);
 		SVArray(_data, AsciiTurboFileTwinStf::FileSize);
 		SV(_currentByte);
+		SV(_mostRecentByte);
 		SV(_position);
 		SV(_writeMode);
 		SV(_readMode);
 		SV(_firstAccess);
 		SV(_didReadWithStrobe);
+		SV(_didWriteAnything);
 		SV(_newCommand);
 	}
 
@@ -60,12 +64,13 @@ public:
 
 	void RefreshStateBuffer() override
 	{
-		_stateBuffer = 0b011111110111000000000000 | // Controller type $E, and then disambiguated with $FE
-			((uint8_t)_writeMode << 24) |
+		_stateBuffer = 0b011111110111000000000000 | //Controller type $E, and then disambiguated with $FE
+			((uint8_t)(_writeMode & !_didWriteAnything) << 24) |
 			((uint8_t)_readMode << 25);
-		// Bit 26 is 1 if batteries are missing?
-		// Bit 27 is 1 if write protect is on
-		// Bits 28-31 are capacity; 0 = 128 KiB
+		//Bit 26 is 1 if batteries are missing
+		//TODOSNES - Verify behavior of bit 26; it may actually be a "low battery" flag, but so far it's only been confirmed that it is 1 when the Turbo File Twin has no batteries in it
+		//Bit 27 is 1 if write protect is on
+		//Bits 28-31 are capacity; 0 = 128 KiB
 	}
 
 	uint8_t ReadRam(uint16_t addr) override
@@ -75,16 +80,16 @@ public:
 		if(addr == 0x4017) {
 			StrobeProcessRead();
 
-			// Get one bit from the status
+			//Get one bit from the status
 			output = _stateBuffer & 0x01;
 			_stateBuffer >>= 1;
-			_stateBuffer |= 1 << 31; // All bits after the first 32 are 1s in STF mode
+			_stateBuffer |= 1 << 31; //All bits after the first 32 are 1s in STF mode
 			if(_strobe) {
-				// Write mode is exited by turning the strobe and off without doing any $4017 reads
+				//Write mode is exited by turning the strobe and off without doing any $4017 reads
 				_didReadWithStrobe = true;
-				// Read mode is exited by doing a $4017 read with strobe
+				//Read mode is exited by doing a $4017 read with strobe
 				_readMode = false;
-				// Write mode is also exited if a $4017 read with strobe is done on the first access
+				//Write mode is also exited if a $4017 read with strobe is done on the first access
 				if(_firstAccess) {
 					_writeMode = false;
 				}
@@ -95,7 +100,7 @@ public:
 			_newCommand = (_newCommand >> 1) | (ioBit << 27);
 
 			if(!(_currentByte & 0x01)) {
-				// Second output bit is the opposite of whatever bit is getting shifted out of _currentByte
+				//Second output bit is the opposite of whatever bit is getting shifted out of _currentByte
 				output |= 2;
 			}
 			_currentByte >>= 1;
@@ -117,8 +122,9 @@ public:
 		}
 
 		if(prevStrobe && !_strobe) {
+			RefreshStateBuffer();
 			if(!_writeMode && !_readMode) {
-				// Potentially start a new command
+				//Potentially start a new command
 				_position = _newCommand >> 8;
 				if((_newCommand & 0xFF) == 0x24) {
 					_readMode = true;
@@ -126,25 +132,29 @@ public:
 					_writeMode = true;
 				}
 				_firstAccess = true;
+				_didWriteAnything = false;
+				_currentByte = _mostRecentByte;
 			} else {
-				// Don't do a read or write the first time the strobe is turned on and off
-				// (Allows the program to get a status report and confirm the read/write command worked before accessing data)
+				//Don't do a read or write the first time the strobe is turned on and off
+				//(Allows the program to get a status report and confirm the read/write command worked before accessing data)
 				if(!_firstAccess) {
 					if(_writeMode) {
 						if(_didReadWithStrobe) {
 							_data[_position % FileSize] = _currentByte;
+							_mostRecentByte = _currentByte;
+							_didWriteAnything = true;
 						} else {
 							_writeMode = false;
 						}
 					} else if(_readMode) {
-						_currentByte = _data[_position % FileSize];
+						_mostRecentByte = _data[_position % FileSize];
+						_currentByte = _mostRecentByte;
 					}
 					_position++;
 				}
 				_firstAccess = false;
 			}
 			_newCommand = 0;
-			RefreshStateBuffer();
 		}
 	}
 };
