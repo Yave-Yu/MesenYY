@@ -10,8 +10,6 @@
 #include "Shared/Emulator.h"
 #include "Shared/BatteryManager.h"
 #include "Shared/EmuSettings.h"
-#include "Shared/CheatManager.h"
-#include "Shared/KeyManager.h"
 #include "Utilities/CRC32.h"
 
 SmsMemoryManager::SmsMemoryManager()
@@ -532,6 +530,8 @@ void SmsMemoryManager::Serialize(Serializer& s)
 		SV(_biosMapper);
 	}
 	
+	SV(_state.OpenBus);
+
 	SV(_state.ExpEnabled);
 	SV(_state.CartridgeEnabled);
 	SV(_state.CardEnabled);
@@ -539,6 +539,7 @@ void SmsMemoryManager::Serialize(Serializer& s)
 	SV(_state.BiosEnabled);
 	SV(_state.IoEnabled);
 
+	SV(_state.OpenBus);
 	SV(_state.GgExtData);
 	SV(_state.GgExtConfig);
 	SV(_state.GgSendData);
