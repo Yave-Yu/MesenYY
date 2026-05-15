@@ -54,7 +54,7 @@ void AudioPlayerHud::Draw(uint32_t frameCounter, double fps)
 
 	string track = "Track: " + std::to_string(trackInfo.TrackNumber) + "/" + std::to_string(trackInfo.TrackCount);
 	TextSize size = DrawStringCommand::MeasureString(track);
-	uint32_t trackPosX = 256 - size.X - 14;
+	uint32_t trackPosX = 242 - size.X;
 	_hud->DrawString(trackPosX, 218, track, 0xFFFFFF, 0, 1);
 
 	string trackName;
@@ -66,10 +66,12 @@ void AudioPlayerHud::Draw(uint32_t frameCounter, double fps)
 	_hud->DrawString(15, 208, trackName, 0xFFFFFF, 0, 1, -1, trackPosX - 20);
 
 	if(trackInfo.Length <= 0) {
-		_hud->DrawString(216, 208, " " + position + "   ", 0xFFFFFF, 0, 1);
+		size = DrawStringCommand::MeasureString(position);
+		_hud->DrawString(242 - size.X, 208, position, 0xFFFFFF, 0, 1);
 	} else {
 		position += "/" + FormatSeconds((uint32_t)trackInfo.Length);
-		_hud->DrawString(177, 208, " " + position + "   ", 0xFFFFFF, 0, 1);
+		size = DrawStringCommand::MeasureString(position);
+		_hud->DrawString(242 - size.X, 208, position, 0xFFFFFF, 0, 1);
 
 		constexpr int barWidth = 222;
 		_hud->DrawRectangle(15, 199, barWidth + 4, 6, 0xBBBBBB, false, 1);
