@@ -14,7 +14,7 @@ private:
 	static constexpr int BitCount = FileSize * 8;
 	uint16_t _position = 0;
 	uint8_t _data[AsciiTurboFileTwinTf2::FileSize] = {};
-	uint8_t _unlockCounter = 0; //4-bit counter - consistently 0 at power on
+	uint8_t _unlockCounter = 0; //4-bit counter
 	bool _unlocked = false; //Memory access is allowed when true
 
 	SnesConsole* _console = nullptr;
@@ -66,6 +66,7 @@ public:
 			if(_strobe) {
 				_unlockCounter = (_unlockCounter + 1) & 0xF;
 				_position = 0;
+				_unlocked = false;
 			} else {
 				_unlocked = _unlockCounter == 0xF;
 			}
