@@ -21,6 +21,7 @@ protected:
 
 private:
 	void ReadSocket();
+	virtual void ProcessPendingEvents() {}
 
 	bool ExtractMessage(void *buffer, uint32_t &messageLength);
 	NetMessage* ReadMessage();
