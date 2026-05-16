@@ -16,24 +16,16 @@ namespace Mesen.Windows
 {
 	public class AboutWindow : MesenWindow
 	{
-		public string Version { get; }
-		public string BuildDate { get; }
-		public string RuntimeVersion { get; }
 		public string BuildSha { get; }
 		public string BuildShortSha { get; }
 		public List<AboutListEntry> LibraryList { get; }
 		public List<AboutListEntry> AcknowledgeList { get; }
 
 		public AboutWindow()
-		{
-			Version = EmuApi.GetMesenVersion().ToString();
-			BuildDate = EmuApi.GetMesenBuildDate();
-			RuntimeVersion = ".NET " + Environment.Version;
-			RuntimeVersion += RuntimeFeature.IsDynamicCodeSupported ? " (JIT)" : " (AOT)";
-			
+		{			
 			string? commitHash = UpdateHelper.GetCommitHash();
 			BuildSha = commitHash ?? "";
-			BuildShortSha = commitHash?.Substring(0, 7) ?? "";
+			BuildShortSha = commitHash?[7..] ?? "";
 
 			LibraryList = new List<AboutListEntry>() {
 				new("Avalonia", "", "MIT", "https://github.com/AvaloniaUI/Avalonia"),
