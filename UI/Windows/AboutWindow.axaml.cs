@@ -25,7 +25,7 @@ namespace Mesen.Windows
 		{			
 			string? commitHash = UpdateHelper.GetCommitHash();
 			BuildSha = commitHash ?? "";
-			BuildShortSha = commitHash?[7..] ?? "";
+			BuildShortSha = commitHash?.Substring(0, 7) ?? "";
 
 			LibraryList = new List<AboutListEntry>() {
 				new("Avalonia", "", "MIT", "https://github.com/AvaloniaUI/Avalonia"),
