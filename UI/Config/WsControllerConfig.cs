@@ -82,15 +82,15 @@ namespace Mesen.Config
 			switch(type) {
 				case ControllerType.﻿PcV2Controller:
 					return new UInt16[9] {
-						InputApi.GetKeyCode("Up Arrow"),
-						InputApi.GetKeyCode("Down Arrow"),
-						InputApi.GetKeyCode("Left Arrow"),
-						InputApi.GetKeyCode("Right Arrow"),
+						InputApi.GetKeyCode("W"),
 						InputApi.GetKeyCode("S"),
-						InputApi.GetKeyCode("Z"),
-						InputApi.GetKeyCode("X"),
-						InputApi.GetKeyCode("C"),
-						InputApi.GetKeyCode("A")
+						InputApi.GetKeyCode("A"),
+						InputApi.GetKeyCode("D"),
+						InputApi.GetKeyCode("T"),
+						InputApi.GetKeyCode("J"),
+						InputApi.GetKeyCode("K"),
+						InputApi.GetKeyCode("L"),
+						InputApi.GetKeyCode("G")
 					};
 
 				default:
