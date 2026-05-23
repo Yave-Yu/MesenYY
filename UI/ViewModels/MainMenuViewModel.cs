@@ -447,13 +447,14 @@ namespace Mesen.ViewModels
 					DynamicText = () => ResourceHelper.GetEnumText(ActionType.Region) + (MainWindow.RomInfo.ConsoleType != ConsoleType.Gameboy ? " (GB)" : ""),
 					IsVisible = () => IsGameRunning && MainWindow.RomInfo.CpuTypes.Contains(CpuType.Gameboy),
 					SubActions = new List<object>() {
+						GetGameboyModelMenuItem(GameboyModel.AutoFavorBest),
 						GetGameboyModelMenuItem(GameboyModel.AutoFavorGbc),
 						GetGameboyModelMenuItem(GameboyModel.AutoFavorSgb),
 						GetGameboyModelMenuItem(GameboyModel.AutoFavorGb),
 						new ContextMenuSeparator(),
 						GetGameboyModelMenuItem(GameboyModel.Gameboy),
 						GetGameboyModelMenuItem(GameboyModel.GameboyColor),
-						GetGameboyModelMenuItem(GameboyModel.SuperGameboy),
+						GetGameboyModelMenuItem(GameboyModel.SuperGameboy)
 					}
 				},
 

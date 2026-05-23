@@ -374,6 +374,7 @@ enum class ConsoleType
 
 enum class GameboyModel
 {
+	AutoFavorBest,
 	AutoFavorGbc,
 	AutoFavorSgb,
 	AutoFavorGb,

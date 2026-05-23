@@ -2893,6 +2893,7 @@ E
 			<Value ID="None">无</Value>
 		</Enum>
 		<Enum ID="GameboyModel">
+			<Value ID="AutoFavorBest">自动（最佳适配）</Value>
 			<Value ID="AutoFavorGbc">自动（偏好GBC）</Value>
 			<Value ID="AutoFavorSgb">自动（偏好SGB）</Value>
 			<Value ID="AutoFavorGb">自动（偏好GB）</Value>
