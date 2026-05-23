@@ -44,7 +44,6 @@ DebugTilemapInfo GbPpuTools::GetTilemap(GetTilemapOptions options, BaseState& ba
 			if(state.BgTileSelect) {
 				tileStart = tileIndex * 16;
 			} else {
-				tileStart += tileIndex * 16;
 				tileStart = 0x1000 + (int8_t)tileIndex * 16;
 			}
 
