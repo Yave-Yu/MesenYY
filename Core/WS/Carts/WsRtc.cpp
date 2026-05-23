@@ -2,7 +2,6 @@
 #include "WS/WsConsole.h"
 #include "WS/Carts/WsRtc.h"
 #include "Utilities/Serializer.h"
-#include "Shared/Emulator.h"
 #include "Shared/Utilities/S3511ARtc.h"
 
 WsRtc::WsRtc(Emulator* emu, WsConsole* console) : S3511ARtc(emu), _console(console)

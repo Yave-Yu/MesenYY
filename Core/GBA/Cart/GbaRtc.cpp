@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GBA/Cart/GbaRtc.h"
 #include "Utilities/Serializer.h"
-#include "Shared/Emulator.h"
+#include "Shared/Utilities/S3511ARtc.h"
 
 GbaRtc::GbaRtc(Emulator* emu) : S3511ARtc(emu)
 {
