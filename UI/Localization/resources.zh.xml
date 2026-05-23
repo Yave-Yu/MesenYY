@@ -729,7 +729,7 @@
 			<Control ID="chkGameGearRomFiles">Game Gear游戏：.gg</Control>
 			<Control ID="chkSgRomFiles">SG-1000游戏：.sg</Control>
 			<Control ID="chkCvRomFiles">ColecoVision游戏：.col</Control>
-			<Control ID="chkWsRomFiles">WonderSwan游戏：.ws, .wsc</Control>
+			<Control ID="chkWsRomFiles">WonderSwan游戏：.ws, .wsc, .pc2</Control>
 
 			<Control ID="grpDataStorageLocation">数据存放目录</Control>
 			<Control ID="btnChangeStorageFolder">更换目录…</Control>
@@ -2388,17 +2388,6 @@ E
 			<Value ID="C">C</Value>
 			<Value ID="EndComunication">挂断</Value>
 		</Enum>
-		<Enum ID="PcV2Buttons">
-			<Value ID="Up">上</Value>
-			<Value ID="Down">下</Value>
-			<Value ID="Left">左</Value>
-			<Value ID="Right">右</Value>
-			<Value ID="Esc">退出</Value>
-			<Value ID="View">视图</Value>
-			<Value ID="Circle">圆圈</Value>
-			<Value ID="Clear">清除</Value>
-			<Value ID="Pass">跳过</Value>
-		</Enum>
 		<Enum ID="NesConsoleType">
 			<Value ID="Nes001">NES灰盒子（NES-001）</Value>
 			<Value ID="Nes101">NES上入式（NES-101）</Value>
@@ -2893,7 +2882,7 @@ E
 			<Value ID="None">无</Value>
 		</Enum>
 		<Enum ID="GameboyModel">
-			<Value ID="AutoFavorBest">自动（最佳适配）</Value>
+			<Value ID="AutoFavorBest">自动（偏好最佳）</Value>
 			<Value ID="AutoFavorGbc">自动（偏好GBC）</Value>
 			<Value ID="AutoFavorSgb">自动（偏好SGB）</Value>
 			<Value ID="AutoFavorGb">自动（偏好GB）</Value>

@@ -437,6 +437,7 @@ namespace Mesen.Config
 				case ControllerType.ColecoVisionController:
 				case ControllerType.WsController:
 				case ControllerType.WsControllerVertical:
+				case ControllerType.PcV2Controller:
 					return true;
 			}
 
@@ -462,6 +463,7 @@ namespace Mesen.Config
 				case ControllerType.SmsController:
 				case ControllerType.WsController:
 				case ControllerType.WsControllerVertical:
+				case ControllerType.PcV2Controller:
 					return true;
 			}
 

@@ -32,6 +32,7 @@ namespace Mesen.Views
 					ControllerType.SmsController => new SmsControllerView(),
 					ControllerType.WsController => new WsControllerView(),
 					ControllerType.WsControllerVertical => new WsControllerVerticalView(),
+					ControllerType.PcV2Controller => new WsPcV2ControllerView(),
 					_ => new DefaultControllerView()
 				};
 			}

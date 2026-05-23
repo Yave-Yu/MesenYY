@@ -1,6 +1,5 @@
 #pragma once
 #include "pch.h"
-#include "Shared/SettingTypes.h"
 #include "Shared/Interfaces/IConsole.h"
 #include "WS/WsTypes.h"
 
@@ -16,7 +15,9 @@ class WsControlManager;
 class WsDmaController;
 class WsEeprom;
 class WsRtc;
+
 enum class WsModel : uint8_t;
+enum class WsAudioMode : uint8_t;
 
 class WsConsole final : public IConsole
 {

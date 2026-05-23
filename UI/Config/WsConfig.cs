@@ -13,9 +13,9 @@ public class WsConfig : BaseConfig<WsConfig>
 {
 	[Reactive] public ConsoleOverrideConfig ConfigOverrides { get; set; } = new();
 
-	[Reactive] public WsControllerConfig ControllerHorizontal { get; set; } = new();
-	[Reactive] public WsControllerConfig ControllerVertical { get; set; } = new();
-	[Reactive] public WsControllerConfig ControllerPcV2 { get; set; } = new();
+	[Reactive] public ControllerConfig ControllerHorizontal { get; set; } = new();
+	[Reactive] public ControllerConfig ControllerVertical { get; set; } = new();
+	[Reactive] public ControllerConfig ControllerPcV2 { get; set; } = new();
 
 	[Reactive] public WsModel Model { get; set; } = WsModel.Auto;
 	[Reactive] public bool UseBootRom { get; set; } = false;

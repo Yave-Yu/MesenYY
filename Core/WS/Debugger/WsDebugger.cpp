@@ -6,8 +6,8 @@
 #include "WS/Debugger/WsEventManager.h"
 #include "WS/Debugger/WsTraceLogger.h"
 #include "WS/Debugger/WsPpuTools.h"
-#include "WS/WsController.h"
-#include "WS/PcV2Controller.h"
+#include "WS/Input/WsController.h"
+#include "WS/Input/Pcv2Controller.h"
 #include "WS/WsCpu.h"
 #include "WS/WsPpu.h"
 #include "WS/WsConsole.h"
@@ -19,7 +19,6 @@
 #include "Debugger/BreakpointManager.h"
 #include "Debugger/Debugger.h"
 #include "Debugger/MemoryAccessCounter.h"
-#include "Debugger/ExpressionEvaluator.h"
 #include "Debugger/CodeDataLogger.h"
 #include "Debugger/BaseEventManager.h"
 #include "Debugger/StepBackManager.h"
@@ -523,7 +522,11 @@ void WsDebugger::ProcessInputOverrides(DebugControllerState inputOverrides[8])
 			pcV2Controller->SetBitValue(PcV2Controller::Buttons::Down, inputOverrides[i].Down);
 			pcV2Controller->SetBitValue(PcV2Controller::Buttons::Left, inputOverrides[i].Left);
 			pcV2Controller->SetBitValue(PcV2Controller::Buttons::Right, inputOverrides[i].Right);
-			//TODOWS other buttons
+			pcV2Controller->SetBitValue(PcV2Controller::Buttons::Clear, inputOverrides[i].A);
+			pcV2Controller->SetBitValue(PcV2Controller::Buttons::Circle, inputOverrides[i].B);
+			pcV2Controller->SetBitValue(PcV2Controller::Buttons::Pass, inputOverrides[i].D);
+			pcV2Controller->SetBitValue(PcV2Controller::Buttons::Esc, inputOverrides[i].Select);
+			pcV2Controller->SetBitValue(PcV2Controller::Buttons::View, inputOverrides[i].Start);
 		}
 	}
 	controlManager->RefreshHubState();

@@ -290,6 +290,9 @@
     <Compile Update="Views\WsControllerView.axaml.cs">
       <DependentUpon>WsControllerView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\WsPcV2ControllerView.axaml.cs">
+      <DependentUpon>WsPcV2ControllerView.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\WsConfigView.axaml.cs">
       <DependentUpon>WsConfigView.axaml</DependentUpon>
     </Compile>
