@@ -12,7 +12,7 @@
 	HorizontalAlignment="Stretch"
 	x:Name="root"
 	x:DataType="vm:KeyMappingViewModel"
-	x:Class="Mesen.Views.WsPcv2ControllerView"
+	x:Class="Mesen.Views.WsPcV2ControllerView"
 >
 	<Design.DataContext>
 		<vm:KeyMappingViewModel />
