@@ -344,13 +344,13 @@
 			<Control ID="chkMapperRandomPowerOnState">随机Mapper开机状态</Control>
 			<Control ID="chkRandomizeCpuPpuAlignment">随机CPU/PPU开机/复位对齐</Control>
 			<Control ID="chkEnableOamDecay">启用PPU OAM衰减</Control>
-			<Control ID="chkEnablePpuOamRowCorruption">模拟PPU OAM行损坏</Control>
+			<Control ID="chkEnablePpuOamRowCorruption">模拟PPU $2003渲染/切换OAM损坏</Control>
 			<Control ID="chkEnablePpu2006ScrollGlitch">模拟$2006卷屏故障</Control>
 			<Control ID="chkEnablePpu2000ScrollGlitch">模拟PPU $2000/$2005/$2006首次写入卷屏故障</Control>
 			<Control ID="chkRestrictPpuAccessOnFirstFrame">开机/复位后的首帧清除PPU $2000/1/5/6/7</Control>
 
 			<Control ID="lblMiscSettings">杂项设置</Control>
-			<Control ID="chkDisableOamAddrBug">禁用模拟PPU OAMADDR的故障</Control>
+			<Control ID="chkDisableOamAddrBug">禁用PPU帧起始OAM损坏（2C02D及更早）</Control>
 			<Control ID="chkDisablePaletteRead">禁用读取PPU调色板</Control>
 			<Control ID="chkDisablePpu2004Reads">禁用读取PPU $2004</Control>
 			<Control ID="chkEnablePpuSpriteEvalBug">启用位于255横轴的错误活动块像素（2C02B或更早）</Control>

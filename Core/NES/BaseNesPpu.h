@@ -41,10 +41,9 @@ protected:
 	uint8_t _oamCopybuffer = 0;
 	bool _spriteInRange = false;
 	bool _sprite0Added = false;
-	uint8_t _spriteAddrH = 0;
-	uint8_t _spriteAddrL = 0;
 	uint8_t _overflowBugCounter = 0;
 	bool _oamCopyDone = false;
+	uint16_t _ppuBusAddress = 0;
 	uint16_t _minimumDrawBgCycle = 0;
 	uint16_t _minimumDrawSpriteCycle = 0;
 	uint16_t _minimumDrawSpriteStandardCycle = 0;
@@ -60,7 +59,7 @@ protected:
 	//128 : end of cache line
 	////////////////////////
 	TileInfo _tile = {};
-	uint16_t _ppuBusAddress = 0;
+	uint16_t _vblankEnd = 0;
 	uint16_t _nmiScanline = 0;
 	uint8_t _currentTilePalette = 0;
 	uint8_t _previousTilePalette = 0;
@@ -98,7 +97,6 @@ protected:
 	ConsoleRegion _region = {};
 	uint16_t _standardVblankEnd = 0;
 	uint16_t _standardNmiScanline = 0;
-	uint16_t _vblankEnd = 0;
 	uint16_t _palSpriteEvalScanline = 0;
 
 	bool _needVideoRamIncrement = false;
@@ -117,7 +115,6 @@ protected:
 	int32_t _openBusDecayStamp[8] = {};
 
 	uint64_t _oamDecayCycles[0x20] = {};
-	bool _corruptOamRow[32] = {};
 	
 	bool IsRenderingEnabled();
 	void UpdateGrayscaleAndIntensifyBits();

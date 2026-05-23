@@ -33,7 +33,7 @@ template<class T>
 class NesPpu : public BaseNesPpu
 {
 private:
-	static constexpr int32_t OamDecayCycleCount = 3000;
+	static constexpr int32_t OamDecayCycleCount = 4500; //About 40 scanlines
 
 protected:
 	
@@ -73,8 +73,7 @@ protected:
 	__forceinline uint8_t ReadSpriteRam(uint8_t addr);
 	__forceinline void WriteSpriteRam(uint8_t addr, uint8_t value);
 
-	void SetOamCorruptionFlags();
-	void ProcessOamCorruption();
+	__forceinline void CorruptOamRow(uint8_t sourceRow, uint8_t destRow);
 
 	__forceinline uint8_t GetPixelColor();
 
