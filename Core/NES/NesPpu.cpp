@@ -1191,14 +1191,14 @@ template<class T> void NesPpu<T>::SendFrame()
 	}
 
 	//Get phase at the start of the current frame
-	uint32_t videoPhaseOffset = (_masterClockFrameStart % 6) * 2;
+	uint32_t videoPhase = (_masterClockFrameStart % 6) * 2;
 	NesConfig& cfg = _console->GetNesConfig();
 	if(_region != ConsoleRegion::Ntsc || cfg.PpuExtraScanlinesAfterNmi != 0 || cfg.PpuExtraScanlinesBeforeNmi != 0) {
 		//Force 2-phase pattern for PAL or when overclocking is used
-		videoPhaseOffset = (_frameCount & 0x01) * 4;
+		videoPhase = (_frameCount & 0x01) * 4;
 	}
 
-	RenderedFrame frame(_currentOutputBuffer, NesConstants::ScreenWidth, NesConstants::ScreenHeight, 1.0, _frameCount, _console->GetControlManager()->GetPortStates(), videoPhaseOffset);
+	RenderedFrame frame(_currentOutputBuffer, NesConstants::ScreenWidth, NesConstants::ScreenHeight, 1.0, _frameCount, _console->GetControlManager()->GetPortStates(), videoPhase);
 	frame.Data = frameData; //HD packs
 
 	if(_console->GetVsMainConsole() || _console->GetVsSubConsole()) {

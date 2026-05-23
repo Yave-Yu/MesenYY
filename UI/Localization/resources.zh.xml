@@ -167,7 +167,7 @@
 			<Control ID="trkGamma">Gamma</Control>
 			<Control ID="trkResolution">清晰度</Control>
 			<Control ID="trkSharpness">锐度</Control>
-			<Control ID="chkMergeFields">合并场次</Control>
+			<Control ID="chkMergeFields">移除伪影抖动</Control>
 			<Control ID="chkVerticalBlend">纵向混合</Control>
 
 			<Control ID="lblNtscBisqwitSettings">NTSC设置（Bisqwit）</Control>
