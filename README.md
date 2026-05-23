@@ -6,9 +6,10 @@ Highlight improvement:
 - Louder master volume.
 - Separate battery save folder.
 - Bigger window size, suitable for 4K.
-- Has linear square channel mixer option of NES.
 
-Due to mystery reason that broke Linux and Mac version's compilation, the fork is Windows only at this moment.
+Due to mystery reason that caused Linux and Mac version's compilation error, MesenYY is Windows only at this moment.
+
+Special thanks to ![MesenCE](https://github.com/nesdev-org/mesence).
 
 ## Development build
 
