@@ -318,7 +318,7 @@
 			<Control ID="lblVolume">通道音量</Control>
 			<Control ID="lblPanning">通道平移</Control>
 			<Control ID="lblAdvanced">高级</Control>
-			<Control ID="chkNonLinearSquareMixer">非线性方波混音器</Control>
+			<Control ID="chkLinearSquareMixer">线性方波混音器</Control>
 			<Control ID="chkReduceDmcPopping">减少DMC通道爆音</Control>
 			<Control ID="chkSilenceTriangleHighFreq">静音超声三角波（减少破音）</Control>
 			<Control ID="chkDisableNoiseModeFlag">禁用噪波模式标志（模仿83红白机）</Control>
