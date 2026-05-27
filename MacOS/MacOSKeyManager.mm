@@ -42,6 +42,10 @@ MacOSKeyManager::MacOSKeyManager(Emulator* emu)
 	}
 
 	_disableAllKeys = false;
+	
+	if(@available(macOS 11.3, *)) {
+		GCController.shouldMonitorBackgroundEvents = YES;
+	}
 
 	NSEventMask eventMask = NSEventMaskKeyDown | NSEventMaskKeyUp | NSEventMaskFlagsChanged;
 
