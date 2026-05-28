@@ -279,6 +279,11 @@ BaseVideoFilter* SmsConsole::GetVideoFilter(bool getDefaultFilter)
 	}
 }
 
+uint32_t SmsConsole::GetFrameCount()
+{
+	return _vdp->GetFrameCount();
+}
+
 PpuFrameInfo SmsConsole::GetPpuFrame()
 {
 	PpuFrameInfo frame = {};

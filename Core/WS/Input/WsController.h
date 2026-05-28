@@ -24,6 +24,8 @@ protected:
 		bool isVerticalMode = _console->IsVerticalMode();
 		vector<KeyMapping>& keyMappings = isVerticalMode ? _verticalMappings : _keyMappings;
 		uint32_t turboSpeed = isVerticalMode ? _verticalTurboSpeed : _horizontalTurboSpeed;
+		bool turboOn = IsTurboOn(turboSpeed);
+
 		for(KeyMapping& keyMapping : keyMappings) {
 			SetPressedState(Buttons::A, keyMapping.A);
 			SetPressedState(Buttons::B, keyMapping.B);
@@ -39,8 +41,6 @@ protected:
 			SetPressedState(Buttons::Left2, keyMapping.L);
 			SetPressedState(Buttons::Right2, keyMapping.R);
 
-			uint8_t turboFreq = 5 - turboSpeed;
-			bool turboOn = (uint8_t)(_emu->GetFrameCount() % turboFreq) < turboFreq / 2;
 			if(turboOn) {
 				SetPressedState(Buttons::A, keyMapping.TurboA);
 				SetPressedState(Buttons::B, keyMapping.TurboB);

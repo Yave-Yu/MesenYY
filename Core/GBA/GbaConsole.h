@@ -102,6 +102,7 @@ public:
 	ConsoleRegion GetRegion() override;
 	ConsoleType GetConsoleType() override;
 	double GetFps() override;
+	uint32_t GetFrameCount() override;
 	PpuFrameInfo GetPpuFrame() override;
 	vector<CpuType> GetCpuTypes() override;
 

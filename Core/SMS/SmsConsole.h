@@ -70,6 +70,7 @@ public:
 	vector<CpuType> GetCpuTypes() override;
 	RomFormat GetRomFormat() override;
 	double GetFps() override;
+	uint32_t GetFrameCount() override;
 	PpuFrameInfo GetPpuFrame() override;
 	BaseVideoFilter* GetVideoFilter(bool getDefaultFilter) override;
 

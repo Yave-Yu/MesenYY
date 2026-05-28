@@ -376,6 +376,11 @@ double GbaConsole::GetFps()
 	return 59.72750056960583;
 }
 
+uint32_t GbaConsole::GetFrameCount()
+{
+	return _ppu->GetFrameCount();
+}
+
 PpuFrameInfo GbaConsole::GetPpuFrame()
 {
 	PpuFrameInfo frame;

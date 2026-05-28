@@ -426,6 +426,11 @@ BaseVideoFilter* WsConsole::GetVideoFilter(bool getDefaultFilter)
 	}
 }
 
+uint32_t WsConsole::GetFrameCount()
+{
+	return _ppu->GetFrameCount();
+}
+
 PpuFrameInfo WsConsole::GetPpuFrame()
 {
 	PpuFrameInfo frame = {};

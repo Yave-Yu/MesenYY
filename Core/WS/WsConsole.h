@@ -93,6 +93,7 @@ public:
 	uint32_t GetMasterClockRate() override;
 	double GetFps() override;
 	BaseVideoFilter* GetVideoFilter(bool getDefaultFilter) override;
+	uint32_t GetFrameCount() override;
 	PpuFrameInfo GetPpuFrame() override;
 	RomFormat GetRomFormat() override;
 	AudioTrackInfo GetAudioTrackInfo() override;

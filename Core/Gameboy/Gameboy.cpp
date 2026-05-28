@@ -598,6 +598,11 @@ double Gameboy::GetFps()
 	return 59.72750056960583;
 }
 
+uint32_t Gameboy::GetFrameCount()
+{
+	return _ppu->GetFrameCount();
+}
+
 PpuFrameInfo Gameboy::GetPpuFrame()
 {
 	PpuFrameInfo frame;

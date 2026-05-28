@@ -281,11 +281,15 @@ BaseVideoFilter* PceConsole::GetVideoFilter(bool getDefaultFilter)
 	}
 }
 
+uint32_t PceConsole::GetFrameCount()
+{
+	return _vdc->GetFrameCount();
+}
+
 PpuFrameInfo PceConsole::GetPpuFrame()
 {
 	PpuFrameInfo frame = {};
-	PceVdcState& state = _vdc->GetState();
-	frame.FrameCount = state.FrameCount;
+	frame.FrameCount = _vdc->GetFrameCount();
 	frame.CycleCount = PceConstants::ClockPerScanline;
 
 	frame.FirstScanline = 0;
