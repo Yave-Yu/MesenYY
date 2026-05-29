@@ -2,12 +2,14 @@
 #include "pch.h"
 #include "NES/NesConsole.h"
 #include "NES/APU/NesApu.h"
-#include "NES/APU/BaseExpansionAudio.h"
 #include "Utilities/Serializer.h"
 
-class Sunsoft5bAudio : public BaseExpansionAudio
+class Sunsoft5bAudio : public ISerializable
 {
 private:
+	NesConsole* _console = nullptr;
+	NesApu* _apu = nullptr;
+
 	uint8_t _volumeLut[0x10] = {};
 	uint8_t _currentRegister = 0;
 	uint8_t _registers[0x10] = {};
@@ -76,16 +78,19 @@ private:
 protected:
 	void Serialize(Serializer& s) override
 	{
-		BaseExpansionAudio::Serialize(s);
-
 		SVArray(_timer, 3);
 		SVArray(_registers, 0x10);
 		SVArray(_toneStep, 3);
 		SV(_currentRegister); SV(_lastOutput); SV(_processTick);
 	}
 
-	void ClockAudio() override
+public:
+	__forceinline void Clock()
 	{
+		if(!_apu->IsApuEnabled()) {
+			return;
+		}
+
 		if(_processTick) {
 			for(int i = 0; i < 3; i++) {
 				UpdateChannel(i);
@@ -95,9 +100,11 @@ protected:
 		_processTick = !_processTick;
 	}
 
-public:
-	Sunsoft5bAudio(NesConsole* console) : BaseExpansionAudio(console)
+	Sunsoft5bAudio(NesConsole* console)
 	{
+		_console = console;
+		_apu = console->GetApu();
+
 		memset(_timer, 0, sizeof(_timer));
 		memset(_registers, 0, sizeof(_registers));
 		memset(_toneStep, 0, sizeof(_toneStep));

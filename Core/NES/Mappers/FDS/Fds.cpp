@@ -2,7 +2,6 @@
 #include <assert.h>
 #include "NES/NesConsole.h"
 #include "NES/NesCpu.h"
-#include "NES/NesPpu.h"
 #include "NES/NesMemoryManager.h"
 #include "NES/Mappers/FDS/Fds.h"
 #include "NES/Mappers/FDS/FdsAudio.h"
@@ -27,6 +26,7 @@ void Fds::InitMapper()
 		memset(_prgRom, 0, _prgSize);
 	}
 	_emu->RegisterMemory(MemoryType::NesPrgRom, _prgRom, _prgSize);
+	UpdatePageSizes();
 
 	_settings = &_console->GetNesConfig();
 	_cpu = _console->GetCpu();

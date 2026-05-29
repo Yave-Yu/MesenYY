@@ -1,12 +1,14 @@
 #pragma once
 #include "pch.h"
-#include "NES/APU/BaseExpansionAudio.h"
-#include "NES/APU/NesApu.h"
 #include "NES/NesConsole.h"
+#include "NES/APU/NesApu.h"
 
-class UnlDripGameAudio : public BaseExpansionAudio
+class UnlDripGameAudio : public ISerializable
 {
 private:
+	NesConsole* _console = nullptr;
+	NesApu* _apu = nullptr;
+
 	uint8_t _buffer[256] = {};
 	uint8_t _readPos = 0;
 	uint8_t _writePos = 0;
@@ -21,7 +23,6 @@ private:
 protected:
 	void Serialize(Serializer& s) override
 	{
-		BaseExpansionAudio::Serialize(s);
 		SVArray(_buffer, 256);
 		SV(_readPos);
 		SV(_writePos);
@@ -31,32 +32,6 @@ protected:
 		SV(_timer);
 		SV(_volume);
 		SV(_prevOutput);
-	}
-
-	void ClockAudio() override
-	{
-		if(_bufferEmpty) {
-			return;
-		}
-
-		_timer--;
-		if(_timer == 0) {
-			//Each time the timer reaches zero, it is reloaded and a byte is removed from the
-			//channel's FIFO and is output (with 0x80 being the 'center' voltage) at the
-			//channel's specified volume.
-			_timer = _freq;
-
-			if(_readPos == _writePos) {
-				_bufferFull = false;
-			}
-
-			_readPos++;
-			SetOutput(((int)_buffer[_readPos] - 0x80) * _volume);
-
-			if(_readPos == _writePos) {
-				_bufferEmpty = true;
-			}
-		}
 	}
 
 	void SetOutput(int16_t output)
@@ -75,13 +50,42 @@ protected:
 	}
 
 public:
-	UnlDripGameAudio(NesConsole* console) : BaseExpansionAudio(console)
+	UnlDripGameAudio(NesConsole* console)
 	{
+		_console = console;
+		_apu = console->GetApu();
+
 		_freq = 0;
 		_timer = 0;
 		_volume = 0;
 		_prevOutput = 0;
 		ResetBuffer();
+	}
+
+	__forceinline void Clock()
+	{
+		if(_bufferEmpty || !_apu->IsApuEnabled()) {
+			return;
+		}
+
+		_timer--;
+		if(_timer == 0) {
+			//Each time the timer reaches zero, it is reloaded and a byte is removed from the
+			//channel's FIFO and is output (with 0x80 being the 'center' voltage) at the
+			//channel's specified volume
+			_timer = _freq;
+
+			if(_readPos == _writePos) {
+				_bufferFull = false;
+			}
+
+			_readPos++;
+			SetOutput(((int)_buffer[_readPos] - 0x80) * _volume);
+
+			if(_readPos == _writePos) {
+				_bufferEmpty = true;
+			}
+		}
 	}
 
 	uint8_t ReadRegister()
