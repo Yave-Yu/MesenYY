@@ -212,7 +212,7 @@ uint8_t Fds::ReadRam(uint16_t addr)
 		_restartAutoInsertCounter = -1;
 	}
 
-	return BaseMapper::ReadRam(addr);
+	return BaseMapper::InternalRead(addr);
 }
 
 void Fds::ProcessAutoDiskInsert()
