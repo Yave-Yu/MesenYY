@@ -5,16 +5,17 @@
 
 enum class VRCVariant
 {
-	VRC2a,	//Mapper 22
-	VRC2b,	//23
-	VRC2c,	//25
-	VRC4a,	//21
-	VRC4b,	//25
-	VRC4c,	//21
-	VRC4d,	//25
-	VRC4e,	//23
-	VRC4f,	//23
-	VRC4_27, //27
+	VRC2a,		//Mapper 22
+	VRC2b,		//23
+	VRC2c,		//25
+	VRC4a,		//21
+	VRC4b,		//25
+	VRC4c,		//21
+	VRC4d,		//25
+	VRC4e,		//23
+	VRC4f,		//23
+	VRC4_27,		//27
+	VRC4_183,	//183
 	VRC6a,
 	VRC6b
 };
@@ -74,9 +75,11 @@ class VRC2_4 : public BaseMapper
 					break;
 
 				case 27: _variant = VRCVariant::VRC4_27; break; //Untested
+
+				case 183: _variant = VRCVariant::VRC4_183; break;
 			}
 
-			_useHeuristics = (_romInfo.SubMapperID == 0) && _romInfo.MapperID != 22 && _romInfo.MapperID != 27;
+			_useHeuristics = (_romInfo.SubMapperID == 0) && _romInfo.MapperID != 22 && _romInfo.MapperID != 27 && _romInfo.MapperID != 183;
 		}
 
 	protected:
@@ -106,7 +109,10 @@ class VRC2_4 : public BaseMapper
 
 			RemoveRegisterRange(0, 0xFFFF, MemoryOperation::Read);
 			if(!_useHeuristics && _variant <= VRCVariant::VRC2c && _workRamSize == 0 && _saveRamSize == 0) {
-				AddRegisterRange(0x6000, 0x7FFF, MemoryOperation::Any);
+				AddRegisterRange(0x6000, 0x6FFF, MemoryOperation::Any);
+			} else if(_variant == VRCVariant::VRC4_183) {
+				AddRegisterRange(0x6000, 0x7FFF, MemoryOperation::Write);
+				SetCpuMemoryMapping(0x6000, 0x7FFF, GetPowerOnByte() & 0xF, PrgMemoryType::PrgRom, MemoryAccessType::Read);
 			}
 		}
 		
@@ -153,9 +159,16 @@ class VRC2_4 : public BaseMapper
 		void WriteRegister(uint16_t addr, uint8_t value) override
 		{
 			if(addr < 0x8000) {
-				//Microwire interface ($6000-$6FFF) (VRC2 only)
-				_latch = value & 0x01;
-				return;
+				switch(_variant) {
+					case VRCVariant::VRC4_183:
+						SetCpuMemoryMapping(0x6000, 0x7FFF, addr & 0xF, PrgMemoryType::PrgRom, MemoryAccessType::Read);
+						return;
+
+					default:
+						//Microwire interface ($6000-$6FFF) (VRC2 only)
+						_latch = value & 0x01;
+						return;
+				}
 			}
 
 			addr = TranslateAddress(addr) & 0xF00F;
@@ -297,6 +310,7 @@ class VRC2_4 : public BaseMapper
 						break;
 
 					case VRCVariant::VRC4e:
+					case VRCVariant::VRC4_183:
 						//Mapper 23
 						A0 = (addr >> 2) & 0x01;
 						A1 = (addr >> 3) & 0x01;
