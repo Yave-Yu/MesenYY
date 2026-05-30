@@ -28,7 +28,8 @@ enum class ConsoleNotificationType
 	CheatsChanged,
 	RequestConfigChange,
 	RefreshSoftwareRenderer,
-	AfterInitConsole
+	AfterInitConsole,
+	NetplayStopped
 };
 
 struct GameLoadedEventParams

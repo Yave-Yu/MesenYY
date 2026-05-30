@@ -2982,6 +2982,9 @@
     <ClInclude Include="SNES\Input\AsciiTurboFileTwinTf2.h">
       <Filter>SNES\Input</Filter>
     </ClInclude>
+    <ClInclude Include="Shared\Utilities\AvMergeUtilities.h">
+      <Filter>Shared\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="WS\Carts\WsRtc.h">
       <Filter>WS\Carts</Filter>
     </ClInclude>

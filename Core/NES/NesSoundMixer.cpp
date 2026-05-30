@@ -6,6 +6,7 @@
 #include "Shared/Emulator.h"
 #include "Shared/SettingTypes.h"
 #include "Shared/Audio/SoundMixer.h"
+#include "Shared/Utilities/AvMergeUtilities.h"
 #include "Utilities/Serializer.h"
 #include "Utilities/Audio/blip_buf.h"
 
@@ -119,17 +120,7 @@ void NesSoundMixer::ProcessVsDualSystemAudio()
 
 	NesSoundMixer* subMixer = _console->GetVsSubConsole()->GetSoundMixer();
 	if(cfg.VsDualAudioOutput != VsDualOutputOption::MainSystemOnly) {
-		size_t i;
-		for(i = 0; i < _sampleCount && subMixer->_sampleCount; i++) {
-			_outputBuffer[i * 2] += subMixer->_outputBuffer[i * 2];
-			_outputBuffer[i * 2 + 1] += subMixer->_outputBuffer[i * 2 + 1];
-		}
-
-		if(i < subMixer->_sampleCount) {
-			size_t samplesToCopy = subMixer->_sampleCount - i;
-			memmove(subMixer->_outputBuffer, subMixer->_outputBuffer + i * 2, samplesToCopy * 2 * sizeof(int16_t));
-			subMixer->_sampleCount = samplesToCopy;
-		}
+		AvMergeUtilities::MergeAudio(_outputBuffer, _sampleCount, subMixer->_outputBuffer, subMixer->_sampleCount);
 	} else {
 		subMixer->_sampleCount = 0;
 	}
@@ -183,8 +174,8 @@ int16_t NesSoundMixer::GetOutputVolume(bool forRightChannel)
 	//Linear mixer flag
 	double squareVolume = _console->GetNesConfig().LinearSquareMixer ?
 		squareOutput * squareSumFactor[_squareVolume[(int)AudioChannel::Square1] + _squareVolume[(int)AudioChannel::Square2]] * 0.258483 * 20.0
-		: 95.88 / (8128.0 / squareOutput + 75.0) * 5000.0;
-	double tndVolume = 159.79 / (1.0 / (tndOutput / 22638.0) + 100.0) * 5000.0;
+		: 479400.0 / (8128.0 / squareOutput + 75.0); //95.88 formula
+	double tndVolume = 798950.0 / (1.0 / (tndOutput / 22638.0) + 100.0); //159.79 formula
 
 	return (int16_t)(squareVolume + tndVolume +
 		GetChannelOutput(AudioChannel::FDS, forRightChannel) * 20 +

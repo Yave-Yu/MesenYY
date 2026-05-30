@@ -404,7 +404,14 @@
 			<Control ID="tpgInput">按键</Control>
 			<Control ID="grpControllers">控制器</Control>
 			<Control ID="lblPlayer1">玩家1</Control>
+			<Control ID="lblPlayer2">玩家2</Control>
+			<Control ID="lblPlayer2UsedForLink">（用于联机模拟）</Control>
 			<Control ID="btnSetup">设置</Control>
+
+			<Control ID="chkLocalLinkCable">模拟两台联机的Game Boy</Control>
+			<Control ID="lblLocalLinkCable">联机模拟</Control>
+			<Control ID="lblLocalLinkCablePlayAudio">播放音频：</Control>
+			<Control ID="lblLocalLinkCableShowVideo">显示视频：</Control>
 		</Form>
 		
 		<Form ID="GbaConfigView">
@@ -2538,6 +2545,11 @@ E
 			<Value ID="Delay">延时</Value>
 			<Value ID="Panning">平移</Value>
 			<Value ID="CombFilter">梳状滤波器</Value>
+		</Enum>
+		<Enum ID="GbLocalLinkOutputOption">
+			<Value ID="Both">两者</Value>
+			<Value ID="MainSystemOnly">仅玩家1</Value>
+			<Value ID="SubSystemOnly">仅玩家2</Value>
 		</Enum>
 		<Enum ID="VsDualOutputOption">
 			<Value ID="Both">两者</Value>

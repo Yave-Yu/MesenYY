@@ -4,14 +4,17 @@
 #include "Utilities/ISerializable.h"
 
 class Emulator;
+class EmuSettings;
 class Gameboy;
 class GbMemoryManager;
 class GbDmaController;
+struct RenderedFrame;
 
 class GbPpu : public ISerializable
 {
 private:
 	Emulator* _emu = nullptr;
+	EmuSettings* _settings = nullptr;
 	Gameboy* _gameboy = nullptr;
 	GbPpuState _state = {};
 	GbMemoryManager* _memoryManager = nullptr;
@@ -96,6 +99,7 @@ private:
 	__forceinline uint16_t LcdReadObjPalette(uint8_t addr);
 
 	void SendFrame();
+	void SendLinkedFrame(RenderedFrame& frame);
 	void UpdatePalette();
 
 	void SetMode(PpuMode mode);
