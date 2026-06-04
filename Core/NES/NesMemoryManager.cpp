@@ -5,8 +5,8 @@
 #include "NES/NesMemoryManager.h"
 #include "Shared/CheatManager.h"
 #include "Shared/Emulator.h"
-#include "Utilities/Serializer.h"
 #include "Shared/MemoryOperationType.h"
+#include "Utilities/Serializer.h"
 
 NesMemoryManager::NesMemoryManager(NesConsole* console, BaseMapper* mapper)
 {
@@ -36,7 +36,7 @@ NesMemoryManager::NesMemoryManager(NesConsole* console, BaseMapper* mapper)
 		_ramWriteHandlers[i] = &_openBusHandler;
 	}
 
-	RegisterIODevice(_internalRamHandler.get());	
+	RegisterIODevice(_internalRamHandler.get());
 }
 
 NesMemoryManager::~NesMemoryManager()
@@ -56,7 +56,7 @@ void NesMemoryManager::Reset(bool softReset)
 	_mapper->Reset(softReset);
 }
 
-void NesMemoryManager::InitializeMemoryHandlers(INesMemoryHandler** memoryHandlers, INesMemoryHandler* handler, vector<uint16_t> *addresses, bool allowOverride)
+void NesMemoryManager::InitializeMemoryHandlers(INesMemoryHandler** memoryHandlers, INesMemoryHandler* handler, vector<uint16_t>* addresses, bool allowOverride)
 {
 	for(uint16_t address : *addresses) {
 		if(!allowOverride && memoryHandlers[address] != &_openBusHandler && memoryHandlers[address] != handler) {
@@ -66,7 +66,7 @@ void NesMemoryManager::InitializeMemoryHandlers(INesMemoryHandler** memoryHandle
 	}
 }
 
-void NesMemoryManager::RegisterIODevice(INesMemoryHandler*handler)
+void NesMemoryManager::RegisterIODevice(INesMemoryHandler* handler)
 {
 	MemoryRanges ranges;
 	handler->GetMemoryRanges(ranges);
@@ -89,7 +89,7 @@ void NesMemoryManager::RegisterReadHandler(INesMemoryHandler* handler, uint32_t 
 	}
 }
 
-void NesMemoryManager::UnregisterIODevice(INesMemoryHandler*handler)
+void NesMemoryManager::UnregisterIODevice(INesMemoryHandler* handler)
 {
 	MemoryRanges ranges;
 	handler->GetMemoryRanges(ranges);
@@ -139,7 +139,7 @@ void NesMemoryManager::DebugWrite(uint16_t addr, uint8_t value, bool disableSide
 		if(handler) {
 			if(disableSideEffects) {
 				if(handler == _mapper) {
-					//Only allow writes to prg/chr ram/rom (e.g not ppu, apu, mapper registers, etc.)
+					//Only allow writes to PRG/CHR RAM/ROM (e.g not PPU, APU, mapper registers, etc.)
 					((BaseMapper*)handler)->DebugWriteRam(addr, value);
 				}
 			} else {
@@ -149,7 +149,7 @@ void NesMemoryManager::DebugWrite(uint16_t addr, uint8_t value, bool disableSide
 	}
 }
 
-void NesMemoryManager::Serialize(Serializer &s)
+void NesMemoryManager::Serialize(Serializer& s)
 {
 	SVArray(_internalRam, _internalRamSize);
 	SV(_openBusHandler);

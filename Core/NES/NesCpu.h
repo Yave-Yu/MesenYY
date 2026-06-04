@@ -54,7 +54,7 @@ private:
 
 	bool _prevRunIrq = false;
 	bool _runIrq = false;
-	
+
 	bool _prevNmiFlag = false;
 	bool _prevNeedNmi = false;
 	bool _needNmi = false;
@@ -64,7 +64,7 @@ private:
 
 	__forceinline void StartCpuCycle(bool forRead);
 	__forceinline void ProcessPendingDma(uint16_t readAddress, MemoryOperationType opType);
-	__noinline void ProcessPendingDmaNoinline(uint16_t readAddress, MemoryOperationType opType)
+	__noinline void NoInlineProcessPendingDma(uint16_t readAddress, MemoryOperationType opType)
 	{
 		ProcessPendingDma(readAddress, opType);
 	}
@@ -89,7 +89,7 @@ private:
 	{
 		MemoryRead(0x100 + SP(), MemoryOperationType::DummyRead);
 	}
-	
+
 	uint8_t ReadByte()
 	{
 		uint8_t value = MemoryRead(_state.PC, MemoryOperationType::ExecOperand);
@@ -171,7 +171,7 @@ private:
 	uint16_t PopWord() {
 		uint8_t lo = Pop();
 		uint8_t hi = Pop();
-		
+
 		return lo | hi << 8;
 	}
 
@@ -205,19 +205,21 @@ private:
 	uint16_t GetIndAddr() { return ReadWord(); }
 	uint8_t GetImmediate() { return ReadByte(); }
 	uint8_t GetZeroAddr() { return ReadByte(); }
-	uint8_t GetZeroXAddr() { 
+
+	uint8_t GetZeroXAddr() {
 		uint8_t value = ReadByte();
 		MemoryRead(value, MemoryOperationType::DummyRead); //Dummy read
 		return value + X();
 	}
-	uint8_t GetZeroYAddr() { 
+	uint8_t GetZeroYAddr() {
 		uint8_t value = ReadByte();
 		MemoryRead(value, MemoryOperationType::DummyRead); //Dummy read
 		return value + Y();
 	}
+
 	uint16_t GetAbsAddr() { return ReadWord(); }
 
-	uint16_t GetAbsXAddr(bool dummyRead = true) { 
+	uint16_t GetAbsXAddr(bool dummyRead = true) {
 		uint16_t baseAddr = ReadWord();
 		bool pageCrossed = CheckPageCrossed(baseAddr, X());
 
@@ -225,22 +227,22 @@ private:
 			//Dummy read done by the processor (only when page is crossed for READ instructions)
 			MemoryRead(baseAddr + X() - (pageCrossed ? 0x100 : 0), MemoryOperationType::DummyRead);
 		}
-		return baseAddr + X(); 
+		return baseAddr + X();
 	}
 
-	uint16_t GetAbsYAddr(bool dummyRead = true) { 
+	uint16_t GetAbsYAddr(bool dummyRead = true) {
 		uint16_t baseAddr = ReadWord();
 		bool pageCrossed = CheckPageCrossed(baseAddr, Y());
-		
+
 		if(pageCrossed || dummyRead) {
 			//Dummy read done by the processor (only when page is crossed for READ instructions)
 			MemoryRead(baseAddr + Y() - (pageCrossed ? 0x100 : 0), MemoryOperationType::DummyRead);
 		}
 
-		return baseAddr + Y(); 
+		return baseAddr + Y();
 	}
 
-	uint16_t GetInd() { 
+	uint16_t GetInd() {
 		uint16_t addr = GetOperand();
 		if((addr & 0xFF) == 0xFF) {
 			uint8_t lo = MemoryRead(addr);
@@ -253,12 +255,12 @@ private:
 
 	uint16_t GetIndXAddr() {
 		uint8_t zero = ReadByte();
-		
+
 		//Dummy read
 		MemoryRead(zero, MemoryOperationType::DummyRead);
 
 		zero += X();
-		
+
 		uint16_t addr;
 		if(zero == 0xFF) {
 			uint8_t lo = MemoryRead(0xFF);
@@ -272,7 +274,7 @@ private:
 
 	uint16_t GetIndYAddr(bool dummyRead = true) {
 		uint8_t zero = ReadByte();
-		
+
 		uint16_t addr;
 		if(zero == 0xFF) {
 			uint8_t lo = MemoryRead(0xFF);
@@ -297,7 +299,7 @@ private:
 	void ADD(uint8_t value)
 	{
 		uint16_t result = (uint16_t)A() + (uint16_t)value + (CheckFlag(PSFlags::Carry) ? PSFlags::Carry : 0x00);
-		
+
 		ClearFlags(PSFlags::Carry | PSFlags::Negative | PSFlags::Overflow | PSFlags::Zero);
 		SetZeroNegativeFlags((uint8_t)result);
 		if(~(A() ^ value) & (A() ^ result) & 0x80) {
@@ -312,7 +314,7 @@ private:
 	void ADC() { ADD(GetOperandValue()); }
 	void SBC() { ADD(GetOperandValue() ^ 0xFF); }
 
-	void CMP(uint8_t reg, uint8_t value) 
+	void CMP(uint8_t reg, uint8_t value)
 	{
 		ClearFlags(PSFlags::Carry | PSFlags::Negative | PSFlags::Zero);
 
@@ -333,26 +335,26 @@ private:
 	void CPX() { CMP(X(), GetOperandValue()); }
 	void CPY() { CMP(Y(), GetOperandValue()); }
 
-	void INC() 
+	void INC()
 	{
 		uint16_t addr = GetOperand();
 		ClearFlags(PSFlags::Negative | PSFlags::Zero);
-		uint8_t value = MemoryRead(addr);		
-		
+		uint8_t value = MemoryRead(addr);
+
 		MemoryWrite(addr, value, MemoryOperationType::DummyWrite); //Dummy write
-		
+
 		value++;
 		SetZeroNegativeFlags(value);
 		MemoryWrite(addr, value);
 	}
 
-	void DEC() 
+	void DEC()
 	{
 		uint16_t addr = GetOperand();
 		ClearFlags(PSFlags::Negative | PSFlags::Zero);
 		uint8_t value = MemoryRead(addr);
 		MemoryWrite(addr, value, MemoryOperationType::DummyWrite); //Dummy write
-		
+
 		value--;
 		SetZeroNegativeFlags(value);
 		MemoryWrite(addr, value);
@@ -445,6 +447,7 @@ private:
 			//Fixes "branch_delays_irq" test
 			//Branches actually poll on both the 2nd and 4th cycles. An interrupt is handled even if an IRQ was only seen on the first poll
 			_runIrq = _prevRunIrq;
+
 			DummyPcRead();
 
 			if(CheckPageCrossed(PC(), offset)) {
@@ -488,17 +491,20 @@ private:
 	void TYA() { SetA(Y()); }
 
 	void PHA() { Push(A()); }
+
 	void PHP() {
 		uint8_t flags = PS() | PSFlags::Break | PSFlags::Reserved;
 		Push((uint8_t)flags);
 	}
-	void PLA() { 
+
+	void PLA() {
 		DummyStackRead();
-		SetA(Pop()); 
+		SetA(Pop());
 	}
-	void PLP() { 
+
+	void PLP() {
 		DummyStackRead();
-		SetPS(Pop()); 
+		SetPS(Pop());
 	}
 
 	void INX() { SetX(X() + 1); }
@@ -581,7 +587,7 @@ private:
 	void SEI() { SetFlags(PSFlags::Interrupt); }
 
 	void BRK();
-	
+
 	void RTI() {
 		DummyStackRead();
 		SetPS(Pop());
@@ -593,7 +599,6 @@ private:
 		GetOperandValue();
 	}
 
-	
 	//Unofficial OpCodes
 	void SLO()
 	{
@@ -604,7 +609,7 @@ private:
 		SetA(A() | shiftedValue);
 		MemoryWrite(GetOperand(), shiftedValue);
 	}
-	
+
 	void SRE()
 	{
 		//ROL & AND
@@ -614,7 +619,7 @@ private:
 		SetA(A() ^ shiftedValue);
 		MemoryWrite(GetOperand(), shiftedValue);
 	}
-	
+
 	void RLA()
 	{
 		//LSR & EOR
@@ -715,7 +720,7 @@ private:
 		//CMP & DEX
 		uint8_t opValue = GetOperandValue();
 		uint8_t value = (A() & X()) - opValue;
-		
+
 		ClearFlags(PSFlags::Carry);
 		if((A() & X()) >= opValue) {
 			SetFlags(PSFlags::Carry);
@@ -817,7 +822,7 @@ protected:
 public:
 	NesCpu(NesConsole* console);
 	virtual ~NesCpu() = default;
-	
+
 	uint64_t GetCycleCount() { return _state.CycleCount; }
 	void SetMasterClockDivider(ConsoleRegion region);
 	void SetNmiFlag() { _state.NmiFlag = true; }
@@ -838,7 +843,7 @@ public:
 	void Exec();
 
 	NesCpuState& GetState()
-	{ 
+	{
 		return _state;
 	}
 

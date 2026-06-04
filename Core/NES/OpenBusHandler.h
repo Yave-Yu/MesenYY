@@ -17,7 +17,7 @@ public:
 
 	uint8_t ReadRam(uint16_t addr) override
 	{
-		return _internalOpenBus;
+		return _externalOpenBus;
 	}
 
 	uint8_t PeekRam(uint16_t addr) override

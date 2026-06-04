@@ -56,7 +56,6 @@ public:
 
 		_currentStep = 0;
 
-
 		//"After reset or power-up, APU acts as if $4017 were written with $00 from 9 to 12 clocks before first instruction begins."
 		//This is emulated in the CPU::Reset function 
 		//Reset acts as if $00 was written to $4017

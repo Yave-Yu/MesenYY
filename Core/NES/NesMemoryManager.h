@@ -2,11 +2,11 @@
 
 #include "pch.h"
 #include "NES/BaseMapper.h"
-#include "NES/NesTypes.h"
 #include "NES/INesMemoryHandler.h"
+#include "NES/NesTypes.h"
 #include "NES/OpenBusHandler.h"
-#include "Shared/Emulator.h"
 #include "Shared/CheatManager.h"
+#include "Shared/Emulator.h"
 #include "Shared/MemoryOperationType.h"
 #include "Utilities/ISerializable.h"
 

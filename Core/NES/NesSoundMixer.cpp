@@ -190,7 +190,7 @@ void NesSoundMixer::AddDelta(AudioChannel channel, uint32_t time, int16_t delta)
 {
 	if(delta != 0) {
 		_timestamps.push_back(time);
-		_channelOutput[(int)channel][time] += delta;	
+		_channelOutput[(int)channel][time] += delta;
 	}
 }
 

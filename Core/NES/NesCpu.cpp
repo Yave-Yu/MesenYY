@@ -98,7 +98,7 @@ void NesCpu::Reset(bool softReset, ConsoleRegion region)
 	_hideCrashWarning = false;
 
 	//Use _memoryManager->Read() directly to prevent clocking the PPU/APU when setting PC at reset
-	_state.PC = _memoryManager->Read(NesCpu::ResetVector) | _memoryManager->Read(NesCpu::ResetVector+1) << 8;
+	_state.PC = _memoryManager->Read(NesCpu::ResetVector) | _memoryManager->Read(NesCpu::ResetVector + 1) << 8;
 
 	if(softReset) {
 		SetFlags(PSFlags::Interrupt);
@@ -175,13 +175,13 @@ void NesCpu::Exec()
 	_instAddrMode = _addrMode[opCode];
 	_operand = FetchOperand();
 	(this->*_opTable[opCode])();
-	
+
 	if(_prevRunIrq || _prevNeedNmi) {
 		IRQ();
 	}
 }
 
-void NesCpu::IRQ() 
+void NesCpu::IRQ()
 {
 #ifndef DUMMYCPU
 	uint16_t originalPc = PC();
@@ -203,18 +203,18 @@ void NesCpu::IRQ()
 
 		SetPC(MemoryReadWord(NesCpu::NMIVector));
 
-		#ifndef DUMMYCPU
+#ifndef DUMMYCPU
 		_emu->ProcessInterrupt<CpuType::Nes>(originalPc, _state.PC, true);
-		#endif
+#endif
 	} else {
 		Push((uint8_t)(PS() | PSFlags::Reserved));
 		SetFlags(PSFlags::Interrupt);
 
 		SetPC(MemoryReadWord(NesCpu::IRQVector));
 
-		#ifndef DUMMYCPU
+#ifndef DUMMYCPU
 		_emu->ProcessInterrupt<CpuType::Nes>(originalPc, _state.PC, false);
-		#endif
+#endif
 	}
 }
 
@@ -258,7 +258,7 @@ uint8_t NesCpu::MemoryRead(uint16_t addr, MemoryOperationType operationType)
 	uint8_t value = _memoryManager->DebugRead(addr);
 	LogMemoryOperation(addr, value, operationType);
 	return value;
-#else 
+#else
 	ProcessPendingDma(addr, operationType);
 
 	StartCpuCycle(true);
@@ -301,8 +301,8 @@ void NesCpu::EndCpuCycle(bool forRead)
 	//and stays high until the NMI has been handled. "
 	_prevNeedNmi = _needNmi;
 
-	//"This edge detector polls the status of the NMI line during φ2 of each CPU cycle (i.e., during the 
-	//second half of each cycle) and raises an internal signal if the input goes from being high during 
+	//"This edge detector polls the status of the NMI line during φ2 of each CPU cycle (i.e., during the
+	//second half of each cycle) and raises an internal signal if the input goes from being high during
 	//one cycle to being low during the next"
 	if(!_prevNmiFlag && _state.NmiFlag) {
 		_needNmi = true;
@@ -415,7 +415,7 @@ void NesCpu::ProcessPendingDma(uint16_t readAddress, MemoryOperationType opType)
 				//allows the second DMA to clock the joypads again on NES-behavior consoles
 				//Fixes dmc_dma_start_test_v2 case C with sample duplication turned on
 				if(_needHalt) {
-					ProcessPendingDmaNoinline(readAddress, opType);
+					NoInlineProcessPendingDma(readAddress, opType);
 				}
 			} else if(_spriteDmaTransfer) {
 				//DMC DMA is not running, or not ready, run sprite DMA
@@ -458,7 +458,7 @@ void NesCpu::ProcessPendingDma(uint16_t readAddress, MemoryOperationType opType)
 uint8_t NesCpu::ProcessDmaRead(uint16_t addr, uint16_t& prevReadAddress, bool enableInternalRegReads, bool isNesBehavior)
 {
 	//This is to reproduce a CPU bug that can occur during DMA which can cause the 2A03 to read from
-	//its internal registers (4015, 4016, 4017) at the same time as the DMA unit reads a byte from 
+	//its internal registers (4015, 4016, 4017) at the same time as the DMA unit reads a byte from
 	//the bus. This bug occurs if the CPU is halted while it's reading a value in the $4000-$401F range.
 	//
 	//This has a number of side effects:
@@ -519,8 +519,9 @@ uint8_t NesCpu::ProcessDmaRead(uint16_t addr, uint16_t& prevReadAddress, bool en
 					//cause a bus conflict. However, because we read the joypad first before doing the DMA, the joypad read
 					//updated open bus, and so any open bus bits in the DMA read will match the joypad read value. So, even
 					//if we simulate a bus conflict on these bits, because they are the same, it's the same as taking the
-					//joypad's value. For this bus conflict, we keep the external value for all open bus pins on the 4016/4017 
-					//port, and we AND all other bits together
+					//joypad's value
+					//For this bus conflict, we keep the external value for all open bus pins on the 4016/4017 port, and we
+					//AND all other bits together
 					val = (externalValue & obMask) | ((val & ~obMask) & (externalValue & ~obMask));
 				}
 				break;
