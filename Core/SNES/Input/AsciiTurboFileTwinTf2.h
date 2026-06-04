@@ -63,12 +63,12 @@ public:
 		if(addr == 0x4017) {
 			StrobeProcessRead();
 
+			_unlocked = _unlockCounter == 0xF;
 			if(_strobe) {
 				_unlockCounter = (_unlockCounter + 1) & 0xF;
+			}
+			if(!_unlocked) {
 				_position = 0;
-				_unlocked = false;
-			} else {
-				_unlocked = _unlockCounter == 0xF;
 			}
 
 			//Return one bit from the status
