@@ -23,8 +23,8 @@ namespace Mesen.Config
 
 		public string Version { get; set; } = "2.1.1";
 		public int ConfigUpgrade { get; set; } = 0;
+		public int LanguageID { get; set; } = CultureInfo.InstalledUICulture.Name == "zh-CN" ? 1 : 0;
 		public bool EnableTestMode { get; set; } = false;
-		public bool ApplyChinese { get; set; } = CultureInfo.InstalledUICulture.Name == "zh-CN";
 		public DefaultKeyMappingType DefaultKeyMappings { get; set; } = DefaultKeyMappingType.Xbox | DefaultKeyMappingType.ArrowKeys;
 
 		[Reactive] public VideoConfig Video { get; set; } = new();
@@ -222,7 +222,7 @@ namespace Mesen.Config
 		public static FontConfig GetDefaultFont()
 		{
 			if(OperatingSystem.IsWindows()) {
-				return ConfigManager.Config.ApplyChinese ? new FontConfig() { FontFamily = "Segoe UI", FontSize = 12 } : new FontConfig() { FontFamily = "Microsoft Sans Serif", FontSize = 11 };
+				return ConfigManager.Config.LanguageID == 1 ? new FontConfig() { FontFamily = "Segoe UI", FontSize = 12 } : new FontConfig() { FontFamily = "Microsoft Sans Serif", FontSize = 11 };
 			} else if(OperatingSystem.IsMacOS()) {
 				return new FontConfig() { FontFamily = FindMatchingFont("Microsoft Sans Serif"), FontSize = 11 };
 			} else {

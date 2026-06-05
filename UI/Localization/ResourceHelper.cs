@@ -1,4 +1,5 @@
 ﻿using Mesen.Config;
+using Mesen.Debugger.Views;
 using Mesen.Interop;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,18 @@ namespace Mesen.Localization
 			try {
 				Assembly assembly = Assembly.GetExecutingAssembly();
 
-				using(StreamReader reader = new StreamReader(assembly.GetManifestResourceStream(ConfigManager.Config.ApplyChinese ? "Mesen.Localization.resources.zh.xml" : "Mesen.Localization.resources.en.xml")!)) {
+				string languageResource = "";
+				switch(ConfigManager.Config.LanguageID) {
+					case 1:
+						//Currently only introduce a new language "Simplified Chinese", other language will always use English
+						languageResource = "Mesen.Localization.resources.zh.xml";
+						break;
+					default:
+						languageResource = "Mesen.Localization.resources.en.xml";
+						break;
+				}
+
+				using(StreamReader reader = new StreamReader(assembly.GetManifestResourceStream(languageResource)!)) {
 					_resources.LoadXml(reader.ReadToEnd());
 				}
 
