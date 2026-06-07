@@ -95,7 +95,7 @@ void NesCpu::Reset(bool softReset, ConsoleRegion region)
 	_abortDmcDma = false;
 	_isDmcDmaRead = false;
 	_cpuWrite = false;
-	_hideCrashWarning = false;
+	_crashed = false;
 
 	//Use _memoryManager->Read() directly to prevent clocking the PPU/APU when setting PC at reset
 	_state.PC = _memoryManager->Read(NesCpu::ResetVector) | _memoryManager->Read(NesCpu::ResetVector + 1) << 8;
@@ -597,8 +597,8 @@ void NesCpu::HLT()
 	_prevNeedNmi = false;
 
 #if !defined(DUMMYCPU)
-	if(!_hideCrashWarning) {
-		_hideCrashWarning = true;
+	if(!_crashed) {
+		_crashed = true;
 
 		MessageManager::DisplayMessage("Error", "GameCrash", "Invalid OP code - CPU crashed.");
 		_emu->BreakIfDebugging(CpuType::Nes, BreakSource::NesBreakOnCpuCrash);
@@ -637,5 +637,6 @@ void NesCpu::Serialize(Serializer &s)
 		SV(_prevNeedNmi);
 		SV(_prevNmiFlag);
 		SV(_needNmi);
+		SV(_crashed);
 	}
 }
