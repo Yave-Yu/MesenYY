@@ -1612,6 +1612,7 @@
 		<Form ID="MemorySearchWindow">
 			<Control ID="wndTitle">内存搜索</Control>
 			<Control ID="btnApplyFilter">应用筛选器</Control>
+			<Control ID="btnUpdateValues">更新的数值</Control>
 			<Control ID="btnReset">重置</Control>
 			<Control ID="btnUndo">撤销</Control>
 
@@ -3099,8 +3100,7 @@ E
 			<Value ID="Dword">32位</Value>
 		</Enum>
 		<Enum ID="MemorySearchCompareTo">
-			<Value ID="PreviousSearchValue">上次的搜索数值</Value>
-			<Value ID="PreviousRefreshValue">上次的刷新数值</Value>
+			<Value ID="PreviousSearchValue">上次的数值</Value>
 			<Value ID="SpecificValue">指定数值：</Value>
 			<Value ID="SpecificAddress">指定地址：</Value>
 		</Enum>
