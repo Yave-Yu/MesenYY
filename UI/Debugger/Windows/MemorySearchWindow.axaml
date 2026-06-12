@@ -66,12 +66,12 @@
 								CheckedWhen="{x:Static dvm:MemorySearchCompareTo.PreviousSearchValue}"
 							/>
 							<c:EnumRadioButton
-								Grid.Row="2"
+								Grid.Row="1"
 								Value="{Binding CompareTo}"
 								CheckedWhen="{x:Static dvm:MemorySearchCompareTo.SpecificValue}"
 							/>
 							<c:MesenNumericTextBox
-								Grid.Row="2"
+								Grid.Row="1"
 								Grid.Column="2"
 								IsEnabled="{Binding IsSpecificValueEnabled}"
 								Value="{Binding SpecificValue}"
@@ -81,12 +81,12 @@
 								Hex="{Binding IsValueHex}"
 							/>
 							<c:EnumRadioButton
-								Grid.Row="3"
+								Grid.Row="2"
 								Value="{Binding CompareTo}"
 								CheckedWhen="{x:Static dvm:MemorySearchCompareTo.SpecificAddress}"
 							/>
 							<c:MesenNumericTextBox
-								Grid.Row="3"
+								Grid.Row="2"
 								Grid.Column="2"
 								IsEnabled="{Binding IsSpecificAddressEnabled}"
 								Value="{Binding SpecificAddress}"

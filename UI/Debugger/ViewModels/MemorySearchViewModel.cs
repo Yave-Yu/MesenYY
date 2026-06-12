@@ -258,7 +258,6 @@ public class MemorySearchViewModel : DisposableViewModel
 		
 		long compareValue = CompareTo switch {
 			MemorySearchCompareTo.PreviousSearchValue => GetValue(address, _lastSearchSnapshot),
-			MemorySearchCompareTo.PreviousRefreshValue => GetValue(address, _prevMemoryState),
 			MemorySearchCompareTo.SpecificAddress => GetValue(SpecificAddress, _memoryState),
 			MemorySearchCompareTo.SpecificValue => SpecificValue,
 			_ => throw new Exception("Unsupported compare type")
@@ -440,7 +439,7 @@ public class MemoryAddressViewModel : INotifyPropertyChanged
 		int address = _search.AddressLookup[_index];
 		_addressString = address.ToString("X4");
 
-		byte[] prevData = _search.CompareTo == MemorySearchCompareTo.PreviousRefreshValue ? _search.PrevMemoryState : _search.LastSearchSnapshot;
+		byte[] prevData = _search.LastSearchSnapshot;
 
 		uint value = 0;
 		uint prevValue = 0;
@@ -526,7 +525,6 @@ public enum MemorySearchValueSize
 public enum MemorySearchCompareTo
 {
 	PreviousSearchValue,
-	PreviousRefreshValue,
 	SpecificValue,
 	SpecificAddress
 }

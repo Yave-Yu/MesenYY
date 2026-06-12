@@ -1611,8 +1611,8 @@
 		
 		<Form ID="MemorySearchWindow">
 			<Control ID="wndTitle">内存搜索</Control>
-			<Control ID="btnApplyFilter">应用筛选器</Control>
-			<Control ID="btnUpdateValues">更新的数值</Control>
+			<Control ID="btnApplyFilter">筛选搜索</Control>
+			<Control ID="btnUpdateValues">更新数值</Control>
 			<Control ID="btnReset">重置</Control>
 			<Control ID="btnUndo">撤销</Control>
 
