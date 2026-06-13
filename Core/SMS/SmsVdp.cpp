@@ -95,7 +95,7 @@ void SmsVdp::UpdateConfig()
 
 	_disableBackground = _model == SmsModel::ColecoVision ? _emu->GetSettings()->GetCvConfig().DisableBackground : _emu->GetSettings()->GetSmsConfig().DisableBackground;
 	_disableSprites = _model == SmsModel::ColecoVision ? _emu->GetSettings()->GetCvConfig().DisableSprites : _emu->GetSettings()->GetSmsConfig().DisableSprites;
-	_removeSpriteLimit  = _model == SmsModel::ColecoVision ? _emu->GetSettings()->GetCvConfig().RemoveSpriteLimit : _emu->GetSettings()->GetSmsConfig().RemoveSpriteLimit;
+	_removeSpriteLimit = _model == SmsModel::ColecoVision ? _emu->GetSettings()->GetCvConfig().RemoveSpriteLimit : _emu->GetSettings()->GetSmsConfig().RemoveSpriteLimit;
 	_revision = _console->GetRevision();
 }
 
@@ -236,7 +236,7 @@ void SmsVdp::Exec()
 					ProcessSpriteEvaluation();
 				}
 			}
-		
+
 			if(_memAccess[cyc] == SmsVdpMemAccess::None) {
 				//Unused slots are available for the CPU to read/write data
 				ProcessVramAccess();
@@ -387,10 +387,10 @@ void SmsVdp::LoadBgTilesSms()
 			uint16_t addr = _revision == SmsRevision::Sms1 ? ((_bgTileAddr & _state.ColorTableAddress) | (_bgTileAddr & 0x3F)) : _bgTileAddr;
 			if(_bgHorizontalMirror) {
 				_bgShifters[0] |= ReverseBitOrder(ReadVram(addr, SmsVdpMemAccess::BgLoadTile)) << (16 - _pixelsAvailable);
-				_bgShifters[1] |= ReverseBitOrder(ReadVram(addr+1, SmsVdpMemAccess::BgLoadTile)) << (16 - _pixelsAvailable);
+				_bgShifters[1] |= ReverseBitOrder(ReadVram(addr + 1, SmsVdpMemAccess::BgLoadTile)) << (16 - _pixelsAvailable);
 			} else {
 				_bgShifters[0] |= ReadVram(addr, SmsVdpMemAccess::BgLoadTile) << (16 - _pixelsAvailable);
-				_bgShifters[1] |= ReadVram(addr+1, SmsVdpMemAccess::BgLoadTile) << (16 - _pixelsAvailable);
+				_bgShifters[1] |= ReadVram(addr + 1, SmsVdpMemAccess::BgLoadTile) << (16 - _pixelsAvailable);
 			}
 			break;
 		}
@@ -398,11 +398,11 @@ void SmsVdp::LoadBgTilesSms()
 		case 6: {
 			uint16_t addr = _revision == SmsRevision::Sms1 ? ((_bgTileAddr & _state.BgPatternTableAddress) | (_bgTileAddr & 0x7FF)) : _bgTileAddr;
 			if(_bgHorizontalMirror) {
-				_bgShifters[2] |= ReverseBitOrder(ReadVram(addr+2, SmsVdpMemAccess::BgLoadTile)) << (16 - _pixelsAvailable);
-				_bgShifters[3] |= ReverseBitOrder(ReadVram(addr+3, SmsVdpMemAccess::BgLoadTile)) << (16 - _pixelsAvailable);
+				_bgShifters[2] |= ReverseBitOrder(ReadVram(addr + 2, SmsVdpMemAccess::BgLoadTile)) << (16 - _pixelsAvailable);
+				_bgShifters[3] |= ReverseBitOrder(ReadVram(addr + 3, SmsVdpMemAccess::BgLoadTile)) << (16 - _pixelsAvailable);
 			} else {
-				_bgShifters[2] |= ReadVram(addr+2, SmsVdpMemAccess::BgLoadTile) << (16 - _pixelsAvailable);
-				_bgShifters[3] |= ReadVram(addr+3, SmsVdpMemAccess::BgLoadTile) << (16 - _pixelsAvailable);
+				_bgShifters[2] |= ReadVram(addr + 2, SmsVdpMemAccess::BgLoadTile) << (16 - _pixelsAvailable);
+				_bgShifters[3] |= ReadVram(addr + 3, SmsVdpMemAccess::BgLoadTile) << (16 - _pixelsAvailable);
 			}
 
 			if(_disableBackground) {
@@ -788,7 +788,7 @@ void SmsVdp::LoadSpriteTilesSms()
 			}
 
 			_spriteShifters[_spriteCount].HardwareSprite = true;
-			
+
 			uint16_t loadAddr = spriteAddr + 0x80 + _inRangeSprites[_spriteCount] * 2;
 			_spriteShifters[_spriteCount].SpriteX = ReadVram(loadAddr, SmsVdpMemAccess::SpriteLoadTable);
 			uint8_t sprTileIndex = ReadVram(loadAddr + 1, SmsVdpMemAccess::SpriteLoadTable);
@@ -864,7 +864,7 @@ void SmsVdp::LoadExtraSpritesSms()
 	uint16_t spriteAddr = _state.SpriteTableAddress & 0x3F00;
 	for(int i = 8; i < _inRangeSpriteCount; i++) {
 		_spriteShifters[i].SpriteX = _videoRam[spriteAddr + 0x80 + _inRangeSprites[i] * 2];
-		
+
 		uint8_t sprTileIndex = _videoRam[spriteAddr + 0x80 + _inRangeSprites[i] * 2 + 1];
 		uint16_t sprTileAddr = GetSmsSpriteTileAddr(sprTileIndex, _spriteShifters[i].SpriteRow, _inRangeSprites[i]);
 		_spriteShifters[i].TileData[0] = _videoRam[sprTileAddr];
@@ -967,7 +967,7 @@ void SmsVdp::LoadSpriteTilesSg()
 				}
 				_spriteIndex++;
 			}
-			
+
 			_inRangeSpriteIndex++;
 			if(_inRangeSpriteCount > 0) {
 				_inRangeSpriteCount--;
@@ -1004,7 +1004,7 @@ void SmsVdp::LoadExtraSpritesSg()
 		if(_state.UseLargeSprites) {
 			sprTileIndex &= ~0x03;
 		}
-		
+
 		_spriteShifters[_spriteIndex].HardwareSprite = false;
 		_spriteShifters[_spriteIndex].TileAddr = _state.SpritePatternSelector | (sprTileIndex << 3) | _spriteShifters[_spriteIndex].SpriteRow;
 		_spriteShifters[_spriteIndex].TileData[1] = _videoRam[spriteAddr + _inRangeSprites[_inRangeSpriteIndex] * 4 + 3];
@@ -1083,12 +1083,11 @@ uint16_t SmsVdp::GetPixelColor()
 	for(int i = 0; i < _spriteCount; i++) {
 		if(xPos >= _spriteShifters[i].SpriteX && xPos < _spriteShifters[i].SpriteX + (8 << (uint8_t)IsZoomedSpriteAllowed(i))) {
 			if(_state.UseMode4) {
-				uint8_t sprColor = (
+				uint8_t sprColor =
 					((_spriteShifters[i].TileData[0] >> 7) & 0x01) |
 					((_spriteShifters[i].TileData[1] >> 6) & 0x02) |
 					((_spriteShifters[i].TileData[2] >> 5) & 0x04) |
-					((_spriteShifters[i].TileData[3] >> 4) & 0x08)
-				);
+					((_spriteShifters[i].TileData[3] >> 4) & 0x08);
 
 				if(!IsZoomedSpriteAllowed(i) || ((_spriteShifters[i].SpriteX - xPos) & 0x01)) {
 					_spriteShifters[i].TileData[0] <<= 1;
@@ -1132,12 +1131,11 @@ uint16_t SmsVdp::GetPixelColor()
 		return _internalPaletteRam[0x10 | _state.BackgroundColorIndex];
 	}
 
-	uint8_t color = (
+	uint8_t color =
 		((_bgShifters[0] >> 23) & 0x01) |
 		((_bgShifters[1] >> 22) & 0x02) |
 		((_bgShifters[2] >> 21) & 0x04) |
-		((_bgShifters[3] >> 20) & 0x08)
-	);
+		((_bgShifters[3] >> 20) & 0x08);
 
 	bool highPriority = (_bgPriority & 0x800000);
 	if(!spriteDrawn || (highPriority && color != 0) || _disableSprites) {
@@ -1230,7 +1228,7 @@ void SmsVdp::WriteGameGearPalette(uint8_t addr, uint16_t value)
 {
 	_paletteRam[addr] = value & 0xFF;
 	_paletteRam[addr + 1] = (value >> 8) & 0x0F;
-	
+
 	uint16_t rgbColor = ColorUtilities::Rgb444To555(value & 0xFFF);
 	_internalPaletteRam[addr >> 1] = rgbColor;
 
@@ -1314,13 +1312,12 @@ uint8_t SmsVdp::ReadPort(uint8_t port)
 		}
 
 		case 0x81: {
-			//Control Port
-			uint8_t value = (
+			//Control port
+			uint8_t value =
 				(_state.VerticalBlankIrqPending ? 0x80 : 0) |
 				(_state.SpriteOverflow ? 0x40 : 0) |
 				(_state.SpriteCollision ? 0x20 : 0) |
-				(_state.UseMode4 ? (_memoryManager->GetOpenBus() & 0x1F) : _state.SpriteOverflowIndex)
-			);
+				(_state.UseMode4 ? (_memoryManager->GetOpenBus() & 0x1F) : _state.SpriteOverflowIndex);
 			_state.VerticalBlankIrqPending = false;
 			_state.ScanlineIrqPending = false;
 			_state.SpriteOverflow = false;
@@ -1347,8 +1344,7 @@ uint8_t SmsVdp::PeekPort(uint8_t port)
 				(_state.VerticalBlankIrqPending ? 0x80 : 0) |
 				(_state.SpriteOverflow ? 0x40 : 0) |
 				(_state.SpriteCollision ? 0x20 : 0) |
-				(_state.UseMode4 ? (_memoryManager->GetOpenBus() & 0x1F) : _state.SpriteOverflowIndex)
-			);
+				(_state.UseMode4 ? (_memoryManager->GetOpenBus() & 0x1F) : _state.SpriteOverflowIndex));
 	}
 	return 0;
 }
@@ -1390,11 +1386,11 @@ void SmsVdp::SetRegion(ConsoleRegion region)
 void SmsVdp::DebugSendFrame()
 {
 	int offset = std::max(0, std::min((int)GetVisiblePixelIndex(), 256)) + (_state.Scanline * 256);
-	int pixelsToClear = 256*240 - offset;
+	int pixelsToClear = 256 * 240 - offset;
 	if(pixelsToClear > 0) {
 		memset(_currentOutputBuffer + offset, 0, pixelsToClear * sizeof(uint16_t));
 	}
-	
+
 	RenderedFrame frame(_currentOutputBuffer, 256, 240, 1.0, _state.FrameCount);
 	_emu->GetVideoDecoder()->UpdateFrame(frame, false, false);
 }
@@ -1489,9 +1485,7 @@ void SmsVdp::Serialize(Serializer& s)
 
 	SV(_state.VerticalBlankIrqPending);
 	SV(_state.ScanlineIrqPending);
-	SV(_state.PaletteLatch);
 	SV(_state.SpriteOverflow);
-	SV(_state.SpriteOverflowIndex);
 	SV(_state.SpriteCollision);
 	SV(_state.SpriteOverflowIndex);
 
@@ -1533,8 +1527,6 @@ void SmsVdp::Serialize(Serializer& s)
 	SV(_state.NametableAddress);
 	SV(_state.EffectiveNametableAddress);
 	SV(_state.NametableAddressMask);
-	SV(_state.ColorTableAddress);
-	SV(_state.BgPatternTableAddress);
 
 	if(s.GetFormat() != SerializeFormat::Map) {
 		//Hide these entries from the Lua API
@@ -1577,7 +1569,7 @@ void SmsVdp::Serialize(Serializer& s)
 
 		SV(_latchRequest);
 		SV(_latchPos);
-		
+
 		SV(_needCramDot);
 		SV(_cramDotColor);
 

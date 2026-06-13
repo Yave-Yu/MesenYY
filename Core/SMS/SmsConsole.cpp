@@ -292,7 +292,7 @@ PpuFrameInfo SmsConsole::GetPpuFrame()
 	frame.Height = 240;
 	frame.ScanlineCount = _region == ConsoleRegion::Ntsc ? 262 : 313;
 	frame.CycleCount = 342;
-	frame.FrameBufferSize = 256*240*sizeof(uint16_t);
+	frame.FrameBufferSize = 256 * 240 * sizeof(uint16_t);
 	frame.FrameBuffer = (uint8_t*)_vdp->GetScreenBuffer(false);
 	return frame;
 }
