@@ -93,7 +93,7 @@ namespace Mesen.Config
 		[Reactive] public bool ReduceDmcPopping { get; set; } = false;
 		[Reactive] public bool SilenceTriangleHighFreq { get; set; } = false;
 		[Reactive] public bool DisableNoiseModeFlag { get; set; } = false;
-		[Reactive] public bool DisableSquareResetPhase { get; set; } = false;
+		[Reactive] public bool NotResetSquarePhase { get; set; } = false;
 		[Reactive] public bool SwapDutyCycles { get; set; } = false;
 		[Reactive] public bool ReverseDpcmBitOrder { get; set; } = false;
 
@@ -214,7 +214,7 @@ namespace Mesen.Config
 				SilenceTriangleHighFreq = SilenceTriangleHighFreq,
 				LinearSquareMixer = LinearSquareMixer,
 				DisableNoiseModeFlag = DisableNoiseModeFlag,
-				DisableSquareResetPhase = DisableSquareResetPhase,
+				NotResetSquarePhase = NotResetSquarePhase,
 				SwapDutyCycles = SwapDutyCycles,
 				ReverseDpcmBitOrder = ReverseDpcmBitOrder,
 
@@ -353,7 +353,7 @@ namespace Mesen.Config
 		[MarshalAs(UnmanagedType.I1)] public bool ReduceDmcPopping;
 		[MarshalAs(UnmanagedType.I1)] public bool SilenceTriangleHighFreq;
 		[MarshalAs(UnmanagedType.I1)] public bool DisableNoiseModeFlag;
-		[MarshalAs(UnmanagedType.I1)] public bool DisableSquareResetPhase;
+		[MarshalAs(UnmanagedType.I1)] public bool NotResetSquarePhase;
 		[MarshalAs(UnmanagedType.I1)] public bool SwapDutyCycles;
 		[MarshalAs(UnmanagedType.I1)] public bool ReverseDpcmBitOrder;
 

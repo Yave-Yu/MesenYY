@@ -125,7 +125,8 @@ void EmuSettings::Serialize(Serializer& s)
 			break;
 
 		case ConsoleType::Ws:
-			//TODOWS
+			SV(_ws.Model);
+			SV(_ws.UseBootRom);
 			break;
 
 		default:
@@ -567,7 +568,7 @@ void EmuSettings::InitializeRam(RamState state, void* data, uint32_t length)
 			while(i < length) {
 				uint64_t randomData = dist(_mt);
 				for(int j = 0; j < 8 && i < length; j++) {
-					((uint8_t*)data)[i] = (uint8_t)(randomData >> (8*j));
+					((uint8_t*)data)[i] = (uint8_t)(randomData >> (8 * j));
 					i++;
 				}
 			}
@@ -582,8 +583,8 @@ int EmuSettings::GetRandomValue(int maxValue)
 }
 
 bool EmuSettings::GetRandomBool()
-{ 
-	return GetRandomValue(1) == 1; 
+{
+	return GetRandomValue(1) == 1;
 }
 
 bool EmuSettings::IsInputEnabled()

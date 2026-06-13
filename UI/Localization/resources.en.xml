@@ -322,7 +322,7 @@
 			<Control ID="chkReduceDmcPopping">Reduce popping sounds on DMC channel</Control>
 			<Control ID="chkSilenceTriangleHighFreq">Mute ultrasonic frequencies on triangle channel (reduces popping)</Control>
 			<Control ID="chkDisableNoiseModeFlag">Disable noise channel mode flag (mimics oldest Famicom models)</Control>
-			<Control ID="chkDisableSquareResetPhase">Not reset square channels phase (mimics old clones)</Control>
+			<Control ID="chkNotResetSquarePhase">Not reset square channels phase (mimics old clones)</Control>
 			<Control ID="chkSwapDutyCycles">Swap square channels duty cycles (mimics old clones)</Control>
 			<Control ID="chkReverseDpcmBitOrder">Reverse DPCM bit order (higher or lower quality, depends on game)</Control>		
 			<Control ID="grpEffects">Effects</Control>
@@ -3100,7 +3100,7 @@ E
 			<Value ID="Dword">32-bit</Value>
 		</Enum>
 		<Enum ID="MemorySearchCompareTo">
-			<Value ID="PreviousSearchValue">Last value</Value>
+			<Value ID="LastValue">Last value</Value>
 			<Value ID="SpecificValue">Specific value:</Value>
 			<Value ID="SpecificAddress">Specific address:</Value>
 		</Enum>

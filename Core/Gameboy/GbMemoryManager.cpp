@@ -291,11 +291,10 @@ uint8_t GbMemoryManager::ReadRegister(uint16_t addr)
 							return (
 								(_state.CgbHighSpeed ? 0x80 : 0) |
 								(_state.CgbSwitchSpeedRequest ? 0x01 : 0) |
-								0x7E
-							);
+								0x7E);
 						}
 						return 0xFF;
-					
+
 					case 0xFF55: //CGB - DMA
 						return _ppu->IsCgbEnabled() ? _dmaController->ReadCgb(addr) : 0xFF;
 
@@ -311,15 +310,15 @@ uint8_t GbMemoryManager::ReadRegister(uint16_t addr)
 					case 0xFF70: return _ppu->IsCgbEnabled() ? (_state.CgbWorkRamBank | 0xF8) : 0xFF;
 					case 0xFF72: return _state.CgbRegFF72;
 					case 0xFF73: return _state.CgbRegFF73;
-					
-					case 0xFF74: 
+
+					case 0xFF74:
 						if(_ppu->IsCgbEnabled()) {
 							return _state.CgbRegFF74;
 						}
 						return 0xFF;
 
 					case 0xFF75: return _state.CgbRegFF75 | 0x8F;
-					
+
 					case 0xFF76: case 0xFF77:
 						return _apu->ReadCgbRegister(addr);
 				}
@@ -336,7 +335,7 @@ uint8_t GbMemoryManager::ReadRegister(uint16_t addr)
 				case 0xFF00:
 					_controlManager->SetInputReadFlag();
 					return _controlManager->ReadInputPort();
-				
+
 				case 0xFF01: return _state.SerialData; //SB - Serial transfer data (R/W)
 				case 0xFF02: return _state.SerialControl | (_gameboy->IsCgb() ? 0x7C : 0x7E); //SC - Serial Transfer Control (R/W)
 
@@ -359,7 +358,7 @@ uint8_t GbMemoryManager::ReadRegister(uint16_t addr)
 
 void GbMemoryManager::WriteRegister(uint16_t addr, uint8_t value)
 {
-	 if(addr >= 0xFF00) {
+	if(addr >= 0xFF00) {
 		if(addr == 0xFFFF) {
 			_state.IrqEnabled = value; //IE register
 		} else if(addr == 0xFF46) {
@@ -438,7 +437,7 @@ void GbMemoryManager::WriteRegister(uint16_t addr, uint8_t value)
 			switch(addr) {
 				case 0xFF00: _controlManager->WriteInputPort(value); break;
 				case 0xFF01: _state.SerialData = value; break; //FF01 - SB - Serial transfer data (R/W)
-				case 0xFF02: 
+				case 0xFF02:
 					//FF02 - SC - Serial Transfer Control (R/W)
 					_state.SerialControl = value & (_gameboy->IsCgb() ? 0x83 : 0x81);
 					if(_state.SerialControl & 0x80) {

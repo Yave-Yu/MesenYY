@@ -1,14 +1,12 @@
 #include "pch.h"
 #include "Shared/BatteryManager.h"
-#include "Shared/Emulator.h"
 #include "Utilities/VirtualFile.h"
 #include "Utilities/FolderUtilities.h"
 #include "Utilities/StringUtilities.h"
 
-void BatteryManager::Initialize(string romName, Emulator *emu, bool setBatteryFlag)
+void BatteryManager::Initialize(string romName, bool setBatteryFlag)
 {
 	_romName = romName;
-	_emu = emu;
 	_hasBattery = setBatteryFlag;
 }
 

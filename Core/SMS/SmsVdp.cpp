@@ -650,7 +650,9 @@ void SmsVdp::ProcessEndOfScanline()
 		_emu->GetVideoDecoder()->UpdateFrame(frame, rewinding, rewinding);
 
 		UpdateConfig();
+
 		_emu->ProcessEndOfFrame();
+		_console->ProcessEndOfFrame();
 	} else if(_state.Scanline >= _scanlineCount) {
 		_state.Scanline = 0;
 		_state.VerticalScrollLatch = _state.VerticalScroll;

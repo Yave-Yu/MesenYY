@@ -506,7 +506,6 @@ LoadRomResult Gameboy::LoadRom(VirtualFile& romFile)
 					return result;
 				}
 			}
-
 			return LoadRomResult::Success;
 		} else {
 			MessageManager::DisplayMessage("Error", "Unsupported cart type: " + (gbxFooter.IsValid() ? gbxFooter.GetMapperId() : std::to_string(header.CartType)));
@@ -617,8 +616,6 @@ void Gameboy::RunFrame()
 template<bool hasLink>
 void Gameboy::InternalRunFrame()
 {
-	UpdateInput();
-	//Get input first so 1 frame input lag gone
 	uint32_t frameCount = _ppu->GetFrameCount();
 
 	while(frameCount == _ppu->GetFrameCount()) {
@@ -632,7 +629,7 @@ void Gameboy::InternalRunFrame()
 	_apu->PlayQueuedAudio();
 }
 
-void Gameboy::UpdateInput()
+void Gameboy::ProcessEndOfFrame()
 {
 	_controlManager->UpdateControlDevices();
 	_controlManager->UpdateInputState();
@@ -709,7 +706,7 @@ uint64_t Gameboy::GetMasterClock()
 
 uint32_t Gameboy::GetMasterClockRate()
 {
-	return _memoryManager->IsHighSpeed() ? 4194304*2 : 4194304;
+	return _memoryManager->IsHighSpeed() ? 4194304 * 2 : 4194304;
 }
 
 BaseVideoFilter* Gameboy::GetVideoFilter(bool getDefaultFilter)

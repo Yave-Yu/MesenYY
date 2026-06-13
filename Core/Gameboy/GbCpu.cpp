@@ -139,8 +139,8 @@ void GbCpu::ProcessNextCycleStart()
 {
 	if(_state.HaltCounter) {
 		//When halted, the timing at which the CPU checks the IRQ state seems
-		//to differ from the timing for other instructions. 
-		//This is needed to make various tests pass.
+		//to differ from the timing for other instructions
+		//This is needed to make various tests pass
 		if(_gameboy->IsCgb()) {
 			//On CGB, it looks like the IRQ is checked slightly earlier?
 			if(_memoryManager->GetState().CgbSwitchSpeedRequest) {
@@ -848,7 +848,6 @@ void GbCpu::CP(uint8_t value)
 
 void GbCpu::NOP()
 {
-
 }
 
 void GbCpu::InvalidOp()
@@ -1002,7 +1001,7 @@ void GbCpu::RLCA()
 	ClearFlag(GbCpuFlags::Zero);
 }
 
-//rla            17           4 000c rotate akku left through carry 
+//rla            17           4 000c rotate akku left through carry
 void GbCpu::RLA()
 {
 	RL(_state.A);
@@ -1174,7 +1173,7 @@ void GbCpu::JR(int8_t offset)
 	ExecCpuCycle();
 }
 
-//jr   f,PC+dd   xx dd     12;8 ---- conditional relative jump if nz,z,nc,c 
+//jr   f,PC+dd   xx dd     12;8 ---- conditional relative jump if nz,z,nc,c
 void GbCpu::JR(bool condition, int8_t offset)
 {
 	if(condition) {
@@ -1250,7 +1249,7 @@ void GbCpu::POP_AF()
 	_regAF.Write(PopWord() & 0xFFF0);
 }
 
-//scf            37           4 -001 cy=1 
+//scf            37           4 -001 cy=1
 void GbCpu::SCF()
 {
 	SetFlag(GbCpuFlags::Carry);

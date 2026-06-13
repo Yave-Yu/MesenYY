@@ -322,7 +322,7 @@
 			<Control ID="chkReduceDmcPopping">降低DMC通道爆音</Control>
 			<Control ID="chkSilenceTriangleHighFreq">静音超声三角波（减少破音）</Control>
 			<Control ID="chkDisableNoiseModeFlag">禁用噪波模式标志（模仿83红白机）</Control>
-			<Control ID="chkDisableSquareResetPhase">不重置方波相位（模仿1类豆机）</Control>
+			<Control ID="chkNotResetSquarePhase">不重置方波相位（模仿1类豆机）</Control>
 			<Control ID="chkSwapDutyCycles">互换25%与50%方波音色（模仿2类豆机）</Control>
 			<Control ID="chkReverseDpcmBitOrder">反向播放DPCM位（音质更好还是更坏取决于游戏）</Control>		
 			<Control ID="grpEffects">特效</Control>
@@ -804,7 +804,7 @@
 			<Control ID="btnCancel">取消</Control>
 		</Form>
 		<Form ID="NetplayStartServerWindow">
-			<Control ID="wndTitle">开始服务器…</Control>
+			<Control ID="wndTitle">启动服务器…</Control>
 			<Control ID="lblPort">端口：</Control>
 			<Control ID="lblPassword">密码：</Control>
 			<Control ID="btnOK">确定</Control>
@@ -2518,7 +2518,7 @@ E
 			<Value ID="AllOnes">全FF</Value>
 		</Enum>
 		<Enum ID="FontAntialiasing">
-			<Value ID="Disabled">禁用</Value>
+			<Value ID="Disabled">无</Value>
 			<Value ID="Antialias">灰阶</Value>
 			<Value ID="SubPixelAntialias">亚像素</Value>
 		</Enum>
@@ -3100,7 +3100,7 @@ E
 			<Value ID="Dword">32位</Value>
 		</Enum>
 		<Enum ID="MemorySearchCompareTo">
-			<Value ID="PreviousSearchValue">上个数值</Value>
+			<Value ID="LastValue">上个数值</Value>
 			<Value ID="SpecificValue">指定数值：</Value>
 			<Value ID="SpecificAddress">指定地址：</Value>
 		</Enum>
@@ -3561,7 +3561,7 @@ E
 			<Value ID="Tools">工具</Value>
 			<Value ID="HistoryViewer">历史查看器</Value>
 			<Value ID="NetPlay">联机</Value>
-			<Value ID="StartServer">开始服务器…</Value>
+			<Value ID="StartServer">启动服务器…</Value>
 			<Value ID="StopServer">停止服务器</Value>
 			<Value ID="Connect">连接服务器…</Value>
 			<Value ID="Disconnect">断开服务器</Value>

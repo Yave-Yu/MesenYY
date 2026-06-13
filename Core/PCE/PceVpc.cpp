@@ -302,6 +302,9 @@ void PceVpc::SendFrame(PceVdc* vdc)
 
 	_console->ProcessEndOfFrame();
 	_emu->ProcessEndOfFrame();
+
+	_console->GetControlManager()->UpdateInputState();
+	_console->GetControlManager()->UpdateControlDevices();
 }
 
 void PceVpc::DebugSendFrame()

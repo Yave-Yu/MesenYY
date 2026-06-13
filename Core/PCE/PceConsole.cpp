@@ -195,9 +195,6 @@ bool PceConsole::IsSuperGrafxCard(uint32_t crc32)
 
 void PceConsole::RunFrame()
 {
-	GetControlManager()->UpdateInputState();
-	GetControlManager()->UpdateControlDevices();
-	//Get input first so 1 frame input lag gone
 	uint32_t frameCount = _vdc->GetFrameCount();
 	while(frameCount == _vdc->GetFrameCount()) {
 		_cpu->Exec();

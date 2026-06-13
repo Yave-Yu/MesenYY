@@ -63,13 +63,11 @@ bool GbDmaController::IsOamDmaConflict(uint16_t addr)
 		return (
 			(src < 0x80 && addr < 0x8000) ||
 			(src >= 0x80 && src <= 0x9F && addr >= 0x8000 && addr <= 0x9FFF) ||
-			(src >= 0xA0 && src <= 0xFD && addr >= 0xA000 && addr <= 0xFDFF)
-		);
+			(src >= 0xA0 && src <= 0xFD && addr >= 0xA000 && addr <= 0xFDFF));
 	} else {
 		return (
 			((src < 0x80 || (src >= 0xA0 && src <= 0xFD)) && (addr < 0x8000 || (addr >= 0xA000 && addr <= 0xFDFF))) ||
-			(src >= 0x80 && src <= 0x9F && addr >= 0x8000 && addr <= 0x9FFF)
-		);
+			(src >= 0x80 && src <= 0x9F && addr >= 0x8000 && addr <= 0x9FFF));
 	}
 }
 

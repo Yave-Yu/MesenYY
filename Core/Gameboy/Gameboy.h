@@ -112,7 +112,7 @@ public:
 	uint64_t GetCycleCount();
 	uint64_t GetApuCycleCount();
 	
-	void UpdateInput();
+	void ProcessEndOfFrame();
 
 	void RunApu();
 

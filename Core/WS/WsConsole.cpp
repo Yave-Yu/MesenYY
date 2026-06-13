@@ -157,8 +157,6 @@ LoadRomResult WsConsole::LoadRom(VirtualFile& romFile)
 
 void WsConsole::RunFrame()
 {
-	UpdateInput();
-	//Update input first so 1 frame input lag gone
 	uint32_t frameCount = _ppu->GetFrameCount();
 	while(frameCount == _ppu->GetFrameCount()) {
 		_cpu->Exec();
@@ -223,7 +221,7 @@ WsModel WsConsole::GetModel()
 	return _model;
 }
 
-void WsConsole::UpdateInput()
+void WsConsole::ProcessEndOfFrame()
 {
 	_controlManager->UpdateControlDevices();
 	_controlManager->UpdateInputState();

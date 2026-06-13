@@ -78,7 +78,7 @@ public:
 	WsAudioMode GetAudioMode();
 	WsModel GetModel();
 
-	void UpdateInput();
+	void ProcessEndOfFrame();
 
 	void Reset() override;
 	void LoadBattery();

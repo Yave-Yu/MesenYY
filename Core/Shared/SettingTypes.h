@@ -691,7 +691,7 @@ struct NesConfig
 	bool ReduceDmcPopping = true;
 	bool SilenceTriangleHighFreq = true;
 	bool DisableNoiseModeFlag = false;
-	bool DisableSquareResetPhase = false;
+	bool NotResetSquarePhase = false;
 	bool SwapDutyCycles = false;
 	bool ReverseDpcmBitOrder = false;
 

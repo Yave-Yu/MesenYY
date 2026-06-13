@@ -129,5 +129,4 @@ public:
 			return LoadFromGbHeader(emu, header, prgRom);
 		}
 	}
-
 };

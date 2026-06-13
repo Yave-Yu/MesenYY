@@ -27,7 +27,7 @@ private:
 	string GetBasePath(string console, string& extension);
 
 public:
-	void Initialize(string romName, Emulator* emu, bool setBatteryFlag = false);
+	void Initialize(string romName, bool setBatteryFlag = false);
 
 	bool HasBattery() { return _hasBattery; }
 

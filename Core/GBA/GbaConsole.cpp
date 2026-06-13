@@ -324,8 +324,6 @@ void GbaConsole::Reset()
 
 void GbaConsole::RunFrame()
 {
-	UpdateInput();
-	//Get input first so 1 frame input lag gone
 	uint32_t frameCount = _ppu->GetFrameCount();
 	uint32_t& newCount = _ppu->GetState().FrameCount;
 
@@ -355,7 +353,7 @@ void GbaConsole::RunFrame()
 	_apu->PlayQueuedAudio();
 }
 
-void GbaConsole::UpdateInput()
+void GbaConsole::ProcessEndOfFrame()
 {
 	_controlManager->UpdateControlDevices();
 	_controlManager->UpdateInputState();

@@ -10,7 +10,7 @@ struct RenderedFrame
 	uint32_t Height = 240;
 	double Scale = 1.0;
 	uint32_t FrameNumber = 0;
-	uint32_t videoPhase = 0;
+	uint32_t VideoPhase = 0;
 	vector<ControllerData> InputData;
 
 	RenderedFrame()
@@ -33,7 +33,7 @@ struct RenderedFrame
 		Height(height),
 		Scale(scale),
 		FrameNumber(frameNumber),
-		videoPhase(videoPhase),
+		VideoPhase(videoPhase),
 		InputData(inputData)
 	{}
 };
