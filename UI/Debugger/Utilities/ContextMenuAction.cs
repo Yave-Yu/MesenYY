@@ -639,6 +639,7 @@ namespace Mesen.Debugger.Utilities
 		[IconFile("Fullscreen")]
 		VideoScale,
 		Fullscreen,
+		KeepSize,
 
 		[IconFile("AspectRatio")]
 		AspectRatio,

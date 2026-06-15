@@ -349,6 +349,14 @@ namespace Mesen.ViewModels
 						new MainMenuAction(EmulatorShortcut.ToggleFullscreen) {
 							ActionType = ActionType.Fullscreen
 						},
+						new MainMenuAction() {
+							ActionType = ActionType.KeepSize,
+							IsSelected = () => ConfigManager.Config.Preferences.KeepSize,
+							OnClick = () => {
+								ConfigManager.Config.Preferences.KeepSize = !ConfigManager.Config.Preferences.KeepSize;
+								ConfigManager.Config.Preferences.ApplyConfig();
+							}
+						},
 					}
 				},
 

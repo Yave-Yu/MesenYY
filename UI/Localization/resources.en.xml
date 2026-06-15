@@ -3597,6 +3597,7 @@ E
 			<Value ID="VideoScale">Video Size</Value>
 			<Value ID="AspectRatio">Aspect Ratio</Value>
 			<Value ID="Fullscreen">Fullscreen</Value>
+			<Value ID="KeepSize">Keep size</Value>
 			<Value ID="VideoFilter">Video Filter</Value>
 			<Value ID="Region">Region / Model</Value>
 

@@ -459,13 +459,15 @@ namespace Mesen.Windows
 				double height = ClientSize.Height - menuHeight - _audioPlayer.Bounds.Height;
 				if(baseScreenSize.Width == _prevScreenSize.Height && baseScreenSize.Height == _prevScreenSize.Width) {
 					//Rotation, swap sizes without changing scale
-					double xScale = ClientSize.Width * dpiScale / _prevScreenSize.Width;
-					double yScale = height * dpiScale / _prevScreenSize.Height;
-					SetScale(Math.Min(Math.Round(xScale), Math.Round(yScale)));
+					SetScale(ConfigManager.Config.Preferences.CurrentSize);
 				} else {
-					double xScale = ClientSize.Width * dpiScale / baseScreenSize.Width;
-					double yScale = height * dpiScale / baseScreenSize.Height;
-					SetScale(Math.Min(Math.Round(xScale), Math.Round(yScale)));
+					if(ConfigManager.Config.Preferences.KeepSize) {
+						SetScale(ConfigManager.Config.Preferences.CurrentSize);
+					} else {
+						double xScale = ClientSize.Width * dpiScale / baseScreenSize.Width;
+						double yScale = height * dpiScale / baseScreenSize.Height;
+						SetScale(Math.Min(Math.Round(xScale), Math.Round(yScale)));
+					}
 				}
 			} else if(WindowState == WindowState.Maximized || WindowState == WindowState.FullScreen) {
 				if(_rendererSize == default) {
@@ -484,6 +486,8 @@ namespace Mesen.Windows
 			if(scale < 1) {
 				scale = 1;
 			}
+			//Store size factor into config
+			ConfigManager.Config.Preferences.CurrentSize = scale;
 
 			//TODOv2 - Calling this twice seems to fix what might be an issue in Avalonia?
 			//On the first call, when DPI > 100%, sometimes _rendererPanel's bounds are incorrect

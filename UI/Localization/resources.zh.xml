@@ -3597,6 +3597,7 @@ E
 			<Value ID="VideoScale">尺寸</Value>
 			<Value ID="AspectRatio">比例</Value>
 			<Value ID="Fullscreen">全屏</Value>
+			<Value ID="KeepSize">记住尺寸</Value>
 			<Value ID="VideoFilter">滤镜</Value>
 			<Value ID="Region">制式/型号</Value>
 

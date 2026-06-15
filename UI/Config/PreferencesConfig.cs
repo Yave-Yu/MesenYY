@@ -22,7 +22,6 @@ namespace Mesen.Config
 	public class PreferencesConfig : BaseConfig<PreferencesConfig>
 	{
 		[Reactive] public MesenTheme Theme { get; set; } = MesenTheme.Light;
-		[Reactive] public bool AutomaticallyCheckForUpdates { get; set; } = false;
 		[Reactive] public bool SingleInstance { get; set; } = true;
 		[Reactive] public bool AutoLoadPatches { get; set; } = true;
 
@@ -55,6 +54,9 @@ namespace Mesen.Config
 		[Reactive] public bool EnableRewind { get; set; } = true;
 		[Reactive] public UInt32 RewindBufferSize { get; set; } = 300;
 
+		[Reactive] public bool KeepSize { get; set; } = true;
+		[Reactive] public double CurrentSize { get; set; } = 3;
+
 		[Reactive] public bool AlwaysOnTop { get; set; } = false;
 
 		[Reactive] public bool AutoHideMenu { get; set; } = false;
@@ -70,7 +72,7 @@ namespace Mesen.Config
 		[Reactive] public GameSelectionMode GameSelectionScreenMode { get; set; } = GameSelectionMode.ResumeState;
 
 		[Reactive] public FontAntialiasing FontAntialiasing { get; set; } = FontAntialiasing.SubPixelAntialias;
-		[Reactive] public FontConfig MesenFont { get; set; } = new FontConfig() { FontFamily = "Microsoft Sans Serif", FontSize = 11 };
+		[Reactive] public FontConfig MesenFont { get; set; } = new FontConfig() { FontFamily = "Segoe UI", FontSize = 12 };
 		[Reactive] public FontConfig MesenMenuFont { get; set; } = new FontConfig() { FontFamily = "Segoe UI", FontSize = 12 };
 
 		[Reactive] public List<ShortcutKeyInfo> ShortcutKeys { get; set; } = new List<ShortcutKeyInfo>();
