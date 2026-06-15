@@ -916,14 +916,14 @@
 			<Control ID="lblBankSize">CHR分区大小：</Control>
 			<Control ID="lblScale">缩放/滤镜：</Control>
 			<Control ID="chkSortByUsageFrequency">按使用频率对页面进行排序</Control>
-			<Control ID="chkUseLargeSprites">8×16显示Tile模式</Control>
-			<Control ID="chkGroupBlankTiles">分组空白Tile</Control>
-			<Control ID="chkIgnoreOverscan">忽略屏幕边缘的Tile（屏幕裁剪）</Control>
+			<Control ID="chkUseLargeSprites">8×16显示图块模式</Control>
+			<Control ID="chkGroupBlankTiles">分组空白图块</Control>
+			<Control ID="chkIgnoreOverscan">忽略屏幕边缘的图块（屏幕裁剪）</Control>
 
-			<Message ID="lblScaleHelp">选择为HD包生成文件时要使用的缩放/滤镜，&#xA;预缩放滤镜可生成又大又纯净的大果粒Tile。</Message>
+			<Message ID="lblScaleHelp">选择为HD包生成文件时要使用的缩放/滤镜，&#xA;预缩放滤镜可生成又大又纯净的大果粒图块。</Message>
 			<Message ID="lblBankSizeHelp">此选项只适用于CHR RAM游戏。&#xA;CHR RAM游戏没有固定分区，而是从PRG ROM里动态生成。&#xA;此选项会改变分组写入PNG文件的行为，一个小&#xA;分区通常会生成更少的PNG文件，但也因游戏代码的不同，&#xA;更大的数值反而可能产生更好的结果。</Message>
 			<Message ID="lblSortByUsageFrequencyHelp">启用此选项后，PNG文件将按照显示在屏幕上的频率排序。&#xA;常用的调色板将会一同分组进第一张PNG文件里。&#xA;若不启用此选项，PNG文件将按照调色板排序，这样每个&#xA;PNG文件将只包含4种颜色。</Message>
-			<Message ID="lblGroupBlankTilesHelp">此选项将全部Tile有序分组到相同的PNG文件中，&#xA;这有助于删除几乎只包含空白的PNG文件，从而&#xA;减少PNG文件的数量。</Message>
+			<Message ID="lblGroupBlankTilesHelp">此选项将全部图块有序分组到相同的PNG文件中，&#xA;这有助于删除几乎只包含空白的PNG文件，从而&#xA;减少PNG文件的数量。</Message>
 			<Message ID="lblUseLargeSpritesHelp">启用此选项后将更改仅包含活动块的CHR分区显示顺序，&#xA;这样更容易在PNG文件中编辑。</Message>
 			<Message ID="lblIgnoreOverscanHelp">启用后将忽略屏幕裁剪区域外的像素，对屏幕边缘包含&#xA;垃圾块的游戏很有用。这些垃圾块导致的不正确调色板&#xA;组合将被忽略，不会显示在PNG文件中。</Message>
 
@@ -1047,7 +1047,7 @@
 		</Form>
 		
 		<Form ID="TilemapViewerWindow">
-			<Control ID="wndTitle">Tilemap查看器</Control>
+			<Control ID="wndTitle">布局查看器</Control>
 
 			<Control ID="mnuFile">文件(_F)</Control>
 			<Control ID="mnuView">视图(_V)</Control>
@@ -1055,22 +1055,22 @@
 			<Control ID="btnToggleSettings">切换设置面板</Control>
 
 			<Control ID="lblDisplayMode">显示模式：</Control>
-			<Control ID="lblSelectedTile">选择的Tile</Control>
-			<Control ID="lblTilemap">Tilemap</Control>
-			<Control ID="chkShowGrid">显示Tile网格</Control>
+			<Control ID="lblSelectedTile">选择的图块</Control>
+			<Control ID="lblTilemap">布局</Control>
+			<Control ID="chkShowGrid">显示图块网格</Control>
 
 			<Control ID="chkNesShowAttributeGrid">显示16×16属性网格</Control>
 			<Control ID="chkNesShowAttributeByteGrid">显示32×32属性网格</Control>
 			<Control ID="chkNesShowTilemapGrid">显示映射表分隔符</Control>
 			
 			<Control ID="lblHighlightOptions">高亮设置：</Control>
-			<Control ID="lblTileHighlightMode">Tile：</Control>
+			<Control ID="lblTileHighlightMode">图块：</Control>
 			<Control ID="lblAttributeHighlightMode">属性：</Control>
 			<Control ID="chkShowScrollOverlay">显示卷屏覆盖层</Control>
 		</Form>
 		
 		<Form ID="TileEditorWindow">
-			<Control ID="wndTitle">Tile编辑器</Control>
+			<Control ID="wndTitle">图块编辑器</Control>
 			<Control ID="mnuFile">文件(_F)</Control>
 			<Control ID="mnuView">视图(_V)</Control>
 			<Control ID="mnuTools">工具(_T)</Control>
@@ -1087,20 +1087,20 @@
 		</Form>
 		
 		<Form ID="TileViewerWindow">
-			<Control ID="wndTitle">Tile查看器</Control>
+			<Control ID="wndTitle">图块查看器</Control>
 			<Control ID="mnuFile">文件(_F)</Control>
 			<Control ID="mnuView">视图(_V)</Control>
 			<Control ID="btnToggleSettings">切换设置面板</Control>
-			<Control ID="lblSelectedTile">选择Tile</Control>
+			<Control ID="lblSelectedTile">选择图块</Control>
 			<Control ID="lblPresets">预设：</Control>
 			<Control ID="lblSource">源头：</Control>
 			<Control ID="lblSize">大小：</Control>
 			<Control ID="lblAddress">地址：</Control>
 			<Control ID="lblFormat">格式：</Control>
-			<Control ID="lblTileLayout">Tile布局：</Control>
+			<Control ID="lblTileLayout">图块布局：</Control>
 			<Control ID="lblFilter">滤镜：</Control>
 			<Control ID="lblBackground">背景：</Control>
-			<Control ID="chkShowTileGrid">显示Tile网格</Control>
+			<Control ID="chkShowTileGrid">显示图块网格</Control>
 			<Control ID="chkUseGrayscalePalette">灰阶调色板</Control>
 		</Form>
 
@@ -1110,7 +1110,7 @@
 			<Control ID="mnuView">视图(_V)</Control>
 			<Control ID="btnToggleSettings">切换设置面板</Control>
 			<Control ID="chkShowPaletteIndexes">显示调色板索引</Control>
-			<Control ID="lblSelectedColor">选择的颜色</Control>
+			<Control ID="lblSelectedColor">选中的颜色</Control>
 		</Form>
 
 		<Form ID="ColorIndexPickerWindow">
@@ -1132,7 +1132,7 @@
 			<Control ID="colX">X</Control>
 			<Control ID="colY">Y</Control>
 			<Control ID="colSize">大小</Control>
-			<Control ID="colTileIndex">Tile</Control>
+			<Control ID="colTileIndex">图块</Control>
 			<Control ID="colPriority">优先级</Control>
 			<Control ID="colPalette">调色板</Control>
 			<Control ID="colFlags">标志</Control>
@@ -1189,7 +1189,7 @@
 		</Form>
 
 		<Form ID="HistoryViewerWindow">
-			<Control ID="wndTitle">历史查看器</Control>
+			<Control ID="wndTitle">回放查看器</Control>
 			<Control ID="lblVolume">分卷</Control>
 
 			<Control ID="mnuFile">文件</Control>
@@ -1221,10 +1221,10 @@
 
 			<Control ID="lblPrgRom">PRG ROM:</Control>
 			<Control ID="lblChrRom">CHR ROM:</Control>
-			<Control ID="lblWorkRam">Work RAM:</Control>
-			<Control ID="lblSaveRam">Save RAM:</Control>
+			<Control ID="lblWorkRam">工作RAM:</Control>
+			<Control ID="lblSaveRam">保存RAM:</Control>
 			<Control ID="lblChrRam">CHR RAM:</Control>
-			<Control ID="lblChrSaveRam">CHR Save RAM:</Control>
+			<Control ID="lblChrSaveRam">CHR保存RAM:</Control>
 
 			<Control ID="chkBattery">电池存档</Control>
 			<Control ID="chkTrainer">训练者</Control>
@@ -1270,7 +1270,7 @@
 		</Form>
 
 		<Form ID="EventViewerWindow">
-			<Control ID="wndTitle">时间查看器</Control>
+			<Control ID="wndTitle">事件查看器</Control>
 
 			<Control ID="mnuFile">文件(_F)</Control>
 			<Control ID="mnuDebug">调试(_D)</Control>
@@ -1437,7 +1437,7 @@
 			<Control ID="chkHighlightLabel">标签</Control>
 			<Control ID="chkHighlightFrozenAddresses">锁定的地址</Control>
 			<Control ID="chkHighlightNesPcmData">DPCM数据</Control>
-			<Control ID="chkHighlightNesDrawnChrRom">绘制的Tile（PPU）</Control>
+			<Control ID="chkHighlightNesDrawnChrRom">绘制的图块（PPU）</Control>
 			<Control ID="chkHighlightBreakpoints">断点</Control>
 			<Control ID="chkHighDensityTextMode">使用高对比度文本</Control>
 			<Control ID="chkShowCharacters">显示字符</Control>
@@ -1570,8 +1570,8 @@
 			<Control ID="lblImportFilters">导入筛选器</Control>
 			<Control ID="lblImportFiltersHint">导入以下类型的标签：</Control>
 			<Control ID="chkImportPrgRomLabels">ROM标签</Control>
-			<Control ID="chkImportSaveRamLabels">Save RAM标签</Control>
-			<Control ID="chkImportWorkRamLabels">Work RAM标签</Control>
+			<Control ID="chkImportSaveRamLabels">保存RAM标签</Control>
+			<Control ID="chkImportWorkRamLabels">工作RAM标签</Control>
 			<Control ID="chkImportOtherLabels">其它标签</Control>
 			<Control ID="chkImportComments">导入注释（仅限于上面选择的标签类型）</Control>
 
@@ -2946,8 +2946,8 @@ E
 		</Enum>
 		<Enum ID="TileFilter">
 			<Value ID="None">无</Value>
-			<Value ID="HideUsed">隐藏使用的Tile</Value>
-			<Value ID="HideUnused">隐藏未使用的Tile</Value>
+			<Value ID="HideUsed">隐藏使用的图块</Value>
+			<Value ID="HideUnused">隐藏未使用的图块</Value>
 		</Enum>
 		<Enum ID="TileBackground">
 			<Value ID="Default">默认（颜色0）</Value>
@@ -3269,8 +3269,8 @@ E
 			<Value ID="OpenRegisterViewer">打开寄存器查看器</Value>
 			<Value ID="OpenDebugLog">打开调试日志</Value>
 			<Value ID="OpenNesHeaderEditor">打开NES头部编辑器</Value>
-			<Value ID="OpenTilemapViewer">打开Tilemap查看器</Value>
-			<Value ID="OpenTileViewer">打开Tile查看器</Value>
+			<Value ID="OpenTilemapViewer">打开布局查看器</Value>
+			<Value ID="OpenTileViewer">打开图块查看器</Value>
 			<Value ID="OpenSpriteViewer">打开活动块查看器</Value>
 			<Value ID="OpenPaletteViewer">打开调色板查看器</Value>
 			<Value ID="Reset">复位</Value>
@@ -3359,15 +3359,15 @@ E
 			<Value ID="ResetCdl">重置CDL数据</Value>
 			<Value ID="LoadCdl">加载CDL数据</Value>
 			<Value ID="SaveCdl">保存CDL数据</Value>
-			<Value ID="TilemapViewer_EditTilemapBreakpoint">Tilemap查看器：编辑断点（Tilemap）</Value>
-			<Value ID="TilemapViewer_EditAttributeBreakpoint">Tilemap查看器：编辑断点（属性）</Value>
-			<Value ID="TilemapViewer_ViewInMemoryViewer">Tilemap查看器：用内存查看器查看</Value>
-			<Value ID="TilemapViewer_ViewInTileViewer">Tilemap查看器：用Tile查看器查看</Value>
-			<Value ID="TilemapViewer_EditTile">Tilemap查看器：编辑Tile</Value>
-			<Value ID="TileViewer_ViewInMemoryViewer">Tile查看器：用内存查看器查看</Value>
-			<Value ID="TileViewer_EditTile">Tile查看器：编辑Tile</Value>
+			<Value ID="TilemapViewer_EditTilemapBreakpoint">布局查看器：编辑断点（布局）</Value>
+			<Value ID="TilemapViewer_EditAttributeBreakpoint">布局查看器：编辑断点（属性）</Value>
+			<Value ID="TilemapViewer_ViewInMemoryViewer">布局查看器：用内存查看器查看</Value>
+			<Value ID="TilemapViewer_ViewInTileViewer">布局查看器：用图块查看器查看</Value>
+			<Value ID="TilemapViewer_EditTile">布局查看器：编辑图块</Value>
+			<Value ID="TileViewer_ViewInMemoryViewer">图块查看器：用内存查看器查看</Value>
+			<Value ID="TileViewer_EditTile">图块查看器：编辑图块</Value>
 			<Value ID="SpriteViewer_ViewInMemoryViewer">活动块查看器：用内存查看器查看</Value>
-			<Value ID="SpriteViewer_ViewInTileViewer">活动块查看器：用Tile查看器查看</Value>
+			<Value ID="SpriteViewer_ViewInTileViewer">活动块查看器：用图块查看器查看</Value>
 			<Value ID="SpriteViewer_EditSprite">活动块查看器：编辑活动块</Value>
 			<Value ID="PaletteViewer_EditColor">调色板查看器：编辑颜色</Value>
 			<Value ID="PaletteViewer_ViewInMemoryViewer">调色板查看器：用内存查看器查看</Value>
@@ -3408,16 +3408,16 @@ E
 
 			<Value ID="RegisterViewer_EditBreakpoint">寄存器查看器：编辑断点</Value>
 
-			<Value ID="TileEditor_RotateLeft">Tile编辑器：向左旋转</Value>
-			<Value ID="TileEditor_RotateRight">Tile编辑器：向右旋转</Value>
+			<Value ID="TileEditor_RotateLeft">图块编辑器：向左旋转</Value>
+			<Value ID="TileEditor_RotateRight">图块编辑器：向右旋转</Value>
 
-			<Value ID="TileEditor_FlipHorizontal">Tile编辑器：横向翻转</Value>
-			<Value ID="TileEditor_FlipVertical">Tile编辑器：纵向翻转</Value>
+			<Value ID="TileEditor_FlipHorizontal">图块编辑器：横向翻转</Value>
+			<Value ID="TileEditor_FlipVertical">图块编辑器：纵向翻转</Value>
 
-			<Value ID="TileEditor_TranslateLeft">Tile编辑器：向左平移</Value>
-			<Value ID="TileEditor_TranslateRight">Tile编辑器：向右平移</Value>
-			<Value ID="TileEditor_TranslateUp">Tile编辑器：向上平移</Value>
-			<Value ID="TileEditor_TranslateDown">Tile编辑器：向下平移</Value>
+			<Value ID="TileEditor_TranslateLeft">图块编辑器：向左平移</Value>
+			<Value ID="TileEditor_TranslateRight">图块编辑器：向右平移</Value>
+			<Value ID="TileEditor_TranslateUp">图块编辑器：向上平移</Value>
+			<Value ID="TileEditor_TranslateDown">图块编辑器：向下平移</Value>
 		</Enum>
 		<Enum ID="ActionType">
 			<Value ID="Copy">复制</Value>
@@ -3438,7 +3438,7 @@ E
 			<Value ID="AddBreakpoint">添加断点</Value>
 			<Value ID="AddForbidBreakpoint">屏蔽断点</Value>
 			<Value ID="ToggleForbidBreakpoint">切换屏蔽断点</Value>
-			<Value ID="EditTilemapBreakpoint">编辑Tilemap断点</Value>
+			<Value ID="EditTilemapBreakpoint">编辑布局断点</Value>
 			<Value ID="EditAttributeBreakpoint">编辑属性断点</Value>
 			<Value ID="EditBreakpoint">编辑断点</Value>
 
@@ -3522,7 +3522,7 @@ E
 			<Value ID="GoToLocation">跳转到地址</Value>
 			
 			<Value ID="ExportToPng">导出PNG</Value>
-			<Value ID="ViewInTileViewer">用Tile查看器查看</Value>
+			<Value ID="ViewInTileViewer">用图块查看器查看</Value>
 			<Value ID="ViewInMemoryViewer">用内存查看器查看</Value>
 			
 			<Value ID="LoadTblFile">加载TBL文件…</Value>
@@ -3552,14 +3552,14 @@ E
 			<Value ID="OpenRegisterViewer">寄存器查看器</Value>
 			<Value ID="OpenDebugLog">调试日志</Value>
 			<Value ID="OpenNesHeaderEditor">NES头部编辑器</Value>
-			<Value ID="OpenTilemapViewer">Tilemap查看器</Value>
-			<Value ID="OpenTileViewer">Tile查看器</Value>
+			<Value ID="OpenTilemapViewer">布局查看器</Value>
+			<Value ID="OpenTileViewer">图块查看器</Value>
 			<Value ID="OpenSpriteViewer">活动块查看器</Value>
 			<Value ID="OpenPaletteViewer">调色板查看器</Value>
 			<Value ID="OpenDebugSettings">设置</Value>
 
 			<Value ID="Tools">工具</Value>
-			<Value ID="HistoryViewer">历史查看器</Value>
+			<Value ID="HistoryViewer">回放查看器</Value>
 			<Value ID="NetPlay">联机</Value>
 			<Value ID="StartServer">启动服务器…</Value>
 			<Value ID="StopServer">停止服务器</Value>
@@ -3681,8 +3681,8 @@ E
 			<Value ID="FindPrev">向上查找</Value>
 			<Value ID="FindOccurrences">搜索并显示全部结果</Value>
 
-			<Value ID="EditTile">编辑Tile</Value>
-			<Value ID="EditTiles">编辑多个Tile</Value>
+			<Value ID="EditTile">编辑图块</Value>
+			<Value ID="EditTiles">编辑多个图块</Value>
 			<Value ID="EditSprite">编辑活动块</Value>
 			<Value ID="EditColor">编辑颜色</Value>
 
@@ -3712,7 +3712,7 @@ E
 
 			<Value ID="ResetAccessCounters">重置访问状态</Value>
 
-			<Value ID="CopyToHdPackFormat">复制Tile（HD包格式）</Value>
+			<Value ID="CopyToHdPackFormat">复制图块（HD包格式）</Value>
 			<Value ID="CheatDatabase">金手指数据库</Value>
 			<Value ID="ToggleBilinearInterpolation">双线性插值</Value>
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "pch.h"
 
-class Emulator;
 class IBatteryProvider
 {
 public:
@@ -18,7 +17,6 @@ class BatteryManager
 {
 private:
 	string _romName;
-	Emulator* _emu;
 	bool _hasBattery = false;
 
 	std::weak_ptr<IBatteryProvider> _provider;

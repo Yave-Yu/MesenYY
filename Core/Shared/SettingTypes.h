@@ -687,9 +687,9 @@ struct NesConfig
 	uint32_t PpuExtraScanlinesBeforeNmi = 0;
 	uint32_t PpuExtraScanlinesAfterNmi = 0;
 
-	bool LinearSquareMixer = true;
-	bool ReduceDmcPopping = true;
-	bool SilenceTriangleHighFreq = true;
+	bool LinearSquareMixer = false;
+	bool ReduceDmcPopping = false;
+	bool SilenceTriangleHighFreq = false;
 	bool DisableNoiseModeFlag = false;
 	bool NotResetSquarePhase = false;
 	bool SwapDutyCycles = false;
