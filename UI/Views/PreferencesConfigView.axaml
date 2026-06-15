@@ -163,6 +163,7 @@
 								Margin="0 -8 0 0"
 								Minimum="1"
 								Maximum="12"
+								TickFrequency="1"
 								Width="246"
 								Value="{Binding Config.HudCustomSize}"
 								HorizontalAlignment="Left"

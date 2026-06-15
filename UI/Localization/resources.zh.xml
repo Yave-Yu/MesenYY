@@ -1334,6 +1334,7 @@
 		<Form ID="WatchListView">
 			<Control ID="colName">名字</Control>
 			<Control ID="colValue">数值</Control>
+			<Control ID="clickToAdd">点击添加…</Control>
 		</Form>
 		
 		<Form ID="QuickSearchView">
