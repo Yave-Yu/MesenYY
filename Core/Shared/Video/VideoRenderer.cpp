@@ -118,8 +118,8 @@ FrameInfo VideoRenderer::GetEmuHudSize(FrameInfo baseFrameSize)
 		size.Width = (uint32_t)std::round(baseFrameSize.Height * aspectRatio);
 		size.Height = baseFrameSize.Height;
 	} else {
-		size.Width = _rendererWidth / 2;
-		size.Height = _rendererHeight / 2;
+		size.Width = _rendererWidth / _emu->GetSettings()->GetPreferences().HudCustomSize;
+		size.Height = _rendererHeight / _emu->GetSettings()->GetPreferences().HudCustomSize;
 	}
 	return size;
 }

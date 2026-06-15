@@ -2915,7 +2915,7 @@ E
 			<Value ID="Speaker">Speaker</Value>
 		</Enum>
 		<Enum ID="HudDisplaySize">
-			<Value ID="Fixed">Fixed size</Value>
+			<Value ID="Fixed">Custom size</Value>
 			<Value ID="Scaled">Scaled with game</Value>
 		</Enum>
 		<Enum ID="TileFormat">

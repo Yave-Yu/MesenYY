@@ -176,7 +176,7 @@
 			<Control ID="trkNtscIFilterLength">I滤镜（横向混合）</Control>
 			<Control ID="trkNtscQFilterLength">Q滤镜（横向混合）</Control>
 
-			<Control ID="lblLcdGridSettings">LCD栅格设置</Control>
+			<Control ID="lblLcdGridSettings">LCD网格设置</Control>
 			<Control ID="trkLcdGridTopLeftBrightness">左上亮度</Control>
 			<Control ID="trkLcdGridTopRightBrightness">右上亮度</Control>
 			<Control ID="trkLcdGridBottomLeftBrightness">左下亮度</Control>
@@ -2915,8 +2915,8 @@ E
 			<Value ID="Speaker">外放</Value>
 		</Enum>
 		<Enum ID="HudDisplaySize">
-			<Value ID="Fixed">固定大小</Value>
-			<Value ID="Scaled">跟随游戏拉伸</Value>
+			<Value ID="Fixed">自定义</Value>
+			<Value ID="Scaled">跟随游戏缩放</Value>
 		</Enum>
 		<Enum ID="TileFormat">
 			<Value ID="NesBpp2">2 BPP</Value>

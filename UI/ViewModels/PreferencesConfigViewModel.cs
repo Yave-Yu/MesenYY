@@ -4,9 +4,11 @@ using Avalonia.Styling;
 using Mesen.Config;
 using Mesen.Config.Shortcuts;
 using Mesen.Utilities;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Reactive.Linq;
 
 namespace Mesen.ViewModels
 {
@@ -14,6 +16,7 @@ namespace Mesen.ViewModels
 	{
 		[Reactive] public PreferencesConfig Config { get; set; }
 		[Reactive] public PreferencesConfig OriginalConfig { get; set; }
+		[ObservableAsProperty] public bool ShowCustomSize { get; }
 
 		public string DataStorageLocation { get; }
 		public bool IsOsx { get; }
@@ -163,6 +166,7 @@ namespace Mesen.ViewModels
 				return;
 			}
 
+			AddDisposable(this.WhenAnyValue(_ => _.Config.HudSize).Select(_ => _ == HudDisplaySize.Fixed).ToPropertyEx(this, _ => _.ShowCustomSize));
 			AddDisposable(ReactiveHelper.RegisterRecursiveObserver(Config, (s, e) => { 
 				Config.ApplyConfig();
 				PreferencesConfig.UpdateTheme();

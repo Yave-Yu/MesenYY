@@ -158,6 +158,16 @@
 							<TextBlock Text="{l:Translate lblHudDisplaySize}" />
 							<c:EnumComboBox SelectedItem="{Binding Config.HudSize}" MinWidth="125" />
 						</StackPanel>
+						<StackPanel Orientation="Horizontal" IsVisible="{Binding ShowCustomSize}">
+							<c:MesenSlider
+								Margin="0 -8 0 0"
+								Minimum="1"
+								Maximum="12"
+								Width="246"
+								Value="{Binding Config.HudCustomSize}"
+								HorizontalAlignment="Left"
+							/>
+						</StackPanel>
 						<CheckBox Content="{l:Translate chkDisableOsd}" IsChecked="{Binding Config.DisableOsd}" />
 						<CheckBox Content="{l:Translate chkDisplayTitleBarInfo}" IsChecked="{Binding Config.ShowTitleBarInfo}" />
 						<CheckBox Content="{l:Translate chkShowFps}" IsChecked="{Binding Config.ShowFps}" />
