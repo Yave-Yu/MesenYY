@@ -1143,11 +1143,6 @@ namespace Mesen.ViewModels
 					OnClick = () => { new CommandLineHelpWindow().ShowCenteredDialog((Control)wnd); }
 				},
 				new MainMenuAction() {
-					IsVisible = () => false,
-					OnClick = () => ApplicationHelper.OpenBrowser("https://www.mesen.ca/reportbug/")
-				},
-				new ContextMenuSeparator(),
-				new MainMenuAction() {
 					ActionType = ActionType.About,
 					OnClick = () => {
 						new AboutWindow().ShowCenteredDialog((Control)wnd);

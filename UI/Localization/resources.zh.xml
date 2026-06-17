@@ -696,8 +696,7 @@
 			<Control ID="tpgGeneral">常规</Control>
 			<Control ID="lblTheme">主题：</Control>
 			<Control ID="lblRequiresRestart">（需重启模拟器）</Control>
-			
-			<Control ID="lblDisplayLanguage">显示语言：</Control>
+
 			<Control ID="chkSingleInstance">不允许多开（只能打开一个Mesen）</Control>
 
 			<Control ID="chkDeveloperMode">开发者模式</Control>

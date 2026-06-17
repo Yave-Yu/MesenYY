@@ -23,7 +23,7 @@ namespace Mesen.Config
 
 		public string Version { get; set; } = "2.1.1";
 		public int ConfigUpgrade { get; set; } = 0;
-		public int LanguageID { get; set; } = CultureInfo.InstalledUICulture.Name == "zh-CN" ? 1 : 0;
+		public int LanguageID { get; set; } = 0;
 		public bool EnableTestMode { get; set; } = false;
 		public DefaultKeyMappingType DefaultKeyMappings { get; set; } = DefaultKeyMappingType.Xbox | DefaultKeyMappingType.ArrowKeys;
 
@@ -60,6 +60,7 @@ namespace Mesen.Config
 		{
 			Configuration cfg = new();
 			cfg.ConfigUpgrade = (int)ConfigUpgradeHint.FirstRun;
+			cfg.LanguageID = cfg.GetLanguageID();
 			return cfg;
 		}
 
@@ -222,7 +223,7 @@ namespace Mesen.Config
 		public static FontConfig GetDefaultFont()
 		{
 			if(OperatingSystem.IsWindows()) {
-				return ConfigManager.Config.LanguageID == 1 ? new FontConfig() { FontFamily = "Segoe UI", FontSize = 12 } : new FontConfig() { FontFamily = "Microsoft Sans Serif", FontSize = 11 };
+				return ConfigManager.Config.GetFontByLanguage();
 			} else if(OperatingSystem.IsMacOS()) {
 				return new FontConfig() { FontFamily = FindMatchingFont("Microsoft Sans Serif"), FontSize = 11 };
 			} else {
@@ -301,6 +302,27 @@ namespace Mesen.Config
 				if(Preferences.ShortcutKeys[i].Shortcut >= EmulatorShortcut.LastValidValue) {
 					Preferences.ShortcutKeys.RemoveAt(i);
 				}
+			}
+		}
+
+		private int GetLanguageID()
+		{
+			//Make language expandable
+			switch(CultureInfo.InstalledUICulture.Name) {
+				case "zh-CN":
+					return 1;
+				default:
+					return 0;
+			}
+		}
+
+		private FontConfig GetFontByLanguage()
+		{
+			switch(LanguageID) {
+				case 1:
+					return new FontConfig() { FontFamily = "Segoe UI", FontSize = 12 };
+				default:
+					return new FontConfig() { FontFamily = "Microsoft Sans Serif", FontSize = 11 };
 			}
 		}
 	}

@@ -697,7 +697,6 @@
 			<Control ID="lblTheme">Theme:</Control>
 			<Control ID="lblRequiresRestart">(requires restart)</Control>
 			
-			<Control ID="lblDisplayLanguage">Display Language:</Control>
 			<Control ID="chkSingleInstance">Only allow one instance of Mesen at a time</Control>
 
 			<Control ID="chkDeveloperMode">Enable developer mode</Control>
