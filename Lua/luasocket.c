@@ -72,7 +72,7 @@ static int global_unload(lua_State *L) {
 * Setup basic stuff.
 \*-------------------------------------------------------------------------*/
 static int base_open(lua_State *L) {
-    if (socket_open()) {
+    if(socket_open()) {
         /* export functions (and leave namespace table on top of stack) */
         lua_newtable(L);
         luaL_setfuncs(L, func, 0);
@@ -99,6 +99,6 @@ static int base_open(lua_State *L) {
 LUASOCKET_API int luaopen_socket_core(lua_State *L) {
     int i;
     base_open(L);
-    for (i = 0; mod[i].name; i++) mod[i].func(L);
+    for(i = 0; mod[i].name; i++) mod[i].func(L);
     return 1;
 }

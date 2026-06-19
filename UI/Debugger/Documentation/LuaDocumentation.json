@@ -147,7 +147,7 @@
 	"name": "getCdlData",
 	"category": "Miscellaneous",
 	"subcategory": "Cdl",
-	"description": "Returns the current state of the CDL (code/data log) for the specified memory type. This can only be used for (some) ROM memory types.",
+	"description": "Returns the current state of the CDL (code/data log) for the specified memory type. This can only be used for(some) ROM memory types.",
 	"parameters": [
 		{ "name": "memoryType", "type": "Enum", "enumName": "memType", "description": "Memory type" }
 	],

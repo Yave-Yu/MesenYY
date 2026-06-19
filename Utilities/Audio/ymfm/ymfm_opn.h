@@ -142,7 +142,7 @@ public:
 	static constexpr uint32_t channel_offset(uint32_t chnum)
 	{
 		assert(chnum < CHANNELS);
-		if (!IsOpnA)
+		if(!IsOpnA)
 			return chnum;
 		else
 			return (chnum % 3) + 0x100 * (chnum / 3);
@@ -152,7 +152,7 @@ public:
 	static constexpr uint32_t operator_offset(uint32_t opnum)
 	{
 		assert(opnum < OPERATORS);
-		if (!IsOpnA)
+		if(!IsOpnA)
 			return opnum + opnum / 3;
 		else
 			return (opnum % 12) + ((opnum % 12) / 3) + 0x100 * (opnum / 12);

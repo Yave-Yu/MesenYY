@@ -9,11 +9,11 @@
 
 SRes SeqInStream_Read2(ISeqInStream *stream, void *buf, size_t size, SRes errorType)
 {
-  while (size != 0)
+  while(size != 0)
   {
     size_t processed = size;
     RINOK(stream->Read(stream, buf, &processed));
-    if (processed == 0)
+    if(processed == 0)
       return errorType;
     buf = (void *)((Byte *)buf + processed);
     size -= processed;
@@ -42,7 +42,7 @@ SRes LookInStream_SeekTo(ILookInStream *stream, UInt64 offset)
 SRes LookInStream_LookRead(ILookInStream *stream, void *buf, size_t *size)
 {
   const void *lookBuf;
-  if (*size == 0)
+  if(*size == 0)
     return SZ_OK;
   RINOK(stream->Look(stream, &lookBuf, size));
   memcpy(buf, lookBuf, *size);
@@ -51,11 +51,11 @@ SRes LookInStream_LookRead(ILookInStream *stream, void *buf, size_t *size)
 
 SRes LookInStream_Read2(ILookInStream *stream, void *buf, size_t size, SRes errorType)
 {
-  while (size != 0)
+  while(size != 0)
   {
     size_t processed = size;
     RINOK(stream->Read(stream, buf, &processed));
-    if (processed == 0)
+    if(processed == 0)
       return errorType;
     buf = (void *)((Byte *)buf + processed);
     size -= processed;
@@ -73,14 +73,14 @@ static SRes LookToRead_Look_Lookahead(void *pp, const void **buf, size_t *size)
   SRes res = SZ_OK;
   CLookToRead *p = (CLookToRead *)pp;
   size_t size2 = p->size - p->pos;
-  if (size2 == 0 && *size > 0)
+  if(size2 == 0 && *size > 0)
   {
     p->pos = 0;
     size2 = LookToRead_BUF_SIZE;
     res = p->realStream->Read(p->realStream, p->buf, &size2);
     p->size = size2;
   }
-  if (size2 < *size)
+  if(size2 < *size)
     *size = size2;
   *buf = p->buf + p->pos;
   return res;
@@ -91,15 +91,15 @@ static SRes LookToRead_Look_Exact(void *pp, const void **buf, size_t *size)
   SRes res = SZ_OK;
   CLookToRead *p = (CLookToRead *)pp;
   size_t size2 = p->size - p->pos;
-  if (size2 == 0 && *size > 0)
+  if(size2 == 0 && *size > 0)
   {
     p->pos = 0;
-    if (*size > LookToRead_BUF_SIZE)
+    if(*size > LookToRead_BUF_SIZE)
       *size = LookToRead_BUF_SIZE;
     res = p->realStream->Read(p->realStream, p->buf, size);
     size2 = p->size = *size;
   }
-  if (size2 < *size)
+  if(size2 < *size)
     *size = size2;
   *buf = p->buf + p->pos;
   return res;
@@ -116,9 +116,9 @@ static SRes LookToRead_Read(void *pp, void *buf, size_t *size)
 {
   CLookToRead *p = (CLookToRead *)pp;
   size_t rem = p->size - p->pos;
-  if (rem == 0)
+  if(rem == 0)
     return p->realStream->Read(p->realStream, buf, size);
-  if (rem > *size)
+  if(rem > *size)
     rem = *size;
   memcpy(buf, p->buf + p->pos, rem);
   p->pos += rem;

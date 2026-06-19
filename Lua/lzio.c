@@ -27,7 +27,7 @@ int luaZ_fill (ZIO *z) {
   lua_unlock(L);
   buff = z->reader(L, z->data, &size);
   lua_lock(L);
-  if (buff == NULL || size == 0)
+  if(buff == NULL || size == 0)
     return EOZ;
   z->n = size - 1;  /* discount char being returned */
   z->p = buff;
@@ -46,10 +46,10 @@ void luaZ_init (lua_State *L, ZIO *z, lua_Reader reader, void *data) {
 
 /* --------------------------------------------------------------- read --- */
 size_t luaZ_read (ZIO *z, void *b, size_t n) {
-  while (n) {
+  while(n) {
     size_t m;
-    if (z->n == 0) {  /* no bytes in buffer? */
-      if (luaZ_fill(z) == EOZ)  /* try to read more */
+    if(z->n == 0) {  /* no bytes in buffer? */
+      if(luaZ_fill(z) == EOZ)  /* try to read more */
         return n;  /* no more input; return number of missing bytes */
       else {
         z->n++;  /* luaZ_fill consumed first byte; put it back */

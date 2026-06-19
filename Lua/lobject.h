@@ -176,7 +176,7 @@ typedef StackValue *StkId;
 #define LUA_VABSTKEY	makevariant(LUA_TNIL, 2)
 
 
-/* macro to test for (any kind of) nil */
+/* macro to test for(any kind of) nil */
 #define ttisnil(v)		checktype((v), LUA_TNIL)
 
 

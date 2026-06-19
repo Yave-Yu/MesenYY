@@ -123,7 +123,7 @@
 #define lua_tmpnam(b,e) { \
         strcpy(b, LUA_TMPNAMTEMPLATE); \
         e = mkstemp(b); \
-        if (e != -1) close(e); \
+        if(e != -1) close(e); \
         e = (e == -1); }
 
 #else				/* }{ */
@@ -144,7 +144,7 @@ static int os_execute (lua_State *L) {
   int stat;
   errno = 0;
   stat = system(cmd);
-  if (cmd != NULL)
+  if(cmd != NULL)
     return luaL_execresult(L, stat);
   else {
     lua_pushboolean(L, stat);  /* true if there is a shell */
@@ -170,7 +170,7 @@ static int os_tmpname (lua_State *L) {
   char buff[LUA_TMPNAMBUFSIZE];
   int err;
   lua_tmpnam(buff, err);
-  if (l_unlikely(err))
+  if(l_unlikely(err))
     return luaL_error(L, "unable to generate a unique filename");
   lua_pushstring(L, buff);
   return 1;
@@ -207,8 +207,8 @@ static int os_clock (lua_State *L) {
 ** to compute the year.
 */
 static void setfield (lua_State *L, const char *key, int value, int delta) {
-  #if (defined(LUA_NUMTIME) && LUA_MAXINTEGER <= INT_MAX)
-    if (l_unlikely(value > LUA_MAXINTEGER - delta))
+  #if(defined(LUA_NUMTIME) && LUA_MAXINTEGER <= INT_MAX)
+    if(l_unlikely(value > LUA_MAXINTEGER - delta))
       luaL_error(L, "field '%s' is out-of-bound", key);
   #endif
   lua_pushinteger(L, (lua_Integer)value + delta);
@@ -217,7 +217,7 @@ static void setfield (lua_State *L, const char *key, int value, int delta) {
 
 
 static void setboolfield (lua_State *L, const char *key, int value) {
-  if (value < 0)  /* undefined? */
+  if(value < 0)  /* undefined? */
     return;  /* does not set field */
   lua_pushboolean(L, value);
   lua_setfield(L, -2, key);
@@ -252,16 +252,16 @@ static int getfield (lua_State *L, const char *key, int d, int delta) {
   int isnum;
   int t = lua_getfield(L, -1, key);  /* get field and its type */
   lua_Integer res = lua_tointegerx(L, -1, &isnum);
-  if (!isnum) {  /* field is not an integer? */
-    if (l_unlikely(t != LUA_TNIL))  /* some other value? */
+  if(!isnum) {  /* field is not an integer? */
+    if(l_unlikely(t != LUA_TNIL))  /* some other value? */
       return luaL_error(L, "field '%s' is not an integer", key);
-    else if (l_unlikely(d < 0))  /* absent field; no default? */
+    else if(l_unlikely(d < 0))  /* absent field; no default? */
       return luaL_error(L, "field '%s' missing in date table", key);
     res = d;
   }
   else {
     /* unsigned avoids overflow when lua_Integer has 32 bits */
-    if (!(res >= 0 ? (lua_Unsigned)res <= (lua_Unsigned)INT_MAX + delta
+    if(!(res >= 0 ? (lua_Unsigned)res <= (lua_Unsigned)INT_MAX + delta
                    : (lua_Integer)INT_MIN + delta <= res))
       return luaL_error(L, "field '%s' is out-of-bound", key);
     res -= delta;
@@ -275,10 +275,10 @@ static const char *checkoption (lua_State *L, const char *conv,
                                 ptrdiff_t convlen, char *buff) {
   const char *option = LUA_STRFTIMEOPTIONS;
   int oplen = 1;  /* length of options being checked */
-  for (; *option != '\0' && oplen <= convlen; option += oplen) {
-    if (*option == '|')  /* next block? */
+  for(; *option != '\0' && oplen <= convlen; option += oplen) {
+    if(*option == '|')  /* next block? */
       oplen++;  /* will check options with next length (+1) */
-    else if (memcmp(conv, option, oplen) == 0) {  /* match? */
+    else if(memcmp(conv, option, oplen) == 0) {  /* match? */
       memcpy(buff, conv, oplen);  /* copy valid option to buffer */
       buff[oplen] = '\0';
       return conv + oplen;  /* return next item */
@@ -307,16 +307,16 @@ static int os_date (lua_State *L) {
   time_t t = luaL_opt(L, l_checktime, 2, time(NULL));
   const char *se = s + slen;  /* 's' end */
   struct tm tmr, *stm;
-  if (*s == '!') {  /* UTC? */
+  if(*s == '!') {  /* UTC? */
     stm = l_gmtime(&t, &tmr);
     s++;  /* skip '!' */
   }
   else
     stm = l_localtime(&t, &tmr);
-  if (stm == NULL)  /* invalid date? */
+  if(stm == NULL)  /* invalid date? */
     return luaL_error(L,
                  "date result cannot be represented in this installation");
-  if (strcmp(s, "*t") == 0) {
+  if(strcmp(s, "*t") == 0) {
     lua_createtable(L, 0, 9);  /* 9 = number of fields */
     setallfields(L, stm);
   }
@@ -325,8 +325,8 @@ static int os_date (lua_State *L) {
     luaL_Buffer b;
     cc[0] = '%';
     luaL_buffinit(L, &b);
-    while (s < se) {
-      if (*s != '%')  /* not a conversion specifier? */
+    while(s < se) {
+      if(*s != '%')  /* not a conversion specifier? */
         luaL_addchar(&b, *s++);
       else {
         size_t reslen;
@@ -345,7 +345,7 @@ static int os_date (lua_State *L) {
 
 static int os_time (lua_State *L) {
   time_t t;
-  if (lua_isnoneornil(L, 1))  /* called without args? */
+  if(lua_isnoneornil(L, 1))  /* called without args? */
     t = time(NULL);  /* get current time */
   else {
     struct tm ts;
@@ -361,7 +361,7 @@ static int os_time (lua_State *L) {
     t = mktime(&ts);
     setallfields(L, &ts);  /* update fields with normalized values */
   }
-  if (t != (time_t)(l_timet)t || t == (time_t)(-1))
+  if(t != (time_t)(l_timet)t || t == (time_t)(-1))
     return luaL_error(L,
                   "time result cannot be represented in this installation");
   l_pushtime(L, t);
@@ -393,13 +393,13 @@ static int os_setlocale (lua_State *L) {
 
 static int os_exit (lua_State *L) {
   int status;
-  if (lua_isboolean(L, 1))
+  if(lua_isboolean(L, 1))
     status = (lua_toboolean(L, 1) ? EXIT_SUCCESS : EXIT_FAILURE);
   else
     status = (int)luaL_optinteger(L, 1, EXIT_SUCCESS);
-  if (lua_toboolean(L, 2))
+  if(lua_toboolean(L, 2))
     lua_close(L);
-  if (L) exit(status);  /* 'if' to avoid warnings for unreachable 'return' */
+  if(L) exit(status);  /* 'if' to avoid warnings for unreachable 'return' */
   return 0;
 }
 

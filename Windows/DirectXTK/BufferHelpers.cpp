@@ -25,12 +25,12 @@ HRESULT DirectX::CreateStaticBuffer(
     unsigned int bindFlags,
     ID3D11Buffer** pBuffer) noexcept
 {
-    if (!pBuffer)
+    if(!pBuffer)
         return E_INVALIDARG;
 
     *pBuffer = nullptr;
 
-    if (!device || !ptr || !count || !stride)
+    if(!device || !ptr || !count || !stride)
         return E_INVALIDARG;
 
     uint64_t sizeInbytes = uint64_t(count) * uint64_t(stride);
@@ -38,7 +38,7 @@ HRESULT DirectX::CreateStaticBuffer(
     static constexpr uint64_t c_maxBytes = D3D11_REQ_RESOURCE_SIZE_IN_MEGABYTES_EXPRESSION_A_TERM * 1024u * 1024u;
     static_assert(c_maxBytes <= UINT32_MAX, "Exceeded integer limits");
 
-    if (sizeInbytes > c_maxBytes)
+    if(sizeInbytes > c_maxBytes)
     {
         DebugTrace("ERROR: Resource size too large for DirectX 11 (size %llu)\n", sizeInbytes);
         return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
@@ -66,24 +66,24 @@ HRESULT DirectX::CreateTextureFromMemory(
     ID3D11ShaderResourceView** textureView,
     unsigned int bindFlags) noexcept
 {
-    if (texture)
+    if(texture)
     {
         *texture = nullptr;
     }
-    if (textureView)
+    if(textureView)
     {
         *textureView = nullptr;
     }
 
-    if (!device || !width || !initData.pSysMem)
+    if(!device || !width || !initData.pSysMem)
         return E_INVALIDARG;
 
-    if (!texture && !textureView)
+    if(!texture && !textureView)
         return E_INVALIDARG;
 
     static_assert(D3D11_REQ_TEXTURE1D_U_DIMENSION <= UINT32_MAX, "Exceeded integer limits");
 
-    if (width > D3D11_REQ_TEXTURE1D_U_DIMENSION)
+    if(width > D3D11_REQ_TEXTURE1D_U_DIMENSION)
     {
         DebugTrace("ERROR: Resource dimensions too large for DirectX 11 (1D: size %zu)\n", width);
         return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
@@ -98,16 +98,16 @@ HRESULT DirectX::CreateTextureFromMemory(
 
     ComPtr<ID3D11Texture1D> tex;
     HRESULT hr = device->CreateTexture1D(&desc, &initData, tex.GetAddressOf());
-    if (SUCCEEDED(hr))
+    if(SUCCEEDED(hr))
     {
-        if (textureView)
+        if(textureView)
         {
             hr = device->CreateShaderResourceView(tex.Get(), nullptr, textureView);
-            if (FAILED(hr))
+            if(FAILED(hr))
                 return hr;
         }
 
-        if (texture)
+        if(texture)
         {
             *texture = tex.Detach();
         }
@@ -127,25 +127,25 @@ HRESULT DirectX::CreateTextureFromMemory(
     ID3D11ShaderResourceView** textureView,
     unsigned int bindFlags) noexcept
 {
-    if (texture)
+    if(texture)
     {
         *texture = nullptr;
     }
-    if (textureView)
+    if(textureView)
     {
         *textureView = nullptr;
     }
 
-    if (!device || !width || !height
+    if(!device || !width || !height
         || !initData.pSysMem || !initData.SysMemPitch)
         return E_INVALIDARG;
 
-    if (!texture && !textureView)
+    if(!texture && !textureView)
         return E_INVALIDARG;
 
     static_assert(D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION <= UINT32_MAX, "Exceeded integer limits");
 
-    if ((width > D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION)
+    if((width > D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION)
         || (height > D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION))
     {
         DebugTrace("ERROR: Resource dimensions too large for DirectX 11 (2D: size %zu by %zu)\n", width, height);
@@ -163,16 +163,16 @@ HRESULT DirectX::CreateTextureFromMemory(
 
     ComPtr<ID3D11Texture2D> tex;
     HRESULT hr = device->CreateTexture2D(&desc, &initData, tex.GetAddressOf());
-    if (SUCCEEDED(hr))
+    if(SUCCEEDED(hr))
     {
-        if (textureView)
+        if(textureView)
         {
             hr = device->CreateShaderResourceView(tex.Get(), nullptr, textureView);
-            if (FAILED(hr))
+            if(FAILED(hr))
                 return hr;
         }
 
-        if (texture)
+        if(texture)
         {
             *texture = tex.Detach();
         }
@@ -198,25 +198,25 @@ HRESULT DirectX::CreateTextureFromMemory(
     ID3D11Texture2D** texture,
     ID3D11ShaderResourceView** textureView) noexcept
 {
-    if (texture)
+    if(texture)
     {
         *texture = nullptr;
     }
-    if (textureView)
+    if(textureView)
     {
         *textureView = nullptr;
     }
 
-    if (!device || !d3dContext || !width || !height
+    if(!device || !d3dContext || !width || !height
         || !initData.pSysMem || !initData.SysMemPitch)
         return E_INVALIDARG;
 
-    if (!texture && !textureView)
+    if(!texture && !textureView)
         return E_INVALIDARG;
 
     static_assert(D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION <= UINT32_MAX, "Exceeded integer limits");
 
-    if ((width > D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION)
+    if((width > D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION)
         || (height > D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION))
     {
         DebugTrace("ERROR: Resource dimensions too large for DirectX 11 (2D: size %zu by %zu)\n", width, height);
@@ -233,7 +233,7 @@ HRESULT DirectX::CreateTextureFromMemory(
     desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
     UINT fmtSupport = 0;
-    if (SUCCEEDED(device->CheckFormatSupport(format, &fmtSupport)) && (fmtSupport & D3D11_FORMAT_SUPPORT_MIP_AUTOGEN))
+    if(SUCCEEDED(device->CheckFormatSupport(format, &fmtSupport)) && (fmtSupport & D3D11_FORMAT_SUPPORT_MIP_AUTOGEN))
     {
         desc.BindFlags |= D3D11_BIND_RENDER_TARGET;
         desc.MiscFlags |= D3D11_RESOURCE_MISC_GENERATE_MIPS;
@@ -246,14 +246,14 @@ HRESULT DirectX::CreateTextureFromMemory(
 
     ComPtr<ID3D11Texture2D> tex;
     HRESULT hr = device->CreateTexture2D(&desc, nullptr, tex.GetAddressOf());
-    if (SUCCEEDED(hr))
+    if(SUCCEEDED(hr))
     {
         ComPtr<ID3D11ShaderResourceView> srv;
         hr = device->CreateShaderResourceView(tex.Get(), nullptr, srv.GetAddressOf());
-        if (FAILED(hr))
+        if(FAILED(hr))
             return hr;
 
-        if (desc.MipLevels != 1)
+        if(desc.MipLevels != 1)
         {
 #if defined(_XBOX_ONE) && defined(_TITLE)
             ComPtr<ID3D11Texture2D> staging;
@@ -262,23 +262,23 @@ HRESULT DirectX::CreateTextureFromMemory(
             desc.BindFlags = desc.MiscFlags = 0;
             desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
             hr = device->CreateTexture2D(&desc, &initData, staging.GetAddressOf());
-            if (FAILED(hr))
+            if(FAILED(hr))
                 return hr;
 
             d3dContext->CopySubresourceRegion(tex.Get(), 0, 0, 0, 0, staging.Get(), 0, nullptr);
             UINT64 copyFence = d3dContext->InsertFence(0);
-            while (device->IsFencePending(copyFence)) { SwitchToThread(); }
+            while(device->IsFencePending(copyFence)) { SwitchToThread(); }
 #else
             d3dContext->UpdateSubresource(tex.Get(), 0, nullptr, initData.pSysMem, initData.SysMemPitch, 0);
 #endif
             d3dContext->GenerateMips(srv.Get());
         }
 
-        if (texture)
+        if(texture)
         {
             *texture = tex.Detach();
         }
-        if (textureView)
+        if(textureView)
         {
             *textureView = srv.Detach();
         }
@@ -297,25 +297,25 @@ HRESULT DirectX::CreateTextureFromMemory(
     ID3D11ShaderResourceView** textureView,
     unsigned int bindFlags) noexcept
 {
-    if (texture)
+    if(texture)
     {
         *texture = nullptr;
     }
-    if (textureView)
+    if(textureView)
     {
         *textureView = nullptr;
     }
 
-    if (!device || !width || !height || !depth
+    if(!device || !width || !height || !depth
         || !initData.pSysMem || !initData.SysMemPitch || !initData.SysMemSlicePitch)
         return E_INVALIDARG;
 
-    if (!texture && !textureView)
+    if(!texture && !textureView)
         return E_INVALIDARG;
 
     static_assert(D3D11_REQ_TEXTURE3D_U_V_OR_W_DIMENSION <= UINT32_MAX, "Exceeded integer limits");
 
-    if ((width > D3D11_REQ_TEXTURE3D_U_V_OR_W_DIMENSION)
+    if((width > D3D11_REQ_TEXTURE3D_U_V_OR_W_DIMENSION)
         || (height > D3D11_REQ_TEXTURE3D_U_V_OR_W_DIMENSION)
         || (depth > D3D11_REQ_TEXTURE3D_U_V_OR_W_DIMENSION))
     {
@@ -334,16 +334,16 @@ HRESULT DirectX::CreateTextureFromMemory(
 
     ComPtr<ID3D11Texture3D> tex;
     HRESULT hr = device->CreateTexture3D(&desc, &initData, tex.GetAddressOf());
-    if (SUCCEEDED(hr))
+    if(SUCCEEDED(hr))
     {
-        if (textureView)
+        if(textureView)
         {
             hr = device->CreateShaderResourceView(tex.Get(), nullptr, textureView);
-            if (FAILED(hr))
+            if(FAILED(hr))
                 return hr;
         }
 
-        if (texture)
+        if(texture)
         {
             *texture = tex.Detach();
         }
@@ -360,7 +360,7 @@ void Internal::ConstantBufferBase::CreateBuffer(
     size_t bytes,
     ID3D11Buffer** pBuffer)
 {
-    if (!pBuffer)
+    if(!pBuffer)
         throw std::invalid_argument("ConstantBuffer needs valid buffer parameter");
 
     *pBuffer = nullptr;

@@ -136,7 +136,7 @@ static void scale2x(void* void_dst, unsigned dst_slice, const void* void_src, un
 	dst = SCDST(2);
 
 	count -= 2;
-	while (count) {
+	while(count) {
 		stage_scale2x(SCDST(0), SCDST(1), SCSRC(0), SCSRC(1), SCSRC(2), pixel, width);
 
 		dst = SCDST(2);
@@ -177,7 +177,7 @@ static void scale2x3(void* void_dst, unsigned dst_slice, const void* void_src, u
 	dst = SCDST(3);
 
 	count -= 2;
-	while (count) {
+	while(count) {
 		stage_scale2x3(SCDST(0), SCDST(1), SCDST(2), SCSRC(0), SCSRC(1), SCSRC(2), pixel, width);
 
 		dst = SCDST(3);
@@ -218,7 +218,7 @@ static void scale2x4(void* void_dst, unsigned dst_slice, const void* void_src, u
 	dst = SCDST(4);
 
 	count -= 2;
-	while (count) {
+	while(count) {
 		stage_scale2x4(SCDST(0), SCDST(1), SCDST(2), SCDST(3), SCSRC(0), SCSRC(1), SCSRC(2), pixel, width);
 
 		dst = SCDST(4);
@@ -259,7 +259,7 @@ static void scale3x(void* void_dst, unsigned dst_slice, const void* void_src, un
 	dst = SCDST(3);
 
 	count -= 2;
-	while (count) {
+	while(count) {
 		stage_scale3x(SCDST(0), SCDST(1), SCDST(2), SCSRC(0), SCSRC(1), SCSRC(2), pixel, width);
 
 		dst = SCDST(3);
@@ -323,7 +323,7 @@ static void scale4x_buf(void* void_dst, unsigned dst_slice, void* void_mid, unsi
 	dst = SCDST(4);
 
 	count -= 4;
-	while (count) {
+	while(count) {
 		unsigned char* tmp;
 
 		stage_scale2x(SCMID(4), SCMID(5), SCSRC(2), SCSRC(3), SCSRC(4), pixel, width);
@@ -384,7 +384,7 @@ static void scale4x(void* void_dst, unsigned dst_slice, const void* void_src, un
 #else
 	mid = malloc(6 * mid_slice); /* allocate space for 6 row buffers */
 
-	if (!mid)
+	if(!mid)
 		return;
 #endif
 
@@ -407,7 +407,7 @@ static void scale4x(void* void_dst, unsigned dst_slice, const void* void_src, un
  */
 int scale_precondition(unsigned scale, unsigned pixel, unsigned width, unsigned height)
 {
-	if (pixel != 1 && pixel != 2 && pixel != 4)
+	if(pixel != 1 && pixel != 2 && pixel != 4)
 		return -1;
 
 	switch (scale) {
@@ -417,19 +417,19 @@ int scale_precondition(unsigned scale, unsigned pixel, unsigned width, unsigned 
 	case 2 :
 	case 303 :
 	case 3 :
-		if (height < 2)
+		if(height < 2)
 			return -1;
 		break;
 	case 404 :
 	case 4 :
-		if (height < 4)
+		if(height < 4)
 			return -1;
 		break;
 	default:
 		return -1;
 	}
 
-	if (width < 2)
+	if(width < 2)
 		return -1;
 
 	return 0;

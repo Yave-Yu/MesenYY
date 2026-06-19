@@ -50,7 +50,7 @@ typedef int WRes;
 #endif
 
 #ifndef RINOK
-#define RINOK(x) { int __result__ = (x); if (__result__ != 0) return __result__; }
+#define RINOK(x) { int __result__ = (x); if(__result__ != 0) return __result__; }
 #endif
 
 typedef unsigned char Byte;
@@ -139,7 +139,7 @@ typedef struct
 typedef struct
 {
   SRes (*Read)(void *p, void *buf, size_t *size);
-    /* if (input(*size) != 0 && output(*size) == 0) means end_of_stream.
+    /* if(input(*size) != 0 && output(*size) == 0) means end_of_stream.
        (output(*size) < input(*size)) is allowed */
 } ISeqInStream;
 
@@ -171,7 +171,7 @@ typedef struct
 typedef struct
 {
   SRes (*Look)(void *p, const void **buf, size_t *size);
-    /* if (input(*size) != 0 && output(*size) == 0) means end_of_stream.
+    /* if(input(*size) != 0 && output(*size) == 0) means end_of_stream.
        (output(*size) > input(*size)) is not allowed
        (output(*size) < input(*size)) is allowed */
   SRes (*Skip)(void *p, size_t offset);

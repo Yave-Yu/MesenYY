@@ -206,7 +206,7 @@
 #define MINIZ_X86_OR_X64_CPU 1
 #endif
 
-#if (__BYTE_ORDER__==__ORDER_LITTLE_ENDIAN__) || MINIZ_X86_OR_X64_CPU
+#if(__BYTE_ORDER__==__ORDER_LITTLE_ENDIAN__) || MINIZ_X86_OR_X64_CPU
 // Set MINIZ_LITTLE_ENDIAN to 1 if the processor is little endian.
 #define MINIZ_LITTLE_ENDIAN 1
 #endif
@@ -482,9 +482,9 @@ typedef int mz_bool;
 
 // An attempt to work around MSVC's spammy "warning C4127: conditional expression is constant" message.
 #ifdef _MSC_VER
-   #define MZ_MACRO_END while (0, 0)
+   #define MZ_MACRO_END while(0, 0)
 #else
-   #define MZ_MACRO_END while (0)
+   #define MZ_MACRO_END while(0)
 #endif
 
 // ------------------- ZIP archive reading/writing

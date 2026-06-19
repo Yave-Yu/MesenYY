@@ -55,7 +55,7 @@ uint32_t gradientARGB(uint32_t pixFront, uint32_t pixBack) //find intermediate c
     const unsigned int weightFront = getAlpha(pixFront) * M;
     const unsigned int weightBack  = getAlpha(pixBack) * (N - M);
     const unsigned int weightSum   = weightFront + weightBack;
-    if (weightSum == 0)
+    if(weightSum == 0)
         return 0;
 
     auto calcColor = [=](unsigned char colFront, unsigned char colBack)
@@ -90,11 +90,11 @@ const uint32_t* byteAdvance(const uint32_t* ptr, int bytes) { return reinterpret
 inline
 void fillBlock(uint32_t* trg, int pitch, uint32_t col, int blockWidth, int blockHeight)
 {
-    //for (int y = 0; y < blockHeight; ++y, trg = byteAdvance(trg, pitch))
+    //for(int y = 0; y < blockHeight; ++y, trg = byteAdvance(trg, pitch))
     //    std::fill(trg, trg + blockWidth, col);
 
-    for (int y = 0; y < blockHeight; ++y, trg = byteAdvance(trg, pitch))
-        for (int x = 0; x < blockWidth; ++x)
+    for(int y = 0; y < blockHeight; ++y, trg = byteAdvance(trg, pitch))
+        for(int x = 0; x < blockWidth; ++x)
             trg[x] = col;
 }
 
@@ -178,7 +178,7 @@ public:
 private:
     DistYCbCrBuffer() : buffer(256 * 256 * 256)
     {
-        for (uint32_t i = 0; i < 256 * 256 * 256; ++i) //startup time: 114 ms on Intel Core i5 (four cores)
+        for(uint32_t i = 0; i < 256 * 256 * 256; ++i) //startup time: 114 ms on Intel Core i5 (four cores)
         {
             const int r_diff = getByte<2>(i) * 2 - 255;
             const int g_diff = getByte<1>(i) * 2 - 255;
@@ -201,9 +201,9 @@ private:
 
     double distImpl(uint32_t pix1, uint32_t pix2) const
     {
-        //if (pix1 == pix2) -> 8% perf degradation!
+        //if(pix1 == pix2) -> 8% perf degradation!
         //    return 0;
-        //if (pix1 > pix2)
+        //if(pix1 > pix2)
         //	  std::swap(pix1, pix2); -> 30% perf degradation!!!
 
         const int r_diff = static_cast<int>(getRed  (pix1)) - getRed  (pix2);
@@ -262,7 +262,7 @@ BlendResult preProcessCorners(const Kernel_4x4& ker, const xbrz::ScalerCfg& cfg)
 {
     BlendResult result = {};
 
-    if ((ker.f == ker.g &&
+    if((ker.f == ker.g &&
          ker.j == ker.k) ||
         (ker.f == ker.j &&
          ker.g == ker.k))
@@ -274,22 +274,22 @@ BlendResult preProcessCorners(const Kernel_4x4& ker, const xbrz::ScalerCfg& cfg)
     double jg = dist(ker.i, ker.f) + dist(ker.f, ker.c) + dist(ker.n, ker.k) + dist(ker.k, ker.h) + weight * dist(ker.j, ker.g);
     double fk = dist(ker.e, ker.j) + dist(ker.j, ker.o) + dist(ker.b, ker.g) + dist(ker.g, ker.l) + weight * dist(ker.f, ker.k);
 
-    if (jg < fk) //test sample: 70% of values max(jg, fk) / min(jg, fk) are between 1.1 and 3.7 with median being 1.8
+    if(jg < fk) //test sample: 70% of values max(jg, fk) / min(jg, fk) are between 1.1 and 3.7 with median being 1.8
     {
         const bool dominantGradient = cfg.dominantDirectionThreshold * jg < fk;
-        if (ker.f != ker.g && ker.f != ker.j)
+        if(ker.f != ker.g && ker.f != ker.j)
             result.blend_f = dominantGradient ? BLEND_DOMINANT : BLEND_NORMAL;
 
-        if (ker.k != ker.j && ker.k != ker.g)
+        if(ker.k != ker.j && ker.k != ker.g)
             result.blend_k = dominantGradient ? BLEND_DOMINANT : BLEND_NORMAL;
     }
-    else if (fk < jg)
+    else if(fk < jg)
     {
         const bool dominantGradient = cfg.dominantDirectionThreshold * fk < jg;
-        if (ker.j != ker.f && ker.j != ker.k)
+        if(ker.j != ker.f && ker.j != ker.k)
             result.blend_j = dominantGradient ? BLEND_DOMINANT : BLEND_NORMAL;
 
-        if (ker.g != ker.f && ker.g != ker.k)
+        if(ker.g != ker.f && ker.g != ker.k)
             result.blend_g = dominantGradient ? BLEND_DOMINANT : BLEND_NORMAL;
     }
     return result;
@@ -378,24 +378,24 @@ void blendPixel(const Kernel_3x3& ker,
 
     const unsigned char blend = rotateBlendInfo<rotDeg>(blendInfo);
 
-    if (getBottomR(blend) >= BLEND_NORMAL)
+    if(getBottomR(blend) >= BLEND_NORMAL)
     {
         auto eq   = [&](uint32_t pix1, uint32_t pix2) { return ColorDistance::dist(pix1, pix2, cfg.luminanceWeight) < cfg.equalColorTolerance; };
         auto dist = [&](uint32_t pix1, uint32_t pix2) { return ColorDistance::dist(pix1, pix2, cfg.luminanceWeight); };
 
         const bool doLineBlend = [&]() -> bool
         {
-            if (getBottomR(blend) >= BLEND_DOMINANT)
+            if(getBottomR(blend) >= BLEND_DOMINANT)
                 return true;
 
             //make sure there is no second blending in an adjacent rotation for this pixel: handles insular pixels, mario eyes
-            if (getTopR(blend) != BLEND_NONE && !eq(e, g)) //but support double-blending for 90 corners
+            if(getTopR(blend) != BLEND_NONE && !eq(e, g)) //but support double-blending for 90 corners
                 return false;
-            if (getBottomL(blend) != BLEND_NONE && !eq(e, c))
+            if(getBottomL(blend) != BLEND_NONE && !eq(e, c))
                 return false;
 
             //no full blending for L-shapes; blend corner only (handles "mario mushroom eyes")
-            if (!eq(e, i) && eq(g, h) && eq(h , i) && eq(i, f) && eq(f, c))
+            if(!eq(e, i) && eq(g, h) && eq(h , i) && eq(i, f) && eq(f, c))
                 return false;
 
             return true;
@@ -405,7 +405,7 @@ void blendPixel(const Kernel_3x3& ker,
 
         OutputMatrix<Scaler::scale, rotDeg> out(target, trgWidth);
 
-        if (doLineBlend)
+        if(doLineBlend)
         {
             const double fg = dist(f, g); //test sample: 70% of values max(fg, hc) / min(fg, hc) are between 1.1 and 3.7 with median being 1.9
             const double hc = dist(h, c); //
@@ -413,16 +413,16 @@ void blendPixel(const Kernel_3x3& ker,
             const bool haveShallowLine = cfg.steepDirectionThreshold * fg <= hc && e != g && d != g;
             const bool haveSteepLine   = cfg.steepDirectionThreshold * hc <= fg && e != c && b != c;
 
-            if (haveShallowLine)
+            if(haveShallowLine)
             {
-                if (haveSteepLine)
+                if(haveSteepLine)
                     Scaler::blendLineSteepAndShallow(px, out);
                 else
                     Scaler::blendLineShallow(px, out);
             }
             else
             {
-                if (haveSteepLine)
+                if(haveSteepLine)
                     Scaler::blendLineSteep(px, out);
                 else
                     Scaler::blendLineDiagonal(px,out);
@@ -449,7 +449,7 @@ void scaleImage(const uint32_t* src, uint32_t* trg, int srcWidth, int srcHeight,
 {
     yFirst = std::max(yFirst, 0);
     yLast  = std::min(yLast, srcHeight);
-    if (yFirst >= yLast || srcWidth <= 0)
+    if(yFirst >= yLast || srcWidth <= 0)
         return;
 
     const int trgWidth = srcWidth * Scaler::scale;
@@ -463,7 +463,7 @@ void scaleImage(const uint32_t* src, uint32_t* trg, int srcWidth, int srcHeight,
 
     //initialize preprocessing buffer for first row of current stripe: detect upper left and right corner blending
     //this cannot be optimized for adjacent processing stripes; we must not allow for a memory race condition!
-    if (yFirst > 0)
+    if(yFirst > 0)
     {
         const int y = yFirst - 1;
 
@@ -472,7 +472,7 @@ void scaleImage(const uint32_t* src, uint32_t* trg, int srcWidth, int srcHeight,
         const uint32_t* s_p1 = src + srcWidth * std::min(y + 1, srcHeight - 1);
         const uint32_t* s_p2 = src + srcWidth * std::min(y + 2, srcHeight - 1);
 
-        for (int x = 0; x < srcWidth; ++x)
+        for(int x = 0; x < srcWidth; ++x)
         {
             const int x_m1 = std::max(x - 1, 0);
             const int x_p1 = std::min(x + 1, srcWidth - 1);
@@ -510,13 +510,13 @@ void scaleImage(const uint32_t* src, uint32_t* trg, int srcWidth, int srcHeight,
             */
             setTopR(preProcBuffer[x], res.blend_j);
 
-            if (x + 1 < bufferSize)
+            if(x + 1 < bufferSize)
                 setTopL(preProcBuffer[x + 1], res.blend_k);
         }
     }
     //------------------------------------------------------------------------------------
 
-    for (int y = yFirst; y < yLast; ++y)
+    for(int y = yFirst; y < yLast; ++y)
     {
         uint32_t* out = trg + Scaler::scale * y * trgWidth; //consider MT "striped" access
 
@@ -527,7 +527,7 @@ void scaleImage(const uint32_t* src, uint32_t* trg, int srcWidth, int srcHeight,
 
         unsigned char blend_xy1 = 0; //corner blending for current (x, y + 1) position
 
-        for (int x = 0; x < srcWidth; ++x, out += Scaler::scale)
+        for(int x = 0; x < srcWidth; ++x, out += Scaler::scale)
         {
             //all those bounds checks have only insignificant impact on performance!
             const int x_m1 = std::max(x - 1, 0); //perf: prefer array indexing to additional pointers!
@@ -571,13 +571,13 @@ void scaleImage(const uint32_t* src, uint32_t* trg, int srcWidth, int srcHeight,
                 blend_xy = preProcBuffer[x];
                 setBottomR(blend_xy, res.blend_f); //all four corners of (x, y) have been determined at this point due to processing sequence!
 
-                setTopR(blend_xy1, res.blend_j); //set 2nd known corner for (x, y + 1)
+                setTopR(blend_xy1, res.blend_j); //set 2nd known corner for(x, y + 1)
                 preProcBuffer[x] = blend_xy1; //store on current buffer position for use on next row
 
                 blend_xy1 = 0;
-                setTopL(blend_xy1, res.blend_k); //set 1st known corner for (x + 1, y + 1) and buffer for use on next column
+                setTopL(blend_xy1, res.blend_k); //set 1st known corner for(x + 1, y + 1) and buffer for use on next column
 
-                if (x + 1 < bufferSize) //set 3rd known corner for (x + 1, y)
+                if(x + 1 < bufferSize) //set 3rd known corner for(x + 1, y)
                     setBottomL(preProcBuffer[x + 1], res.blend_g);
             }
 
@@ -585,7 +585,7 @@ void scaleImage(const uint32_t* src, uint32_t* trg, int srcWidth, int srcHeight,
             fillBlock(out, trgWidth * sizeof(uint32_t), ker4.f, Scaler::scale); //place *after* preprocessing step, to not overwrite the results while processing the the last pixel!
 
             //blend four corners of current pixel
-            if (blendingNeeded(blend_xy)) //good 5% perf-improvement
+            if(blendingNeeded(blend_xy)) //good 5% perf-improvement
             {
                 Kernel_3x3 ker3 = {}; //perf: initialization is negligible
 
@@ -979,7 +979,7 @@ struct ColorDistanceRGB
     {
         return DistYCbCrBuffer::dist(pix1, pix2);
 
-        //if (pix1 == pix2) //about 4% perf boost
+        //if(pix1 == pix2) //about 4% perf boost
         //    return 0;
         //return distYCbCr(pix1, pix2, luminanceWeight);
     }
@@ -1002,7 +1002,7 @@ struct ColorDistanceARGB
         //return std::min(a1, a2) * DistYCbCrBuffer::dist(pix1, pix2) + 255 * abs(a1 - a2);
         //=> following code is 15% faster:
         const double d = DistYCbCrBuffer::dist(pix1, pix2);
-        if (a1 < a2)
+        if(a1 < a2)
             return a1 * d + 255 * (a2 - a1);
         else
             return a2 * d + 255 * (a1 - a2);
@@ -1091,7 +1091,7 @@ void xbrz::nearestNeighborScale(const uint32_t* src, int srcWidth, int srcHeight
                                 uint32_t* trg, int trgWidth, int trgHeight, int trgPitch,
                                 SliceType st, int yFirst, int yLast)
 {
-    if (srcPitch < srcWidth * static_cast<int>(sizeof(uint32_t))  ||
+    if(srcPitch < srcWidth * static_cast<int>(sizeof(uint32_t))  ||
         trgPitch < trgWidth * static_cast<int>(sizeof(uint32_t)))
     {
         assert(false);
@@ -1104,9 +1104,9 @@ void xbrz::nearestNeighborScale(const uint32_t* src, int srcWidth, int srcHeight
             //nearest-neighbor (going over source image - fast for upscaling, since source is read only once
             yFirst = std::max(yFirst, 0);
             yLast  = std::min(yLast, srcHeight);
-            if (yFirst >= yLast || trgWidth <= 0 || trgHeight <= 0) return;
+            if(yFirst >= yLast || trgWidth <= 0 || trgHeight <= 0) return;
 
-            for (int y = yFirst; y < yLast; ++y)
+            for(int y = yFirst; y < yLast; ++y)
             {
                 //mathematically: ySrc = floor(srcHeight * yTrg / trgHeight)
                 // => search for integers in: [ySrc, ySrc + 1) * trgHeight / srcHeight
@@ -1116,17 +1116,17 @@ void xbrz::nearestNeighborScale(const uint32_t* src, int srcWidth, int srcHeight
                 const int yTrg_last  = ((y + 1) * trgHeight + srcHeight - 1) / srcHeight; //=ceil(((y + 1) * trgHeight) / srcHeight)
                 const int blockHeight = yTrg_last - yTrg_first;
 
-                if (blockHeight > 0)
+                if(blockHeight > 0)
                 {
                     const uint32_t* srcLine = byteAdvance(src, y * srcPitch);
                     uint32_t* trgLine  = byteAdvance(trg, yTrg_first * trgPitch);
                     int xTrg_first = 0;
 
-                    for (int x = 0; x < srcWidth; ++x)
+                    for(int x = 0; x < srcWidth; ++x)
                     {
                         int xTrg_last = ((x + 1) * trgWidth + srcWidth - 1) / srcWidth;
                         const int blockWidth = xTrg_last - xTrg_first;
-                        if (blockWidth > 0)
+                        if(blockWidth > 0)
                         {
                             xTrg_first = xTrg_last;
                             fillBlock(trgLine, trgPitch, srcLine[x], blockWidth, blockHeight);
@@ -1141,14 +1141,14 @@ void xbrz::nearestNeighborScale(const uint32_t* src, int srcWidth, int srcHeight
             //nearest-neighbor (going over target image - slow for upscaling, since source is read multiple times missing out on cache! Fast for similar image sizes!)
             yFirst = std::max(yFirst, 0);
             yLast  = std::min(yLast, trgHeight);
-            if (yFirst >= yLast || srcHeight <= 0 || srcWidth <= 0) return;
+            if(yFirst >= yLast || srcHeight <= 0 || srcWidth <= 0) return;
 
-            for (int y = yFirst; y < yLast; ++y)
+            for(int y = yFirst; y < yLast; ++y)
             {
                 uint32_t* trgLine = byteAdvance(trg, y * trgPitch);
                 const int ySrc = srcHeight * y / trgHeight;
                 const uint32_t* srcLine = byteAdvance(src, ySrc * srcPitch);
-                for (int x = 0; x < trgWidth; ++x)
+                for(int x = 0; x < trgWidth; ++x)
                 {
                     const int xSrc = srcWidth * x / trgWidth;
                     trgLine[x] = srcLine[xSrc];

@@ -7,7 +7,7 @@
 
 #ifdef MY_CPU_X86_OR_AMD64
 
-#if (defined(_MSC_VER) && !defined(MY_CPU_AMD64)) || defined(__GNUC__)
+#if(defined(_MSC_VER) && !defined(MY_CPU_AMD64)) || defined(__GNUC__)
 #define USE_ASM
 #endif
 
@@ -50,7 +50,7 @@ static UInt32 CheckFlag(UInt32 flag)
   #endif
   return flag;
 }
-#define CHECK_CPUID_IS_SUPPORTED if (CheckFlag(1 << 18) == 0 || CheckFlag(1 << 21) == 0) return False;
+#define CHECK_CPUID_IS_SUPPORTED if(CheckFlag(1 << 18) == 0 || CheckFlag(1 << 21) == 0) return False;
 #else
 #define CHECK_CPUID_IS_SUPPORTED
 #endif
@@ -133,10 +133,10 @@ static const UInt32 kVendors[][3] =
 int x86cpuid_GetFirm(const Cx86cpuid *p)
 {
   unsigned i;
-  for (i = 0; i < sizeof(kVendors) / sizeof(kVendors[i]); i++)
+  for(i = 0; i < sizeof(kVendors) / sizeof(kVendors[i]); i++)
   {
     const UInt32 *v = kVendors[i];
-    if (v[0] == p->vendor[0] &&
+    if(v[0] == p->vendor[0] &&
         v[1] == p->vendor[1] &&
         v[2] == p->vendor[2])
       return (int)i;
@@ -149,7 +149,7 @@ Bool CPU_Is_InOrder()
   Cx86cpuid p;
   int firm;
   UInt32 family, model;
-  if (!x86cpuid_CheckAndRead(&p))
+  if(!x86cpuid_CheckAndRead(&p))
     return True;
 
   family = x86cpuid_GetFamily(p.ver);
@@ -179,11 +179,11 @@ static Bool CPU_Sys_Is_SSE_Supported()
 {
   OSVERSIONINFO vi;
   vi.dwOSVersionInfoSize = sizeof(vi);
-  if (!GetVersionEx(&vi))
+  if(!GetVersionEx(&vi))
     return False;
   return (vi.dwMajorVersion >= 5);
 }
-#define CHECK_SYS_SSE_SUPPORT if (!CPU_Sys_Is_SSE_Supported()) return False;
+#define CHECK_SYS_SSE_SUPPORT if(!CPU_Sys_Is_SSE_Supported()) return False;
 #else
 #define CHECK_SYS_SSE_SUPPORT
 #endif
@@ -192,7 +192,7 @@ Bool CPU_Is_Aes_Supported()
 {
   Cx86cpuid p;
   CHECK_SYS_SSE_SUPPORT
-  if (!x86cpuid_CheckAndRead(&p))
+  if(!x86cpuid_CheckAndRead(&p))
     return False;
   return (p.c >> 25) & 1;
 }

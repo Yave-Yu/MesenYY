@@ -30,7 +30,7 @@ void auxiliar_newclass(lua_State *L, const char *classname, luaL_Reg *func) {
     lua_rawset(L, -3);               /* mt,"__index",it */
     /* pass all methods that start with _ to the metatable, and all others
      * to the index table */
-    for (; func->name; func++) {     /* mt,"__index",it */
+    for(; func->name; func++) {     /* mt,"__index",it */
         lua_pushstring(L, func->name);
         lua_pushcfunction(L, func->func);
         lua_rawset(L, func->name[0] == '_' ? -5: -3);
@@ -44,13 +44,13 @@ void auxiliar_newclass(lua_State *L, const char *classname, luaL_Reg *func) {
 \*-------------------------------------------------------------------------*/
 int auxiliar_tostring(lua_State *L) {
     char buf[32];
-    if (!lua_getmetatable(L, 1)) goto error;
+    if(!lua_getmetatable(L, 1)) goto error;
     lua_pushstring(L, "__index");
     lua_gettable(L, -2);
-    if (!lua_istable(L, -1)) goto error;
+    if(!lua_istable(L, -1)) goto error;
     lua_pushstring(L, "class");
     lua_gettable(L, -2);
-    if (!lua_isstring(L, -1)) goto error;
+    if(!lua_isstring(L, -1)) goto error;
     sprintf(buf, "%p", lua_touserdata(L, 1));
     lua_pushfstring(L, "%s: %s", lua_tostring(L, -1), buf);
     return 1;
@@ -75,7 +75,7 @@ void auxiliar_add2group(lua_State *L, const char *classname, const char *groupna
 * Make sure argument is a boolean
 \*-------------------------------------------------------------------------*/
 int auxiliar_checkboolean(lua_State *L, int objidx) {
-    if (!lua_isboolean(L, objidx))
+    if(!lua_isboolean(L, objidx))
         auxiliar_typeerror(L, objidx, lua_typename(L, LUA_TBOOLEAN));
     return lua_toboolean(L, objidx);
 }
@@ -86,7 +86,7 @@ int auxiliar_checkboolean(lua_State *L, int objidx) {
 \*-------------------------------------------------------------------------*/
 void *auxiliar_checkclass(lua_State *L, const char *classname, int objidx) {
     void *data = auxiliar_getclassudata(L, classname, objidx);
-    if (!data) {
+    if(!data) {
         char msg[45];
         sprintf(msg, "%.35s expected", classname);
         luaL_argerror(L, objidx, msg);
@@ -100,7 +100,7 @@ void *auxiliar_checkclass(lua_State *L, const char *classname, int objidx) {
 \*-------------------------------------------------------------------------*/
 void *auxiliar_checkgroup(lua_State *L, const char *groupname, int objidx) {
     void *data = auxiliar_getgroupudata(L, groupname, objidx);
-    if (!data) {
+    if(!data) {
         char msg[45];
         sprintf(msg, "%.35s expected", groupname);
         luaL_argerror(L, objidx, msg);
@@ -113,7 +113,7 @@ void *auxiliar_checkgroup(lua_State *L, const char *groupname, int objidx) {
 \*-------------------------------------------------------------------------*/
 void auxiliar_setclass(lua_State *L, const char *classname, int objidx) {
     luaL_getmetatable(L, classname);
-    if (objidx < 0) objidx--;
+    if(objidx < 0) objidx--;
     lua_setmetatable(L, objidx);
 }
 
@@ -122,11 +122,11 @@ void auxiliar_setclass(lua_State *L, const char *classname, int objidx) {
 * otherwise
 \*-------------------------------------------------------------------------*/
 void *auxiliar_getgroupudata(lua_State *L, const char *groupname, int objidx) {
-    if (!lua_getmetatable(L, objidx))
+    if(!lua_getmetatable(L, objidx))
         return NULL;
     lua_pushstring(L, groupname);
     lua_rawget(L, -2);
-    if (lua_isnil(L, -1)) {
+    if(lua_isnil(L, -1)) {
         lua_pop(L, 2);
         return NULL;
     } else {

@@ -86,14 +86,14 @@ ssg_engine::ssg_engine(ymfm_interface &intf) :
 void ssg_engine::reset()
 {
 	// defer to the override if present
-	if (m_override != nullptr)
+	if(m_override != nullptr)
 		return m_override->ssg_reset();
 
 	// reset register state
 	m_regs.reset();
 
 	// reset engine state
-	for (int chan = 0; chan < 3; chan++)
+	for(int chan = 0; chan < 3; chan++)
 	{
 		m_tone_count[chan] = 0;
 		m_tone_state[chan] = 0;
@@ -133,10 +133,10 @@ void ssg_engine::clock()
 	// clock tones; tone period units are clock/16 but since we run at clock/8
 	// that works out for us to toggle the state (50% duty cycle) at twice the
 	// programmed period
-	for (int chan = 0; chan < 3; chan++)
+	for(int chan = 0; chan < 3; chan++)
 	{
 		m_tone_count[chan]++;
-		if (m_tone_count[chan] >= m_regs.ch_tone_period(chan))
+		if(m_tone_count[chan] >= m_regs.ch_tone_period(chan))
 		{
 			m_tone_state[chan] ^= 1;
 			m_tone_count[chan] = 0;
@@ -148,7 +148,7 @@ void ssg_engine::clock()
 	// should produce an indentical result to a period of 1, so add a special
 	// check against that case
 	m_noise_count++;
-	if ((m_noise_count >> 1) >= m_regs.noise_period() && m_noise_count != 1)
+	if((m_noise_count >> 1) >= m_regs.noise_period() && m_noise_count != 1)
 	{
 		m_noise_state ^= (bitfield(m_noise_state, 0) ^ bitfield(m_noise_state, 3)) << 17;
 		m_noise_state >>= 1;
@@ -158,7 +158,7 @@ void ssg_engine::clock()
 	// clock envelope; envelope period units are clock/8 (manual says clock/256
 	// but that's for all 32 steps)
 	m_envelope_count++;
-	if (m_envelope_count >= m_regs.envelope_period())
+	if(m_envelope_count >= m_regs.envelope_period())
 	{
 		m_envelope_state++;
 		m_envelope_count = 0;
@@ -184,7 +184,7 @@ void ssg_engine::output(output_data &output)
 
 	// compute the envelope volume
 	uint32_t envelope_volume;
-	if ((m_regs.envelope_hold() | (m_regs.envelope_continue() ^ 1)) && m_envelope_state >= 32)
+	if((m_regs.envelope_hold() | (m_regs.envelope_continue() ^ 1)) && m_envelope_state >= 32)
 	{
 		m_envelope_state = 32;
 		envelope_volume = ((m_regs.envelope_attack() ^ m_regs.envelope_alternate()) & m_regs.envelope_continue()) ? 31 : 0;
@@ -192,13 +192,13 @@ void ssg_engine::output(output_data &output)
 	else
 	{
 		uint32_t attack = m_regs.envelope_attack();
-		if (m_regs.envelope_alternate())
+		if(m_regs.envelope_alternate())
 			attack ^= bitfield(m_envelope_state, 5);
 		envelope_volume = (m_envelope_state & 31) ^ (attack ? 0 : 31);
 	}
 
 	// iterate over channels
-	for (int chan = 0; chan < 3; chan++)
+	for(int chan = 0; chan < 3; chan++)
 	{
 		// noise depends on the noise state, which is the LSB of m_noise_state
 		uint32_t noise_on = m_regs.ch_noise_enable_n(chan) | m_noise_state;
@@ -208,11 +208,11 @@ void ssg_engine::output(output_data &output)
 
 		// if neither tone nor noise enabled, return 0
 		uint32_t volume;
-		if ((noise_on & tone_on) == 0)
+		if((noise_on & tone_on) == 0)
 			volume = 0;
 
 		// if the envelope is enabled, use its amplitude
-		else if (m_regs.ch_envelope_enable(chan))
+		else if(m_regs.ch_envelope_enable(chan))
 			volume = envelope_volume;
 
 		// otherwise, scale the tone amplitude up to match envelope values
@@ -220,7 +220,7 @@ void ssg_engine::output(output_data &output)
 		else
 		{
 			volume = m_regs.ch_amplitude(chan) * 2;
-			if (volume != 0)
+			if(volume != 0)
 				volume |= 1;
 		}
 
@@ -237,13 +237,13 @@ void ssg_engine::output(output_data &output)
 uint8_t ssg_engine::read(uint32_t regnum)
 {
 	// defer to the override if present
-	if (m_override != nullptr)
+	if(m_override != nullptr)
 		return m_override->ssg_read(regnum);
 
 	// read from the I/O ports call the handlers if they are configured for input
-	if (regnum == 0x0e && !m_regs.io_a_out())
+	if(regnum == 0x0e && !m_regs.io_a_out())
 		return m_intf.ymfm_external_read(ACCESS_IO, 0);
-	else if (regnum == 0x0f && !m_regs.io_b_out())
+	else if(regnum == 0x0f && !m_regs.io_b_out())
 		return m_intf.ymfm_external_read(ACCESS_IO, 1);
 
 	// otherwise just return the register value
@@ -258,7 +258,7 @@ uint8_t ssg_engine::read(uint32_t regnum)
 void ssg_engine::write(uint32_t regnum, uint8_t data)
 {
 	// defer to the override if present
-	if (m_override != nullptr)
+	if(m_override != nullptr)
 		return m_override->ssg_write(regnum, data);
 
 	// store the raw value to the register array;
@@ -266,13 +266,13 @@ void ssg_engine::write(uint32_t regnum, uint8_t data)
 	m_regs.write(regnum, data);
 
 	// writes to the envelope shape register reset the state
-	if (regnum == 0x0d)
+	if(regnum == 0x0d)
 		m_envelope_state = 0;
 
 	// writes to the I/O ports call the handlers if they are configured for output
-	else if (regnum == 0x0e && m_regs.io_a_out())
+	else if(regnum == 0x0e && m_regs.io_a_out())
 		m_intf.ymfm_external_write(ACCESS_IO, 0, data);
-	else if (regnum == 0x0f && m_regs.io_b_out())
+	else if(regnum == 0x0f && m_regs.io_b_out())
 		m_intf.ymfm_external_write(ACCESS_IO, 1, data);
 }
 

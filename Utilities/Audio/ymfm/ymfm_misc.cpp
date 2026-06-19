@@ -162,7 +162,7 @@ void ym2149::write(uint32_t offset, uint8_t data)
 
 void ym2149::generate(output_data *output, uint32_t numsamples)
 {
-	for (uint32_t samp = 0; samp < numsamples; samp++, output++)
+	for(uint32_t samp = 0; samp < numsamples; samp++, output++)
 	{
 		// clock the SSG
 		m_ssg.clock();

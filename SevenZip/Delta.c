@@ -8,14 +8,14 @@
 void Delta_Init(Byte *state)
 {
   unsigned i;
-  for (i = 0; i < DELTA_STATE_SIZE; i++)
+  for(i = 0; i < DELTA_STATE_SIZE; i++)
     state[i] = 0;
 }
 
 static void MyMemCpy(Byte *dest, const Byte *src, unsigned size)
 {
   unsigned i;
-  for (i = 0; i < size; i++)
+  for(i = 0; i < size; i++)
     dest[i] = src[i];
 }
 
@@ -26,9 +26,9 @@ void Delta_Encode(Byte *state, unsigned delta, Byte *data, SizeT size)
   MyMemCpy(buf, state, delta);
   {
     SizeT i;
-    for (i = 0; i < size;)
+    for(i = 0; i < size;)
     {
-      for (j = 0; j < delta && i < size; i++, j++)
+      for(j = 0; j < delta && i < size; i++, j++)
       {
         Byte b = data[i];
         data[i] = (Byte)(b - buf[j]);
@@ -36,7 +36,7 @@ void Delta_Encode(Byte *state, unsigned delta, Byte *data, SizeT size)
       }
     }
   }
-  if (j == delta)
+  if(j == delta)
     j = 0;
   MyMemCpy(state, buf + j, delta - j);
   MyMemCpy(state + delta - j, buf, j);
@@ -49,15 +49,15 @@ void Delta_Decode(Byte *state, unsigned delta, Byte *data, SizeT size)
   MyMemCpy(buf, state, delta);
   {
     SizeT i;
-    for (i = 0; i < size;)
+    for(i = 0; i < size;)
     {
-      for (j = 0; j < delta && i < size; i++, j++)
+      for(j = 0; j < delta && i < size; i++, j++)
       {
         buf[j] = data[i] = (Byte)(buf[j] + data[i]);
       }
     }
   }
-  if (j == delta)
+  if(j == delta)
     j = 0;
   MyMemCpy(state, buf + j, delta - j);
   MyMemCpy(state + delta - j, buf, j);

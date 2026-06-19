@@ -31,7 +31,7 @@ function Main()
     new = true
     if nbSample > 0 then
       for i = 1,nbSample do
-        if (dmc.sampleAddr == sample.addr[i] and dmc.sampleLength == sample.length[i] and dmc.period == sample.period[i]) then
+        if(dmc.sampleAddr == sample.addr[i] and dmc.sampleLength == sample.length[i] and dmc.period == sample.period[i]) then
           new = false
           break
         end

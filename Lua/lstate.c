@@ -89,7 +89,7 @@ static unsigned int luai_makeseed (lua_State *L) {
 void luaE_setdebt (global_State *g, l_mem debt) {
   l_mem tb = gettotalbytes(g);
   lua_assert(tb > 0);
-  if (debt < tb - MAX_LMEM)
+  if(debt < tb - MAX_LMEM)
     debt = tb - MAX_LMEM;  /* will make 'totalbytes == MAX_LMEM' */
   g->totalbytes = tb - debt;
   g->GCdebt = debt;
@@ -123,7 +123,7 @@ void luaE_freeCI (lua_State *L) {
   CallInfo *ci = L->ci;
   CallInfo *next = ci->next;
   ci->next = NULL;
-  while ((ci = next) != NULL) {
+  while((ci = next) != NULL) {
     next = ci->next;
     luaM_free(L, ci);
     L->nci--;
@@ -138,14 +138,14 @@ void luaE_freeCI (lua_State *L) {
 void luaE_shrinkCI (lua_State *L) {
   CallInfo *ci = L->ci->next;  /* first free CallInfo */
   CallInfo *next;
-  if (ci == NULL)
+  if(ci == NULL)
     return;  /* no extra elements */
-  while ((next = ci->next) != NULL) {  /* two extra elements? */
+  while((next = ci->next) != NULL) {  /* two extra elements? */
     CallInfo *next2 = next->next;  /* next's next */
     ci->next = next2;  /* remove next from the list */
     L->nci--;
     luaM_free(L, next);  /* free next */
-    if (next2 == NULL)
+    if(next2 == NULL)
       break;  /* no more elements */
     else {
       next2->previous = ci;
@@ -163,16 +163,16 @@ void luaE_shrinkCI (lua_State *L) {
 ** handling to work).
 */
 void luaE_checkcstack (lua_State *L) {
-  if (getCcalls(L) == LUAI_MAXCCALLS)
+  if(getCcalls(L) == LUAI_MAXCCALLS)
     luaG_runerror(L, "C stack overflow");
-  else if (getCcalls(L) >= (LUAI_MAXCCALLS / 10 * 11))
+  else if(getCcalls(L) >= (LUAI_MAXCCALLS / 10 * 11))
     luaD_throw(L, LUA_ERRERR);  /* error while handling stack error */
 }
 
 
 LUAI_FUNC void luaE_incCstack (lua_State *L) {
   L->nCcalls++;
-  if (l_unlikely(getCcalls(L) >= LUAI_MAXCCALLS))
+  if(l_unlikely(getCcalls(L) >= LUAI_MAXCCALLS))
     luaE_checkcstack(L);
 }
 
@@ -182,7 +182,7 @@ static void stack_init (lua_State *L1, lua_State *L) {
   /* initialize stack array */
   L1->stack = luaM_newvector(L, BASIC_STACK_SIZE + EXTRA_STACK, StackValue);
   L1->tbclist = L1->stack;
-  for (i = 0; i < BASIC_STACK_SIZE + EXTRA_STACK; i++)
+  for(i = 0; i < BASIC_STACK_SIZE + EXTRA_STACK; i++)
     setnilvalue(s2v(L1->stack + i));  /* erase new stack */
   L1->top = L1->stack;
   L1->stack_last = L1->stack + BASIC_STACK_SIZE;
@@ -201,7 +201,7 @@ static void stack_init (lua_State *L1, lua_State *L) {
 
 
 static void freestack (lua_State *L) {
-  if (L->stack == NULL)
+  if(L->stack == NULL)
     return;  /* stack not completely built yet */
   L->ci = &L->base_ci;  /* free the entire 'ci' list */
   luaE_freeCI(L);
@@ -272,7 +272,7 @@ static void preinit_thread (lua_State *L, global_State *g) {
 
 static void close_state (lua_State *L) {
   global_State *g = G(L);
-  if (!completestate(g))  /* closing a partially built state? */
+  if(!completestate(g))  /* closing a partially built state? */
     luaC_freeallobjects(L);  /* just collect its objects */
   else {  /* closing a fully built state */
     L->ci = &L->base_ci;  /* unwind CallInfo list */
@@ -333,11 +333,11 @@ int luaE_resetthread (lua_State *L, int status) {
   setnilvalue(s2v(L->stack));  /* 'function' entry for basic 'ci' */
   ci->func = L->stack;
   ci->callstatus = CIST_C;
-  if (status == LUA_YIELD)
+  if(status == LUA_YIELD)
     status = LUA_OK;
   L->status = LUA_OK;  /* so it can run __close metamethods */
   status = luaD_closeprotected(L, 1, status);
-  if (status != LUA_OK)  /* errors? */
+  if(status != LUA_OK)  /* errors? */
     luaD_seterrorobj(L, status, L->stack + 1);
   else
     L->top = L->stack + 1;
@@ -361,7 +361,7 @@ LUA_API lua_State *lua_newstate (lua_Alloc f, void *ud) {
   lua_State *L;
   global_State *g;
   LG *l = cast(LG *, (*f)(ud, NULL, LUA_TTHREAD, sizeof(LG)));
-  if (l == NULL) return NULL;
+  if(l == NULL) return NULL;
   L = &l->l.l;
   g = &l->g;
   L->tt = LUA_VTHREAD;
@@ -402,8 +402,8 @@ LUA_API lua_State *lua_newstate (lua_Alloc f, void *ud) {
   g->gcstepsize = LUAI_GCSTEPSIZE;
   setgcparam(g->genmajormul, LUAI_GENMAJORMUL);
   g->genminormul = LUAI_GENMINORMUL;
-  for (i=0; i < LUA_NUMTAGS; i++) g->mt[i] = NULL;
-  if (luaD_rawrunprotected(L, f_luaopen, NULL) != LUA_OK) {
+  for(i=0; i < LUA_NUMTAGS; i++) g->mt[i] = NULL;
+  if(luaD_rawrunprotected(L, f_luaopen, NULL) != LUA_OK) {
     /* memory allocation error: free partial state */
     close_state(L);
     L = NULL;
@@ -421,7 +421,7 @@ LUA_API void lua_close (lua_State *L) {
 
 void luaE_warning (lua_State *L, const char *msg, int tocont) {
   lua_WarnFunction wf = G(L)->warnf;
-  if (wf != NULL)
+  if(wf != NULL)
     wf(G(L)->ud_warn, msg, tocont);
 }
 

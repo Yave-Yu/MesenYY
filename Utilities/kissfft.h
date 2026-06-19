@@ -28,7 +28,7 @@ class kissfft
             // fill twiddle factors
             _twiddles.resize(_nfft);
             const scalar_t phinc =  (_inverse?2:-2)* std::acos( (scalar_t) -1)  / _nfft;
-            for (std::size_t i=0;i<_nfft;++i)
+            for(std::size_t i=0;i<_nfft;++i)
                 _twiddles[i] = std::exp( cpx_t(0,i*phinc) );
 
             //factorize
@@ -36,13 +36,13 @@ class kissfft
             std::size_t n= _nfft;
             std::size_t p=4;
             do {
-                while (n % p) {
+                while(n % p) {
                     switch (p) {
                         case 4: p = 2; break;
                         case 2: p = 3; break;
                         default: p += 2; break;
                     }
-                    if (p*p>n)
+                    if(p*p>n)
                         p = n;// no more factors
                 }
                 n /= p;
@@ -61,15 +61,15 @@ class kissfft
         void assign( const std::size_t nfft,
                      const bool inverse )
         {
-            if ( nfft != _nfft )
+            if( nfft != _nfft )
             {
                 kissfft tmp( nfft, inverse ); // O(n) time.
                 std::swap( tmp, *this ); // this is O(1) in C++11, O(n) otherwise.
             }
-            else if ( inverse != _inverse )
+            else if( inverse != _inverse )
             {
                 // conjugate the twiddle factors.
-                for ( typename std::vector<cpx_t>::iterator it = _twiddles.begin();
+                for( typename std::vector<cpx_t>::iterator it = _twiddles.begin();
                       it != _twiddles.end(); ++it )
                     it->imag( -it->imag() );
             }
@@ -94,7 +94,7 @@ class kissfft
             cpx_t * const Fout_beg = fft_out;
             cpx_t * const Fout_end = fft_out + p*m;
 
-            if (m==1) {
+            if(m==1) {
                 do{
                     *fft_out = *fft_in;
                     fft_in += fstride*in_stride;
@@ -155,7 +155,7 @@ class kissfft
                              cpx_t * const dst ) const
         {
             const std::size_t N = _nfft;
-            if ( N == 0 )
+            if( N == 0 )
                 return;
 
             // perform complex FFT
@@ -169,7 +169,7 @@ class kissfft
             const scalar_t pi = std::acos( (scalar_t) -1);
             const scalar_t half_phi_inc = ( _inverse ? pi : -pi ) / N;
             const cpx_t twiddle_mul = std::exp( cpx_t(0, half_phi_inc) );
-            for ( std::size_t k = 1; 2*k < N; ++k )
+            for( std::size_t k = 1; 2*k < N; ++k )
             {
                 const cpx_t w = (scalar_t)0.5 * cpx_t(
                      dst[k].real() + dst[N-k].real(),
@@ -184,7 +184,7 @@ class kissfft
                 dst[  k] =       w + twiddle * z;
                 dst[N-k] = std::conj( w - twiddle * z );
             }
-            if ( N % 2 == 0 )
+            if( N % 2 == 0 )
                 dst[N/2] = std::conj( dst[N/2] );
         }
 
@@ -192,7 +192,7 @@ class kissfft
 
         void kf_bfly2( cpx_t * Fout, const size_t fstride, const std::size_t m) const
         {
-            for (std::size_t k=0;k<m;++k) {
+            for(std::size_t k=0;k<m;++k) {
                 const cpx_t t = Fout[m+k] * _twiddles[k*fstride];
                 Fout[m+k] = Fout[k] - t;
                 Fout[k] += t;
@@ -234,7 +234,7 @@ class kissfft
         {
             cpx_t scratch[7];
             const scalar_t negative_if_inverse = _inverse ? -1 : +1;
-            for (std::size_t k=0;k<m;++k) {
+            for(std::size_t k=0;k<m;++k) {
                 scratch[0] = Fout[k+  m] * _twiddles[k*fstride  ];
                 scratch[1] = Fout[k+2*m] * _twiddles[k*fstride*2];
                 scratch[2] = Fout[k+3*m] * _twiddles[k*fstride*3];
@@ -266,7 +266,7 @@ class kissfft
             Fout3=Fout0+3*m;
             Fout4=Fout0+4*m;
 
-            for ( std::size_t u=0; u<m; ++u ) {
+            for( std::size_t u=0; u<m; ++u ) {
                 scratch[0] = *Fout0;
 
                 scratch[1] = *Fout1 * _twiddles[  u*fstride];
@@ -329,20 +329,20 @@ class kissfft
 
             if(p > _scratchbuf.size()) _scratchbuf.resize(p);
 
-            for ( std::size_t u=0; u<m; ++u ) {
+            for( std::size_t u=0; u<m; ++u ) {
                 std::size_t k = u;
-                for ( std::size_t q1=0 ; q1<p ; ++q1 ) {
+                for( std::size_t q1=0 ; q1<p ; ++q1 ) {
                     _scratchbuf[q1] = Fout[ k  ];
                     k += m;
                 }
 
                 k=u;
-                for ( std::size_t q1=0 ; q1<p ; ++q1 ) {
+                for( std::size_t q1=0 ; q1<p ; ++q1 ) {
                     std::size_t twidx=0;
                     Fout[ k ] = _scratchbuf[0];
-                    for ( std::size_t q=1;q<p;++q ) {
+                    for( std::size_t q=1;q<p;++q ) {
                         twidx += fstride * k;
-                        if (twidx>=_nfft)
+                        if(twidx>=_nfft)
                           twidx-=_nfft;
                         Fout[ k ] += _scratchbuf[q] * twiddles[twidx];
                     }

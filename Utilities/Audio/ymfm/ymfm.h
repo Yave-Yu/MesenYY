@@ -69,8 +69,8 @@ public:
 	static constexpr bool LOG_UNEXPECTED_READ_WRITES = false;
 
 	// helpers to write based on the log type
-	template<typename... Params> static void log_fm_write(Params &&... args) { if (LOG_FM_WRITES) log(args...); }
-	template<typename... Params> static void log_keyon(Params &&... args) { if (LOG_KEYON_EVENTS) log(args...); }
+	template<typename... Params> static void log_fm_write(Params &&... args) { if(LOG_FM_WRITES) log(args...); }
+	template<typename... Params> static void log_keyon(Params &&... args) { if(LOG_KEYON_EVENTS) log(args...); }
 	template<typename... Params> static void log_unexpected_read_write(Params &&... args) { if  (LOG_UNEXPECTED_READ_WRITES) log(args...); }
 
 	// downstream helper to output log data; defaults to printf
@@ -102,9 +102,9 @@ inline uint32_t bitfield(uint32_t value, int start, int length = 1)
 
 inline int32_t clamp(int32_t value, int32_t minval, int32_t maxval)
 {
-	if (value < minval)
+	if(value < minval)
 		return minval;
-	if (value > maxval)
+	if(value > maxval)
 		return maxval;
 	return value;
 }
@@ -121,7 +121,7 @@ inline int32_t clamp(int32_t value, int32_t minval, int32_t maxval)
 
 inline uint8_t count_leading_zeros(uint32_t value)
 {
-	if (value == 0)
+	if(value == 0)
 		return 32;
 	return __builtin_clz(value);
 }
@@ -138,10 +138,10 @@ inline uint8_t count_leading_zeros(uint32_t value)
 
 inline uint8_t count_leading_zeros(uint32_t value)
 {
-	if (value == 0)
+	if(value == 0)
 		return 32;
 	uint8_t count;
-	for (count = 0; int32_t(value) >= 0; count++)
+	for(count = 0; int32_t(value) >= 0; count++)
 		value <<= 1;
 	return count;
 }
@@ -181,9 +181,9 @@ inline uint8_t count_leading_zeros(uint32_t value)
 inline int16_t encode_fp(int32_t value)
 {
 	// handle overflows first
-	if (value < -32768)
+	if(value < -32768)
 		return (7 << 10) | 0x000;
-	if (value > 32767)
+	if(value > 32767)
 		return (7 << 10) | 0x3ff;
 
 	// we need to count the number of leading sign bits after the sign
@@ -227,9 +227,9 @@ inline int16_t decode_fp(int16_t value)
 inline int16_t roundtrip_fp(int32_t value)
 {
 	// handle overflows first
-	if (value < -32768)
+	if(value < -32768)
 		return -32768;
-	if (value > 32767)
+	if(value > 32767)
 		return 32767;
 
 	// we need to count the number of leading sign bits after the sign
@@ -291,7 +291,7 @@ struct ymfm_output
 	// clear all outputs to 0
 	ymfm_output &clear()
 	{
-		for (uint32_t index = 0; index < NumOutputs; index++)
+		for(uint32_t index = 0; index < NumOutputs; index++)
 			data[index] = 0;
 		return *this;
 	}
@@ -299,7 +299,7 @@ struct ymfm_output
 	// clamp all outputs to a 16-bit signed value
 	ymfm_output &clamp16()
 	{
-		for (uint32_t index = 0; index < NumOutputs; index++)
+		for(uint32_t index = 0; index < NumOutputs; index++)
 			data[index] = clamp(data[index], -32768, 32767);
 		return *this;
 	}
@@ -307,7 +307,7 @@ struct ymfm_output
 	// run each output value through the floating-point processor
 	ymfm_output &roundtrip_fp()
 	{
-		for (uint32_t index = 0; index < NumOutputs; index++)
+		for(uint32_t index = 0; index < NumOutputs; index++)
 			data[index] = ymfm::roundtrip_fp(data[index]);
 		return *this;
 	}
@@ -337,7 +337,7 @@ public:
 	// destruction
 	~ymfm_wavfile()
 	{
-		if (!m_buffer.empty())
+		if(!m_buffer.empty())
 		{
 			// create file
 			char name[20];
@@ -372,9 +372,9 @@ public:
 	void add(ymfm_output<Outputs> output)
 	{
 		int16_t sum[Channels] = { 0 };
-		for (int index = 0; index < Outputs; index++)
+		for(int index = 0; index < Outputs; index++)
 			sum[index % Channels] += output.data[index];
-		for (int index = 0; index < Channels; index++)
+		for(int index = 0; index < Channels; index++)
 			m_buffer.push_back(sum[index]);
 	}
 
@@ -383,9 +383,9 @@ public:
 	void add(ymfm_output<Outputs> output, ymfm_output<Outputs> const &ref)
 	{
 		int16_t sum[Channels] = { 0 };
-		for (int index = 0; index < Outputs; index++)
+		for(int index = 0; index < Outputs; index++)
 			sum[index % Channels] += output.data[index] - ref.data[index];
-		for (int index = 0; index < Channels; index++)
+		for(int index = 0; index < Channels; index++)
 			m_buffer.push_back(sum[index]);
 	}
 
@@ -409,7 +409,7 @@ public:
 		m_buffer(buffer),
 		m_offset(saving ? -1 : 0)
 	{
-		if (saving)
+		if(saving)
 			buffer.resize(0);
 	}
 
@@ -420,7 +420,7 @@ public:
 	template<typename DataType>
 	void save_restore(DataType &data)
 	{
-		if (saving())
+		if(saving())
 			save(data);
 		else
 			restore(data);
@@ -437,7 +437,7 @@ public:
 	void save(uint32_t &data) { write(data).write(data >> 8).write(data >> 16).write(data >> 24); }
 	void save(envelope_state &data) { write(uint8_t(data)); }
 	template<typename DataType, int Count>
-	void save(DataType (&data)[Count]) { for (uint32_t index = 0; index < Count; index++) save(data[index]); }
+	void save(DataType (&data)[Count]) { for(uint32_t index = 0; index < Count; index++) save(data[index]); }
 
 	// restore data from the buffer
 	void restore(bool &data) { data = read() ? true : false; }
@@ -449,7 +449,7 @@ public:
 	void restore(uint32_t &data) { data = read(); data |= read() << 8; data |= read() << 16; data |= read() << 24; }
 	void restore(envelope_state &data) { data = envelope_state(read()); }
 	template<typename DataType, int Count>
-	void restore(DataType (&data)[Count]) { for (uint32_t index = 0; index < Count; index++) restore(data[index]); }
+	void restore(DataType (&data)[Count]) { for(uint32_t index = 0; index < Count; index++) restore(data[index]); }
 
 	// internal helper
 	ymfm_saved_state &write(uint8_t data) { m_buffer.push_back(data); return *this; }

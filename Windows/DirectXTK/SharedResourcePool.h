@@ -41,11 +41,11 @@ namespace DirectX
             // Return an existing instance?
             auto pos = mResourceMap->find(key);
 
-            if (pos != mResourceMap->end())
+            if(pos != mResourceMap->end())
             {
                 auto existingValue = pos->second.lock();
 
-                if (existingValue)
+                if(existingValue)
                     return existingValue;
                 else
                     mResourceMap->erase(pos);
@@ -96,7 +96,7 @@ namespace DirectX
                 // Check for weak reference expiry before erasing, in case DemandCreate runs on
                 // a different thread at the same time as a previous instance is being destroyed.
                 // We mustn't erase replacement objects that have just been added!
-                if (pos != mResourceMap->end() && pos->second.expired())
+                if(pos != mResourceMap->end() && pos->second.expired())
                 {
                     mResourceMap->erase(pos);
                 }

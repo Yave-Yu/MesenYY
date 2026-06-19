@@ -46,7 +46,7 @@ namespace DirectX
             // implemented for the Microsoft Standard C++ Library.
             void* ptr = aligned_alloc(alignment, size);
 #endif
-            if (!ptr)
+            if(!ptr)
                 throw std::bad_alloc();
 
             return ptr;

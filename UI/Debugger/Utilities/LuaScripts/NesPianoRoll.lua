@@ -746,7 +746,7 @@ function draw_black_key(y, color)
 end
 
 function draw_key_spot(note, duty_colors)
-  if (note.y == nil or note.enabled == false) then
+  if(note.y == nil or note.enabled == false) then
     return
   end
   local key_drawing_functions = {
@@ -824,7 +824,7 @@ function draw_noise_pads(active_note, duty_colors)
     local y = i * 2 + NOISE_ROLL_OFFSET - 3
     local color = pad_colors[(0xF - i) + 1]
     local hex_value = 0xF - i;
-    if (active_note.y and active_note.enabled and active_note.period == i) then
+    if(active_note.y and active_note.enabled and active_note.period == i) then
       color = duty_colors[1]
       if active_note.mode then
         color = duty_colors[2]

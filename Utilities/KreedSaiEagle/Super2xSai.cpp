@@ -47,54 +47,54 @@
 
 #ifndef supertwoxsai_function
 #define supertwoxsai_function(result_cb, interpolate_cb, interpolate2_cb) \
-         if (color2 == color6 && color5 != color3) \
+         if(color2 == color6 && color5 != color3) \
             product2b = product1b = color2; \
-         else if (color5 == color3 && color2 != color6) \
+         else if(color5 == color3 && color2 != color6) \
             product2b = product1b = color5; \
-         else if (color5 == color3 && color2 == color6) \
+         else if(color5 == color3 && color2 == color6) \
          { \
             int r = 0; \
             r += result_cb(color6, color5, color1, colorA1); \
             r += result_cb(color6, color5, color4, colorB1); \
             r += result_cb(color6, color5, colorA2, colorS1); \
             r += result_cb(color6, color5, colorB2, colorS2); \
-            if (r > 0) \
+            if(r > 0) \
                product2b = product1b = color6; \
-            else if (r < 0) \
+            else if(r < 0) \
                product2b = product1b = color5; \
             else \
                product2b = product1b = interpolate_cb(color5, color6); \
          } \
          else \
          { \
-            if (color6 == color3 && color3 == colorA1 && color2 != colorA2 && color3 != colorA0) \
+            if(color6 == color3 && color3 == colorA1 && color2 != colorA2 && color3 != colorA0) \
                product2b = interpolate2_cb(color3, color3, color3, color2); \
-            else if ((color5 == color2 && color2 == colorA2) & (colorA1 != color3 && color2 != colorA3)) \
+            else if((color5 == color2 && color2 == colorA2) & (colorA1 != color3 && color2 != colorA3)) \
                product2b = interpolate2_cb(color2, color2, color2, color3); \
             else \
                product2b = interpolate_cb(color2, color3); \
-            if (color6 == color3 && color6 == colorB1 && color5 != colorB2 && color6 != colorB0) \
+            if(color6 == color3 && color6 == colorB1 && color5 != colorB2 && color6 != colorB0) \
                product1b = interpolate2_cb(color6, color6, color6, color5); \
-            else if (color5 == color2 && color5 == colorB2 && colorB1 != color6 && color5 != colorB3) \
+            else if(color5 == color2 && color5 == colorB2 && colorB1 != color6 && color5 != colorB3) \
                product1b = interpolate2_cb(color6, color5, color5, color5); \
             else \
                product1b = interpolate_cb(color5, color6); \
          } \
-         if (color5 == color3 && color2 != color6 && color4 == color5 && color5 != colorA2) \
+         if(color5 == color3 && color2 != color6 && color4 == color5 && color5 != colorA2) \
          { \
             product2a = interpolate_cb(color2, color5); \
          } \
-         else if (color5 == color1 && color6 == color5 && color4 != color2 && color5 != colorA0) \
+         else if(color5 == color1 && color6 == color5 && color4 != color2 && color5 != colorA0) \
          { \
             product2a = interpolate_cb(color2, color5); \
          } \
          else \
             product2a = color2; \
-         if (color2 == color6 && color5 != color3 && color1 == color2 && color2 != colorB2) \
+         if(color2 == color6 && color5 != color3 && color1 == color2 && color2 != colorB2) \
          { \
             product1a = interpolate_cb(color2, color5); \
          } \
-         else if (color4 == color2 && color3 == color2 && color1 != color5 && color2 != colorB0) \
+         else if(color4 == color2 && color3 == color2 && color1 != color5 && color2 != colorB0) \
          { \
             product1a = interpolate_cb(color2, color5); \
          } \

@@ -1,4 +1,4 @@
-#if (defined(DUMMYCPU) && !defined(__DUMMYWsCpu__H)) || (!defined(DUMMYCPU) && !defined(__WsCpu__H))
+#if(defined(DUMMYCPU) && !defined(__DUMMYWsCpu__H)) || (!defined(DUMMYCPU) && !defined(__WsCpu__H))
 	#ifdef DUMMYCPU
 		#define __DUMMYWsCpu__H
 	#else

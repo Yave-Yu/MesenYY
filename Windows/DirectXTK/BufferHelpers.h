@@ -143,7 +143,7 @@ namespace DirectX
             assert(mConstantBuffer);
 
             D3D11_MAPPED_SUBRESOURCE mappedResource;
-            if (SUCCEEDED(deviceContext->Map(mConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource)))
+            if(SUCCEEDED(deviceContext->Map(mConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource)))
             {
                 *static_cast<T*>(mappedResource.pData) = value;
 

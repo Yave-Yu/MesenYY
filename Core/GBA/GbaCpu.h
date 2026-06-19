@@ -1,4 +1,4 @@
-#if (defined(DUMMYCPU) && !defined(__DUMMYGBACPU__H)) || (!defined(DUMMYCPU) && !defined(__GBACPU__H))
+#if(defined(DUMMYCPU) && !defined(__DUMMYGBACPU__H)) || (!defined(DUMMYCPU) && !defined(__GBACPU__H))
 	#ifdef DUMMYCPU
 		#define __DUMMYGBACPU__H
 	#else

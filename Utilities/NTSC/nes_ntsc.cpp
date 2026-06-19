@@ -43,7 +43,7 @@ pixel_info_t const nes_ntsc_pixels [alignment_count] = {
 static void merge_kernel_fields( nes_ntsc_rgb_t* io )
 {
 	int n;
-	for ( n = burst_size; n; --n )
+	for( n = burst_size; n; --n )
 	{
 		nes_ntsc_rgb_t p0 = io [burst_size * 0] + rgb_bias;
 		nes_ntsc_rgb_t p1 = io [burst_size * 1] + rgb_bias;
@@ -62,10 +62,10 @@ static void merge_kernel_fields( nes_ntsc_rgb_t* io )
 static void correct_errors( nes_ntsc_rgb_t color, nes_ntsc_rgb_t* out )
 {
 	int n;
-	for ( n = burst_count; n; --n )
+	for( n = burst_count; n; --n )
 	{
 		unsigned i;
-		for ( i = 0; i < rgb_kernel_size / 2; i++ )
+		for( i = 0; i < rgb_kernel_size / 2; i++ )
 		{
 			nes_ntsc_rgb_t error = color -
 					out [i    ] - out [(i+12)%14+14] - out [(i+10)%14+28] -
@@ -83,26 +83,26 @@ void nes_ntsc_init( nes_ntsc_t* ntsc, nes_ntsc_setup_t const* setup )
 	init_t impl;
 	float gamma_factor;
 	
-	if ( !setup )
+	if( !setup )
 		setup = &nes_ntsc_composite;
 	init( &impl, setup );
 	
 	/* setup fast gamma */
 	{
 		float gamma = (float) setup->gamma * -0.5f;
-		if ( STD_HUE_CONDITION( setup ) )
+		if( STD_HUE_CONDITION( setup ) )
 			gamma += 0.1333f;
 		
 		gamma_factor = (float) pow( (float) fabs( gamma ), 0.73f );
-		if ( gamma < 0 )
+		if( gamma < 0 )
 			gamma_factor = -gamma_factor;
 	}
 	
 	merge_fields = setup->merge_fields;
-	if ( setup->artifacts <= -1 && setup->fringing <= -1 )
+	if( setup->artifacts <= -1 && setup->fringing <= -1 )
 		merge_fields = 1;
 	
-	for ( entry = 0; entry < nes_ntsc_palette_size; entry++ )
+	for( entry = 0; entry < nes_ntsc_palette_size; entry++ )
 	{
 		/* Base 64-color generation */
 		static float const lo_levels [4] = { -0.12f, 0.00f, 0.31f, 0.72f };
@@ -112,11 +112,11 @@ void nes_ntsc_init( nes_ntsc_t* ntsc, nes_ntsc_setup_t const* setup )
 		float hi = hi_levels [level];
 		
 		int color = entry & 0x0F;
-		if ( color == 0 )
+		if( color == 0 )
 			lo = hi;
-		if ( color == 0x0D )
+		if( color == 0x0D )
 			hi = lo;
-		if ( color > 0x0D )
+		if( color > 0x0D )
 			hi = lo = 0.0f;
 		
 		{
@@ -137,7 +137,7 @@ void nes_ntsc_init( nes_ntsc_t* ntsc, nes_ntsc_setup_t const* setup )
 			float y = (hi + lo) * 0.5f;
 			
 			/* Optionally use base palette instead */
-			if ( setup->base_palette )
+			if( setup->base_palette )
 			{
 				unsigned char const* in = &setup->base_palette [(entry & 0x3F) * 3];
 				static float const to_float = 1.0f / 0xFF;
@@ -151,12 +151,12 @@ void nes_ntsc_init( nes_ntsc_t* ntsc, nes_ntsc_setup_t const* setup )
 			#ifdef NES_NTSC_EMPHASIS
 			{
 				int tint = entry >> 6 & 7;
-				if ( tint && color <= 0x0D )
+				if( tint && color <= 0x0D )
 				{
 					static float const atten_mul = 0.79399f;
 					static float const atten_sub = 0.0782838f;
 					
-					if ( tint == 7 )
+					if( tint == 7 )
 					{
 						y = y * (atten_mul * 1.13f) - (atten_sub * 1.13f);
 					}
@@ -166,7 +166,7 @@ void nes_ntsc_init( nes_ntsc_t* ntsc, nes_ntsc_setup_t const* setup )
 						int const tint_color = tints [tint];
 						float sat = hi * (0.5f - atten_mul * 0.5f) + atten_sub * 0.5f;
 						y -= sat * 0.5f;
-						if ( tint >= 3 && tint != 4 )
+						if( tint >= 3 && tint != 4 )
 						{
 							/* combined tint bits */
 							sat *= 0.6f;
@@ -180,7 +180,7 @@ void nes_ntsc_init( nes_ntsc_t* ntsc, nes_ntsc_setup_t const* setup )
 			#endif
 			
 			/* Optionally use palette instead */
-			if ( setup->palette )
+			if( setup->palette )
 			{
 				unsigned char const* in = &setup->palette [entry * 3];
 				static float const to_float = 1.0f / 0xFF;
@@ -217,14 +217,14 @@ void nes_ntsc_init( nes_ntsc_t* ntsc, nes_ntsc_setup_t const* setup )
 				/* blue tends to overflow, so clamp it */
 				nes_ntsc_rgb_t rgb = PACK_RGB( r, g, (b < 0x3E0 ? b: 0x3E0) );
 				
-				if ( setup->palette_out )
+				if( setup->palette_out )
 					RGB_PALETTE_OUT( rgb, &setup->palette_out [entry * 3] );
 				
-				if ( ntsc )
+				if( ntsc )
 				{
 					nes_ntsc_rgb_t* kernel = ntsc->table [entry];
 					gen_kernel( &impl, y, i, q, kernel );
-					if ( merge_fields )
+					if( merge_fields )
 						merge_kernel_fields( kernel );
 					correct_errors( rgb, kernel );
 				}
@@ -239,7 +239,7 @@ void nes_ntsc_blit( nes_ntsc_t const* ntsc, NES_NTSC_IN_T const* input, long in_
 		int burst_phase, int in_width, int in_height, void* rgb_out, long out_pitch )
 {
 	int chunk_count = (in_width - 1) / nes_ntsc_in_chunk;
-	for ( ; in_height; --in_height )
+	for( ; in_height; --in_height )
 	{
 		NES_NTSC_IN_T const* line_in = input;
 		NES_NTSC_BEGIN_ROW( ntsc, burst_phase,
@@ -248,7 +248,7 @@ void nes_ntsc_blit( nes_ntsc_t const* ntsc, NES_NTSC_IN_T const* input, long in_
 		int n;
 		++line_in;
 		
-		for ( n = chunk_count; n; --n )
+		for( n = chunk_count; n; --n )
 		{
 			/* order of input and output pixels must not be altered */
 			NES_NTSC_COLOR_IN( 0, NES_NTSC_ADJ_IN( line_in [0] ) );

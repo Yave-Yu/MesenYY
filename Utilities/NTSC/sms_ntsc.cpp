@@ -44,7 +44,7 @@ pixel_info_t const sms_ntsc_pixels [alignment_count] = {
 static void correct_errors( sms_ntsc_rgb_t color, sms_ntsc_rgb_t* out )
 {
 	unsigned i;
-	for ( i = 0; i < rgb_kernel_size / 2; i++ )
+	for( i = 0; i < rgb_kernel_size / 2; i++ )
 	{
 		sms_ntsc_rgb_t error = color -
 				out [i    ] - out [(i+12)%14+14] - out [(i+10)%14+28] -
@@ -57,11 +57,11 @@ void sms_ntsc_init( sms_ntsc_t* ntsc, sms_ntsc_setup_t const* setup )
 {
 	int entry;
 	init_t impl;
-	if ( !setup )
+	if( !setup )
 		setup = &sms_ntsc_composite;
 	init( &impl, setup );
 	
-	for ( entry = 0; entry < sms_ntsc_palette_size; entry++ )
+	for( entry = 0; entry < sms_ntsc_palette_size; entry++ )
 	{
 		float bb = impl.to_float [entry >> 8 & 0x0F];
 		float gg = impl.to_float [entry >> 4 & 0x0F];
@@ -72,10 +72,10 @@ void sms_ntsc_init( sms_ntsc_t* ntsc, sms_ntsc_setup_t const* setup )
 		int r, g, b = YIQ_TO_RGB( y, i, q, impl.to_rgb, int, r, g );
 		sms_ntsc_rgb_t rgb = PACK_RGB( r, g, b );
 		
-		if ( setup->palette_out )
+		if( setup->palette_out )
 			RGB_PALETTE_OUT( rgb, &setup->palette_out [entry * 3] );
 		
-		if ( ntsc )
+		if( ntsc )
 		{
 			gen_kernel( &impl, y, i, q, ntsc->table [entry] );
 			correct_errors( rgb, ntsc->table [entry] );
@@ -95,7 +95,7 @@ void sms_ntsc_blit( sms_ntsc_t const* ntsc, SMS_NTSC_IN_T const* input, long in_
 	unsigned const extra2 = (unsigned) -(in_extra >> 1 & 1); /* (unsigned) -1 = ~0 */
 	unsigned const extra1 = (unsigned) -(in_extra & 1) | extra2;
 	
-	for ( ; in_height; --in_height )
+	for( ; in_height; --in_height )
 	{
 		SMS_NTSC_IN_T const* line_in = input;
 		SMS_NTSC_BEGIN_ROW( ntsc, sms_ntsc_black,
@@ -105,7 +105,7 @@ void sms_ntsc_blit( sms_ntsc_t const* ntsc, SMS_NTSC_IN_T const* input, long in_
 		int n;
 		line_in += in_extra;
 		
-		for ( n = chunk_count; n; --n )
+		for( n = chunk_count; n; --n )
 		{
 			/* order of input and output pixels must not be altered */
 			SMS_NTSC_COLOR_IN( 0, ntsc, SMS_NTSC_ADJ_IN( line_in [0] ) );

@@ -68,7 +68,7 @@ namespace DirectX
             : mContext(context), mResource(resource), mSubresource(subresource)
         {
             HRESULT hr = mContext->Map(resource, subresource, mapType, mapFlags, this);
-            if (FAILED(hr))
+            if(FAILED(hr))
             {
                 throw std::exception();
             }
@@ -118,7 +118,7 @@ namespace DirectX
 #if defined(_XBOX_ONE) && defined(_TITLE)
         wchar_t wname[MAX_PATH];
         int result = MultiByteToWideChar(CP_UTF8, 0, name, TNameLength, wname, MAX_PATH);
-        if (result > 0)
+        if(result > 0)
         {
             resource->SetName(wname);
         }
@@ -140,7 +140,7 @@ namespace DirectX
 #else
         char aname[MAX_PATH];
         int result = WideCharToMultiByte(CP_UTF8, 0, name, TNameLength, aname, MAX_PATH, nullptr, nullptr);
-        if (result > 0)
+        if(result > 0)
         {
             resource->SetPrivateData(WKPDID_D3DDebugObjectName, TNameLength - 1, aname);
         }
@@ -159,7 +159,7 @@ namespace DirectX
     template<typename T>
     inline T AlignDown(T size, size_t alignment) noexcept
     {
-        if (alignment > 0)
+        if(alignment > 0)
         {
             assert(((alignment - 1) & alignment) == 0);
             auto mask = static_cast<T>(alignment - 1);
@@ -171,7 +171,7 @@ namespace DirectX
     template<typename T>
     inline T AlignUp(T size, size_t alignment) noexcept
     {
-        if (alignment > 0)
+        if(alignment > 0)
         {
             assert(((alignment - 1) & alignment) == 0);
             auto mask = static_cast<T>(alignment - 1);

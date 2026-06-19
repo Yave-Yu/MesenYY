@@ -287,7 +287,7 @@ std::vector<short> SpriteBatch::Impl::DeviceResources::CreateIndexValues()
 
     indices.reserve(MaxBatchSize * IndicesPerSprite);
 
-    for (size_t j = 0; j < MaxBatchSize * VerticesPerSprite; j += VerticesPerSprite)
+    for(size_t j = 0; j < MaxBatchSize * VerticesPerSprite; j += VerticesPerSprite)
     {
         short i = static_cast<short>(j);
 
@@ -372,7 +372,7 @@ void XM_CALLCONV SpriteBatch::Impl::Begin(SpriteSortMode sortMode,
     std::function<void()>& setCustomShaders,
     FXMMATRIX transformMatrix)
 {
-    if (mInBeginEndPair)
+    if(mInBeginEndPair)
         throw std::logic_error("Cannot nest Begin calls on a single SpriteBatch");
 
     mSortMode = sortMode;
@@ -383,10 +383,10 @@ void XM_CALLCONV SpriteBatch::Impl::Begin(SpriteSortMode sortMode,
     mSetCustomShaders = setCustomShaders;
     mTransformMatrix = transformMatrix;
 
-    if (sortMode == SpriteSortMode_Immediate)
+    if(sortMode == SpriteSortMode_Immediate)
     {
         // If we are in immediate mode, set device state ready for drawing.
-        if (mContextResources->inImmediateMode)
+        if(mContextResources->inImmediateMode)
             throw std::logic_error("Only one SpriteBatch at a time can use SpriteSortMode_Immediate");
 
         PrepareForRendering();
@@ -401,10 +401,10 @@ void XM_CALLCONV SpriteBatch::Impl::Begin(SpriteSortMode sortMode,
 // Ends a batch of sprite drawing operations.
 void SpriteBatch::Impl::End()
 {
-    if (!mInBeginEndPair)
+    if(!mInBeginEndPair)
         throw std::logic_error("Begin must be called before End");
 
-    if (mSortMode == SpriteSortMode_Immediate)
+    if(mSortMode == SpriteSortMode_Immediate)
     {
         // If we are in immediate mode, sprites have already been drawn.
         mContextResources->inImmediateMode = false;
@@ -412,7 +412,7 @@ void SpriteBatch::Impl::End()
     else
     {
         // Draw the queued sprites now.
-        if (mContextResources->inImmediateMode)
+        if(mContextResources->inImmediateMode)
             throw std::logic_error("Cannot end one SpriteBatch while another is using SpriteSortMode_Immediate");
 
         PrepareForRendering();
@@ -436,14 +436,14 @@ void XM_CALLCONV SpriteBatch::Impl::Draw(ID3D11ShaderResourceView* texture,
     FXMVECTOR originRotationDepth,
     unsigned int flags)
 {
-    if (!texture)
+    if(!texture)
         throw std::invalid_argument("Texture cannot be null");
 
-    if (!mInBeginEndPair)
+    if(!mInBeginEndPair)
         throw std::logic_error("Begin must be called before Draw");
 
     // Get a pointer to the output sprite.
-    if (mSpriteQueueCount >= mSpriteQueueArraySize)
+    if(mSpriteQueueCount >= mSpriteQueueArraySize)
     {
         GrowSpriteQueue();
     }
@@ -452,7 +452,7 @@ void XM_CALLCONV SpriteBatch::Impl::Draw(ID3D11ShaderResourceView* texture,
 
     XMVECTOR dest = destination;
 
-    if (sourceRectangle)
+    if(sourceRectangle)
     {
         // User specified an explicit source region.
         XMVECTOR source = LoadRect(sourceRectangle);
@@ -460,7 +460,7 @@ void XM_CALLCONV SpriteBatch::Impl::Draw(ID3D11ShaderResourceView* texture,
         XMStoreFloat4A(&sprite->source, source);
 
         // If the destination size is relative to the source region, convert it to pixels.
-        if (!(flags & SpriteInfo::DestSizeInPixels))
+        if(!(flags & SpriteInfo::DestSizeInPixels))
         {
             dest = XMVectorPermute<0, 1, 6, 7>(dest, XMVectorMultiply(dest, source)); // dest.zw *= source.zw
         }
@@ -483,7 +483,7 @@ void XM_CALLCONV SpriteBatch::Impl::Draw(ID3D11ShaderResourceView* texture,
     sprite->texture = texture;
     sprite->flags = flags;
 
-    if (mSortMode == SpriteSortMode_Immediate)
+    if(mSortMode == SpriteSortMode_Immediate)
     {
         // If we are in immediate mode, draw this sprite straight away.
         RenderBatch(texture, &sprite, 1);
@@ -497,7 +497,7 @@ void XM_CALLCONV SpriteBatch::Impl::Draw(ID3D11ShaderResourceView* texture,
         // back of the vector means we will add duplicate references if the caller switches back and forth
         // between multiple repeated textures, but calling AddRef more times than strictly necessary hurts
         // nothing, and is faster than scanning the whole list or using a map to detect all duplicates.
-        if (mSpriteTextureReferences.empty() || texture != mSpriteTextureReferences.back().Get())
+        if(mSpriteTextureReferences.empty() || texture != mSpriteTextureReferences.back().Get())
         {
             mSpriteTextureReferences.emplace_back(texture);
         }
@@ -515,7 +515,7 @@ void SpriteBatch::Impl::GrowSpriteQueue()
     auto newArray = std::make_unique<SpriteInfo[]>(newSize);
 
     // Copy over any existing sprites.
-    for (size_t i = 0; i < mSpriteQueueCount; i++)
+    for(size_t i = 0; i < mSpriteQueueCount; i++)
     {
         newArray[i] = mSpriteQueue[i];
     }
@@ -572,13 +572,13 @@ void SpriteBatch::Impl::PrepareForRendering()
     deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
 
     // If this is a deferred D3D context, reset position so the first Map call will use D3D11_MAP_WRITE_DISCARD.
-    if (deviceContext->GetType() == D3D11_DEVICE_CONTEXT_DEFERRED)
+    if(deviceContext->GetType() == D3D11_DEVICE_CONTEXT_DEFERRED)
     {
         mContextResources->vertexBufferPosition = 0;
     }
 
     // Hook lets the caller replace our settings with their own custom shaders.
-    if (mSetCustomShaders)
+    if(mSetCustomShaders)
     {
         mSetCustomShaders();
     }
@@ -588,7 +588,7 @@ void SpriteBatch::Impl::PrepareForRendering()
 // Sends queued sprites to the graphics device.
 void SpriteBatch::Impl::FlushBatch()
 {
-    if (!mSpriteQueueCount)
+    if(!mSpriteQueueCount)
         return;
 
     SortSprites();
@@ -597,16 +597,16 @@ void SpriteBatch::Impl::FlushBatch()
     ID3D11ShaderResourceView* batchTexture = nullptr;
     size_t batchStart = 0;
 
-    for (size_t pos = 0; pos < mSpriteQueueCount; pos++)
+    for(size_t pos = 0; pos < mSpriteQueueCount; pos++)
     {
         ID3D11ShaderResourceView* texture = mSortedSprites[pos]->texture;
 
         _Analysis_assume_(texture != nullptr);
 
         // Flush whenever the texture changes.
-        if (texture != batchTexture)
+        if(texture != batchTexture)
         {
-            if (pos > batchStart)
+            if(pos > batchStart)
             {
                 RenderBatch(batchTexture, &mSortedSprites[batchStart], pos - batchStart);
             }
@@ -626,7 +626,7 @@ void SpriteBatch::Impl::FlushBatch()
     // When sorting is disabled, we persist mSortedSprites data from one batch to the next, to avoid
     // uneccessary work in GrowSortedSprites. But we never reuse these when sorting, because re-sorting
     // previously sorted items gives unstable ordering if some sprites have identical sort keys.
-    if (mSortMode != SpriteSortMode_Deferred)
+    if(mSortMode != SpriteSortMode_Deferred)
     {
         mSortedSprites.clear();
     }
@@ -637,7 +637,7 @@ void SpriteBatch::Impl::FlushBatch()
 void SpriteBatch::Impl::SortSprites()
 {
     // Fill the mSortedSprites vector.
-    if (mSortedSprites.size() < mSpriteQueueCount)
+    if(mSortedSprites.size() < mSpriteQueueCount)
     {
         GrowSortedSprites();
     }
@@ -684,7 +684,7 @@ void SpriteBatch::Impl::GrowSortedSprites()
 
     mSortedSprites.resize(mSpriteQueueCount);
 
-    for (size_t i = previousSize; i < mSpriteQueueCount; i++)
+    for(size_t i = previousSize; i < mSpriteQueueCount; i++)
     {
         mSortedSprites[i] = &mSpriteQueue[i];
     }
@@ -703,7 +703,7 @@ void SpriteBatch::Impl::RenderBatch(ID3D11ShaderResourceView* texture, SpriteInf
     XMVECTOR textureSize = GetTextureSize(texture);
     XMVECTOR inverseTextureSize = XMVectorReciprocal(textureSize);
             
-    while (count > 0)
+    while(count > 0)
     {
         // How many sprites do we want to draw?
         size_t batchSize = count;
@@ -711,9 +711,9 @@ void SpriteBatch::Impl::RenderBatch(ID3D11ShaderResourceView* texture, SpriteInf
         // How many sprites does the D3D vertex buffer have room for?
         size_t remainingSpace = MaxBatchSize - mContextResources->vertexBufferPosition;
 
-        if (batchSize > remainingSpace)
+        if(batchSize > remainingSpace)
         {
-            if (remainingSpace < MinBatchSize)
+            if(remainingSpace < MinBatchSize)
             {
                 // If we are out of room, or about to submit an excessively small batch, wrap back to the start of the vertex buffer.
                 mContextResources->vertexBufferPosition = 0;
@@ -739,7 +739,7 @@ void SpriteBatch::Impl::RenderBatch(ID3D11ShaderResourceView* texture, SpriteInf
         auto vertices = static_cast<VertexPositionColorTexture*>(mappedBuffer.pData) + mContextResources->vertexBufferPosition * VerticesPerSprite;
 
         // Generate sprite vertex data.
-        for (size_t i = 0; i < batchSize; i++)
+        for(size_t i = 0; i < batchSize; i++)
         {
             assert(i < count);
             _Analysis_assume_(i < count);
@@ -792,7 +792,7 @@ void XM_CALLCONV SpriteBatch::Impl::RenderSprite(SpriteInfo const* sprite,
     XMVECTOR origin = XMVectorDivide(originRotationDepth, nonZeroSourceSize);
 
     // Convert the source region from texels to mod-1 texture coordinate format.
-    if (flags & SpriteInfo::SourceInTexels)
+    if(flags & SpriteInfo::SourceInTexels)
     {
         source = XMVectorMultiply(source, inverseTextureSize);
         sourceSize = XMVectorMultiply(sourceSize, inverseTextureSize);
@@ -803,7 +803,7 @@ void XM_CALLCONV SpriteBatch::Impl::RenderSprite(SpriteInfo const* sprite,
     }
 
     // If the destination size is relative to the source region, convert it to pixels.
-    if (!(flags & SpriteInfo::DestSizeInPixels))
+    if(!(flags & SpriteInfo::DestSizeInPixels))
     {
         destinationSize = XMVectorMultiply(destinationSize, textureSize);
     }
@@ -812,7 +812,7 @@ void XM_CALLCONV SpriteBatch::Impl::RenderSprite(SpriteInfo const* sprite,
     XMVECTOR rotationMatrix1;
     XMVECTOR rotationMatrix2;
 
-    if (rotation != 0)
+    if(rotation != 0)
     {
         float sin, cos;
 
@@ -852,7 +852,7 @@ void XM_CALLCONV SpriteBatch::Impl::RenderSprite(SpriteInfo const* sprite,
     const unsigned int mirrorBits = flags & 3u;
 
     // Generate the four output vertices.
-    for (size_t i = 0; i < VerticesPerSprite; i++)
+    for(size_t i = 0; i < VerticesPerSprite; i++)
     {
         // Calculate position.
         XMVECTOR cornerOffset = XMVectorMultiply(XMVectorSubtract(cornerOffsets[i], origin), destinationSize);
@@ -891,7 +891,7 @@ XMVECTOR SpriteBatch::Impl::GetTextureSize(_In_ ID3D11ShaderResourceView* textur
     // Cast to texture.
     ComPtr<ID3D11Texture2D> texture2D;
     
-    if (FAILED(resource.As(&texture2D)))
+    if(FAILED(resource.As(&texture2D)))
     {
         throw std::invalid_argument("SpriteBatch can only draw Texture2D resources");
     }
@@ -913,13 +913,13 @@ XMVECTOR SpriteBatch::Impl::GetTextureSize(_In_ ID3D11ShaderResourceView* textur
 XMMATRIX SpriteBatch::Impl::GetViewportTransform(_In_ ID3D11DeviceContext* deviceContext, DXGI_MODE_ROTATION rotation)
 {
     // Look up the current viewport.
-    if (!mSetViewport)
+    if(!mSetViewport)
     {
         UINT viewportCount = 1;
 
         deviceContext->RSGetViewports(&viewportCount, &mViewPort);
 
-        if (viewportCount != 1)
+        if(viewportCount != 1)
             throw std::runtime_error("No viewport is set");
     }
 

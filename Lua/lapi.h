@@ -23,7 +23,7 @@
 ** increases its stack space ('L->ci->top').
 */
 #define adjustresults(L,nres) \
-    { if ((nres) <= LUA_MULTRET && L->ci->top < L->top) L->ci->top = L->top; }
+    { if((nres) <= LUA_MULTRET && L->ci->top < L->top) L->ci->top = L->top; }
 
 
 /* Ensure the stack has at least 'n' elements */

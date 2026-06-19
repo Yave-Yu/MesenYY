@@ -24,8 +24,8 @@ int socket_open(void) {
     WSADATA wsaData;
     WORD wVersionRequested = MAKEWORD(2, 0);
     int err = WSAStartup(wVersionRequested, &wsaData );
-    if (err != 0) return 0;
-    if ((LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 0) &&
+    if(err != 0) return 0;
+    if((LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 0) &&
         (LOBYTE(wsaData.wVersion) != 1 || HIBYTE(wsaData.wVersion) != 1)) {
         WSACleanup();
         return 0;
@@ -54,23 +54,23 @@ int socket_waitfd(p_socket ps, int sw, p_timeout tm) {
     fd_set rfds, wfds, efds, *rp = NULL, *wp = NULL, *ep = NULL;
     struct timeval tv, *tp = NULL;
     double t;
-    if (timeout_iszero(tm)) return IO_TIMEOUT;  /* optimize timeout == 0 case */
-    if (sw & WAITFD_R) {
+    if(timeout_iszero(tm)) return IO_TIMEOUT;  /* optimize timeout == 0 case */
+    if(sw & WAITFD_R) {
         FD_ZERO(&rfds);
         FD_SET(*ps, &rfds);
         rp = &rfds;
     }
-    if (sw & WAITFD_W) { FD_ZERO(&wfds); FD_SET(*ps, &wfds); wp = &wfds; }
-    if (sw & WAITFD_C) { FD_ZERO(&efds); FD_SET(*ps, &efds); ep = &efds; }
-    if ((t = timeout_get(tm)) >= 0.0) {
+    if(sw & WAITFD_W) { FD_ZERO(&wfds); FD_SET(*ps, &wfds); wp = &wfds; }
+    if(sw & WAITFD_C) { FD_ZERO(&efds); FD_SET(*ps, &efds); ep = &efds; }
+    if((t = timeout_get(tm)) >= 0.0) {
         tv.tv_sec = (int) t;
         tv.tv_usec = (int) ((t-tv.tv_sec)*1.0e6);
         tp = &tv;
     }
     ret = select(0, rp, wp, ep, tp);
-    if (ret == -1) return WSAGetLastError();
-    if (ret == 0) return IO_TIMEOUT;
-    if (sw == WAITFD_C && FD_ISSET(*ps, &efds)) return IO_CLOSED;
+    if(ret == -1) return WSAGetLastError();
+    if(ret == 0) return IO_TIMEOUT;
+    if(sw == WAITFD_C && FD_ISSET(*ps, &efds)) return IO_CLOSED;
     return IO_DONE;
 }
 
@@ -83,7 +83,7 @@ int socket_select(t_socket n, fd_set *rfds, fd_set *wfds, fd_set *efds,
     double t = timeout_get(tm);
     tv.tv_sec = (int) t;
     tv.tv_usec = (int) ((t - tv.tv_sec) * 1.0e6);
-    if (n <= 0) {
+    if(n <= 0) {
         Sleep((DWORD) (1000*t));
         return 0;
     } else return select(0, rfds, wfds, efds, t >= 0.0? &tv: NULL);
@@ -93,7 +93,7 @@ int socket_select(t_socket n, fd_set *rfds, fd_set *wfds, fd_set *efds,
 * Close and inutilize socket
 \*-------------------------------------------------------------------------*/
 void socket_destroy(p_socket ps) {
-    if (*ps != SOCKET_INVALID) {
+    if(*ps != SOCKET_INVALID) {
         socket_setblocking(ps); /* close can take a long time on WIN32 */
         closesocket(*ps);
         *ps = SOCKET_INVALID;
@@ -114,7 +114,7 @@ void socket_shutdown(p_socket ps, int how) {
 \*-------------------------------------------------------------------------*/
 int socket_create(p_socket ps, int domain, int type, int protocol) {
     *ps = socket(domain, type, protocol);
-    if (*ps != SOCKET_INVALID) return IO_DONE;
+    if(*ps != SOCKET_INVALID) return IO_DONE;
     else return WSAGetLastError();
 }
 
@@ -124,17 +124,17 @@ int socket_create(p_socket ps, int domain, int type, int protocol) {
 int socket_connect(p_socket ps, SA *addr, socklen_t len, p_timeout tm) {
     int err;
     /* don't call on closed socket */
-    if (*ps == SOCKET_INVALID) return IO_CLOSED;
+    if(*ps == SOCKET_INVALID) return IO_CLOSED;
     /* ask system to connect */
-    if (connect(*ps, addr, len) == 0) return IO_DONE;
+    if(connect(*ps, addr, len) == 0) return IO_DONE;
     /* make sure the system is trying to connect */
     err = WSAGetLastError();
-    if (err != WSAEWOULDBLOCK && err != WSAEINPROGRESS) return err;
+    if(err != WSAEWOULDBLOCK && err != WSAEINPROGRESS) return err;
     /* zero timeout case optimization */
-    if (timeout_iszero(tm)) return IO_TIMEOUT;
+    if(timeout_iszero(tm)) return IO_TIMEOUT;
     /* we wait until something happens */
     err = socket_waitfd(ps, WAITFD_C, tm);
-    if (err == IO_CLOSED) {
+    if(err == IO_CLOSED) {
         int elen = sizeof(err);
         /* give windows time to set the error (yes, disgusting) */
         Sleep(10);
@@ -153,7 +153,7 @@ int socket_connect(p_socket ps, SA *addr, socklen_t len, p_timeout tm) {
 int socket_bind(p_socket ps, SA *addr, socklen_t len) {
     int err = IO_DONE;
     socket_setblocking(ps);
-    if (bind(*ps, addr, len) < 0) err = WSAGetLastError();
+    if(bind(*ps, addr, len) < 0) err = WSAGetLastError();
     socket_setnonblocking(ps);
     return err;
 }
@@ -164,7 +164,7 @@ int socket_bind(p_socket ps, SA *addr, socklen_t len) {
 int socket_listen(p_socket ps, int backlog) {
     int err = IO_DONE;
     socket_setblocking(ps);
-    if (listen(*ps, backlog) < 0) err = WSAGetLastError();
+    if(listen(*ps, backlog) < 0) err = WSAGetLastError();
     socket_setnonblocking(ps);
     return err;
 }
@@ -174,17 +174,17 @@ int socket_listen(p_socket ps, int backlog) {
 \*-------------------------------------------------------------------------*/
 int socket_accept(p_socket ps, p_socket pa, SA *addr, socklen_t *len,
         p_timeout tm) {
-    if (*ps == SOCKET_INVALID) return IO_CLOSED;
-    for ( ;; ) {
+    if(*ps == SOCKET_INVALID) return IO_CLOSED;
+    for( ;; ) {
         int err;
         /* try to get client socket */
-        if ((*pa = accept(*ps, addr, len)) != SOCKET_INVALID) return IO_DONE;
+        if((*pa = accept(*ps, addr, len)) != SOCKET_INVALID) return IO_DONE;
         /* find out why we failed */
         err = WSAGetLastError();
         /* if we failed because there was no connectoin, keep trying */
-        if (err != WSAEWOULDBLOCK && err != WSAECONNABORTED) return err;
+        if(err != WSAEWOULDBLOCK && err != WSAECONNABORTED) return err;
         /* call select to avoid busy wait */
-        if ((err = socket_waitfd(ps, WAITFD_R, tm)) != IO_DONE) return err;
+        if((err = socket_waitfd(ps, WAITFD_R, tm)) != IO_DONE) return err;
     }
 }
 
@@ -200,22 +200,22 @@ int socket_send(p_socket ps, const char *data, size_t count,
     int err;
     *sent = 0;
     /* avoid making system calls on closed sockets */
-    if (*ps == SOCKET_INVALID) return IO_CLOSED;
+    if(*ps == SOCKET_INVALID) return IO_CLOSED;
     /* loop until we send something or we give up on error */
-    for ( ;; ) {
+    for( ;; ) {
         /* try to send something */
         int put = send(*ps, data, (int) count, 0);
         /* if we sent something, we are done */
-        if (put > 0) {
+        if(put > 0) {
             *sent = put;
             return IO_DONE;
         }
         /* deal with failure */
         err = WSAGetLastError();
         /* we can only proceed if there was no serious error */
-        if (err != WSAEWOULDBLOCK) return err;
+        if(err != WSAEWOULDBLOCK) return err;
         /* avoid busy wait */
-        if ((err = socket_waitfd(ps, WAITFD_W, tm)) != IO_DONE) return err;
+        if((err = socket_waitfd(ps, WAITFD_W, tm)) != IO_DONE) return err;
     }
 }
 
@@ -227,16 +227,16 @@ int socket_sendto(p_socket ps, const char *data, size_t count, size_t *sent,
 {
     int err;
     *sent = 0;
-    if (*ps == SOCKET_INVALID) return IO_CLOSED;
-    for ( ;; ) {
+    if(*ps == SOCKET_INVALID) return IO_CLOSED;
+    for( ;; ) {
         int put = sendto(*ps, data, (int) count, 0, addr, len);
-        if (put > 0) {
+        if(put > 0) {
             *sent = put;
             return IO_DONE;
         }
         err = WSAGetLastError();
-        if (err != WSAEWOULDBLOCK) return err;
-        if ((err = socket_waitfd(ps, WAITFD_W, tm)) != IO_DONE) return err;
+        if(err != WSAEWOULDBLOCK) return err;
+        if((err = socket_waitfd(ps, WAITFD_W, tm)) != IO_DONE) return err;
     }
 }
 
@@ -248,24 +248,24 @@ int socket_recv(p_socket ps, char *data, size_t count, size_t *got,
 {
     int err, prev = IO_DONE;
     *got = 0;
-    if (*ps == SOCKET_INVALID) return IO_CLOSED;
-    for ( ;; ) {
+    if(*ps == SOCKET_INVALID) return IO_CLOSED;
+    for( ;; ) {
         int taken = recv(*ps, data, (int) count, 0);
-        if (taken > 0) {
+        if(taken > 0) {
             *got = taken;
             return IO_DONE;
         }
-        if (taken == 0) return IO_CLOSED;
+        if(taken == 0) return IO_CLOSED;
         err = WSAGetLastError();
         /* On UDP, a connreset simply means the previous send failed.
          * So we try again.
          * On TCP, it means our socket is now useless, so the error passes.
          * (We will loop again, exiting because the same error will happen) */
-        if (err != WSAEWOULDBLOCK) {
-            if (err != WSAECONNRESET || prev == WSAECONNRESET) return err;
+        if(err != WSAEWOULDBLOCK) {
+            if(err != WSAECONNRESET || prev == WSAECONNRESET) return err;
             prev = err;
         }
-        if ((err = socket_waitfd(ps, WAITFD_R, tm)) != IO_DONE) return err;
+        if((err = socket_waitfd(ps, WAITFD_R, tm)) != IO_DONE) return err;
     }
 }
 
@@ -277,24 +277,24 @@ int socket_recvfrom(p_socket ps, char *data, size_t count, size_t *got,
 {
     int err, prev = IO_DONE;
     *got = 0;
-    if (*ps == SOCKET_INVALID) return IO_CLOSED;
-    for ( ;; ) {
+    if(*ps == SOCKET_INVALID) return IO_CLOSED;
+    for( ;; ) {
         int taken = recvfrom(*ps, data, (int) count, 0, addr, len);
-        if (taken > 0) {
+        if(taken > 0) {
             *got = taken;
             return IO_DONE;
         }
-        if (taken == 0) return IO_CLOSED;
+        if(taken == 0) return IO_CLOSED;
         err = WSAGetLastError();
         /* On UDP, a connreset simply means the previous send failed.
          * So we try again.
          * On TCP, it means our socket is now useless, so the error passes.
          * (We will loop again, exiting because the same error will happen) */
-        if (err != WSAEWOULDBLOCK) {
-            if (err != WSAECONNRESET || prev == WSAECONNRESET) return err;
+        if(err != WSAEWOULDBLOCK) {
+            if(err != WSAECONNRESET || prev == WSAECONNRESET) return err;
             prev = err;
         }
-        if ((err = socket_waitfd(ps, WAITFD_R, tm)) != IO_DONE) return err;
+        if((err = socket_waitfd(ps, WAITFD_R, tm)) != IO_DONE) return err;
     }
 }
 
@@ -319,13 +319,13 @@ void socket_setnonblocking(p_socket ps) {
 \*-------------------------------------------------------------------------*/
 int socket_gethostbyaddr(const char *addr, socklen_t len, struct hostent **hp) {
     *hp = gethostbyaddr(addr, len, AF_INET);
-    if (*hp) return IO_DONE;
+    if(*hp) return IO_DONE;
     else return WSAGetLastError();
 }
 
 int socket_gethostbyname(const char *addr, struct hostent **hp) {
     *hp = gethostbyname(addr);
-    if (*hp) return IO_DONE;
+    if(*hp) return IO_DONE;
     else return  WSAGetLastError();
 }
 
@@ -333,7 +333,7 @@ int socket_gethostbyname(const char *addr, struct hostent **hp) {
 * Error translation functions
 \*-------------------------------------------------------------------------*/
 const char *socket_hoststrerror(int err) {
-    if (err <= 0) return io_strerror(err);
+    if(err <= 0) return io_strerror(err);
     switch (err) {
         case WSAHOST_NOT_FOUND: return PIE_HOST_NOT_FOUND;
         default: return wstrerror(err);
@@ -341,7 +341,7 @@ const char *socket_hoststrerror(int err) {
 }
 
 const char *socket_strerror(int err) {
-    if (err <= 0) return io_strerror(err);
+    if(err <= 0) return io_strerror(err);
     switch (err) {
         case WSAEADDRINUSE: return PIE_ADDRINUSE;
         case WSAECONNREFUSED : return PIE_CONNREFUSED;
@@ -409,7 +409,7 @@ static const char *wstrerror(int err) {
 }
 
 const char *socket_gaistrerror(int err) {
-    if (err == 0) return NULL;
+    if(err == 0) return NULL;
     switch (err) {
         case EAI_AGAIN: return PIE_AGAIN;
         case EAI_BADFLAGS: return PIE_BADFLAGS;

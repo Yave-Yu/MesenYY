@@ -30,13 +30,13 @@ namespace DirectX
 #error Unknown memory barrier syntax
 #endif
 
-        if (!result)
+        if(!result)
         {
             std::lock_guard<std::mutex> lock(mutex);
 
             result = comPtr.Get();
 
-            if (!result)
+            if(!result)
             {
                 // Create the new object.
                 ThrowIfFailed(

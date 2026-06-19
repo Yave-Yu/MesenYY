@@ -39,7 +39,7 @@ typedef struct
   Byte Count;  /* Count to next change of Shift */
 } CPpmd_See;
 
-#define Ppmd_See_Update(p)  if ((p)->Shift < PPMD_PERIOD_BITS && --(p)->Count == 0) \
+#define Ppmd_See_Update(p)  if((p)->Shift < PPMD_PERIOD_BITS && --(p)->Count == 0) \
     { (p)->Summ <<= 1; (p)->Count = (Byte)(3 << (p)->Shift++); }
 
 typedef struct
@@ -77,7 +77,7 @@ typedef
   CPpmd_Byte_Ref;
 
 #define PPMD_SetAllBitsIn256Bytes(p) \
-  { unsigned z; for (z = 0; z < 256 / sizeof(p[0]); z += 8) { \
+  { unsigned z; for(z = 0; z < 256 / sizeof(p[0]); z += 8) { \
   p[z+7] = p[z+6] = p[z+5] = p[z+4] = p[z+3] = p[z+2] = p[z+1] = p[z+0] = ~(size_t)0; }}
 
 EXTERN_C_END

@@ -44,30 +44,30 @@
 
 #ifndef twoxsai_function
 #define twoxsai_function(result_cb, interpolate_cb, interpolate2_cb) \
-         if (colorA == colorD && colorB != colorC) \
+         if(colorA == colorD && colorB != colorC) \
          { \
-            if ((colorA == colorE && colorB == colorL) || (colorA == colorC && colorA == colorF && colorB != colorE && colorB == colorJ)) \
+            if((colorA == colorE && colorB == colorL) || (colorA == colorC && colorA == colorF && colorB != colorE && colorB == colorJ)) \
                product = colorA; \
             else \
             { \
                product = interpolate_cb(colorA, colorB); \
             } \
-            if ((colorA == colorG && colorC == colorO) || (colorA == colorB && colorA == colorH && colorG != colorC && colorC == colorM)) \
+            if((colorA == colorG && colorC == colorO) || (colorA == colorB && colorA == colorH && colorG != colorC && colorC == colorM)) \
                product1 = colorA; \
             else \
             { \
                product1 = interpolate_cb(colorA, colorC); \
             } \
             product2 = colorA; \
-         } else if (colorB == colorC && colorA != colorD) \
+         } else if(colorB == colorC && colorA != colorD) \
          { \
-            if ((colorB == colorF && colorA == colorH) || (colorB == colorE && colorB == colorD && colorA != colorF && colorA == colorI)) \
+            if((colorB == colorF && colorA == colorH) || (colorB == colorE && colorB == colorD && colorA != colorF && colorA == colorI)) \
                product = colorB; \
             else \
             { \
                product = interpolate_cb(colorA, colorB); \
             } \
-            if ((colorC == colorH && colorA == colorF) || (colorC == colorG && colorC == colorD && colorA != colorH && colorA == colorI)) \
+            if((colorC == colorH && colorA == colorF) || (colorC == colorG && colorC == colorD && colorA != colorH && colorA == colorI)) \
                product1 = colorC; \
             else \
             { \
@@ -75,9 +75,9 @@
             } \
             product2 = colorB; \
          } \
-         else if (colorA == colorD && colorB == colorC) \
+         else if(colorA == colorD && colorB == colorC) \
          { \
-            if (colorA == colorB) \
+            if(colorA == colorB) \
             { \
                product  = colorA; \
                product1 = colorA; \
@@ -92,9 +92,9 @@
                r += result_cb(colorB, colorA, colorK, colorF); \
                r += result_cb(colorB, colorA, colorH, colorN); \
                r += result_cb(colorA, colorB, colorL, colorO); \
-               if (r > 0) \
+               if(r > 0) \
                   product2 = colorA; \
-               else if (r < 0) \
+               else if(r < 0) \
                   product2 = colorB; \
                else \
                { \
@@ -105,17 +105,17 @@
          else \
          { \
             product2 = interpolate2_cb(colorA, colorB, colorC, colorD); \
-            if (colorA == colorC && colorA == colorF && colorB != colorE && colorB == colorJ) \
+            if(colorA == colorC && colorA == colorF && colorB != colorE && colorB == colorJ) \
                product = colorA; \
-            else if (colorB == colorE && colorB == colorD && colorA != colorF && colorA == colorI) \
+            else if(colorB == colorE && colorB == colorD && colorA != colorF && colorA == colorI) \
                product = colorB; \
             else \
             { \
                product = interpolate_cb(colorA, colorB); \
             } \
-            if (colorA == colorB && colorA == colorH && colorG != colorC && colorC == colorM) \
+            if(colorA == colorB && colorA == colorH && colorG != colorC && colorC == colorM) \
                product1 = colorA; \
-            else if (colorC == colorG && colorC == colorD && colorA != colorH && colorA == colorI) \
+            else if(colorC == colorG && colorC == colorD && colorA != colorH && colorA == colorI) \
                product1 = colorC; \
             else \
             { \

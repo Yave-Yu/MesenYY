@@ -43,7 +43,7 @@ static void wrap(lua_State *L) {
 }
 
 static int finalize(lua_State *L) {
-    if (!lua_toboolean(L, 1)) {
+    if(!lua_toboolean(L, 1)) {
         lua_pushvalue(L, lua_upvalueindex(2));
         lua_call(L, 0, 0);
         lua_settop(L, 2);
@@ -60,7 +60,7 @@ static int do_nothing(lua_State *L) {
 
 static int global_newtry(lua_State *L) {
     lua_settop(L, 1);
-    if (lua_isnil(L, 1)) lua_pushcfunction(L, do_nothing);
+    if(lua_isnil(L, 1)) lua_pushcfunction(L, do_nothing);
     lua_pushvalue(L, lua_upvalueindex(1));
     lua_insert(L, -2);
     lua_pushcclosure(L, finalize, 2);
@@ -71,10 +71,10 @@ static int global_newtry(lua_State *L) {
 * Protect factory
 \*-------------------------------------------------------------------------*/
 static int unwrap(lua_State *L) {
-    if (lua_istable(L, -1) && lua_getmetatable(L, -1)) {
+    if(lua_istable(L, -1) && lua_getmetatable(L, -1)) {
         int r = lua_rawequal(L, -1, lua_upvalueindex(1));
         lua_pop(L, 1);
-        if (r) {
+        if(r) {
             lua_pushnil(L);
             lua_rawgeti(L, -2, 1);
             return 1;
@@ -85,8 +85,8 @@ static int unwrap(lua_State *L) {
 
 static int protected_finish(lua_State *L, int status, lua_KContext ctx) {
     (void)ctx;
-    if (status != 0 && status != LUA_YIELD) {
-        if (unwrap(L)) return 2;
+    if(status != 0 && status != LUA_YIELD) {
+        if(unwrap(L)) return 2;
         else return lua_error(L);
     } else return lua_gettop(L);
 }

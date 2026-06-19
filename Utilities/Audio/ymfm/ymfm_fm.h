@@ -269,7 +269,7 @@ public:
 	{
 		assert(index < m_op.size());
 		m_op[index] = op;
-		if (op != nullptr)
+		if(op != nullptr)
 			op->set_choffs(m_choffs);
 	}
 
@@ -294,7 +294,7 @@ public:
 	// are we a 4-operator channel or a 2-operator one?
 	bool is4op() const
 	{
-		if (RegisterType::DYNAMIC_OPS)
+		if(RegisterType::DYNAMIC_OPS)
 			return (m_op[2] != nullptr);
 		return (RegisterType::OPERATORS / RegisterType::CHANNELS == 4);
 	}
@@ -316,13 +316,13 @@ private:
 		constexpr int out2_index = 2 % RegisterType::OUTPUTS;
 		constexpr int out3_index = 3 % RegisterType::OUTPUTS;
 
-		if (RegisterType::OUTPUTS == 1 || m_regs.ch_output_0(choffs))
+		if(RegisterType::OUTPUTS == 1 || m_regs.ch_output_0(choffs))
 			output.data[out0_index] += value;
-		if (RegisterType::OUTPUTS >= 2 && m_regs.ch_output_1(choffs))
+		if(RegisterType::OUTPUTS >= 2 && m_regs.ch_output_1(choffs))
 			output.data[out1_index] += value;
-		if (RegisterType::OUTPUTS >= 3 && m_regs.ch_output_2(choffs))
+		if(RegisterType::OUTPUTS >= 3 && m_regs.ch_output_2(choffs))
 			output.data[out2_index] += value;
-		if (RegisterType::OUTPUTS >= 4 && m_regs.ch_output_3(choffs))
+		if(RegisterType::OUTPUTS >= 4 && m_regs.ch_output_3(choffs))
 			output.data[out3_index] += value;
 	}
 
@@ -401,8 +401,8 @@ public:
 	// compute sample rate
 	uint32_t sample_rate(uint32_t baseclock) const
 	{
-#if (YMFM_DEBUG_LOG_WAVFILES)
-		for (uint32_t chnum = 0; chnum < CHANNELS; chnum++)
+#if(YMFM_DEBUG_LOG_WAVFILES)
+		for(uint32_t chnum = 0; chnum < CHANNELS; chnum++)
 			m_wavfile[chnum].set_samplerate(baseclock / (m_clock_prescale * OPERATORS));
 #endif
 		return baseclock / (m_clock_prescale * OPERATORS);
@@ -453,7 +453,7 @@ protected:
 	RegisterType m_regs;             // register accessor
 	std::unique_ptr<fm_channel<RegisterType>> m_channel[CHANNELS]; // channel pointers
 	std::unique_ptr<fm_operator<RegisterType>> m_operator[OPERATORS]; // operator pointers
-#if (YMFM_DEBUG_LOG_WAVFILES)
+#if(YMFM_DEBUG_LOG_WAVFILES)
 	mutable ymfm_wavfile<1> m_wavfile[CHANNELS]; // for debugging
 #endif
 };

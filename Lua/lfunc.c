@@ -37,7 +37,7 @@ LClosure *luaF_newLclosure (lua_State *L, int nupvals) {
   LClosure *c = gco2lcl(o);
   c->p = NULL;
   c->nupvalues = cast_byte(nupvals);
-  while (nupvals--) c->upvals[nupvals] = NULL;
+  while(nupvals--) c->upvals[nupvals] = NULL;
   return c;
 }
 
@@ -47,7 +47,7 @@ LClosure *luaF_newLclosure (lua_State *L, int nupvals) {
 */
 void luaF_initupvals (lua_State *L, LClosure *cl) {
   int i;
-  for (i = 0; i < cl->nupvalues; i++) {
+  for(i = 0; i < cl->nupvalues; i++) {
     GCObject *o = luaC_newobj(L, LUA_VUPVAL, sizeof(UpVal));
     UpVal *uv = gco2upv(o);
     uv->v = &uv->u.value;  /* make it closed */
@@ -70,10 +70,10 @@ static UpVal *newupval (lua_State *L, int tbc, StkId level, UpVal **prev) {
   uv->tbc = tbc;
   uv->u.open.next = next;  /* link it to list of open upvalues */
   uv->u.open.previous = prev;
-  if (next)
+  if(next)
     next->u.open.previous = &uv->u.open.next;
   *prev = uv;
-  if (!isintwups(L)) {  /* thread not in list of threads with upvalues? */
+  if(!isintwups(L)) {  /* thread not in list of threads with upvalues? */
     L->twups = G(L)->twups;  /* link it to the list */
     G(L)->twups = L;
   }
@@ -89,9 +89,9 @@ UpVal *luaF_findupval (lua_State *L, StkId level) {
   UpVal **pp = &L->openupval;
   UpVal *p;
   lua_assert(isintwups(L) || L->openupval == NULL);
-  while ((p = *pp) != NULL && uplevel(p) >= level) {  /* search for it */
+  while((p = *pp) != NULL && uplevel(p) >= level) {  /* search for it */
     lua_assert(!isdead(G(L), p));
-    if (uplevel(p) == level)  /* corresponding upvalue? */
+    if(uplevel(p) == level)  /* corresponding upvalue? */
       return p;  /* return it */
     pp = &p->u.open.next;
   }
@@ -112,7 +112,7 @@ static void callclosemethod (lua_State *L, TValue *obj, TValue *err, int yy) {
   setobj2s(L, top + 1, obj);  /* with 'self' as the 1st argument */
   setobj2s(L, top + 2, err);  /* and error msg. as 2nd argument */
   L->top = top + 3;  /* add function and arguments */
-  if (yy)
+  if(yy)
     luaD_call(L, top, 0);
   else
     luaD_callnoyield(L, top, 0);
@@ -125,10 +125,10 @@ static void callclosemethod (lua_State *L, TValue *obj, TValue *err, int yy) {
 */
 static void checkclosemth (lua_State *L, StkId level) {
   const TValue *tm = luaT_gettmbyobj(L, s2v(level), TM_CLOSE);
-  if (ttisnil(tm)) {  /* no metamethod? */
+  if(ttisnil(tm)) {  /* no metamethod? */
     int idx = cast_int(level - L->ci->func);  /* variable index */
     const char *vname = luaG_findlocal(L, L->ci, idx, NULL);
-    if (vname == NULL) vname = "?";
+    if(vname == NULL) vname = "?";
     luaG_runerror(L, "variable '%s' got a non-closable value", vname);
   }
 }
@@ -144,7 +144,7 @@ static void checkclosemth (lua_State *L, StkId level) {
 static void prepcallclosemth (lua_State *L, StkId level, int status, int yy) {
   TValue *uv = s2v(level);  /* value being closed */
   TValue *errobj;
-  if (status == CLOSEKTOP)
+  if(status == CLOSEKTOP)
     errobj = &G(L)->nilvalue;  /* error object is nil */
   else {  /* 'luaD_seterrorobj' will set top to level + 2 */
     errobj = s2v(level + 1);  /* error object goes after 'uv' */
@@ -168,10 +168,10 @@ static void prepcallclosemth (lua_State *L, StkId level, int status, int yy) {
 */
 void luaF_newtbcupval (lua_State *L, StkId level) {
   lua_assert(level > L->tbclist);
-  if (l_isfalse(s2v(level)))
+  if(l_isfalse(s2v(level)))
     return;  /* false doesn't need to be closed */
   checkclosemth(L, level);  /* value must have a close method */
-  while (cast_uint(level - L->tbclist) > MAXDELTA) {
+  while(cast_uint(level - L->tbclist) > MAXDELTA) {
     L->tbclist += MAXDELTA;  /* create a dummy node at maximum delta */
     L->tbclist->tbclist.delta = 0;
   }
@@ -183,7 +183,7 @@ void luaF_newtbcupval (lua_State *L, StkId level) {
 void luaF_unlinkupval (UpVal *uv) {
   lua_assert(upisopen(uv));
   *uv->u.open.previous = uv->u.open.next;
-  if (uv->u.open.next)
+  if(uv->u.open.next)
     uv->u.open.next->u.open.previous = uv->u.open.previous;
 }
 
@@ -194,13 +194,13 @@ void luaF_unlinkupval (UpVal *uv) {
 void luaF_closeupval (lua_State *L, StkId level) {
   UpVal *uv;
   StkId upl;  /* stack index pointed by 'uv' */
-  while ((uv = L->openupval) != NULL && (upl = uplevel(uv)) >= level) {
+  while((uv = L->openupval) != NULL && (upl = uplevel(uv)) >= level) {
     TValue *slot = &uv->u.value;  /* new position for value */
     lua_assert(uplevel(uv) < L->top);
     luaF_unlinkupval(uv);  /* remove upvalue from 'openupval' list */
     setobj(L, slot, uv->v);  /* move value to upvalue slot */
     uv->v = slot;  /* now current value lives here */
-    if (!iswhite(uv)) {  /* neither white nor dead? */
+    if(!iswhite(uv)) {  /* neither white nor dead? */
       nw2black(uv);  /* closed upvalues cannot be gray */
       luaC_barrier(L, uv, slot);
     }
@@ -215,7 +215,7 @@ static void poptbclist (lua_State *L) {
   StkId tbc = L->tbclist;
   lua_assert(tbc->tbclist.delta > 0);  /* first element cannot be dummy */
   tbc -= tbc->tbclist.delta;
-  while (tbc > L->stack && tbc->tbclist.delta == 0)
+  while(tbc > L->stack && tbc->tbclist.delta == 0)
     tbc -= MAXDELTA;  /* remove dummy nodes */
   L->tbclist = tbc;
 }
@@ -228,7 +228,7 @@ static void poptbclist (lua_State *L) {
 void luaF_close (lua_State *L, StkId level, int status, int yy) {
   ptrdiff_t levelrel = savestack(L, level);
   luaF_closeupval(L, level);  /* first, close the upvalues */
-  while (L->tbclist >= level) {  /* traverse tbc's down to that level */
+  while(L->tbclist >= level) {  /* traverse tbc's down to that level */
     StkId tbc = L->tbclist;  /* get variable index */
     poptbclist(L);  /* remove it from list */
     prepcallclosemth(L, tbc, status, yy);  /* close variable */
@@ -282,10 +282,10 @@ void luaF_freeproto (lua_State *L, Proto *f) {
 */
 const char *luaF_getlocalname (const Proto *f, int local_number, int pc) {
   int i;
-  for (i = 0; i<f->sizelocvars && f->locvars[i].startpc <= pc; i++) {
-    if (pc < f->locvars[i].endpc) {  /* is variable active? */
+  for(i = 0; i<f->sizelocvars && f->locvars[i].startpc <= pc; i++) {
+    if(pc < f->locvars[i].endpc) {  /* is variable active? */
       local_number--;
-      if (local_number == 0)
+      if(local_number == 0)
         return getstr(f->locvars[i].varname);
     }
   }

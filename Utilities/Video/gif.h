@@ -328,7 +328,7 @@ int GifPickChangedPixels( const uint8_t* lastFrame, uint8_t* frame, int numPixel
     int numChanged = 0;
     uint8_t* writeIter = frame;
 
-    for (int ii=0; ii<numPixels; ++ii)
+    for(int ii=0; ii<numPixels; ++ii)
     {
         if(lastFrame[0] != frame[0] ||
            lastFrame[1] != frame[1] ||

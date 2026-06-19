@@ -48,7 +48,7 @@ UInt32 MY_FAST_CALL CrcUpdateT1(UInt32 v, const void *data, size_t size, const U
 {
   const Byte *p = (const Byte *)data;
   const Byte *pEnd = p + size;
-  for (; p != pEnd; p++)
+  for(; p != pEnd; p++)
     v = CRC_UPDATE_BYTE_2(v, *p);
   return v;
 }
@@ -56,15 +56,15 @@ UInt32 MY_FAST_CALL CrcUpdateT1(UInt32 v, const void *data, size_t size, const U
 void MY_FAST_CALL CrcGenerateTable()
 {
   UInt32 i;
-  for (i = 0; i < 256; i++)
+  for(i = 0; i < 256; i++)
   {
     UInt32 r = i;
     unsigned j;
-    for (j = 0; j < 8; j++)
+    for(j = 0; j < 8; j++)
       r = (r >> 1) ^ (kCrcPoly & ~((r & 1) - 1));
     g_CrcTable[i] = r;
   }
-  for (; i < 256 * CRC_NUM_TABLES; i++)
+  for(; i < 256 * CRC_NUM_TABLES; i++)
   {
     UInt32 r = g_CrcTable[i - 256];
     g_CrcTable[i] = g_CrcTable[r & 0xFF] ^ (r >> 8);
@@ -85,7 +85,7 @@ void MY_FAST_CALL CrcGenerateTable()
       g_CrcUpdateT8 = CrcUpdateT8;
   
       #ifdef MY_CPU_X86_OR_AMD64
-      if (!CPU_Is_InOrder())
+      if(!CPU_Is_InOrder())
         g_CrcUpdate = CrcUpdateT8;
       #endif
     #endif
@@ -95,7 +95,7 @@ void MY_FAST_CALL CrcGenerateTable()
     #ifndef MY_CPU_BE
     UInt32 k = 0x01020304;
     const Byte *p = (const Byte *)&k;
-    if (p[0] == 4 && p[1] == 3)
+    if(p[0] == 4 && p[1] == 3)
     {
       g_CrcUpdateT4 = CrcUpdateT4;
       g_CrcUpdate = CrcUpdateT4;
@@ -104,12 +104,12 @@ void MY_FAST_CALL CrcGenerateTable()
       // g_CrcUpdate = CrcUpdateT8;
       #endif
     }
-    else if (p[0] != 1 || p[1] != 2)
+    else if(p[0] != 1 || p[1] != 2)
       g_CrcUpdate = CrcUpdateT1;
     else
     #endif
     {
-      for (i = 256 * CRC_NUM_TABLES - 1; i >= 256; i--)
+      for(i = 256 * CRC_NUM_TABLES - 1; i >= 256; i--)
       {
         UInt32 x = g_CrcTable[i - 256];
         g_CrcTable[i] = CRC_UINT32_SWAP(x);

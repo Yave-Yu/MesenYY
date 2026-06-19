@@ -36,12 +36,12 @@ in CALL instructions to increase the compression ratio.
   IA64   little     16          0
 
   size must be >= Alignment + LookAhead, if it's not last block.
-  If (size < Alignment + LookAhead), converter returns 0.
+  if(size < Alignment + LookAhead), converter returns 0.
 
   Example:
 
     UInt32 ip = 0;
-    for ()
+    for()
     {
       ; size must be >= Alignment + LookAhead, if it's not last block
       SizeT processed = Convert(data, size, ip, 1);

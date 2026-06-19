@@ -1110,7 +1110,7 @@ static int start_page_no_capturepattern(vorb* f)
 	// @TODO: validate loc0,loc1 as valid positions?
 	// stream serial number -- vorbis doesn't interleave, so discard
 	get32(f);
-	//if (f->serial != get32(f)) return error(f, VORBIS_incorrect_stream_serial_number);
+	//if(f->serial != get32(f)) return error(f, VORBIS_incorrect_stream_serial_number);
 	// page sequence number
 	n = get32(f);
 	f->last_page = n;
@@ -1368,15 +1368,15 @@ static int codebook_decode_scalar_raw(vorb* f, Codebook* c)
 #ifndef STB_VORBIS_NO_INLINE_DECODE
 
 #define DECODE_RAW(var, f,c)                                  \
-   if (f->valid_bits < STB_VORBIS_FAST_HUFFMAN_LENGTH)        \
+   if(f->valid_bits < STB_VORBIS_FAST_HUFFMAN_LENGTH)        \
       prep_huffman(f);                                        \
    var = f->acc & FAST_HUFFMAN_TABLE_MASK;                    \
    var = c->fast_huffman[var];                                \
-   if (var >= 0) {                                            \
+   if(var >= 0) {                                            \
       int n = c->codeword_lengths[var];                       \
       f->acc >>= n;                                           \
       f->valid_bits -= n;                                     \
-      if (f->valid_bits < 0) { f->valid_bits = 0; var = -1; } \
+      if(f->valid_bits < 0) { f->valid_bits = 0; var = -1; } \
    } else {                                                   \
       var = codebook_decode_scalar_raw(f,c);                  \
    }
@@ -1406,7 +1406,7 @@ static int codebook_decode_scalar(vorb* f, Codebook* c)
 
 #define DECODE(var,f,c)                                       \
    DECODE_RAW(var,f,c)                                        \
-   if (c->sparse) var = c->sorted_values[var];
+   if(c->sparse) var = c->sorted_values[var];
 
 #ifndef STB_VORBIS_DIVIDES_IN_CODEBOOK
 #define DECODE_VQ(var,f,c)   DECODE_RAW(var,f,c)

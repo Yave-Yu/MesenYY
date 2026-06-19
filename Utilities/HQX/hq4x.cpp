@@ -186,18 +186,18 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
     //   | w7 | w8 | w9 |
     //   +----+----+----+
 
-    for (j=0; j<Yres; j++)
+    for(j=0; j<Yres; j++)
     {
-        if (j>0)      prevline = -spL; else prevline = 0;
-        if (j<Yres-1) nextline =  spL; else nextline = 0;
+        if(j>0)      prevline = -spL; else prevline = 0;
+        if(j<Yres-1) nextline =  spL; else nextline = 0;
 
-        for (i=0; i<Xres; i++)
+        for(i=0; i<Xres; i++)
         {
             w[2] = *(sp + prevline);
             w[5] = *sp;
             w[8] = *(sp + nextline);
 
-            if (i>0)
+            if(i>0)
             {
                 w[1] = *(sp + prevline - 1);
                 w[4] = *(sp - 1);
@@ -210,7 +210,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 w[7] = w[8];
             }
 
-            if (i<Xres-1)
+            if(i<Xres-1)
             {
                 w[3] = *(sp + prevline + 1);
                 w[6] = *(sp + 1);
@@ -228,14 +228,14 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
 
             yuv1 = rgb_to_yuv(w[5]);
 
-            for (k=1; k<=9; k++)
+            for(k=1; k<=9; k++)
             {
-                if (k==5) continue;
+                if(k==5) continue;
 
-                if ( w[k] != w[5] )
+                if( w[k] != w[5] )
                 {
                     yuv2 = rgb_to_yuv(w[k]);
-                    if (yuv_diff(yuv1, yuv2))
+                    if(yuv_diff(yuv1, yuv2))
                         pattern |= flag;
                 }
                 flag <<= 1;
@@ -559,7 +559,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -598,7 +598,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL13_10
                         PIXEL20_61
                         PIXEL21_30
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -627,7 +627,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_70
                         PIXEL13_60
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -650,7 +650,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 10:
                 case 138:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -811,7 +811,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -850,7 +850,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_61
                         PIXEL21_30
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -877,7 +877,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_70
                         PIXEL13_60
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -899,7 +899,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 11:
                 case 139:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -929,7 +929,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 19:
                 case 51:
                     {
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL00_81
                             PIXEL01_31
@@ -964,7 +964,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -998,7 +998,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL00_20
                         PIXEL01_60
                         PIXEL02_81
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL03_81
                             PIXEL13_31
@@ -1038,7 +1038,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL13_10
                         PIXEL20_82
                         PIXEL21_32
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -1069,7 +1069,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_70
                         PIXEL13_60
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -1094,7 +1094,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 73:
                 case 77:
                     {
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL00_82
                             PIXEL10_32
@@ -1127,7 +1127,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 42:
                 case 170:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -1160,7 +1160,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 14:
                 case 142:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -1353,7 +1353,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 26:
                 case 31:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -1365,7 +1365,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL01_50
                             PIXEL10_50
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -1394,7 +1394,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -1412,7 +1412,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_61
                         PIXEL21_30
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -1439,7 +1439,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_30
                         PIXEL13_10
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -1453,7 +1453,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         }
                         PIXEL21_0
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -1470,7 +1470,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 74:
                 case 107:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -1487,7 +1487,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_0
                         PIXEL12_30
                         PIXEL13_61
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -1508,7 +1508,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 27:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -1539,7 +1539,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -1577,7 +1577,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_10
                         PIXEL21_30
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -1603,7 +1603,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_30
                         PIXEL13_61
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -1626,7 +1626,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -1664,7 +1664,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_61
                         PIXEL21_30
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -1690,7 +1690,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_30
                         PIXEL13_10
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -1711,7 +1711,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 75:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -1980,7 +1980,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 58:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -1994,7 +1994,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL10_11
                             PIXEL11_0
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -2022,7 +2022,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_81
                         PIXEL01_31
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -2040,7 +2040,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_31
                         PIXEL20_61
                         PIXEL21_30
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -2068,7 +2068,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_31
                         PIXEL13_31
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -2082,7 +2082,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL30_20
                             PIXEL31_11
                         }
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -2100,7 +2100,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 202:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -2118,7 +2118,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL03_80
                         PIXEL12_30
                         PIXEL13_61
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -2140,7 +2140,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 78:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -2158,7 +2158,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL03_82
                         PIXEL12_32
                         PIXEL13_82
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -2180,7 +2180,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 154:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -2194,7 +2194,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL10_11
                             PIXEL11_0
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -2222,7 +2222,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -2240,7 +2240,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL20_82
                         PIXEL21_32
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -2268,7 +2268,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_32
                         PIXEL12_30
                         PIXEL13_10
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -2282,7 +2282,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL30_20
                             PIXEL31_11
                         }
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -2300,7 +2300,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 90:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -2314,7 +2314,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL10_11
                             PIXEL11_0
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -2328,7 +2328,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL12_0
                             PIXEL13_12
                         }
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -2342,7 +2342,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL30_20
                             PIXEL31_11
                         }
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -2361,7 +2361,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 55:
                 case 23:
                     {
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL00_81
                             PIXEL01_31
@@ -2396,7 +2396,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -2430,7 +2430,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL00_20
                         PIXEL01_60
                         PIXEL02_81
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL03_81
                             PIXEL13_31
@@ -2470,7 +2470,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL13_10
                         PIXEL20_82
                         PIXEL21_32
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_0
                             PIXEL23_0
@@ -2501,7 +2501,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_70
                         PIXEL13_60
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL21_0
@@ -2526,7 +2526,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 109:
                 case 105:
                     {
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL00_82
                             PIXEL10_32
@@ -2559,7 +2559,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 171:
                 case 43:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -2592,7 +2592,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 143:
                 case 15:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -2632,7 +2632,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_31
                         PIXEL13_31
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -2653,7 +2653,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 203:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -2684,7 +2684,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -2722,7 +2722,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_61
                         PIXEL21_30
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -2742,7 +2742,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -2780,7 +2780,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_10
                         PIXEL21_30
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -2806,7 +2806,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_32
                         PIXEL13_82
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -2827,7 +2827,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 155:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -3024,7 +3024,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_31
                         PIXEL13_31
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -3039,7 +3039,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL31_11
                         }
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -3055,7 +3055,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 158:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -3069,7 +3069,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL10_11
                             PIXEL11_0
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -3094,7 +3094,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 234:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -3112,7 +3112,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL03_80
                         PIXEL12_30
                         PIXEL13_61
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -3135,7 +3135,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -3154,7 +3154,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_82
                         PIXEL21_32
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -3172,7 +3172,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 59:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -3184,7 +3184,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL01_50
                             PIXEL10_50
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -3219,7 +3219,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_32
                         PIXEL12_30
                         PIXEL13_10
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -3232,7 +3232,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL31_50
                         }
                         PIXEL21_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -3252,7 +3252,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_81
                         PIXEL01_31
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -3269,7 +3269,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL12_0
                         PIXEL20_61
                         PIXEL21_30
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -3289,7 +3289,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 79:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -3306,7 +3306,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_0
                         PIXEL12_32
                         PIXEL13_82
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -3328,7 +3328,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 122:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -3342,7 +3342,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL10_11
                             PIXEL11_0
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -3356,7 +3356,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL12_0
                             PIXEL13_12
                         }
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -3369,7 +3369,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL31_50
                         }
                         PIXEL21_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -3387,7 +3387,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 94:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -3401,7 +3401,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL10_11
                             PIXEL11_0
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -3414,7 +3414,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL13_50
                         }
                         PIXEL12_0
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -3428,7 +3428,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL30_20
                             PIXEL31_11
                         }
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -3446,7 +3446,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 218:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -3460,7 +3460,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL10_11
                             PIXEL11_0
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -3474,7 +3474,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL12_0
                             PIXEL13_12
                         }
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -3489,7 +3489,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL31_11
                         }
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -3505,7 +3505,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 91:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -3517,7 +3517,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL01_50
                             PIXEL10_50
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -3532,7 +3532,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL13_12
                         }
                         PIXEL11_0
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -3546,7 +3546,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL30_20
                             PIXEL31_11
                         }
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -3644,7 +3644,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 186:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -3658,7 +3658,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL10_11
                             PIXEL11_0
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -3686,7 +3686,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_81
                         PIXEL01_31
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -3704,7 +3704,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_31
                         PIXEL20_82
                         PIXEL21_32
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -3732,7 +3732,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_32
                         PIXEL12_31
                         PIXEL13_31
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -3746,7 +3746,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL30_20
                             PIXEL31_11
                         }
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -3764,7 +3764,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 206:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -3782,7 +3782,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL03_82
                         PIXEL12_32
                         PIXEL13_82
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -3813,7 +3813,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_32
                         PIXEL12_70
                         PIXEL13_60
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_10
                             PIXEL21_30
@@ -3836,7 +3836,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 174:
                 case 46:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_80
                             PIXEL01_10
@@ -3869,7 +3869,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_81
                         PIXEL01_31
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_10
                             PIXEL03_80
@@ -3908,7 +3908,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL13_31
                         PIXEL20_82
                         PIXEL21_32
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_30
                             PIXEL23_10
@@ -3970,7 +3970,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -3985,7 +3985,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL10_10
                         PIXEL11_30
                         PIXEL12_0
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -4006,7 +4006,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 219:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -4026,7 +4026,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_10
                         PIXEL21_30
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -4044,7 +4044,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 125:
                     {
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL00_82
                             PIXEL10_32
@@ -4079,7 +4079,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL00_82
                         PIXEL01_82
                         PIXEL02_81
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL03_81
                             PIXEL13_31
@@ -4108,7 +4108,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 207:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -4148,7 +4148,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_32
                         PIXEL13_82
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL21_0
@@ -4174,7 +4174,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -4204,7 +4204,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 187:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -4246,7 +4246,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL13_10
                         PIXEL20_82
                         PIXEL21_32
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL22_0
                             PIXEL23_0
@@ -4268,7 +4268,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 119:
                     {
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL00_81
                             PIXEL01_31
@@ -4313,7 +4313,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL21_0
                         PIXEL22_31
                         PIXEL23_81
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL30_0
                         }
@@ -4329,7 +4329,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                 case 175:
                 case 47:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                         }
@@ -4360,7 +4360,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL00_81
                         PIXEL01_31
                         PIXEL02_0
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL03_0
                         }
@@ -4400,7 +4400,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL30_82
                         PIXEL31_32
                         PIXEL32_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL33_0
                         }
@@ -4420,7 +4420,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_30
                         PIXEL13_10
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -4434,7 +4434,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         }
                         PIXEL21_0
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -4450,7 +4450,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 123:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -4467,7 +4467,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_0
                         PIXEL12_30
                         PIXEL13_10
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -4488,7 +4488,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 95:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -4500,7 +4500,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL01_50
                             PIXEL10_50
                         }
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -4528,7 +4528,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -4546,7 +4546,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_10
                         PIXEL21_30
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -4572,7 +4572,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_30
                         PIXEL12_31
                         PIXEL13_31
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -4588,7 +4588,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL22_0
                         PIXEL23_0
                         PIXEL32_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL33_0
                         }
@@ -4611,7 +4611,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_0
                         PIXEL21_0
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -4623,7 +4623,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL32_50
                             PIXEL33_50
                         }
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL30_0
                         }
@@ -4636,7 +4636,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 235:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -4657,7 +4657,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL21_0
                         PIXEL22_31
                         PIXEL23_81
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL30_0
                         }
@@ -4672,7 +4672,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 111:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                         }
@@ -4687,7 +4687,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL11_0
                         PIXEL12_32
                         PIXEL13_82
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -4708,7 +4708,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 63:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                         }
@@ -4717,7 +4717,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL00_20
                         }
                         PIXEL01_0
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -4744,7 +4744,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 159:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -4757,7 +4757,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL10_50
                         }
                         PIXEL02_0
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL03_0
                         }
@@ -4783,7 +4783,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL00_81
                         PIXEL01_31
                         PIXEL02_0
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL03_0
                         }
@@ -4798,7 +4798,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_61
                         PIXEL21_30
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -4818,7 +4818,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -4840,7 +4840,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL30_82
                         PIXEL31_32
                         PIXEL32_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL33_0
                         }
@@ -4854,7 +4854,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     {
                         PIXEL00_80
                         PIXEL01_10
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -4869,7 +4869,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL10_10
                         PIXEL11_30
                         PIXEL12_0
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -4885,7 +4885,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL22_0
                         PIXEL23_0
                         PIXEL32_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL33_0
                         }
@@ -4909,7 +4909,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL21_0
                         PIXEL22_0
                         PIXEL23_0
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL30_0
                         }
@@ -4919,7 +4919,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         }
                         PIXEL31_0
                         PIXEL32_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL33_0
                         }
@@ -4931,7 +4931,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 251:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -4951,7 +4951,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_0
                         PIXEL21_0
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -4963,7 +4963,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL32_50
                             PIXEL33_50
                         }
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL30_0
                         }
@@ -4976,7 +4976,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 239:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                         }
@@ -4995,7 +4995,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL21_0
                         PIXEL22_31
                         PIXEL23_81
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL30_0
                         }
@@ -5010,7 +5010,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 127:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                         }
@@ -5019,7 +5019,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL00_20
                         }
                         PIXEL01_0
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL02_0
                             PIXEL03_0
@@ -5034,7 +5034,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL10_0
                         PIXEL11_0
                         PIXEL12_0
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL20_0
                             PIXEL30_0
@@ -5055,7 +5055,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 191:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                         }
@@ -5065,7 +5065,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         }
                         PIXEL01_0
                         PIXEL02_0
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL03_0
                         }
@@ -5089,7 +5089,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 223:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                             PIXEL01_0
@@ -5102,7 +5102,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                             PIXEL10_50
                         }
                         PIXEL02_0
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL03_0
                         }
@@ -5116,7 +5116,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL20_10
                         PIXEL21_30
                         PIXEL22_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL23_0
                             PIXEL32_0
@@ -5137,7 +5137,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL00_81
                         PIXEL01_31
                         PIXEL02_0
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL03_0
                         }
@@ -5156,7 +5156,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL30_82
                         PIXEL31_32
                         PIXEL32_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL33_0
                         }
@@ -5168,7 +5168,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                     }
                 case 255:
                     {
-                        if (Diff(w[4], w[2]))
+                        if(Diff(w[4], w[2]))
                         {
                             PIXEL00_0
                         }
@@ -5178,7 +5178,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         }
                         PIXEL01_0
                         PIXEL02_0
-                        if (Diff(w[2], w[6]))
+                        if(Diff(w[2], w[6]))
                         {
                             PIXEL03_0
                         }
@@ -5194,7 +5194,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         PIXEL21_0
                         PIXEL22_0
                         PIXEL23_0
-                        if (Diff(w[8], w[4]))
+                        if(Diff(w[8], w[4]))
                         {
                             PIXEL30_0
                         }
@@ -5204,7 +5204,7 @@ void HQX_CALLCONV hq4x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp, uint32
                         }
                         PIXEL31_0
                         PIXEL32_0
-                        if (Diff(w[6], w[8]))
+                        if(Diff(w[6], w[8]))
                         {
                             PIXEL33_0
                         }

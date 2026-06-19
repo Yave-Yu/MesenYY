@@ -68,7 +68,7 @@
     #pragma warning(disable: 4244)
 #endif
 
-#if (defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__) || defined(__BIG_ENDIAN__)
+#if(defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__) || defined(__BIG_ENDIAN__)
     #define SPNG_BIG_ENDIAN
 #else
     #define SPNG_LITTLE_ENDIAN
@@ -4127,7 +4127,7 @@ static void defilter_sub3(size_t rowbytes, unsigned char *row)
 
    __m128i a, d = _mm_setzero_si128();
 
-   while (rb >= 4) {
+   while(rb >= 4) {
       a = d; d = load4(row);
       d = _mm_add_epi8(d, a);
       store3(row, d);
@@ -4135,7 +4135,7 @@ static void defilter_sub3(size_t rowbytes, unsigned char *row)
       row += 3;
       rb  -= 3;
    }
-   if (rb > 0) {
+   if(rb > 0) {
       a = d; d = load3(row);
       d = _mm_add_epi8(d, a);
       store3(row, d);
@@ -4152,7 +4152,7 @@ static void defilter_sub4(size_t rowbytes, unsigned char *row)
 
    __m128i a, d = _mm_setzero_si128();
 
-   while (rb > 4) {
+   while(rb > 4) {
       a = d; d = load4(row);
       d = _mm_add_epi8(d, a);
       store4(row, d);
@@ -4177,7 +4177,7 @@ static void defilter_avg3(size_t rowbytes, unsigned char *row, const unsigned ch
    __m128i    b;
    __m128i a, d = zero;
 
-   while (rb >= 4)
+   while(rb >= 4)
    {
       __m128i avg;
              b = load4(prev);
@@ -4196,7 +4196,7 @@ static void defilter_avg3(size_t rowbytes, unsigned char *row, const unsigned ch
       rb   -= 3;
    }
 
-   if (rb > 0)
+   if(rb > 0)
    {
       __m128i avg;
              b = load3(prev);
@@ -4226,7 +4226,7 @@ static void defilter_avg4(size_t rowbytes, unsigned char *row, const unsigned ch
    __m128i    b;
    __m128i a, d = zero;
 
-   while (rb > 4)
+   while(rb > 4)
    {
       __m128i avg;
              b = load4(prev);
@@ -4248,7 +4248,7 @@ static void defilter_avg4(size_t rowbytes, unsigned char *row, const unsigned ch
 }
 
 /* Returns |x| for 16-bit lanes. */
-#if (SPNG_SSE >= 3) && !defined(_MSC_VER)
+#if(SPNG_SSE >= 3) && !defined(_MSC_VER)
 __attribute__((target("ssse3")))
 #endif
 static __m128i abs_i16(__m128i x)
@@ -4300,7 +4300,7 @@ static void defilter_paeth3(size_t rowbytes, unsigned char *row, const unsigned 
    __m128i c, b = zero,
            a, d = zero;
 
-   while (rb >= 4)
+   while(rb >= 4)
    {
       /* It's easiest to do this math (particularly, deal with pc) with 16-bit
        * intermediates.
@@ -4338,7 +4338,7 @@ static void defilter_paeth3(size_t rowbytes, unsigned char *row, const unsigned 
       rb   -= 3;
    }
 
-   if (rb > 0)
+   if(rb > 0)
    {
       /* It's easiest to do this math (particularly, deal with pc) with 16-bit
        * intermediates.
@@ -4394,7 +4394,7 @@ static void defilter_paeth4(size_t rowbytes, unsigned char *row, const unsigned 
    __m128i c, b = zero,
            a, d = zero;
 
-   while (rb > 4)
+   while(rb > 4)
    {
       /* It's easiest to do this math (particularly, deal with pc) with 16-bit
        * intermediates.
@@ -4487,7 +4487,7 @@ static void defilter_sub3(size_t rowbytes, unsigned char *row)
    uint8x8x4_t vdest;
    vdest.val[3] = vdup_n_u8(0);
 
-   for (; rp < rp_stop;)
+   for(; rp < rp_stop;)
    {
       uint8x8_t vtmp1, vtmp2;
       uint32x2_t *temp_pointer;
@@ -4524,7 +4524,7 @@ static void defilter_sub4(size_t rowbytes, unsigned char *row)
    uint8x8x4_t vdest;
    vdest.val[3] = vdup_n_u8(0);
 
-   for (; rp < rp_stop; rp += 16)
+   for(; rp < rp_stop; rp += 16)
    {
       uint32x2x4_t vtmp = vld4_u32(png_ptr(uint32_t,rp));
       uint8x8x4_t *vrpt = png_ptr(uint8x8x4_t,&vtmp);
@@ -4558,7 +4558,7 @@ static void defilter_avg3(size_t rowbytes, unsigned char *row, const unsigned ch
    vrpt = png_ptr(uint8x8x2_t,&vtmp);
    vrp = *vrpt;
 
-   for (; rp < rp_stop; pp += 12)
+   for(; rp < rp_stop; pp += 12)
    {
       uint8x8_t vtmp1, vtmp2, vtmp3;
 
@@ -4615,7 +4615,7 @@ static void defilter_avg4(size_t rowbytes, unsigned char *row, const unsigned ch
    uint8x8x4_t vdest;
    vdest.val[3] = vdup_n_u8(0);
 
-   for (; rp < rp_stop; rp += 16, pp += 16)
+   for(; rp < rp_stop; rp += 16, pp += 16)
    {
       uint32x2x4_t vtmp;
       uint8x8x4_t *vrpt, *vppt;
@@ -4687,7 +4687,7 @@ static void defilter_paeth3(size_t rowbytes, unsigned char *row, const unsigned 
    vrpt = png_ptr(uint8x8x2_t,&vtmp);
    vrp = *vrpt;
 
-   for (; rp < rp_stop; pp += 12)
+   for(; rp < rp_stop; pp += 12)
    {
       uint8x8x2_t *vppt;
       uint8x8x2_t vpp;
@@ -4744,7 +4744,7 @@ static void defilter_paeth4(size_t rowbytes, unsigned char *row, const unsigned 
    uint8x8x4_t vdest;
    vdest.val[3] = vdup_n_u8(0);
 
-   for (; rp < rp_stop; rp += 16, pp += 16)
+   for(; rp < rp_stop; rp += 16, pp += 16)
    {
       uint32x2x4_t vtmp;
       uint8x8x4_t *vrpt, *vppt;

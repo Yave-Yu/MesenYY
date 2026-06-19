@@ -38,7 +38,7 @@ typedef struct {
 
 
 static void dumpBlock (DumpState *D, const void *b, size_t size) {
-  if (D->status == 0 && size > 0) {
+  if(D->status == 0 && size > 0) {
     lua_unlock(D->L);
     D->status = (*D->writer)(D->L, b, size, D->data);
     lua_lock(D->L);
@@ -64,7 +64,7 @@ static void dumpSize (DumpState *D, size_t x) {
   do {
     buff[DIBS - (++n)] = x & 0x7f;  /* fill buffer in reverse order */
     x >>= 7;
-  } while (x != 0);
+  } while(x != 0);
   buff[DIBS - 1] |= 0x80;  /* mark last byte */
   dumpVector(D, buff + DIBS - n, n);
 }
@@ -86,7 +86,7 @@ static void dumpInteger (DumpState *D, lua_Integer x) {
 
 
 static void dumpString (DumpState *D, const TString *s) {
-  if (s == NULL)
+  if(s == NULL)
     dumpSize(D, 0);
   else {
     size_t size = tsslen(s);
@@ -109,7 +109,7 @@ static void dumpConstants (DumpState *D, const Proto *f) {
   int i;
   int n = f->sizek;
   dumpInt(D, n);
-  for (i = 0; i < n; i++) {
+  for(i = 0; i < n; i++) {
     const TValue *o = &f->k[i];
     int tt = ttypetag(o);
     dumpByte(D, tt);
@@ -135,7 +135,7 @@ static void dumpProtos (DumpState *D, const Proto *f) {
   int i;
   int n = f->sizep;
   dumpInt(D, n);
-  for (i = 0; i < n; i++)
+  for(i = 0; i < n; i++)
     dumpFunction(D, f->p[i], f->source);
 }
 
@@ -143,7 +143,7 @@ static void dumpProtos (DumpState *D, const Proto *f) {
 static void dumpUpvalues (DumpState *D, const Proto *f) {
   int i, n = f->sizeupvalues;
   dumpInt(D, n);
-  for (i = 0; i < n; i++) {
+  for(i = 0; i < n; i++) {
     dumpByte(D, f->upvalues[i].instack);
     dumpByte(D, f->upvalues[i].idx);
     dumpByte(D, f->upvalues[i].kind);
@@ -158,26 +158,26 @@ static void dumpDebug (DumpState *D, const Proto *f) {
   dumpVector(D, f->lineinfo, n);
   n = (D->strip) ? 0 : f->sizeabslineinfo;
   dumpInt(D, n);
-  for (i = 0; i < n; i++) {
+  for(i = 0; i < n; i++) {
     dumpInt(D, f->abslineinfo[i].pc);
     dumpInt(D, f->abslineinfo[i].line);
   }
   n = (D->strip) ? 0 : f->sizelocvars;
   dumpInt(D, n);
-  for (i = 0; i < n; i++) {
+  for(i = 0; i < n; i++) {
     dumpString(D, f->locvars[i].varname);
     dumpInt(D, f->locvars[i].startpc);
     dumpInt(D, f->locvars[i].endpc);
   }
   n = (D->strip) ? 0 : f->sizeupvalues;
   dumpInt(D, n);
-  for (i = 0; i < n; i++)
+  for(i = 0; i < n; i++)
     dumpString(D, f->upvalues[i].name);
 }
 
 
 static void dumpFunction (DumpState *D, const Proto *f, TString *psource) {
-  if (D->strip || f->source == psource)
+  if(D->strip || f->source == psource)
     dumpString(D, NULL);  /* no debug info or same source as its parent */
   else
     dumpString(D, f->source);

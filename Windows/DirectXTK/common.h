@@ -142,7 +142,7 @@
 #include <DirectXPackedVector.h>
 #include <DirectXCollision.h>
 
-#if (DIRECTX_MATH_VERSION < 315)
+#if(DIRECTX_MATH_VERSION < 315)
 #define XM_ALIGNED_STRUCT(x) __declspec(align(x)) struct
 #endif
 
@@ -153,7 +153,7 @@
 
 #include <wincodec.h>
 
-#if (defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)) || (defined(_XBOX_ONE) && defined(_TITLE))
+#if(defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)) || (defined(_XBOX_ONE) && defined(_TITLE))
 #pragma warning(push)
 #pragma warning(disable: 4471 5204)
 #include <Windows.UI.Core.h>

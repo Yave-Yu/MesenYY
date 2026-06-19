@@ -14,13 +14,13 @@ void Buf_Init(CBuf *p)
 int Buf_Create(CBuf *p, size_t size, ISzAlloc *alloc)
 {
   p->size = 0;
-  if (size == 0)
+  if(size == 0)
   {
     p->data = 0;
     return 1;
   }
   p->data = (Byte *)alloc->Alloc(alloc, size);
-  if (p->data != 0)
+  if(p->data != 0)
   {
     p->size = size;
     return 1;

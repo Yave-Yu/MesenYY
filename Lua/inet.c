@@ -50,7 +50,7 @@ int inet_open(lua_State *L)
 \*-------------------------------------------------------------------------*/
 static int inet_gethost(const char *address, struct hostent **hp) {
     struct in_addr addr;
-    if (inet_aton(address, &addr))
+    if(inet_aton(address, &addr))
         return socket_gethostbyaddr((char *) &addr, sizeof(addr), hp);
     else
         return socket_gethostbyname(address, hp);
@@ -64,7 +64,7 @@ static int inet_global_tohostname(lua_State *L) {
     const char *address = luaL_checkstring(L, 1);
     struct hostent *hp = NULL;
     int err = inet_gethost(address, &hp);
-    if (err != IO_DONE) {
+    if(err != IO_DONE) {
         lua_pushnil(L);
         lua_pushstring(L, socket_hoststrerror(err));
         return 2;
@@ -83,7 +83,7 @@ static int inet_global_getnameinfo(lua_State *L) {
     const char *host = luaL_optstring(L, 1, NULL);
     const char *serv = luaL_optstring(L, 2, NULL);
 
-    if (!(host || serv))
+    if(!(host || serv))
         luaL_error(L, "host and serv cannot be both nil");
 
     memset(&hints, 0, sizeof(hints));
@@ -91,18 +91,18 @@ static int inet_global_getnameinfo(lua_State *L) {
     hints.ai_family = AF_UNSPEC;
 
     ret = getaddrinfo(host, serv, &hints, &resolved);
-    if (ret != 0) {
+    if(ret != 0) {
         lua_pushnil(L);
         lua_pushstring(L, socket_gaistrerror(ret));
         return 2;
     }
 
     lua_newtable(L);
-    for (i = 1, iter = resolved; iter; i++, iter = iter->ai_next) {
+    for(i = 1, iter = resolved; iter; i++, iter = iter->ai_next) {
         getnameinfo(iter->ai_addr, (socklen_t) iter->ai_addrlen,
             hbuf, host? (socklen_t) sizeof(hbuf): 0,
             sbuf, serv? (socklen_t) sizeof(sbuf): 0, 0);
-        if (host) {
+        if(host) {
             lua_pushnumber(L, i);
             lua_pushstring(L, hbuf);
             lua_settable(L, -3);
@@ -110,7 +110,7 @@ static int inet_global_getnameinfo(lua_State *L) {
     }
     freeaddrinfo(resolved);
 
-    if (serv) {
+    if(serv) {
         lua_pushstring(L, sbuf);
         return 2;
     } else {
@@ -127,7 +127,7 @@ static int inet_global_toip(lua_State *L)
     const char *address = luaL_checkstring(L, 1);
     struct hostent *hp = NULL;
     int err = inet_gethost(address, &hp);
-    if (err != IO_DONE) {
+    if(err != IO_DONE) {
         lua_pushnil(L);
         lua_pushstring(L, socket_hoststrerror(err));
         return 2;
@@ -163,17 +163,17 @@ static int inet_global_getaddrinfo(lua_State *L)
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_family = AF_UNSPEC;
     ret = getaddrinfo(hostname, NULL, &hints, &resolved);
-    if (ret != 0) {
+    if(ret != 0) {
         lua_pushnil(L);
         lua_pushstring(L, socket_gaistrerror(ret));
         return 2;
     }
     lua_newtable(L);
-    for (iterator = resolved; iterator; iterator = iterator->ai_next) {
+    for(iterator = resolved; iterator; iterator = iterator->ai_next) {
         char hbuf[NI_MAXHOST];
         ret = getnameinfo(iterator->ai_addr, (socklen_t) iterator->ai_addrlen,
             hbuf, (socklen_t) sizeof(hbuf), NULL, 0, NI_NUMERICHOST);
-        if (ret){
+        if(ret){
           freeaddrinfo(resolved);
           lua_pushnil(L);
           lua_pushstring(L, socket_gaistrerror(ret));
@@ -220,7 +220,7 @@ static int inet_global_gethostname(lua_State *L)
 {
     char name[257];
     name[256] = '\0';
-    if (gethostname(name, 256) < 0) {
+    if(gethostname(name, 256) < 0) {
         lua_pushnil(L);
         lua_pushstring(L, socket_strerror(errno));
         return 2;
@@ -243,7 +243,7 @@ int inet_meth_getpeername(lua_State *L, p_socket ps, int family)
     socklen_t peer_len = sizeof(peer);
     char name[INET6_ADDRSTRLEN];
     char port[6]; /* 65535 = 5 bytes + 0 to terminate it */
-    if (getpeername(*ps, (SA *) &peer, &peer_len) < 0) {
+    if(getpeername(*ps, (SA *) &peer, &peer_len) < 0) {
         lua_pushnil(L);
         lua_pushstring(L, socket_strerror(errno));
         return 2;
@@ -251,7 +251,7 @@ int inet_meth_getpeername(lua_State *L, p_socket ps, int family)
 	err = getnameinfo((struct sockaddr *) &peer, peer_len,
         name, INET6_ADDRSTRLEN,
         port, sizeof(port), NI_NUMERICHOST | NI_NUMERICSERV);
-    if (err) {
+    if(err) {
         lua_pushnil(L);
         lua_pushstring(L, LUA_GAI_STRERROR(err));
         return 2;
@@ -277,14 +277,14 @@ int inet_meth_getsockname(lua_State *L, p_socket ps, int family)
     socklen_t peer_len = sizeof(peer);
     char name[INET6_ADDRSTRLEN];
     char port[6]; /* 65535 = 5 bytes + 0 to terminate it */
-    if (getsockname(*ps, (SA *) &peer, &peer_len) < 0) {
+    if(getsockname(*ps, (SA *) &peer, &peer_len) < 0) {
         lua_pushnil(L);
         lua_pushstring(L, socket_strerror(errno));
         return 2;
     }
 	err=getnameinfo((struct sockaddr *)&peer, peer_len,
 		name, INET6_ADDRSTRLEN, port, 6, NI_NUMERICHOST | NI_NUMERICSERV);
-    if (err) {
+    if(err) {
         lua_pushnil(L);
         lua_pushstring(L, LUA_GAI_STRERROR(err));
         return 2;
@@ -320,8 +320,8 @@ static void inet_pushresolved(lua_State *L, struct hostent *hp)
     i = 1;
     alias = hp->h_aliases;
     lua_newtable(L);
-    if (alias) {
-        while (*alias) {
+    if(alias) {
+        while(*alias) {
             lua_pushnumber(L, i);
             lua_pushstring(L, *alias);
             lua_settable(L, -3);
@@ -332,8 +332,8 @@ static void inet_pushresolved(lua_State *L, struct hostent *hp)
     i = 1;
     lua_newtable(L);
     addr = (struct in_addr **) hp->h_addr_list;
-    if (addr) {
-        while (*addr) {
+    if(addr) {
+        while(*addr) {
             lua_pushnumber(L, i);
             lua_pushstring(L, inet_ntoa(**addr));
             lua_settable(L, -3);
@@ -348,7 +348,7 @@ static void inet_pushresolved(lua_State *L, struct hostent *hp)
 \*-------------------------------------------------------------------------*/
 const char *inet_trycreate(p_socket ps, int family, int type, int protocol) {
     const char *err = socket_strerror(socket_create(ps, family, type, protocol));
-    if (err == NULL && family == AF_INET6) {
+    if(err == NULL && family == AF_INET6) {
         int yes = 1;
         setsockopt(*ps, IPPROTO_IPV6, IPV6_V6ONLY, (void *)&yes, sizeof(yes));
     }
@@ -394,22 +394,22 @@ const char *inet_tryconnect(p_socket ps, int *family, const char *address,
     /* try resolving */
     err = socket_gaistrerror(getaddrinfo(address, serv,
                 connecthints, &resolved));
-    if (err != NULL) {
-        if (resolved) freeaddrinfo(resolved);
+    if(err != NULL) {
+        if(resolved) freeaddrinfo(resolved);
         return err;
     }
-    for (iterator = resolved; iterator; iterator = iterator->ai_next) {
+    for(iterator = resolved; iterator; iterator = iterator->ai_next) {
         timeout_markstart(tm);
         /* create new socket if necessary. if there was no
          * bind, we need to create one for every new family
          * that shows up while iterating. if there was a
          * bind, all families will be the same and we will
          * not enter this branch. */
-        if (current_family != iterator->ai_family || *ps == SOCKET_INVALID) {
+        if(current_family != iterator->ai_family || *ps == SOCKET_INVALID) {
             socket_destroy(ps);
             err = inet_trycreate(ps, iterator->ai_family,
                 iterator->ai_socktype, iterator->ai_protocol);
-            if (err) continue;
+            if(err) continue;
             current_family = iterator->ai_family;
             /* set non-blocking before connect */
             socket_setnonblocking(ps);
@@ -418,7 +418,7 @@ const char *inet_tryconnect(p_socket ps, int *family, const char *address,
         err = socket_strerror(socket_connect(ps, (SA *) iterator->ai_addr,
             (socklen_t) iterator->ai_addrlen, tm));
         /* if success or timeout is zero, break out of loop */
-        if (err == NULL || timeout_iszero(tm)) {
+        if(err == NULL || timeout_iszero(tm)) {
             *family = current_family;
             break;
         }
@@ -453,28 +453,28 @@ const char *inet_trybind(p_socket ps, int *family, const char *address,
     const char *err = NULL;
     int current_family = *family;
     /* translate luasocket special values to C */
-    if (strcmp(address, "*") == 0) address = NULL;
-    if (!serv) serv = "0";
+    if(strcmp(address, "*") == 0) address = NULL;
+    if(!serv) serv = "0";
     /* try resolving */
     err = socket_gaistrerror(getaddrinfo(address, serv, bindhints, &resolved));
-    if (err) {
-        if (resolved) freeaddrinfo(resolved);
+    if(err) {
+        if(resolved) freeaddrinfo(resolved);
         return err;
     }
     /* iterate over resolved addresses until one is good */
-    for (iterator = resolved; iterator; iterator = iterator->ai_next) {
-        if (current_family != iterator->ai_family || *ps == SOCKET_INVALID) {
+    for(iterator = resolved; iterator; iterator = iterator->ai_next) {
+        if(current_family != iterator->ai_family || *ps == SOCKET_INVALID) {
             socket_destroy(ps);
             err = inet_trycreate(ps, iterator->ai_family,
                         iterator->ai_socktype, iterator->ai_protocol);
-            if (err) continue;
+            if(err) continue;
             current_family = iterator->ai_family;
         }
         /* try binding to local address */
         err = socket_strerror(socket_bind(ps, (SA *) iterator->ai_addr,
             (socklen_t) iterator->ai_addrlen));
         /* keep trying unless bind succeeded */
-        if (err == NULL) {
+        if(err == NULL) {
             *family = current_family;
             /* set to non-blocking after bind */
             socket_setnonblocking(ps);
@@ -497,11 +497,11 @@ int inet_aton(const char *cp, struct in_addr *inp)
     int n = 0, r;
     unsigned long int addr = 0;
     r = sscanf(cp, "%u.%u.%u.%u%n", &a, &b, &c, &d, &n);
-    if (r == 0 || n == 0) return 0;
+    if(r == 0 || n == 0) return 0;
     cp += n;
-    if (*cp) return 0;
-    if (a > 255 || b > 255 || c > 255 || d > 255) return 0;
-    if (inp) {
+    if(*cp) return 0;
+    if(a > 255 || b > 255 || c > 255 || d > 255) return 0;
+    if(inp) {
         addr += a; addr <<= 8;
         addr += b; addr <<= 8;
         addr += c; addr <<= 8;
@@ -520,11 +520,11 @@ int inet_pton(int af, const char *src, void *dst)
     memset(&hints, 0, sizeof(struct addrinfo));
     hints.ai_family = af;
     hints.ai_flags = AI_NUMERICHOST;
-    if (getaddrinfo(src, NULL, &hints, &res) != 0) return -1;
-    if (af == AF_INET) {
+    if(getaddrinfo(src, NULL, &hints, &res) != 0) return -1;
+    if(af == AF_INET) {
         struct sockaddr_in *in = (struct sockaddr_in *) res->ai_addr;
         memcpy(dst, &in->sin_addr, sizeof(in->sin_addr));
-    } else if (af == AF_INET6) {
+    } else if(af == AF_INET6) {
         struct sockaddr_in6 *in = (struct sockaddr_in6 *) res->ai_addr;
         memcpy(dst, &in->sin6_addr, sizeof(in->sin6_addr));
     } else {

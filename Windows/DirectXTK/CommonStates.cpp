@@ -65,7 +65,7 @@ HRESULT CommonStates::Impl::CreateBlendState(D3D11_BLEND srcBlend, D3D11_BLEND d
 
     HRESULT hr = mDevice->CreateBlendState(&desc, pResult);
 
-    if (SUCCEEDED(hr))
+    if(SUCCEEDED(hr))
         SetDebugObjectName(*pResult, "DirectXTK:CommonStates");
 
     return hr;
@@ -94,7 +94,7 @@ HRESULT CommonStates::Impl::CreateDepthStencilState(bool enable, bool writeEnabl
 
     HRESULT hr = mDevice->CreateDepthStencilState(&desc, pResult);
 
-    if (SUCCEEDED(hr))
+    if(SUCCEEDED(hr))
         SetDebugObjectName(*pResult, "DirectXTK:CommonStates");
 
     return hr;
@@ -113,7 +113,7 @@ HRESULT CommonStates::Impl::CreateRasterizerState(D3D11_CULL_MODE cullMode, D3D1
 
     HRESULT hr = mDevice->CreateRasterizerState(&desc, pResult);
 
-    if (SUCCEEDED(hr))
+    if(SUCCEEDED(hr))
         SetDebugObjectName(*pResult, "DirectXTK:CommonStates");
 
     return hr;
@@ -138,7 +138,7 @@ HRESULT CommonStates::Impl::CreateSamplerState(D3D11_FILTER filter, D3D11_TEXTUR
 
     HRESULT hr = mDevice->CreateSamplerState(&desc, pResult);
 
-    if (SUCCEEDED(hr))
+    if(SUCCEEDED(hr))
         SetDebugObjectName(*pResult, "DirectXTK:CommonStates");
 
     return hr;

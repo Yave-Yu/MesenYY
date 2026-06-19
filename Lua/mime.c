@@ -200,16 +200,16 @@ static int mime_global_wrp(lua_State *L)
     int length = (int) luaL_optnumber(L, 3, 76);
     luaL_Buffer buffer;
     /* end of input black-hole */
-    if (!input) {
+    if(!input) {
         /* if last line has not been terminated, add a line break */
-        if (left < length) lua_pushstring(L, CRLF);
+        if(left < length) lua_pushstring(L, CRLF);
         /* otherwise, we are done */
         else lua_pushnil(L);
         lua_pushnumber(L, length);
         return 2;
     }
     luaL_buffinit(L, &buffer);
-    while (input < last) {
+    while(input < last) {
         switch (*input) {
             case '\r':
                 break;
@@ -218,7 +218,7 @@ static int mime_global_wrp(lua_State *L)
                 left = length;
                 break;
             default:
-                if (left <= 0) {
+                if(left <= 0) {
                     left = length;
                     luaL_addstring(&buffer, CRLF);
                 }
@@ -240,12 +240,12 @@ static int mime_global_wrp(lua_State *L)
 static void b64setup(UC *unbase)
 {
     int i;
-    for (i = 0; i <= 255; i++) unbase[i] = (UC) 255;
-    for (i = 0; i < 64; i++) unbase[b64base[i]] = (UC) i;
+    for(i = 0; i <= 255; i++) unbase[i] = (UC) 255;
+    for(i = 0; i < 64; i++) unbase[b64base[i]] = (UC) i;
     unbase['='] = 0;
 
     printf("static const UC b64unbase[] = {\n");
-    for (int i = 0; i < 256; i++) {
+    for(int i = 0; i < 256; i++) {
         printf("%d, ", unbase[i]);
     }
     printf("\n}\n;");
@@ -261,7 +261,7 @@ static size_t b64encode(UC c, UC *input, size_t size,
         luaL_Buffer *buffer)
 {
     input[size++] = c;
-    if (size == 3) {
+    if(size == 3) {
         UC code[4];
         unsigned long value = 0;
         value += input[0]; value <<= 8;
@@ -317,10 +317,10 @@ static size_t b64decode(UC c, UC *input, size_t size,
         luaL_Buffer *buffer)
 {
     /* ignore invalid characters */
-    if (b64unbase[c] > 64) return size;
+    if(b64unbase[c] > 64) return size;
     input[size++] = c;
     /* decode atom */
-    if (size == 4) {
+    if(size == 4) {
         UC decoded[3];
         int valid, value = 0;
         value =  b64unbase[input[0]]; value <<= 6;
@@ -355,7 +355,7 @@ static int mime_global_b64(lua_State *L)
     const UC *last = input + isize;
     luaL_Buffer buffer;
     /* end-of-input blackhole */
-    if (!input) {
+    if(!input) {
         lua_pushnil(L);
         lua_pushnil(L);
         return 2;
@@ -364,23 +364,23 @@ static int mime_global_b64(lua_State *L)
     lua_settop(L, 2);
     /* process first part of the input */
     luaL_buffinit(L, &buffer);
-    while (input < last)
+    while(input < last)
         asize = b64encode(*input++, atom, asize, &buffer);
     input = (const UC *) luaL_optlstring(L, 2, NULL, &isize);
     /* if second part is nil, we are done */
-    if (!input) {
+    if(!input) {
         size_t osize = 0;
         asize = b64pad(atom, asize, &buffer);
         luaL_pushresult(&buffer);
         /* if the output is empty  and the input is nil, return nil */
         lua_tolstring(L, -1, &osize);
-        if (osize == 0) lua_pushnil(L);
+        if(osize == 0) lua_pushnil(L);
         lua_pushnil(L);
         return 2;
     }
     /* otherwise process the second part */
     last = input + isize;
-    while (input < last)
+    while(input < last)
         asize = b64encode(*input++, atom, asize, &buffer);
     luaL_pushresult(&buffer);
     lua_pushlstring(L, (char *) atom, asize);
@@ -401,7 +401,7 @@ static int mime_global_unb64(lua_State *L)
     const UC *last = input + isize;
     luaL_Buffer buffer;
     /* end-of-input blackhole */
-    if (!input) {
+    if(!input) {
         lua_pushnil(L);
         lua_pushnil(L);
         return 2;
@@ -410,22 +410,22 @@ static int mime_global_unb64(lua_State *L)
     lua_settop(L, 2);
     /* process first part of the input */
     luaL_buffinit(L, &buffer);
-    while (input < last)
+    while(input < last)
         asize = b64decode(*input++, atom, asize, &buffer);
     input = (const UC *) luaL_optlstring(L, 2, NULL, &isize);
     /* if second is nil, we are done */
-    if (!input) {
+    if(!input) {
         size_t osize = 0;
         luaL_pushresult(&buffer);
         /* if the output is empty  and the input is nil, return nil */
         lua_tolstring(L, -1, &osize);
-        if (osize == 0) lua_pushnil(L);
+        if(osize == 0) lua_pushnil(L);
         lua_pushnil(L);
         return 2;
     }
     /* otherwise, process the rest of the input */
     last = input + isize;
-    while (input < last)
+    while(input < last)
         asize = b64decode(*input++, atom, asize, &buffer);
     luaL_pushresult(&buffer);
     lua_pushlstring(L, (char *) atom, asize);
@@ -453,13 +453,13 @@ static void qpsetup(UC *cl, UC *unbase)
 {
 
     int i;
-    for (i = 0; i < 256; i++) cl[i] = QP_QUOTED;
-    for (i = 33; i <= 60; i++) cl[i] = QP_PLAIN;
-    for (i = 62; i <= 126; i++) cl[i] = QP_PLAIN;
+    for(i = 0; i < 256; i++) cl[i] = QP_QUOTED;
+    for(i = 33; i <= 60; i++) cl[i] = QP_PLAIN;
+    for(i = 62; i <= 126; i++) cl[i] = QP_PLAIN;
     cl['\t'] = QP_IF_LAST;
     cl[' '] = QP_IF_LAST;
     cl['\r'] = QP_CR;
-    for (i = 0; i < 256; i++) unbase[i] = 255;
+    for(i = 0; i < 256; i++) unbase[i] = 255;
     unbase['0'] = 0; unbase['1'] = 1; unbase['2'] = 2;
     unbase['3'] = 3; unbase['4'] = 4; unbase['5'] = 5;
     unbase['6'] = 6; unbase['7'] = 7; unbase['8'] = 8;
@@ -470,8 +470,8 @@ static void qpsetup(UC *cl, UC *unbase)
     unbase['f'] = 15;
 
 printf("static UC qpclass[] = {");
-    for (int i = 0; i < 256; i++) {
-        if (i % 6 == 0) {
+    for(int i = 0; i < 256; i++) {
+        if(i % 6 == 0) {
             printf("\n    ");
         }
         switch(cl[i]) {
@@ -492,7 +492,7 @@ printf("static UC qpclass[] = {");
 printf("\n};\n");
 
 printf("static const UC qpunbase[] = {");
-    for (int i = 0; i < 256; i++) {
+    for(int i = 0; i < 256; i++) {
         int c = qpunbase[i];
         printf("%d, ", c);
     }
@@ -519,21 +519,21 @@ static size_t qpencode(UC c, UC *input, size_t size,
 {
     input[size++] = c;
     /* deal with all characters we can have */
-    while (size > 0) {
+    while(size > 0) {
         switch (qpclass[input[0]]) {
             /* might be the CR of a CRLF sequence */
             case QP_CR:
-                if (size < 2) return size;
-                if (input[1] == '\n') {
+                if(size < 2) return size;
+                if(input[1] == '\n') {
                     luaL_addstring(buffer, marker);
                     return 0;
                 } else qpquote(input[0], buffer);
                 break;
             /* might be a space and that has to be quoted if last in line */
             case QP_IF_LAST:
-                if (size < 3) return size;
+                if(size < 3) return size;
                 /* if it is the last, quote it and we are done */
-                if (input[1] == '\r' && input[2] == '\n') {
+                if(input[1] == '\r' && input[2] == '\n') {
                     qpquote(input[0], buffer);
                     luaL_addstring(buffer, marker);
                     return 0;
@@ -560,11 +560,11 @@ static size_t qpencode(UC c, UC *input, size_t size,
 static size_t qppad(UC *input, size_t size, luaL_Buffer *buffer)
 {
     size_t i;
-    for (i = 0; i < size; i++) {
-        if (qpclass[input[i]] == QP_PLAIN) luaL_addchar(buffer, input[i]);
+    for(i = 0; i < size; i++) {
+        if(qpclass[input[i]] == QP_PLAIN) luaL_addchar(buffer, input[i]);
         else qpquote(input[i], buffer);
     }
-    if (size > 0) luaL_addstring(buffer, EQCRLF);
+    if(size > 0) luaL_addstring(buffer, EQCRLF);
     return 0;
 }
 
@@ -585,7 +585,7 @@ static int mime_global_qp(lua_State *L)
     const char *marker = luaL_optstring(L, 3, CRLF);
     luaL_Buffer buffer;
     /* end-of-input blackhole */
-    if (!input) {
+    if(!input) {
         lua_pushnil(L);
         lua_pushnil(L);
         return 2;
@@ -594,20 +594,20 @@ static int mime_global_qp(lua_State *L)
     lua_settop(L, 3);
     /* process first part of input */
     luaL_buffinit(L, &buffer);
-    while (input < last)
+    while(input < last)
         asize = qpencode(*input++, atom, asize, marker, &buffer);
     input = (const UC *) luaL_optlstring(L, 2, NULL, &isize);
     /* if second part is nil, we are done */
-    if (!input) {
+    if(!input) {
         asize = qppad(atom, asize, &buffer);
         luaL_pushresult(&buffer);
-        if (!(*lua_tostring(L, -1))) lua_pushnil(L);
+        if(!(*lua_tostring(L, -1))) lua_pushnil(L);
         lua_pushnil(L);
         return 2;
     }
     /* otherwise process rest of input */
     last = input + isize;
-    while (input < last)
+    while(input < last)
         asize = qpencode(*input++, atom, asize, marker, &buffer);
     luaL_pushresult(&buffer);
     lua_pushlstring(L, (char *) atom, asize);
@@ -625,21 +625,21 @@ static size_t qpdecode(UC c, UC *input, size_t size, luaL_Buffer *buffer) {
     switch (input[0]) {
         /* if we have an escape character */
         case '=':
-            if (size < 3) return size;
+            if(size < 3) return size;
             /* eliminate soft line break */
-            if (input[1] == '\r' && input[2] == '\n') return 0;
+            if(input[1] == '\r' && input[2] == '\n') return 0;
             /* decode quoted representation */
             c = qpunbase[input[1]]; d = qpunbase[input[2]];
             /* if it is an invalid, do not decode */
-            if (c > 15 || d > 15) luaL_addlstring(buffer, (char *)input, 3);
+            if(c > 15 || d > 15) luaL_addlstring(buffer, (char *)input, 3);
             else luaL_addchar(buffer, (char) ((c << 4) + d));
             return 0;
         case '\r':
-            if (size < 2) return size;
-            if (input[1] == '\n') luaL_addlstring(buffer, (char *)input, 2);
+            if(size < 2) return size;
+            if(input[1] == '\n') luaL_addlstring(buffer, (char *)input, 2);
             return 0;
         default:
-            if (input[0] == '\t' || (input[0] > 31 && input[0] < 127))
+            if(input[0] == '\t' || (input[0] > 31 && input[0] < 127))
                 luaL_addchar(buffer, input[0]);
             return 0;
     }
@@ -660,7 +660,7 @@ static int mime_global_unqp(lua_State *L)
     const UC *last = input + isize;
     luaL_Buffer buffer;
     /* end-of-input blackhole */
-    if (!input) {
+    if(!input) {
         lua_pushnil(L);
         lua_pushnil(L);
         return 2;
@@ -669,19 +669,19 @@ static int mime_global_unqp(lua_State *L)
     lua_settop(L, 2);
     /* process first part of input */
     luaL_buffinit(L, &buffer);
-    while (input < last)
+    while(input < last)
         asize = qpdecode(*input++, atom, asize, &buffer);
     input = (const UC *) luaL_optlstring(L, 2, NULL, &isize);
     /* if second part is nil, we are done */
-    if (!input) {
+    if(!input) {
         luaL_pushresult(&buffer);
-        if (!(*lua_tostring(L, -1))) lua_pushnil(L);
+        if(!(*lua_tostring(L, -1))) lua_pushnil(L);
         lua_pushnil(L);
         return 2;
     }
     /* otherwise process rest of input */
     last = input + isize;
-    while (input < last)
+    while(input < last)
         asize = qpdecode(*input++, atom, asize, &buffer);
     luaL_pushresult(&buffer);
     lua_pushlstring(L, (char *) atom, asize);
@@ -706,15 +706,15 @@ static int mime_global_qpwrp(lua_State *L)
     int length = (int) luaL_optnumber(L, 3, 76);
     luaL_Buffer buffer;
     /* end-of-input blackhole */
-    if (!input) {
-        if (left < length) lua_pushstring(L, EQCRLF);
+    if(!input) {
+        if(left < length) lua_pushstring(L, EQCRLF);
         else lua_pushnil(L);
         lua_pushnumber(L, length);
         return 2;
     }
     /* process all input */
     luaL_buffinit(L, &buffer);
-    while (input < last) {
+    while(input < last) {
         switch (*input) {
             case '\r':
                 break;
@@ -723,7 +723,7 @@ static int mime_global_qpwrp(lua_State *L)
                 luaL_addstring(&buffer, CRLF);
                 break;
             case '=':
-                if (left <= 3) {
+                if(left <= 3) {
                     left = length;
                     luaL_addstring(&buffer, EQCRLF);
                 }
@@ -731,7 +731,7 @@ static int mime_global_qpwrp(lua_State *L)
                 left--;
                 break;
             default:
-                if (left <= 1) {
+                if(left <= 1) {
                     left = length;
                     luaL_addstring(&buffer, EQCRLF);
                 }
@@ -761,9 +761,9 @@ static int mime_global_qpwrp(lua_State *L)
 static int eolprocess(int c, int last, const char *marker,
         luaL_Buffer *buffer)
 {
-    if (eolcandidate(c)) {
-        if (eolcandidate(last)) {
-            if (c == last) luaL_addstring(buffer, marker);
+    if(eolcandidate(c)) {
+        if(eolcandidate(last)) {
+            if(c == last) luaL_addstring(buffer, marker);
             return 0;
         } else {
             luaL_addstring(buffer, marker);
@@ -792,13 +792,13 @@ static int mime_global_eol(lua_State *L)
     luaL_Buffer buffer;
     luaL_buffinit(L, &buffer);
     /* end of input blackhole */
-    if (!input) {
+    if(!input) {
        lua_pushnil(L);
        lua_pushnumber(L, 0);
        return 2;
     }
     /* process all input */
-    while (input < last)
+    while(input < last)
         ctx = eolprocess(*input++, ctx, marker, &buffer);
     luaL_pushresult(&buffer);
     lua_pushnumber(L, ctx);
@@ -817,7 +817,7 @@ static size_t dot(int c, size_t state, luaL_Buffer *buffer)
         case '\n':
             return (state == 1)? 2: 0;
         case '.':
-            if (state == 2)
+            if(state == 2)
                 luaL_addchar(buffer, '.');
             /* Falls through. */
         default:
@@ -836,14 +836,14 @@ static int mime_global_dot(lua_State *L)
     const char *last = input + isize;
     luaL_Buffer buffer;
     /* end-of-input blackhole */
-    if (!input) {
+    if(!input) {
         lua_pushnil(L);
         lua_pushnumber(L, 2);
         return 2;
     }
     /* process all input */
     luaL_buffinit(L, &buffer);
-    while (input < last)
+    while(input < last)
         state = dot(*input++, state, &buffer);
     luaL_pushresult(&buffer);
     lua_pushnumber(L, (lua_Number) state);

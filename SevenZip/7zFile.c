@@ -78,17 +78,17 @@ WRes OutFile_OpenW(CSzFile *p, const WCHAR *name) { return File_OpenW(p, name, 1
 WRes File_Close(CSzFile *p)
 {
   #ifdef USE_WINDOWS_FILE
-  if (p->handle != INVALID_HANDLE_VALUE)
+  if(p->handle != INVALID_HANDLE_VALUE)
   {
-    if (!CloseHandle(p->handle))
+    if(!CloseHandle(p->handle))
       return GetLastError();
     p->handle = INVALID_HANDLE_VALUE;
   }
   #else
-  if (p->file != NULL)
+  if(p->file != NULL)
   {
     int res = fclose(p->file);
-    if (res != 0)
+    if(res != 0)
       return res;
     p->file = NULL;
   }
@@ -99,7 +99,7 @@ WRes File_Close(CSzFile *p)
 WRes File_Read(CSzFile *p, void *data, size_t *size)
 {
   size_t originalSize = *size;
-  if (originalSize == 0)
+  if(originalSize == 0)
     return 0;
 
   #ifdef USE_WINDOWS_FILE
@@ -113,18 +113,18 @@ WRes File_Read(CSzFile *p, void *data, size_t *size)
     data = (void *)((Byte *)data + processed);
     originalSize -= processed;
     *size += processed;
-    if (!res)
+    if(!res)
       return GetLastError();
-    if (processed == 0)
+    if(processed == 0)
       break;
   }
-  while (originalSize > 0);
+  while(originalSize > 0);
   return 0;
 
   #else
   
   *size = fread(data, 1, originalSize, p->file);
-  if (*size == originalSize)
+  if(*size == originalSize)
     return 0;
   return ferror(p->file);
   
@@ -134,7 +134,7 @@ WRes File_Read(CSzFile *p, void *data, size_t *size)
 WRes File_Write(CSzFile *p, const void *data, size_t *size)
 {
   size_t originalSize = *size;
-  if (originalSize == 0)
+  if(originalSize == 0)
     return 0;
   
   #ifdef USE_WINDOWS_FILE
@@ -148,18 +148,18 @@ WRes File_Write(CSzFile *p, const void *data, size_t *size)
     data = (void *)((Byte *)data + processed);
     originalSize -= processed;
     *size += processed;
-    if (!res)
+    if(!res)
       return GetLastError();
-    if (processed == 0)
+    if(processed == 0)
       break;
   }
-  while (originalSize > 0);
+  while(originalSize > 0);
   return 0;
 
   #else
 
   *size = fwrite(data, 1, originalSize, p->file);
-  if (*size == originalSize)
+  if(*size == originalSize)
     return 0;
   return ferror(p->file);
   
@@ -182,10 +182,10 @@ WRes File_Seek(CSzFile *p, Int64 *pos, ESzSeek origin)
     default: return ERROR_INVALID_PARAMETER;
   }
   value.LowPart = SetFilePointer(p->handle, value.LowPart, &value.HighPart, moveMethod);
-  if (value.LowPart == 0xFFFFFFFF)
+  if(value.LowPart == 0xFFFFFFFF)
   {
     WRes res = GetLastError();
-    if (res != NO_ERROR)
+    if(res != NO_ERROR)
       return res;
   }
   *pos = ((Int64)value.HighPart << 32) | value.LowPart;
@@ -215,10 +215,10 @@ WRes File_GetLength(CSzFile *p, UInt64 *length)
   
   DWORD sizeHigh;
   DWORD sizeLow = GetFileSize(p->handle, &sizeHigh);
-  if (sizeLow == 0xFFFFFFFF)
+  if(sizeLow == 0xFFFFFFFF)
   {
     DWORD res = GetLastError();
-    if (res != NO_ERROR)
+    if(res != NO_ERROR)
       return res;
   }
   *length = (((UInt64)sizeHigh) << 32) + sizeLow;

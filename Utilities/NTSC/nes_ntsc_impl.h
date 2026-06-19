@@ -87,12 +87,12 @@ static void init_filters( init_t* impl, nes_ntsc_setup_t const* setup )
 		to_angle = PI / maxh * (float) LUMA_CUTOFF * (to_angle * to_angle + 1);
 		
 		kernels [kernel_size * 3 / 2] = maxh; /* default center value */
-		for ( i = 0; i < kernel_half * 2 + 1; i++ )
+		for( i = 0; i < kernel_half * 2 + 1; i++ )
 		{
 			int x = i - kernel_half;
 			float angle = x * to_angle;
 			/* instability occurs at center point with rolloff very close to 1.0 */
-			if ( x || pow_a_n > (float) 1.056 || pow_a_n < (float) 0.981 )
+			if( x || pow_a_n > (float) 1.056 || pow_a_n < (float) 0.981 )
 			{
 				float rolloff_cos_a = rolloff * (float) cos( angle );
 				float num = 1 - rolloff_cos_a -
@@ -106,7 +106,7 @@ static void init_filters( init_t* impl, nes_ntsc_setup_t const* setup )
 		
 		/* apply blackman window and find sum */
 		sum = 0;
-		for ( i = 0; i < kernel_half * 2 + 1; i++ )
+		for( i = 0; i < kernel_half * 2 + 1; i++ )
 		{
 			float x = PI * 2 / (kernel_half * 2) * i;
 			float blackman = 0.42f - 0.5f * (float) cos( x ) + 0.08f * (float) cos( x * 2 );
@@ -115,7 +115,7 @@ static void init_filters( init_t* impl, nes_ntsc_setup_t const* setup )
 		
 		/* normalize kernel */
 		sum = 1.0f / sum;
-		for ( i = 0; i < kernel_half * 2 + 1; i++ )
+		for( i = 0; i < kernel_half * 2 + 1; i++ )
 		{
 			int x = kernel_size * 3 / 2 - kernel_half + i;
 			kernels [x] *= sum;
@@ -129,7 +129,7 @@ static void init_filters( init_t* impl, nes_ntsc_setup_t const* setup )
 		float cutoff = (float) setup->bleed;
 		int i;
 		
-		if ( cutoff < 0 )
+		if( cutoff < 0 )
 		{
 			/* keep extreme value accessible only near upper end of scale (1.0) */
 			cutoff *= cutoff;
@@ -139,19 +139,19 @@ static void init_filters( init_t* impl, nes_ntsc_setup_t const* setup )
 		}
 		cutoff = cutoff_factor - 0.65f * cutoff_factor * cutoff;
 		
-		for ( i = -kernel_half; i <= kernel_half; i++ )
+		for( i = -kernel_half; i <= kernel_half; i++ )
 			kernels [kernel_size / 2 + i] = (float) exp( i * i * cutoff );
 		
 		/* normalize even and odd phases separately */
-		for ( i = 0; i < 2; i++ )
+		for( i = 0; i < 2; i++ )
 		{
 			float sum = 0;
 			int x;
-			for ( x = i; x < kernel_size; x += 2 )
+			for( x = i; x < kernel_size; x += 2 )
 				sum += kernels [x];
 			
 			sum = 1.0f / sum;
-			for ( x = i; x < kernel_size; x += 2 )
+			for( x = i; x < kernel_size; x += 2 )
 			{
 				kernels [x] *= sum;
 				assert( kernels [x] == kernels [x] ); /* catch numerical instability */
@@ -161,10 +161,10 @@ static void init_filters( init_t* impl, nes_ntsc_setup_t const* setup )
 	
 	/*
 	printf( "luma:\n" );
-	for ( i = kernel_size; i < kernel_size * 2; i++ )
+	for( i = kernel_size; i < kernel_size * 2; i++ )
 		printf( "%f\n", kernels [i] );
 	printf( "chroma:\n" );
-	for ( i = 0; i < kernel_size; i++ )
+	for( i = 0; i < kernel_size; i++ )
 		printf( "%f\n", kernels [i] );
 	*/
 	
@@ -179,7 +179,7 @@ static void init_filters( init_t* impl, nes_ntsc_setup_t const* setup )
 			float remain = 0;
 			int i;
 			weight -= 1.0f / rescale_in;
-			for ( i = 0; i < kernel_size * 2; i++ )
+			for( i = 0; i < kernel_size * 2; i++ )
 			{
 				float cur = kernels [i];
 				float m = cur * weight;
@@ -187,7 +187,7 @@ static void init_filters( init_t* impl, nes_ntsc_setup_t const* setup )
 				remain = cur - m;
 			}
 		}
-		while ( --n );
+		while( --n );
 	}
 	#endif
 }
@@ -200,30 +200,30 @@ static void init( init_t* impl, nes_ntsc_setup_t const* setup )
 	impl->brightness = (float) setup->brightness * (0.5f * rgb_unit) + rgb_offset;
 	impl->contrast   = (float) setup->contrast   * (0.5f * rgb_unit) + rgb_unit;
 	#ifdef default_palette_contrast
-		if ( !setup->palette )
+		if( !setup->palette )
 			impl->contrast *= default_palette_contrast;
 	#endif
 	
 	impl->artifacts = (float) setup->artifacts;
-	if ( impl->artifacts > 0 )
+	if( impl->artifacts > 0 )
 		impl->artifacts *= artifacts_max - artifacts_mid;
 	impl->artifacts = impl->artifacts * artifacts_mid + artifacts_mid;
 
 	impl->fringing = (float) setup->fringing;
-	if ( impl->fringing > 0 )
+	if( impl->fringing > 0 )
 		impl->fringing *= fringing_max - fringing_mid;
 	impl->fringing = impl->fringing * fringing_mid + fringing_mid;
 	
 	init_filters( impl, setup );
 	
 	/* generate gamma table */
-	if ( gamma_size > 1 )
+	if( gamma_size > 1 )
 	{
 		float const to_float = 1.0f / (gamma_size - (gamma_size > 1));
 		float const gamma = 1.1333f - (float) setup->gamma * 0.5f;
 		/* match common PC's 2.2 gamma to TV's 2.65 gamma */
 		int i;
-		for ( i = 0; i < gamma_size; i++ )
+		for( i = 0; i < gamma_size; i++ )
 			impl->to_float [i] =
 					(float) pow( i * to_float, gamma ) * impl->contrast + impl->brightness;
 	}
@@ -233,10 +233,10 @@ static void init( init_t* impl, nes_ntsc_setup_t const* setup )
 		float hue = (float) setup->hue * PI + PI / 180 * ext_decoder_hue;
 		float sat = (float) setup->saturation + 1;
 		float const* decoder = setup->decoder_matrix;
-		if ( !decoder )
+		if( !decoder )
 		{
 			decoder = default_decoder;
-			if ( STD_HUE_CONDITION( setup ) )
+			if( STD_HUE_CONDITION( setup ) )
 				hue += PI / 180 * (std_decoder_hue - ext_decoder_hue);
 		}
 		
@@ -258,12 +258,12 @@ static void init( init_t* impl, nes_ntsc_setup_t const* setup )
 					*out++ = i * c - q * s;
 					*out++ = i * s + q * c;
 				}
-				while ( --n );
-				if ( burst_count <= 1 )
+				while( --n );
+				if( burst_count <= 1 )
 					break;
 				ROTATE_IQ( s, c, 0.866025f, -0.5f ); /* +120 degrees */
 			}
-			while ( --n );
+			while( --n );
 		}
 	}
 }
@@ -347,15 +347,15 @@ static void gen_kernel( init_t* impl, float y, float i, float q, nes_ntsc_rgb_t*
 			float const* k = &impl->kernel [pixel->offset];
 			int n;
 			++pixel;
-			for ( n = rgb_kernel_size; n; --n )
+			for( n = rgb_kernel_size; n; --n )
 			{
 				float i = k[0]*ic0 + k[2]*ic2;
 				float q = k[1]*qc1 + k[3]*qc3;
 				float y = k[kernel_size+0]*yc0 + k[kernel_size+1]*yc1 +
 				          k[kernel_size+2]*yc2 + k[kernel_size+3]*yc3 + rgb_offset;
-				if ( rescale_out <= 1 )
+				if( rescale_out <= 1 )
 					k--;
-				else if ( k < &impl->kernel [kernel_size * 2 * (rescale_out - 1)] )
+				else if( k < &impl->kernel [kernel_size * 2 * (rescale_out - 1)] )
 					k += kernel_size * 2 - 1;
 				else
 					k -= kernel_size * 2 * (rescale_out - 1) + 2;
@@ -365,16 +365,16 @@ static void gen_kernel( init_t* impl, float y, float i, float q, nes_ntsc_rgb_t*
 				}
 			}
 		}
-		while ( alignment_count > 1 && --alignment_remain );
+		while( alignment_count > 1 && --alignment_remain );
 		
-		if ( burst_count <= 1 )
+		if( burst_count <= 1 )
 			break;
 		
 		to_rgb += 6;
 		
 		ROTATE_IQ( i, q, -0.866025f, -0.5f ); /* -120 degrees */
 	}
-	while ( --burst_remain );
+	while( --burst_remain );
 }
 
 static void correct_errors( nes_ntsc_rgb_t color, nes_ntsc_rgb_t* out );

@@ -187,7 +187,7 @@ public:
 	bool overridden() const { return (m_override != nullptr); }
 
 	// indicate the prescale has changed
-	void prescale_changed() { if (m_override != nullptr) m_override->ssg_prescale_changed(); }
+	void prescale_changed() { if(m_override != nullptr) m_override->ssg_prescale_changed(); }
 
 private:
 	// internal state

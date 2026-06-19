@@ -69,7 +69,7 @@ inline uint32_t abs_sin_attenuation(uint32_t input)
 
 	// if the top bit is set, we're in the second half of the curve
 	// which is a mirror image, so invert the index
-	if (bitfield(input, 8))
+	if(bitfield(input, 8))
 		input = ~input;
 
 	// return the value from the table
@@ -295,13 +295,13 @@ inline uint32_t opm_key_code_to_phase_step(uint32_t block_freq, int32_t delta)
 	eff_freq += delta;
 
 	// handle over/underflow by adjusting the block:
-	if (uint32_t(eff_freq) >= 768)
+	if(uint32_t(eff_freq) >= 768)
 	{
 		// minimum delta is -512 (PM), so we can only underflow by 1 octave
-		if (eff_freq < 0)
+		if(eff_freq < 0)
 		{
 			eff_freq += 768;
-			if (block-- == 0)
+			if(block-- == 0)
 				return s_phase_step[0] >> 7;
 		}
 
@@ -309,9 +309,9 @@ inline uint32_t opm_key_code_to_phase_step(uint32_t block_freq, int32_t delta)
 		else
 		{
 			eff_freq -= 768;
-			if (eff_freq >= 768)
+			if(eff_freq >= 768)
 				block++, eff_freq -= 768;
-			if (block++ >= 7)
+			if(block++ >= 7)
 				return s_phase_step[767];
 		}
 	}
@@ -352,7 +352,7 @@ inline int32_t opn_lfo_pm_phase_adjustment(uint32_t fnum_bits, uint32_t pm_sensi
 
 	// compute the adjustment
 	int32_t adjust = (fnum_bits >> bitfield(shifts, 0, 4)) + (fnum_bits >> bitfield(shifts, 4, 4));
-	if (pm_sensitivity > 5)
+	if(pm_sensitivity > 5)
 		adjust <<= pm_sensitivity - 5;
 	adjust >>= 2;
 
@@ -446,13 +446,13 @@ template<class RegisterType>
 void fm_operator<RegisterType>::clock(uint32_t env_counter, int32_t lfo_raw_pm)
 {
 	// clock the SSG-EG state (OPN/OPNA)
-	if (m_regs.op_ssg_eg_enable(m_opoffs))
+	if(m_regs.op_ssg_eg_enable(m_opoffs))
 		clock_ssg_eg_state();
 	else
 		m_ssg_inverted = false;
 
 	// clock the envelope if on an envelope cycle; env_counter is a x.2 value
-	if (bitfield(env_counter, 0, 2) == 0)
+	if(bitfield(env_counter, 0, 2) == 0)
 		clock_envelope(env_counter >> 2);
 
 	// clock the phase
@@ -473,7 +473,7 @@ int32_t fm_operator<RegisterType>::compute_volume(uint32_t phase, uint32_t am_of
 	// the full sin wave
 
 	// early out if the envelope is effectively off
-	if (m_env_attenuation > EG_QUIET)
+	if(m_env_attenuation > EG_QUIET)
 		return 0;
 
 	// get the absolute value of the sin, as attenuation, as a 4.8 fixed point value
@@ -532,24 +532,24 @@ template<class RegisterType>
 void fm_operator<RegisterType>::start_attack(bool is_restart)
 {
 	// don't change anything if already in attack state
-	if (m_env_state == EG_ATTACK)
+	if(m_env_state == EG_ATTACK)
 		return;
 	m_env_state = EG_ATTACK;
 
 	// generally not inverted at start, except if SSG-EG is enabled and
 	// one of the inverted modes is specified; leave this alone on a
 	// restart, as it is managed by the clock_ssg_eg_state() code
-	if (RegisterType::EG_HAS_SSG && !is_restart)
+	if(RegisterType::EG_HAS_SSG && !is_restart)
 		m_ssg_inverted = m_regs.op_ssg_eg_enable(m_opoffs) & bitfield(m_regs.op_ssg_eg_mode(m_opoffs), 2);
 
 	// reset the phase when we start an attack due to a key on
 	// (but not when due to an SSG-EG restart except in certain cases
 	// managed directly by the SSG-EG code)
-	if (!is_restart)
+	if(!is_restart)
 		m_phase = 0;
 
 	// if the attack rate >= 62 then immediately go to max attenuation
-	if (m_cache.eg_rate[EG_ATTACK] >= 62)
+	if(m_cache.eg_rate[EG_ATTACK] >= 62)
 		m_env_attenuation = 0;
 }
 
@@ -563,13 +563,13 @@ template<class RegisterType>
 void fm_operator<RegisterType>::start_release()
 {
 	// don't change anything if already in release state
-	if (m_env_state >= EG_RELEASE)
+	if(m_env_state >= EG_RELEASE)
 		return;
 	m_env_state = EG_RELEASE;
 
 	// if attenuation if inverted due to SSG-EG, snap the inverted attenuation
 	// as the starting point
-	if (RegisterType::EG_HAS_SSG && m_ssg_inverted)
+	if(RegisterType::EG_HAS_SSG && m_ssg_inverted)
 	{
 		m_env_attenuation = (0x200 - m_env_attenuation) & 0x3ff;
 		m_ssg_inverted = false;
@@ -588,16 +588,16 @@ void fm_operator<RegisterType>::clock_keystate(uint32_t keystate)
 	assert(keystate == 0 || keystate == 1);
 
 	// has the key changed?
-	if ((keystate ^ m_key_state) != 0)
+	if((keystate ^ m_key_state) != 0)
 	{
 		m_key_state = keystate;
 
 		// if the key has turned on, start the attack
-		if (keystate != 0)
+		if(keystate != 0)
 		{
 			// OPLL has a DP ("depress"?) state to bring the volume
 			// down before starting the attack
-			if (RegisterType::EG_HAS_DEPRESS && m_env_attenuation < 0x200)
+			if(RegisterType::EG_HAS_DEPRESS && m_env_attenuation < 0x200)
 				m_env_state = EG_DEPRESS;
 			else
 				start_attack();
@@ -619,7 +619,7 @@ template<class RegisterType>
 void fm_operator<RegisterType>::clock_ssg_eg_state()
 {
 	// work only happens once the attenuation crosses above 0x200
-	if (!bitfield(m_env_attenuation, 9))
+	if(!bitfield(m_env_attenuation, 9))
 		return;
 
 	// 8 SSG-EG modes:
@@ -634,14 +634,14 @@ void fm_operator<RegisterType>::clock_ssg_eg_state()
 	uint32_t mode = m_regs.op_ssg_eg_mode(m_opoffs);
 
 	// hold modes (1/3/5/7)
-	if (bitfield(mode, 0))
+	if(bitfield(mode, 0))
 	{
 		// set the inverted flag to the end state (0 for modes 1/7, 1 for modes 3/5)
 		m_ssg_inverted = bitfield(mode, 2) ^ bitfield(mode, 1);
 
 		// if holding, force the attenuation to the expected value once we're
 		// past the attack phase
-		if (m_env_state != EG_ATTACK)
+		if(m_env_state != EG_ATTACK)
 			m_env_attenuation = m_ssg_inverted ? 0x200 : 0x3ff;
 	}
 
@@ -652,16 +652,16 @@ void fm_operator<RegisterType>::clock_ssg_eg_state()
 		m_ssg_inverted ^= bitfield(mode, 1);
 
 		// restart attack if in decay/sustain states
-		if (m_env_state == EG_DECAY || m_env_state == EG_SUSTAIN)
+		if(m_env_state == EG_DECAY || m_env_state == EG_SUSTAIN)
 			start_attack(true);
 
 		// phase is reset to 0 in modes 0/4
-		if (bitfield(mode, 1) == 0)
+		if(bitfield(mode, 1) == 0)
 			m_phase = 0;
 	}
 
 	// in all modes, once we hit release state, attenuation is forced to maximum
-	if (m_env_state == EG_RELEASE)
+	if(m_env_state == EG_RELEASE)
 		m_env_attenuation = 0x3ff;
 }
 
@@ -675,7 +675,7 @@ template<class RegisterType>
 void fm_operator<RegisterType>::clock_envelope(uint32_t env_counter)
 {
 	// handle attack->decay transitions
-	if (m_env_state == EG_ATTACK && m_env_attenuation == 0)
+	if(m_env_state == EG_ATTACK && m_env_attenuation == 0)
 		m_env_state = EG_DECAY;
 
 	// handle decay->sustain transitions; it is important to do this immediately
@@ -683,7 +683,7 @@ void fm_operator<RegisterType>::clock_envelope(uint32_t env_counter)
 	// is set to 0 (in which case we will skip right to sustain without doing any
 	// decay); as an example where this can be heard, check the cymbals sound
 	// in channel 0 of shinobi's test mode sound #5
-	if (m_env_state == EG_DECAY && m_env_attenuation >= m_cache.eg_sustain)
+	if(m_env_state == EG_DECAY && m_env_attenuation >= m_cache.eg_sustain)
 		m_env_state = EG_SUSTAIN;
 
 	// fetch the appropriate 6-bit rate value from the cache
@@ -696,7 +696,7 @@ void fm_operator<RegisterType>::clock_envelope(uint32_t env_counter)
 	env_counter <<= rate_shift;
 
 	// see if the fractional part is 0; if not, it's not time to clock
-	if (bitfield(env_counter, 0, 11) != 0)
+	if(bitfield(env_counter, 0, 11) != 0)
 		return;
 
 	// determine the increment based on the non-fractional part of env_counter
@@ -704,13 +704,13 @@ void fm_operator<RegisterType>::clock_envelope(uint32_t env_counter)
 	uint32_t increment = attenuation_increment(rate, relevant_bits);
 
 	// attack is the only one that increases
-	if (m_env_state == EG_ATTACK)
+	if(m_env_state == EG_ATTACK)
 	{
 		// glitch means that attack rates of 62/63 don't increment if
 		// changed after the initial key on (where they are handled
 		// specially); nukeykt confirms this happens on OPM, OPN, OPL/OPLL
 		// at least so assuming it is true for everyone
-		if (rate < 62)
+		if(rate < 62)
 			m_env_attenuation += (~m_env_attenuation * increment) >> 4;
 	}
 
@@ -718,23 +718,23 @@ void fm_operator<RegisterType>::clock_envelope(uint32_t env_counter)
 	else
 	{
 		// non-SSG-EG cases just apply the increment
-		if (!m_regs.op_ssg_eg_enable(m_opoffs))
+		if(!m_regs.op_ssg_eg_enable(m_opoffs))
 			m_env_attenuation += increment;
 
 		// SSG-EG only applies if less than mid-point, and then at 4x
-		else if (m_env_attenuation < 0x200)
+		else if(m_env_attenuation < 0x200)
 			m_env_attenuation += 4 * increment;
 
 		// clamp the final attenuation
-		if (m_env_attenuation >= 0x400)
+		if(m_env_attenuation >= 0x400)
 			m_env_attenuation = 0x3ff;
 
 		// transition from depress to attack
-		if (RegisterType::EG_HAS_DEPRESS && m_env_state == EG_DEPRESS && m_env_attenuation >= 0x200)
+		if(RegisterType::EG_HAS_DEPRESS && m_env_state == EG_DEPRESS && m_env_attenuation >= 0x200)
 			start_attack();
 
 		// transition from release to reverb, should switch at -18dB
-		if (RegisterType::EG_HAS_REVERB && m_env_state == EG_RELEASE && m_env_attenuation >= 0xc0)
+		if(RegisterType::EG_HAS_REVERB && m_env_state == EG_RELEASE && m_env_attenuation >= 0xc0)
 			m_env_state = EG_REVERB;
 	}
 }
@@ -751,7 +751,7 @@ void fm_operator<RegisterType>::clock_phase(int32_t lfo_raw_pm)
 {
 	// read from the cache, or recalculate if PM active
 	uint32_t phase_step = m_cache.phase_step;
-	if (phase_step == opdata_cache::PHASE_STEP_DYNAMIC)
+	if(phase_step == opdata_cache::PHASE_STEP_DYNAMIC)
 		phase_step = m_regs.compute_phase_step(m_choffs, m_opoffs, m_cache, lfo_raw_pm);
 
 	// finally apply the step to the current phase value
@@ -770,11 +770,11 @@ uint32_t fm_operator<RegisterType>::envelope_attenuation(uint32_t am_offset) con
 	uint32_t result = m_env_attenuation >> m_cache.eg_shift;
 
 	// invert if necessary due to SSG-EG
-	if (RegisterType::EG_HAS_SSG && m_ssg_inverted)
+	if(RegisterType::EG_HAS_SSG && m_ssg_inverted)
 		result = (0x200 - result) & 0x3ff;
 
 	// add in LFO AM modulation
-	if (m_regs.op_lfo_am_enable(m_opoffs))
+	if(m_regs.op_lfo_am_enable(m_opoffs))
 		result += am_offset;
 
 	// add in total level and KSL from the cache
@@ -839,13 +839,13 @@ void fm_channel<RegisterType>::save_restore(ymfm_saved_state &state)
 template<class RegisterType>
 void fm_channel<RegisterType>::keyonoff(uint32_t states, keyon_type type, uint32_t chnum)
 {
-	for (uint32_t opnum = 0; opnum < m_op.size(); opnum++)
-		if (m_op[opnum] != nullptr)
+	for(uint32_t opnum = 0; opnum < m_op.size(); opnum++)
+		if(m_op[opnum] != nullptr)
 			m_op[opnum]->keyonoff(bitfield(states, opnum), type);
 
-	if (debug::LOG_KEYON_EVENTS && ((debug::GLOBAL_FM_CHANNEL_MASK >> chnum) & 1) != 0)
-		for (uint32_t opnum = 0; opnum < m_op.size(); opnum++)
-			if (m_op[opnum] != nullptr)
+	if(debug::LOG_KEYON_EVENTS && ((debug::GLOBAL_FM_CHANNEL_MASK >> chnum) & 1) != 0)
+		for(uint32_t opnum = 0; opnum < m_op.size(); opnum++)
+			if(m_op[opnum] != nullptr)
 				debug::log_keyon("%c%s\n", bitfield(states, opnum) ? '+' : '-', m_regs.log_keyon(m_choffs, m_op[opnum]->opoffs()).c_str());
 }
 
@@ -860,9 +860,9 @@ bool fm_channel<RegisterType>::prepare()
 	uint32_t active_mask = 0;
 
 	// prepare all operators and determine if they are active
-	for (uint32_t opnum = 0; opnum < m_op.size(); opnum++)
-		if (m_op[opnum] != nullptr)
-			if (m_op[opnum]->prepare())
+	for(uint32_t opnum = 0; opnum < m_op.size(); opnum++)
+		if(m_op[opnum] != nullptr)
+			if(m_op[opnum]->prepare())
 				active_mask |= 1 << opnum;
 
 	return (active_mask != 0);
@@ -880,15 +880,15 @@ void fm_channel<RegisterType>::clock(uint32_t env_counter, int32_t lfo_raw_pm)
 	m_feedback[0] = m_feedback[1];
 	m_feedback[1] = m_feedback_in;
 
-	for (uint32_t opnum = 0; opnum < m_op.size(); opnum++)
-		if (m_op[opnum] != nullptr)
+	for(uint32_t opnum = 0; opnum < m_op.size(); opnum++)
+		if(m_op[opnum] != nullptr)
 			m_op[opnum]->clock(env_counter, lfo_raw_pm);
 
 /*
 useful temporary code for envelope debugging
-if (m_choffs == 0x101)
+if(m_choffs == 0x101)
 {
-	for (uint32_t opnum = 0; opnum < m_op.size(); opnum++)
+	for(uint32_t opnum = 0; opnum < m_op.size(); opnum++)
 	{
 		auto &op = *m_op[((opnum & 1) << 1) | ((opnum >> 1) & 1)];
 		printf(" %c%03X%c%c ",
@@ -923,7 +923,7 @@ void fm_channel<RegisterType>::output_2op(output_data &output, uint32_t rshift, 
 	// operator 1 has optional self-feedback
 	int32_t opmod = 0;
 	uint32_t feedback = m_regs.ch_feedback(m_choffs);
-	if (feedback != 0)
+	if(feedback != 0)
 		opmod = (m_feedback[0] + m_feedback[1]) >> (10 - feedback);
 
 	// compute the 14-bit volume/value of operator 1 and update the feedback
@@ -931,14 +931,14 @@ void fm_channel<RegisterType>::output_2op(output_data &output, uint32_t rshift, 
 
 	// now that the feedback has been computed, skip the rest if all volumes
 	// are clear; no need to do all this work for nothing
-	if (m_regs.ch_output_any(m_choffs) == 0)
+	if(m_regs.ch_output_any(m_choffs) == 0)
 		return;
 
 	// Algorithms for two-operator case:
 	//    0: O1 -> O2 -> out
 	//    1: (O1 + O2) -> out
 	int32_t result;
-	if (bitfield(m_regs.ch_algorithm(m_choffs), 0) == 0)
+	if(bitfield(m_regs.ch_algorithm(m_choffs), 0) == 0)
 	{
 		// some OPL chips use the previous sample for modulation instead of
 		// the current sample
@@ -980,7 +980,7 @@ void fm_channel<RegisterType>::output_4op(output_data &output, uint32_t rshift, 
 	// operator 1 has optional self-feedback
 	int32_t opmod = 0;
 	uint32_t feedback = m_regs.ch_feedback(m_choffs);
-	if (feedback != 0)
+	if(feedback != 0)
 		opmod = (m_feedback[0] + m_feedback[1]) >> (10 - feedback);
 
 	// compute the 14-bit volume/value of operator 1 and update the feedback
@@ -988,7 +988,7 @@ void fm_channel<RegisterType>::output_4op(output_data &output, uint32_t rshift, 
 
 	// now that the feedback has been computed, skip the rest if all volumes
 	// are clear; no need to do all this work for nothing
-	if (m_regs.ch_output_any(m_choffs) == 0)
+	if(m_regs.ch_output_any(m_choffs) == 0)
 		return;
 
 	// OPM/OPN offer 8 different connection algorithms for 4 operators,
@@ -1052,7 +1052,7 @@ void fm_channel<RegisterType>::output_4op(output_data &output, uint32_t rshift, 
 	// compute the 14-bit volume/value of operator 4; this could be a noise
 	// value on the OPM; all algorithms consume OP4 output at a minimum
 	int32_t result;
-	if (m_regs.noise_enable() && m_choffs == 7)
+	if(m_regs.noise_enable() && m_choffs == 7)
 		result = m_op[3]->compute_noise_volume(am_offset);
 	else
 	{
@@ -1063,11 +1063,11 @@ void fm_channel<RegisterType>::output_4op(output_data &output, uint32_t rshift, 
 
 	// optionally add OP1, OP2, OP3
 	int32_t clipmin = -clipmax - 1;
-	if (bitfield(algorithm_ops, 7) != 0)
+	if(bitfield(algorithm_ops, 7) != 0)
 		result = clamp(result + (opout[1] >> rshift), clipmin, clipmax);
-	if (bitfield(algorithm_ops, 8) != 0)
+	if(bitfield(algorithm_ops, 8) != 0)
 		result = clamp(result + (opout[2] >> rshift), clipmin, clipmax);
-	if (bitfield(algorithm_ops, 9) != 0)
+	if(bitfield(algorithm_ops, 9) != 0)
 		result = clamp(result + (opout[3] >> rshift), clipmin, clipmax);
 
 	// add to the output
@@ -1094,7 +1094,7 @@ void fm_channel<RegisterType>::output_rhythm_ch6(output_data &output, uint32_t r
 	// operator 1 has optional self-feedback
 	int32_t opmod = 0;
 	uint32_t feedback = m_regs.ch_feedback(m_choffs);
-	if (feedback != 0)
+	if(feedback != 0)
 		opmod = (m_feedback[0] + m_feedback[1]) >> (10 - feedback);
 
 	// compute the 14-bit volume/value of operator 1 and update the feedback
@@ -1194,15 +1194,15 @@ fm_engine_base<RegisterType>::fm_engine_base(ymfm_interface &intf) :
 	m_intf.m_engine = this;
 
 	// create the channels
-	for (uint32_t chnum = 0; chnum < CHANNELS; chnum++)
+	for(uint32_t chnum = 0; chnum < CHANNELS; chnum++)
 		m_channel[chnum] = std::make_unique<fm_channel<RegisterType>>(*this, RegisterType::channel_offset(chnum));
 
 	// create the operators
-	for (uint32_t opnum = 0; opnum < OPERATORS; opnum++)
+	for(uint32_t opnum = 0; opnum < OPERATORS; opnum++)
 		m_operator[opnum] = std::make_unique<fm_operator<RegisterType>>(*this, RegisterType::operator_offset(opnum));
 
-#if (YMFM_DEBUG_LOG_WAVFILES)
-	for (uint32_t chnum = 0; chnum < CHANNELS; chnum++)
+#if(YMFM_DEBUG_LOG_WAVFILES)
+	for(uint32_t chnum = 0; chnum < CHANNELS; chnum++)
 		m_wavfile[chnum].set_index(chnum);
 #endif
 
@@ -1229,11 +1229,11 @@ void fm_engine_base<RegisterType>::reset()
 	write(RegisterType::REG_MODE, 0);
 
 	// reset the channels
-	for (auto &chan : m_channel)
+	for(auto &chan : m_channel)
 		chan->reset();
 
 	// reset the operators
-	for (auto &op : m_operator)
+	for(auto &op : m_operator)
 		op->reset();
 }
 
@@ -1259,11 +1259,11 @@ void fm_engine_base<RegisterType>::save_restore(ymfm_saved_state &state)
 	m_regs.save_restore(state);
 
 	// save channel data
-	for (uint32_t chnum = 0; chnum < CHANNELS; chnum++)
+	for(uint32_t chnum = 0; chnum < CHANNELS; chnum++)
 		m_channel[chnum]->save_restore(state);
 
 	// save operator data
-	for (uint32_t opnum = 0; opnum < OPERATORS; opnum++)
+	for(uint32_t opnum = 0; opnum < OPERATORS; opnum++)
 		m_operator[opnum]->save_restore(state);
 
 	// invalidate any caches
@@ -1284,17 +1284,17 @@ uint32_t fm_engine_base<RegisterType>::clock(uint32_t chanmask)
 
 	// if something was modified, prepare
 	// also prepare every 4k samples to catch ending notes
-	if (m_modified_channels != 0 || m_prepare_count++ >= 4096)
+	if(m_modified_channels != 0 || m_prepare_count++ >= 4096)
 	{
 		// reassign operators to channels if dynamic
-		if (RegisterType::DYNAMIC_OPS)
+		if(RegisterType::DYNAMIC_OPS)
 			assign_operators();
 
 		// call each channel to prepare
 		m_active_channels = 0;
-		for (uint32_t chnum = 0; chnum < CHANNELS; chnum++)
-			if (bitfield(chanmask, chnum))
-				if (m_channel[chnum]->prepare())
+		for(uint32_t chnum = 0; chnum < CHANNELS; chnum++)
+			if(bitfield(chanmask, chnum))
+				if(m_channel[chnum]->prepare())
 					m_active_channels |= 1 << chnum;
 
 		// reset the modified channels and prepare count
@@ -1303,17 +1303,17 @@ uint32_t fm_engine_base<RegisterType>::clock(uint32_t chanmask)
 
 	// if the envelope clock divider is 1, just increment by 4;
 	// otherwise, increment by 1 and manually wrap when we reach the divide count
-	if (RegisterType::EG_CLOCK_DIVIDER == 1)
+	if(RegisterType::EG_CLOCK_DIVIDER == 1)
 		m_env_counter += 4;
-	else if (bitfield(++m_env_counter, 0, 2) == RegisterType::EG_CLOCK_DIVIDER)
+	else if(bitfield(++m_env_counter, 0, 2) == RegisterType::EG_CLOCK_DIVIDER)
 		m_env_counter += 4 - RegisterType::EG_CLOCK_DIVIDER;
 
 	// clock the noise generator
 	int32_t lfo_raw_pm = m_regs.clock_noise_and_lfo();
 
 	// now update the state of all the channels and operators
-	for (uint32_t chnum = 0; chnum < CHANNELS; chnum++)
-		if (bitfield(chanmask, chnum))
+	for(uint32_t chnum = 0; chnum < CHANNELS; chnum++)
+		if(bitfield(chanmask, chnum))
 			m_channel[chnum]->clock(m_env_counter, lfo_raw_pm);
 
 	// return the envelope counter as it is used to clock ADPCM-A
@@ -1333,12 +1333,12 @@ void fm_engine_base<RegisterType>::output(output_data &output, uint32_t rshift, 
 	chanmask &= debug::GLOBAL_FM_CHANNEL_MASK;
 
 	// mask out inactive channels
-	if (!YMFM_DEBUG_LOG_WAVFILES)
+	if(!YMFM_DEBUG_LOG_WAVFILES)
 		chanmask &= m_active_channels;
 
 	// handle the rhythm case, where some of the operators are dedicated
 	// to percussion (this is an OPL-specific feature)
-	if (m_regs.rhythm_enable())
+	if(m_regs.rhythm_enable())
 	{
 		// we don't support the OPM noise channel here; ensure it is off
 		assert(m_regs.noise_enable() == 0);
@@ -1349,23 +1349,23 @@ void fm_engine_base<RegisterType>::output(output_data &output, uint32_t rshift, 
 		uint32_t phase_select = (bitfield(op13phase, 2) ^ bitfield(op13phase, 7)) | bitfield(op13phase, 3) | (bitfield(op17phase, 5) ^ bitfield(op17phase, 3));
 
 		// sum over all the desired channels
-		for (uint32_t chnum = 0; chnum < CHANNELS; chnum++)
-			if (bitfield(chanmask, chnum))
+		for(uint32_t chnum = 0; chnum < CHANNELS; chnum++)
+			if(bitfield(chanmask, chnum))
 			{
-#if (YMFM_DEBUG_LOG_WAVFILES)
+#if(YMFM_DEBUG_LOG_WAVFILES)
 				auto reference = output;
 #endif
-				if (chnum == 6)
+				if(chnum == 6)
 					m_channel[chnum]->output_rhythm_ch6(output, rshift, clipmax);
-				else if (chnum == 7)
+				else if(chnum == 7)
 					m_channel[chnum]->output_rhythm_ch7(phase_select, output, rshift, clipmax);
-				else if (chnum == 8)
+				else if(chnum == 8)
 					m_channel[chnum]->output_rhythm_ch8(phase_select, output, rshift, clipmax);
-				else if (m_channel[chnum]->is4op())
+				else if(m_channel[chnum]->is4op())
 					m_channel[chnum]->output_4op(output, rshift, clipmax);
 				else
 					m_channel[chnum]->output_2op(output, rshift, clipmax);
-#if (YMFM_DEBUG_LOG_WAVFILES)
+#if(YMFM_DEBUG_LOG_WAVFILES)
 				m_wavfile[chnum].add(output, reference);
 #endif
 			}
@@ -1373,17 +1373,17 @@ void fm_engine_base<RegisterType>::output(output_data &output, uint32_t rshift, 
 	else
 	{
 		// sum over all the desired channels
-		for (uint32_t chnum = 0; chnum < CHANNELS; chnum++)
-			if (bitfield(chanmask, chnum))
+		for(uint32_t chnum = 0; chnum < CHANNELS; chnum++)
+			if(bitfield(chanmask, chnum))
 			{
-#if (YMFM_DEBUG_LOG_WAVFILES)
+#if(YMFM_DEBUG_LOG_WAVFILES)
 				auto reference = output;
 #endif
-				if (m_channel[chnum]->is4op())
+				if(m_channel[chnum]->is4op())
 					m_channel[chnum]->output_4op(output, rshift, clipmax);
 				else
 					m_channel[chnum]->output_2op(output, rshift, clipmax);
-#if (YMFM_DEBUG_LOG_WAVFILES)
+#if(YMFM_DEBUG_LOG_WAVFILES)
 				m_wavfile[chnum].add(output, reference);
 #endif
 			}
@@ -1402,7 +1402,7 @@ void fm_engine_base<RegisterType>::write(uint16_t regnum, uint8_t data)
 
 	// special case: writes to the mode register can impact IRQs;
 	// schedule these writes to ensure ordering with timers
-	if (regnum == RegisterType::REG_MODE)
+	if(regnum == RegisterType::REG_MODE)
 	{
 		m_intf.ymfm_sync_mode_write(data);
 		return;
@@ -1414,15 +1414,15 @@ void fm_engine_base<RegisterType>::write(uint16_t regnum, uint8_t data)
 	// most writes are passive, consumed only when needed
 	uint32_t keyon_channel;
 	uint32_t keyon_opmask;
-	if (m_regs.write(regnum, data, keyon_channel, keyon_opmask))
+	if(m_regs.write(regnum, data, keyon_channel, keyon_opmask))
 	{
 		// handle writes to the keyon register(s)
-		if (keyon_channel < CHANNELS)
+		if(keyon_channel < CHANNELS)
 		{
 			// normal channel on/off
 			m_channel[keyon_channel]->keyonoff(keyon_opmask, KEYON_NORMAL, keyon_channel);
 		}
-		else if (CHANNELS >= 9 && keyon_channel == RegisterType::RHYTHM_CHANNEL)
+		else if(CHANNELS >= 9 && keyon_channel == RegisterType::RHYTHM_CHANNEL)
 		{
 			// special case for the OPL rhythm channels
 			m_channel[6]->keyonoff(bitfield(keyon_opmask, 4) ? 3 : 0, KEYON_RHYTHM, 6);
@@ -1456,8 +1456,8 @@ void fm_engine_base<RegisterType>::assign_operators()
 	typename RegisterType::operator_mapping map;
 	m_regs.operator_map(map);
 
-	for (uint32_t chnum = 0; chnum < CHANNELS; chnum++)
-		for (uint32_t index = 0; index < 4; index++)
+	for(uint32_t chnum = 0; chnum < CHANNELS; chnum++)
+		for(uint32_t index = 0; index < 4; index++)
 		{
 			uint32_t opnum = bitfield(map.chan[chnum], 8 * index, 8);
 			m_channel[chnum]->assign(index, (opnum == 0xff) ? nullptr : m_operator[opnum].get());
@@ -1474,7 +1474,7 @@ template<class RegisterType>
 void fm_engine_base<RegisterType>::update_timer(uint32_t tnum, uint32_t enable, int32_t delta_clocks)
 {
 	// if the timer is live, but not currently enabled, set the timer
-	if (enable && !m_timer_running[tnum])
+	if(enable && !m_timer_running[tnum])
 	{
 		// period comes from the registers, and is different for each
 		uint32_t period = (tnum == 0) ? (1024 - m_regs.timer_a_value()) : 16 * (256 - m_regs.timer_b_value());
@@ -1488,7 +1488,7 @@ void fm_engine_base<RegisterType>::update_timer(uint32_t tnum, uint32_t enable, 
 	}
 
 	// if the timer is not live, ensure it is not enabled
-	else if (!enable)
+	else if(!enable)
 	{
 		m_intf.ymfm_set_timer(tnum, -1);
 		m_timer_running[tnum] = 0;
@@ -1507,15 +1507,15 @@ void fm_engine_base<RegisterType>::engine_timer_expired(uint32_t tnum)
 	assert(tnum == 0 || tnum == 1);
 
 	// update status
-	if (tnum == 0 && m_regs.enable_timer_a())
+	if(tnum == 0 && m_regs.enable_timer_a())
 		set_reset_status(STATUS_TIMERA, 0);
-	else if (tnum == 1 && m_regs.enable_timer_b())
+	else if(tnum == 1 && m_regs.enable_timer_b())
 		set_reset_status(STATUS_TIMERB, 0);
 
 	// if timer A fired in CSM mode, trigger CSM on all relevant channels
-	if (tnum == 0 && m_regs.csm())
-		for (uint32_t chnum = 0; chnum < CHANNELS; chnum++)
-			if (bitfield(RegisterType::CSM_TRIGGER_MASK, chnum))
+	if(tnum == 0 && m_regs.csm())
+		for(uint32_t chnum = 0; chnum < CHANNELS; chnum++)
+			if(bitfield(RegisterType::CSM_TRIGGER_MASK, chnum))
 			{
 				m_channel[chnum]->keyonoff(0xf, KEYON_CSM, chnum);
 				m_modified_channels |= 1 << chnum;
@@ -1540,13 +1540,13 @@ void fm_engine_base<RegisterType>::engine_check_interrupts()
 	m_irq_state = ((m_status & m_irq_mask & ~m_regs.status_mask()) != 0);
 
 	// set the IRQ status bit
-	if (m_irq_state)
+	if(m_irq_state)
 		m_status |= STATUS_IRQ;
 	else
 		m_status &= ~STATUS_IRQ;
 
 	// if changed, signal the new state
-	if (old_state != m_irq_state)
+	if(old_state != m_irq_state)
 		m_intf.ymfm_update_irq(m_irq_state ? true : false);
 }
 
@@ -1569,15 +1569,15 @@ void fm_engine_base<RegisterType>::engine_mode_write(uint8_t data)
 	// reset IRQ status -- when written, all other bits are ignored
 	// QUESTION: should this maybe just reset the IRQ bit and not all the bits?
 	//   That is, check_interrupts would only set, this would only clear?
-	if (m_regs.irq_reset())
+	if(m_regs.irq_reset())
 		set_reset_status(0, 0x78);
 	else
 	{
 		// reset timer status
 		uint8_t reset_mask = 0;
-		if (m_regs.reset_timer_b())
+		if(m_regs.reset_timer_b())
 			reset_mask |= RegisterType::STATUS_TIMERB;
-		if (m_regs.reset_timer_a())
+		if(m_regs.reset_timer_a())
 			reset_mask |= RegisterType::STATUS_TIMERA;
 		set_reset_status(0, reset_mask);
 

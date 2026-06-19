@@ -97,7 +97,7 @@ void Rtc4513::UpdateTime()
 
 	std::time_t newTime = system_clock::to_time_t(timePoint);
 	std::tm newTm;
-#if (defined(WIN32) || defined(_WIN32) || defined(__WIN32__))
+#if(defined(WIN32) || defined(_WIN32) || defined(__WIN32__))
 	gmtime_s(&newTm, &newTime);
 #else
 	gmtime_r(&newTime, &newTm);

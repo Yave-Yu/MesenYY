@@ -84,7 +84,7 @@ enum { min_sample = -32768 };
 
 #define CLAMP( n ) \
 	{\
-		if ( (short) n != n )\
+		if( (short) n != n )\
 			n = ARITH_SHIFT( n, 16 ) ^ max_sample;\
 	}
 
@@ -116,7 +116,7 @@ blip_t* blip_new( int size )
 	assert( size >= 0 );
 	
 	m = (blip_t*) malloc( sizeof *m + (size + buf_extra) * sizeof (buf_t) );
-	if ( m )
+	if( m )
 	{
 		m->factor = time_unit / blip_max_ratio;
 		m->size   = size;
@@ -128,7 +128,7 @@ blip_t* blip_new( int size )
 
 void blip_delete( blip_t* m )
 {
-	if ( m != NULL )
+	if( m != NULL )
 	{
 		/* Clear fields in case user tries to use after freeing */
 		memset( m, 0, sizeof *m );
@@ -146,7 +146,7 @@ void blip_set_rates( blip_t* m, double clock_rate, double sample_rate )
 	
 	/* Avoid requiring math.h. Equivalent to
 	m->factor = (int) ceil( factor ) */
-	if ( m->factor < factor )
+	if( m->factor < factor )
 		m->factor++;
 	
 	/* At this point, factor is most likely rounded up, but could still
@@ -175,7 +175,7 @@ int blip_clocks_needed( const blip_t* m, int samples )
 	assert( samples >= 0 && m->avail + samples <= m->size );
 	
 	needed = (fixed_t) samples * time_unit;
-	if ( needed < m->offset )
+	if( needed < m->offset )
 		return 0;
 	
 	return (int)((needed - m->offset + m->factor - 1) / m->factor);
@@ -210,10 +210,10 @@ int blip_read_samples( blip_t* m, short out [], int count, int stereo )
 {
 	assert( count >= 0 );
 	
-	if ( count > m->avail )
+	if( count > m->avail )
 		count = m->avail;
 	
-	if ( count )
+	if( count )
 	{
 		int const step = stereo ? 2 : 1;
 		buf_t const* in  = SAMPLES( m );
@@ -234,7 +234,7 @@ int blip_read_samples( blip_t* m, short out [], int count, int stereo )
 			/* High-pass filter */
 			sum -= s << (delta_bits - bass_shift);
 		}
-		while ( in != end );
+		while( in != end );
 		m->integrator = sum;
 		
 		remove_samples( m, count );

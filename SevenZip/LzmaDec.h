@@ -144,10 +144,10 @@ void LzmaDec_Free(CLzmaDec *state, ISzAlloc *alloc);
    STEPS:
      LzmaDec_Constr()
      LzmaDec_Allocate()
-     for (each new stream)
+     for(each new stream)
      {
        LzmaDec_Init()
-       while (it needs more decompression)
+       while(it needs more decompression)
        {
          LzmaDec_DecodeToDic()
          use data from CLzmaDec::dic and update CLzmaDec::dicPos

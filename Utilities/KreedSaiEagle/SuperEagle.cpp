@@ -41,10 +41,10 @@
 
 #ifndef supereagle_function
 #define supereagle_function(result_cb, interpolate_cb, interpolate2_cb) \
-         if (color2 == color6 && color5 != color3) \
+         if(color2 == color6 && color5 != color3) \
          { \
             product1b = product2a = color2; \
-            if ((color1 == color2) || (color6 == colorB2)) \
+            if((color1 == color2) || (color6 == colorB2)) \
             { \
                product1a = interpolate_cb(color2, color5); \
                product1a = interpolate_cb(color2, product1a); \
@@ -53,7 +53,7 @@
             { \
                product1a = interpolate_cb(color5, color6); \
             } \
-            if ((color6 == colorS2) || (color2 == colorA1)) \
+            if((color6 == colorS2) || (color2 == colorA1)) \
             { \
                product2b = interpolate_cb(color2, color3); \
                product2b = interpolate_cb(color2, product2b); \
@@ -63,10 +63,10 @@
                product2b = interpolate_cb(color2, color3); \
             } \
          } \
-         else if (color5 == color3 && color2 != color6) \
+         else if(color5 == color3 && color2 != color6) \
          { \
             product2b = product1a = color5; \
-            if ((colorB1 == color5) || (color3 == colorS1)) \
+            if((colorB1 == color5) || (color3 == colorS1)) \
             { \
                product1b = interpolate_cb(color5, color6); \
                product1b = interpolate_cb(color5, product1b); \
@@ -75,7 +75,7 @@
             { \
                product1b = interpolate_cb(color5, color6); \
             } \
-            if ((color3 == colorA2) || (color4 == color5)) \
+            if((color3 == colorA2) || (color4 == color5)) \
             { \
                product2a = interpolate_cb(color5, color2); \
                product2a = interpolate_cb(color5, product2a); \
@@ -85,19 +85,19 @@
                product2a = interpolate_cb(color2, color3); \
             } \
          } \
-         else if (color5 == color3 && color2 == color6) \
+         else if(color5 == color3 && color2 == color6) \
          { \
             int r = 0; \
             r += supereagle_result(color6, color5, color1, colorA1); \
             r += supereagle_result(color6, color5, color4, colorB1); \
             r += supereagle_result(color6, color5, colorA2, colorS1); \
             r += supereagle_result(color6, color5, colorB2, colorS2); \
-            if (r > 0) \
+            if(r > 0) \
             { \
                product1b = product2a = color2; \
                product1a = product2b = interpolate_cb(color5, color6); \
             } \
-            else if (r < 0) \
+            else if(r < 0) \
             { \
                product2b = product1a = color5; \
                product1b = product2a = interpolate_cb(color5, color6); \

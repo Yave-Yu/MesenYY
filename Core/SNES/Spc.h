@@ -1,4 +1,4 @@
-#if (defined(DUMMYSPC) && !defined(__DUMMYSPC__H)) || (!defined(DUMMYSPC) && !defined(__SPC__H))
+#if(defined(DUMMYSPC) && !defined(__DUMMYSPC__H)) || (!defined(DUMMYSPC) && !defined(__SPC__H))
 	#ifdef DUMMYSPC
 		#define __DUMMYSPC__H
 	#else
