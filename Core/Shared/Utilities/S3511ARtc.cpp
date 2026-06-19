@@ -9,12 +9,10 @@ S3511ARtc::S3511ARtc(Emulator* emu)
 {
 	_emu = emu;
 
-	_state.Month = 1;
-	_state.Day = 1;
 	_state.Status = 0x02;
 	_state.IntHour = 0x80;
 
-	_lastUpdateTime = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	GetSystemClock();
 }
 
 uint8_t S3511ARtc::SanitizeData(uint8_t value, uint8_t maxValue, uint8_t fixedValue)
@@ -197,32 +195,36 @@ void S3511ARtc::ProcessCommand()
 	}
 }
 
-uint8_t S3511ARtc::ToBCD(uint8_t value)
+uint8_t S3511ARtc::ToBCD(int value)
 {
 	return (value / 10 << 4) + value % 10;
+}
+
+void S3511ARtc::GetSystemClock()
+{
+	_lastUpdateTime = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	time_t currentTime = _lastUpdateTime;
+	tm dateTime;
+
+#if (defined(WIN32) || defined(_WIN32) || defined(__WIN32__))
+	localtime_s(&dateTime, &currentTime);
+#else
+	localtime_r(&currentTime, &dateTime);
+#endif
+
+	_state.Year = ToBCD(dateTime.tm_year % 100);
+	_state.Month = ToBCD(dateTime.tm_mon + 1);
+	_state.Day = ToBCD(dateTime.tm_mday);
+	_state.DoW = dateTime.tm_wday; //No need to convert
+	_state.Hour = ToBCD(dateTime.tm_hour);
+	_state.Minute = ToBCD(dateTime.tm_min);
+	_state.Second = ToBCD(dateTime.tm_sec);
 }
 
 void S3511ARtc::Reset()
 {
 	_state = {};
-	//With this, each time start a new game, RTC automatically syncs to system clock
-	struct tm t;
-	time_t now;
-	time(&now);
-#if (defined(WIN32) || defined(_WIN32) || defined(__WIN32__))
-	localtime_s(&t, &now);
-#else
-	localtime_r(&now, &t);
-#endif
-
-	_state.Year = ToBCD(t.tm_year % 100);
-	_state.Month = ToBCD(t.tm_mon + 1);
-	_state.Day = ToBCD(t.tm_mday);
-	_state.DoW = t.tm_wday; //Only 0~6, don't need that
-	_state.Hour = ToBCD(t.tm_hour);
-	_state.Minute = ToBCD(t.tm_min);
-	_state.Second = ToBCD(t.tm_sec);
-	_state.Status = 0x40;
+	GetSystemClock();
 }
 
 void S3511ARtc::UpdateTime()
