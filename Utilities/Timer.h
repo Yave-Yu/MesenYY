@@ -9,8 +9,7 @@ class Timer
 		high_resolution_clock::time_point _start;
 
 public:
-		Timer();
-		void Reset();
-		double GetElapsedMS() const;
-		void WaitUntil(double targetMillisecond) const;
+	Timer();
+	void Reset();
+	double GetElapsedMS() const;
 };

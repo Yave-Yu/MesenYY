@@ -49,21 +49,23 @@
 #include "Shared/MemoryOperationType.h"
 #include "Shared/EventType.h"
 
-Emulator::Emulator() : _settings(new EmuSettings(this)),
-							  _debugHud(new DebugHud()),
-							  _scriptHud(new DebugHud()),
-							  _notificationManager(new NotificationManager()),
-							  _batteryManager(new BatteryManager()),
-							  _soundMixer(new SoundMixer(this)),
-							  _videoRenderer(new VideoRenderer(this)),
-							  _videoDecoder(new VideoDecoder(this)),
-							  _saveStateManager(new SaveStateManager(this)),
-							  _cheatManager(new CheatManager(this)),
-							  _movieManager(new MovieManager(this)),
-							  _historyViewer(new HistoryViewer(this)),
-							  _gameServer(new GameServer(this)),
-							  _gameClient(new GameClient(this)),
-							  _rewindManager(new RewindManager(this))
+Emulator::Emulator() :
+	_settings(new EmuSettings(this)),
+	_debugHud(new DebugHud()),
+	_scriptHud(new DebugHud()),
+	_notificationManager(new NotificationManager()),
+	_batteryManager(new BatteryManager()),
+	_soundMixer(new SoundMixer(this)),
+	_videoRenderer(new VideoRenderer(this)),
+	_videoDecoder(new VideoDecoder(this)),
+	_saveStateManager(new SaveStateManager(this)),
+	_cheatManager(new CheatManager(this)),
+	_movieManager(new MovieManager(this)),
+	_historyViewer(new HistoryViewer(this)),
+	_gameServer(new GameServer(this)),
+	_gameClient(new GameClient(this)),
+	_rewindManager(new RewindManager(this)),
+	_stats(new DebugStats())
 {
 	_paused = false;
 	_pauseOnNextFrame = false;
@@ -126,8 +128,8 @@ void Emulator::Run()
 
 	_emulationThreadId = std::this_thread::get_id();
 
+	_stats->ResetStats();
 	_frameDelay = GetFrameDelay();
-	_stats.reset(new DebugStats());
 	_frameLimiter.reset(new FrameLimiter(_frameDelay));
 	_lastFrameTimer.Reset();
 
@@ -243,19 +245,21 @@ void Emulator::OnBeforeSendFrame()
 			_audioPlayerHud->Draw(GetFrameCount(), GetFps());
 		}
 
-		if(_stats && _settings->GetPreferences().ShowDebugInfo) {
+		if(_settings->GetPreferences().ShowDebugInfo) {
 			double lastFrameTime = _lastFrameTimer.GetElapsedMS();
 			_lastFrameTimer.Reset();
-			_stats->DisplayStats(this, lastFrameTime);
+			_stats->UpdateStats(this, false, lastFrameTime);
 		}
 	}
 }
 
 void Emulator::ProcessEndOfFrame()
 {
+	bool useSpinWait = !_settings->GetVideoConfig().DisableHighPrecisionFramePacing && (_settings->GetEmulationSpeed() >= 50 && _settings->GetEmulationSpeed() <= 200);
+
 	if(!_isRunAheadFrame) {
 		_frameLimiter->ProcessFrame();
-		while(_frameLimiter->WaitForNextFrame()) {
+		while(_frameLimiter->WaitForNextFrame(useSpinWait)) {
 			if(_stopFlag || _frameDelay != GetFrameDelay() || _paused || _pauseOnNextFrame || _lockCounter > 0) {
 				//Need to process another event, stop sleeping
 				break;

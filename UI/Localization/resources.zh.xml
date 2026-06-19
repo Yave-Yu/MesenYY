@@ -140,6 +140,8 @@
 			<Control ID="lblCustomRatio">自定义：</Control>
 			<Control ID="chkBilinearInterpolation">双线性插值</Control>
 			<Control ID="chkUseSrgbTextureFormat">sRGB混合模式</Control>
+			<Control ID="chkEnableVariableRefreshRate">启用动态刷新率（仅全屏）</Control>
+			<Control ID="chkEnableVariableRefreshRateHint">使用支持动态刷新率（VRR，通常为FreeSync、G-Sync）的显示器时，运行无边框的全屏模式就会被启用。&#13;若你的显示器启用着动态刷新率，便推荐勾选此选项，能有效改善帧同步。&#13;但若显示器并不支持动态刷新率，请勿启用此选项。</Control>
 			<Control ID="lblFullscreenResolution">全屏分辨率：</Control>
 			<Control ID="chkFullscreenForceIntegerScale">全屏使用整倍拉伸</Control>
 			<Control ID="chkUseExclusiveFullscreen">独占全屏模式</Control>
@@ -193,6 +195,7 @@
 			<Control ID="tpgAdvanced">高级</Control>
 			<Control ID="lblScreenRotation">屏幕旋转：</Control>
 			<Control ID="chkUseSoftwareRenderer">软件渲染（需重启模拟器）</Control>
+			<Control ID="chkDisableHighPrecisionFramePacing">禁用高精度帧同步（可能提升续航）</Control>
 		</Form>
 		<Form ID="EmulationConfigView">
 			<Control ID="tpgGeneral">常规</Control>
