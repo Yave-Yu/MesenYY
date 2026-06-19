@@ -7,7 +7,7 @@
 #include "WS/Debugger/WsTraceLogger.h"
 #include "WS/Debugger/WsPpuTools.h"
 #include "WS/Input/WsController.h"
-#include "WS/Input/Pcv2Controller.h"
+#include "WS/Input/PcV2Controller.h"
 #include "WS/WsCpu.h"
 #include "WS/WsPpu.h"
 #include "WS/WsConsole.h"
