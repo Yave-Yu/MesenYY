@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
-using Avalonia;
-using Avalonia.Media;
-using Mesen.Debugger;
-using Mesen.Interop;
-using Mesen.ViewModels;
+﻿using Mesen.Interop;
 using ReactiveUI.Fody.Helpers;
+using System;
 
 namespace Mesen.Config
 {

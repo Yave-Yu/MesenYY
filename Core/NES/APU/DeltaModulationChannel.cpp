@@ -182,7 +182,7 @@ bool DeltaModulationChannel::GetStatus()
 	return _bytesRemaining > 0;
 }
 
-void DeltaModulationChannel::GetMemoryRanges(MemoryRanges &ranges)
+void DeltaModulationChannel::GetMemoryRanges(MemoryRanges& ranges)
 {
 	ranges.AddHandler(MemoryOperation::Write, 0x4010, 0x4013);
 }

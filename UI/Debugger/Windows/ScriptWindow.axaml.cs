@@ -1,11 +1,8 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
-using Avalonia.Styling;
 using Avalonia.Threading;
 using AvaloniaEdit;
 using AvaloniaEdit.CodeCompletion;
@@ -13,7 +10,6 @@ using AvaloniaEdit.Document;
 using AvaloniaEdit.Editing;
 using AvaloniaEdit.Highlighting;
 using AvaloniaEdit.Highlighting.Xshd;
-using Mesen.Config;
 using Mesen.Debugger.Controls;
 using Mesen.Debugger.Utilities;
 using Mesen.Debugger.ViewModels;
@@ -22,7 +18,6 @@ using Mesen.Interop;
 using Mesen.Utilities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
@@ -37,7 +32,7 @@ namespace Mesen.Debugger.Windows
 		private MesenTextEditor _txtScriptLog;
 		private DispatcherTimer _timer;
 		private ScriptWindowViewModel _model;
-		
+
 		public ScriptWindowViewModel Model => _model;
 
 		static ScriptWindow()
@@ -127,7 +122,7 @@ namespace Mesen.Debugger.Windows
 				Close();
 			}
 		}
-		
+
 		private void UpdateSyntaxDef()
 		{
 			Color[] colors = new Color[] { Colors.Green, Colors.SteelBlue, Colors.Blue, Colors.DarkMagenta, Colors.DarkRed, Colors.Black, Colors.Indigo };
@@ -365,7 +360,7 @@ namespace Mesen.Debugger.Windows
 
 			public object Description
 			{
-				get 
+				get
 				{
 					if(_enumName != null) {
 						DocEntryViewModel? enumEntry = CodeCompletionHelper.GetEntry(_enumName);

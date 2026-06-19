@@ -1,11 +1,7 @@
 ﻿using Mesen.Interop;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Config
 {
@@ -19,7 +15,7 @@ namespace Mesen.Config
 		[Reactive] public bool DisableFrameSkipping { get; set; } = false;
 		[Reactive] public bool BlendFrames { get; set; } = false;
 		[Reactive] public bool GbaAdjustColors { get; set; } = false;
-		
+
 		[Reactive] public bool HideBgLayer1 { get; set; } = false;
 		[Reactive] public bool HideBgLayer2 { get; set; } = false;
 		[Reactive] public bool HideBgLayer3 { get; set; } = false;
@@ -41,7 +37,7 @@ namespace Mesen.Config
 		[Reactive][MinMax(0, 100)] public UInt32 ChannelBVol { get; set; } = 100;
 
 		public void ApplyConfig()
-{
+		{
 			ConfigManager.Config.Video.ApplyConfig();
 
 			ConfigApi.SetGbaConfig(new InteropGbaConfig() {
@@ -88,7 +84,7 @@ namespace Mesen.Config
 		[MarshalAs(UnmanagedType.I1)] public bool DisableFrameSkipping;
 		[MarshalAs(UnmanagedType.I1)] public bool BlendFrames;
 		[MarshalAs(UnmanagedType.I1)] public bool GbaAdjustColors;
-		
+
 		[MarshalAs(UnmanagedType.I1)] public bool HideBgLayer1;
 		[MarshalAs(UnmanagedType.I1)] public bool HideBgLayer2;
 		[MarshalAs(UnmanagedType.I1)] public bool HideBgLayer3;

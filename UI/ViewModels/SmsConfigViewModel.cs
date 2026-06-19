@@ -1,14 +1,8 @@
 ﻿using Avalonia.Controls;
 using Mesen.Config;
-using Mesen.Controls;
 using Mesen.Utilities;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reactive.Linq;
 
 namespace Mesen.ViewModels
 {
@@ -19,7 +13,7 @@ namespace Mesen.ViewModels
 		[Reactive] public SmsConfigTab SelectedTab { get; set; } = 0;
 
 		public SmsInputConfigViewModel Input { get; private set; }
-		
+
 		public Enum[] AvailableRegionsSms => new Enum[] {
 			ConsoleRegion.Auto,
 			ConsoleRegion.Ntsc,

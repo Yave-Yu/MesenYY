@@ -1,8 +1,6 @@
 ﻿using Mesen.Interop;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Text;
 
 namespace Mesen.Debugger.StatusViews
 {

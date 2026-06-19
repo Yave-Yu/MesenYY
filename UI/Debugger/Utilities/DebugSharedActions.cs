@@ -2,13 +2,9 @@
 using Mesen.Config;
 using Mesen.Debugger.Windows;
 using Mesen.Interop;
-using Mesen.Localization;
 using Mesen.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Utilities
 {
@@ -107,7 +103,7 @@ namespace Mesen.Debugger.Utilities
 				},
 
 				new ContextMenuSeparator(),
-				
+
 				new ContextMenuAction() {
 					ActionType = ActionType.RunToNmi,
 					Shortcut = () => ConfigManager.Config.Debug.Shortcuts.Get(DebuggerShortcut.RunToNmi),

@@ -1,8 +1,5 @@
-﻿using Avalonia;
-using Avalonia.Data.Converters;
-using Avalonia.Media;
+﻿using Avalonia.Data.Converters;
 using System;
-using System.Diagnostics;
 using System.Globalization;
 
 namespace Mesen.Utilities

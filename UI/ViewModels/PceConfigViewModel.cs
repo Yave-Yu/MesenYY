@@ -2,11 +2,9 @@
 using Mesen.Config;
 using Mesen.Controls;
 using Mesen.Utilities;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 

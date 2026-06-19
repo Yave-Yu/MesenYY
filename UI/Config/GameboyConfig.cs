@@ -1,11 +1,7 @@
 ﻿using Mesen.Interop;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Config
 {
@@ -25,7 +21,7 @@ namespace Mesen.Config
 
 		[Reactive] public bool BlendFrames { get; set; } = false;
 		[Reactive] public bool GbcAdjustColors { get; set; } = false;
-		
+
 		[Reactive] public bool DisableBackground { get; set; } = false;
 		[Reactive] public bool DisableSprites { get; set; } = false;
 		[Reactive] public bool HideSgbBorders { get; set; } = false;
@@ -97,7 +93,7 @@ namespace Mesen.Config
 
 		[MarshalAs(UnmanagedType.I1)] public bool BlendFrames;
 		[MarshalAs(UnmanagedType.I1)] public bool GbcAdjustColors;
-		
+
 		[MarshalAs(UnmanagedType.I1)] public bool DisableBackground;
 		[MarshalAs(UnmanagedType.I1)] public bool DisableSprites;
 		[MarshalAs(UnmanagedType.I1)] public bool HideSgbBorders;
@@ -107,10 +103,10 @@ namespace Mesen.Config
 
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
 		public UInt32[] BgColors;
-		
+
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
 		public UInt32[] Obj0Colors;
-		
+
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
 		public UInt32[] Obj1Colors;
 

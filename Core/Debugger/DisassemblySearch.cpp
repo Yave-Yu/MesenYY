@@ -64,8 +64,7 @@ uint32_t DisassemblySearch::SearchDisassembly(CpuType cpuType, const char* searc
 			if(
 				(!options.SearchBackwards && prevAddress < startAddress && rows[i].CpuAddress >= startAddress) ||
 				(options.SearchBackwards && prevAddress > startAddress && rows[i].CpuAddress <= startAddress) ||
-				rowCounter > 500000
-			) {
+				rowCounter > 500000) {
 				if(rowCounter > 0) {
 					//Checked entire memory space without finding a match (or checked over 500k rows), give up
 					return resultCount;

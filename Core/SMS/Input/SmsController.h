@@ -28,7 +28,7 @@ protected:
 			SetPressedState(Buttons::Down, keyMapping.Down);
 			SetPressedState(Buttons::Left, keyMapping.Left);
 			SetPressedState(Buttons::Right, keyMapping.Right);
-			
+
 			SetPressedState(Buttons::Pause, keyMapping.Start);
 
 			if(turboOn) {
@@ -55,7 +55,16 @@ protected:
 	}
 
 public:
-	enum Buttons { Up = 0, Down, Left, Right, B, A, Pause };
+	enum Buttons
+	{
+		Up = 0,
+		Down,
+		Left,
+		Right,
+		B,
+		A,
+		Pause
+	};
 
 	SmsController(Emulator* emu, uint8_t port, KeyMappingSet keyMappings) : BaseControlDevice(emu, ControllerType::SmsController, port, keyMappings)
 	{

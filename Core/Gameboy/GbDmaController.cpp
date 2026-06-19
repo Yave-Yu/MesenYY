@@ -201,8 +201,15 @@ void GbDmaController::ProcessDmaBlock()
 
 void GbDmaController::Serialize(Serializer& s)
 {
-	SV(_state.OamDmaSource); SV(_state.DmaStartDelay); SV(_state.InternalDest); SV(_state.DmaCounter); SV(_state.DmaReadBuffer);
-	SV(_state.CgbDmaDest); SV(_state.CgbDmaLength); SV(_state.CgbDmaSource); SV(_state.CgbHdmaRunning);
+	SV(_state.OamDmaSource);
+	SV(_state.DmaStartDelay);
+	SV(_state.InternalDest);
+	SV(_state.DmaCounter);
+	SV(_state.DmaReadBuffer);
+	SV(_state.CgbDmaDest);
+	SV(_state.CgbDmaLength);
+	SV(_state.CgbDmaSource);
+	SV(_state.CgbHdmaRunning);
 	SV(_state.CgbHdmaPending);
 	SV(_state.CgbHdmaTrigger);
 	SV(_state.OamDmaRunning);

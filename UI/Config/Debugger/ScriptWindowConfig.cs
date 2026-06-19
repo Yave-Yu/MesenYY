@@ -1,12 +1,7 @@
-﻿using Avalonia;
-using Avalonia.Media;
-using Mesen.Interop;
-using ReactiveUI.Fody.Helpers;
+﻿using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Config
 {
@@ -25,7 +20,7 @@ namespace Mesen.Config
 		[Reactive] public bool AutoStartScriptOnLoad { get; set; } = true;
 		[Reactive] public bool AutoReloadScriptWhenFileChanges { get; set; } = true;
 		[Reactive] public bool AutoRestartScriptAfterPowerCycle { get; set; } = true;
-		
+
 		[Reactive] public bool AllowIoOsAccess { get; set; } = false;
 		[Reactive] public bool AllowNetworkAccess { get; set; } = false;
 

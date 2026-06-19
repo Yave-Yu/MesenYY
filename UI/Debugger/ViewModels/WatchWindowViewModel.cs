@@ -1,20 +1,11 @@
-﻿using Avalonia.Collections;
-using Avalonia.Controls;
-using Avalonia.Controls.Selection;
+﻿using Avalonia.Controls;
 using Avalonia.Threading;
-using DataBoxControl;
 using Mesen.Config;
-using Mesen.Debugger.Labels;
 using Mesen.Interop;
 using Mesen.Localization;
-using Mesen.Utilities;
 using Mesen.ViewModels;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace Mesen.Debugger.ViewModels
 {

@@ -9,7 +9,6 @@ using Mesen.Localization;
 using Mesen.Utilities;
 using Mesen.Windows;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 

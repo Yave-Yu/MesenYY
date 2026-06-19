@@ -8,8 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Utilities
 {
@@ -21,10 +19,10 @@ namespace Mesen.Debugger.Utilities
 
 			HashSet<string> terms = new HashSet<string>();
 			terms.Add(searchString.ToLower());
-			
+
 			//Add each word as a separate search term
 			terms.UnionWith(searchString.ToLower().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
-			
+
 			//Add a space in front of each uppercase letter (and add each newly formed word as a search term)
 			for(int i = 0; i < searchString.Length; i++) {
 				char ch = searchString[i];
@@ -215,7 +213,7 @@ namespace Mesen.Debugger.Utilities
 		public SearchResultType SearchResultType;
 		public CodeLabel? CodeLabel;
 		public bool Disabled { get; set; }
-	
+
 		public string UiAbsAddress
 		{
 			get
@@ -278,7 +276,7 @@ namespace Mesen.Debugger.Utilities
 						return Path.GetFileName(File.Name) + ":" + (SourceLocation?.LineNumber + 1).ToString();
 					}
 				}
-				
+
 				return "";
 			}
 		}

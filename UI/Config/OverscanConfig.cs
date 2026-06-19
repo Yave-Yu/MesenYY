@@ -1,16 +1,5 @@
-﻿using Mesen.Interop;
-using Mesen.Utilities;
-using Mesen.ViewModels;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+﻿using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Mesen.Config
 {

@@ -2,14 +2,9 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using Mesen.Config;
-using Mesen.Debugger.Utilities;
 using Mesen.Debugger.ViewModels;
 using Mesen.Interop;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Controls
 {

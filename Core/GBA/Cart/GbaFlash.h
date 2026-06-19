@@ -14,7 +14,7 @@ private:
 		Erase,
 		SetMemoryBank
 	};
-	
+
 	Emulator* _emu = nullptr;
 	GbaConsole* _console = nullptr;
 
@@ -107,7 +107,8 @@ public:
 
 					case 0x90:
 						_emu->DebugLog("[Flash] 0x90 - Enter software ID mode");
-						ResetState();  _softwareId = true;
+						ResetState();
+						_softwareId = true;
 						break;
 
 					case 0xA0:

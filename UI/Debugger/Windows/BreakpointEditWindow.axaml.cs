@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.Controls;
-using Mesen.Debugger.Utilities;
 using Mesen.Debugger.ViewModels;
 using Mesen.Utilities;
 using System;

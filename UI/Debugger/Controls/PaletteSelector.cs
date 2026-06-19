@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Mesen.Config;
@@ -10,12 +9,8 @@ using Mesen.Debugger.Utilities;
 using Mesen.Interop;
 using Mesen.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Controls
 {
@@ -152,7 +147,7 @@ namespace Mesen.Debugger.Controls
 			if(PaletteColors != null && ColumnCount > 0) {
 				return new Size(ColumnCount * BlockSize, (PaletteColors.Length / ColumnCount) * BlockSize);
 			} else {
-				return new Size(0,0);
+				return new Size(0, 0);
 			}
 		}
 
@@ -212,7 +207,7 @@ namespace Mesen.Debugger.Controls
 		public override void Render(DrawingContext context)
 		{
 			UInt32[] paletteColors = PaletteColors;
-			
+
 			if(paletteColors == null || ColumnCount == 0) {
 				return;
 			}
@@ -303,7 +298,7 @@ namespace Mesen.Debugger.Controls
 		protected override void OnPointerMoved(PointerEventArgs e)
 		{
 			base.OnPointerMoved(e);
-			
+
 			if(RawPalette == null) {
 				return;
 			}

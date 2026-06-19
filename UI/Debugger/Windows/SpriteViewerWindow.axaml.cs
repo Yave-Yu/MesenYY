@@ -1,15 +1,13 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using System;
+using Mesen.Config;
 using Mesen.Debugger.Controls;
+using Mesen.Debugger.Utilities;
 using Mesen.Debugger.ViewModels;
 using Mesen.Interop;
-using System.ComponentModel;
-using Avalonia.Input;
-using Avalonia.Interactivity;
-using Mesen.Debugger.Utilities;
-using Mesen.Config;
+using System;
 
 namespace Mesen.Debugger.Windows
 {
@@ -33,7 +31,7 @@ namespace Mesen.Debugger.Windows
 			var listView = this.GetControl<DataBoxControl.DataBox>("ListView");
 			_model = new SpriteViewerViewModel(cpuType, picViewer, scrollViewer, spriteGrid, listView, this);
 			DataContext = _model;
-		
+
 			_model.Config.LoadWindowSettings(this);
 
 			if(Design.IsDesignMode) {

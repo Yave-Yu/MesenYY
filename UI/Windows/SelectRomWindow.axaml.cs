@@ -1,13 +1,10 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using Mesen.GUI.Utilities;
-using Mesen.Interop;
-using Mesen.Localization;
 using Mesen.Utilities;
 using Mesen.ViewModels;
 using ReactiveUI;

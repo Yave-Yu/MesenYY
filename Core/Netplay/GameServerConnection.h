@@ -41,7 +41,7 @@ private:
 protected:
 	void ProcessMessage(NetMessage* message) override;
 	void ProcessPendingEvents() override;
-	
+
 public:
 	GameServerConnection(GameServer* gameServer, Emulator* emu, unique_ptr<Socket> socket, string serverPassword);
 	virtual ~GameServerConnection();

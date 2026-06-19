@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -70,7 +69,7 @@ namespace Mesen.Debugger.Controls
 			get { return GetValue(ZoomProperty); }
 			set { SetValue(ZoomProperty, value); }
 		}
-		
+
 		public bool AllowSelection
 		{
 			get { return GetValue(AllowSelectionProperty); }
@@ -433,10 +432,10 @@ namespace Mesen.Debugger.Controls
 			if(Source == null) {
 				return;
 			}
-			
+
 			int width = (int)(Source.Size.Width * Zoom);
 			int height = (int)(Source.Size.Height * Zoom);
-			
+
 			double dpiScale = 1 / LayoutHelper.GetLayoutScale(this);
 			using var scale = context.PushTransform(Matrix.CreateScale(dpiScale, dpiScale));
 
@@ -504,7 +503,7 @@ namespace Mesen.Debugger.Controls
 
 			if(SelectionRect != default) {
 				Rect rect = ToDrawRect(SelectionRect);
-				
+
 				DashStyle dashes = new DashStyle(DashStyle.Dash.Dashes, _stopWatch.ElapsedMilliseconds / 250.0);
 				context.DrawRectangle(new Pen(Brushes.Black, 2), rect.Inflate(0.5));
 				context.DrawRectangle(new Pen(Brushes.White, 2, dashes), rect.Inflate(0.5));
@@ -626,7 +625,7 @@ namespace Mesen.Debugger.Controls
 			}
 		}
 	}
-	
+
 	public class PositionClickedEventArgs : RoutedEventArgs
 	{
 		public PixelPoint Position { get; }

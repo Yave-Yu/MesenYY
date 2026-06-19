@@ -10,7 +10,7 @@
 #include "Utilities/HexUtilities.h"
 #include "Utilities/FastString.h"
 
-void SnesDisUtils::GetDisassembly(DisassemblyInfo &info, string &out, uint32_t memoryAddr, LabelManager* labelManager, EmuSettings* settings)
+void SnesDisUtils::GetDisassembly(DisassemblyInfo& info, string& out, uint32_t memoryAddr, LabelManager* labelManager, EmuSettings* settings)
 {
 	FastString str(settings->GetDebugConfig().UseLowerCaseDisassembly);
 
@@ -45,13 +45,16 @@ void SnesDisUtils::GetDisassembly(DisassemblyInfo &info, string &out, uint32_t m
 		case SnesAddrMode::AbsIdxXInd: str.WriteAll('(', operand, ",X)"); break;
 		case SnesAddrMode::AbsIdxX: str.WriteAll(operand, ",X"); break;
 		case SnesAddrMode::AbsIdxY: str.WriteAll(operand, ",Y"); break;
-		case SnesAddrMode::AbsInd:  str.WriteAll('(', operand, ')'); break;
-		case SnesAddrMode::AbsIndLng:  str.WriteAll('[', operand, ']'); break;
+		case SnesAddrMode::AbsInd: str.WriteAll('(', operand, ')'); break;
+		case SnesAddrMode::AbsIndLng: str.WriteAll('[', operand, ']'); break;
 		case SnesAddrMode::AbsLngIdxX: str.WriteAll(operand, ",X"); break;
 		case SnesAddrMode::AbsLng: str.Write(operand); break;
 		case SnesAddrMode::AbsLngJmp: str.Write(operand); break;
 		case SnesAddrMode::Acc: break;
-		case SnesAddrMode::BlkMov: str.WriteAll('$', operand[1], operand[2], ','); str.WriteAll('$', operand[3], operand[4]); break;
+		case SnesAddrMode::BlkMov:
+			str.WriteAll('$', operand[1], operand[2], ',');
+			str.WriteAll('$', operand[3], operand[4]);
+			break;
 		case SnesAddrMode::DirIdxIndX: str.WriteAll('(', operand, ",X)"); break;
 		case SnesAddrMode::DirIdxX: str.WriteAll(operand, ",X"); break;
 		case SnesAddrMode::DirIdxY: str.WriteAll(operand, ",Y"); break;
@@ -61,7 +64,10 @@ void SnesDisUtils::GetDisassembly(DisassemblyInfo &info, string &out, uint32_t m
 		case SnesAddrMode::DirInd: str.WriteAll("(", operand, ")"); break;
 		case SnesAddrMode::Dir: str.Write(operand); break;
 
-		case SnesAddrMode::Imm8: case SnesAddrMode::Imm16: case SnesAddrMode::ImmX: case SnesAddrMode::ImmM:
+		case SnesAddrMode::Imm8:
+		case SnesAddrMode::Imm16:
+		case SnesAddrMode::ImmX:
+		case SnesAddrMode::ImmM:
 			str.WriteAll('#', operand);
 			break;
 
@@ -78,7 +84,7 @@ void SnesDisUtils::GetDisassembly(DisassemblyInfo &info, string &out, uint32_t m
 	out += str.ToString();
 }
 
-uint32_t SnesDisUtils::GetOperandAddress(DisassemblyInfo &info, uint32_t memoryAddr)
+uint32_t SnesDisUtils::GetOperandAddress(DisassemblyInfo& info, uint32_t memoryAddr)
 {
 	uint32_t opSize = info.GetOpSize();
 	uint32_t opAddr = 0;
@@ -103,7 +109,7 @@ uint32_t SnesDisUtils::GetOperandAddress(DisassemblyInfo &info, uint32_t memoryA
 	return opAddr;
 }
 
-EffectiveAddressInfo SnesDisUtils::GetEffectiveAddress(DisassemblyInfo &info, SnesConsole *console, SnesCpuState &state, CpuType type)
+EffectiveAddressInfo SnesDisUtils::GetEffectiveAddress(DisassemblyInfo& info, SnesConsole* console, SnesCpuState& state, CpuType type)
 {
 	SnesAddrMode opMode = SnesDisUtils::OpMode[info.GetOpCode()];
 	if(opMode == SnesAddrMode::Stk) {
@@ -339,49 +345,556 @@ bool SnesDisUtils::IsReturnInstruction(uint8_t opCode)
 }
 
 uint8_t SnesDisUtils::OpSize[0x1F] = {
-	2, 2, 3, 0, 0, 3, 3, 3, 3, 3,
-	3, 4, 4, 3, 4, 1, 3, 2, 2, 2,
-	2, 2, 2, 2, 2, 1, 3, 2, 1, 2,
+	2,
+	2,
+	3,
+	0,
+	0,
+	3,
+	3,
+	3,
+	3,
+	3,
+	3,
+	4,
+	4,
+	3,
+	4,
+	1,
+	3,
+	2,
+	2,
+	2,
+	2,
+	2,
+	2,
+	2,
+	2,
+	1,
+	3,
+	2,
+	1,
+	2,
 	2
 };
 
 string SnesDisUtils::OpName[256] = {
 	//0    1      2      3      4      5      6      7      8      9      A      B      C      D      E      F
-	"BRK", "ORA", "COP", "ORA", "TSB", "ORA", "ASL", "ORA", "PHP", "ORA", "ASL", "PHD", "TSB", "ORA", "ASL", "ORA", // 0
-	"BPL", "ORA", "ORA", "ORA", "TRB", "ORA", "ASL", "ORA", "CLC", "ORA", "INC", "TCS", "TRB", "ORA", "ASL", "ORA", // 1
-	"JSR", "AND", "JSL", "AND", "BIT", "AND", "ROL", "AND", "PLP", "AND", "ROL", "PLD", "BIT", "AND", "ROL", "AND", // 2
-	"BMI", "AND", "AND", "AND", "BIT", "AND", "ROL", "AND", "SEC", "AND", "DEC", "TSC", "BIT", "AND", "ROL", "AND", // 3
-	"RTI", "EOR", "WDM", "EOR", "MVP", "EOR", "LSR", "EOR", "PHA", "EOR", "LSR", "PHK", "JMP", "EOR", "LSR", "EOR", // 4
-	"BVC", "EOR", "EOR", "EOR", "MVN", "EOR", "LSR", "EOR", "CLI", "EOR", "PHY", "TCD", "JML", "EOR", "LSR", "EOR", // 5
-	"RTS", "ADC", "PER", "ADC", "STZ", "ADC", "ROR", "ADC", "PLA", "ADC", "ROR", "RTL", "JMP", "ADC", "ROR", "ADC", // 6
-	"BVS", "ADC", "ADC", "ADC", "STZ", "ADC", "ROR", "ADC", "SEI", "ADC", "PLY", "TDC", "JMP", "ADC", "ROR", "ADC", // 7
-	"BRA", "STA", "BRL", "STA", "STY", "STA", "STX", "STA", "DEY", "BIT", "TXA", "PHB", "STY", "STA", "STX", "STA", // 8
-	"BCC", "STA", "STA", "STA", "STY", "STA", "STX", "STA", "TYA", "STA", "TXS", "TXY", "STZ", "STA", "STZ", "STA", // 9
-	"LDY", "LDA", "LDX", "LDA", "LDY", "LDA", "LDX", "LDA", "TAY", "LDA", "TAX", "PLB", "LDY", "LDA", "LDX", "LDA", // A
-	"BCS", "LDA", "LDA", "LDA", "LDY", "LDA", "LDX", "LDA", "CLV", "LDA", "TSX", "TYX", "LDY", "LDA", "LDX", "LDA", // B
-	"CPY", "CMP", "REP", "CMP", "CPY", "CMP", "DEC", "CMP", "INY", "CMP", "DEX", "WAI", "CPY", "CMP", "DEC", "CMP", // C
-	"BNE", "CMP", "CMP", "CMP", "PEI", "CMP", "DEC", "CMP", "CLD", "CMP", "PHX", "STP", "JML", "CMP", "DEC", "CMP", // D
-	"CPX", "SBC", "SEP", "SBC", "CPX", "SBC", "INC", "SBC", "INX", "SBC", "NOP", "XBA", "CPX", "SBC", "INC", "SBC", // E
-	"BEQ", "SBC", "SBC", "SBC", "PEA", "SBC", "INC", "SBC", "SED", "SBC", "PLX", "XCE", "JSR", "SBC", "INC", "SBC"  // F
+	"BRK",
+	"ORA",
+	"COP",
+	"ORA",
+	"TSB",
+	"ORA",
+	"ASL",
+	"ORA",
+	"PHP",
+	"ORA",
+	"ASL",
+	"PHD",
+	"TSB",
+	"ORA",
+	"ASL",
+	"ORA", // 0
+	"BPL",
+	"ORA",
+	"ORA",
+	"ORA",
+	"TRB",
+	"ORA",
+	"ASL",
+	"ORA",
+	"CLC",
+	"ORA",
+	"INC",
+	"TCS",
+	"TRB",
+	"ORA",
+	"ASL",
+	"ORA", // 1
+	"JSR",
+	"AND",
+	"JSL",
+	"AND",
+	"BIT",
+	"AND",
+	"ROL",
+	"AND",
+	"PLP",
+	"AND",
+	"ROL",
+	"PLD",
+	"BIT",
+	"AND",
+	"ROL",
+	"AND", // 2
+	"BMI",
+	"AND",
+	"AND",
+	"AND",
+	"BIT",
+	"AND",
+	"ROL",
+	"AND",
+	"SEC",
+	"AND",
+	"DEC",
+	"TSC",
+	"BIT",
+	"AND",
+	"ROL",
+	"AND", // 3
+	"RTI",
+	"EOR",
+	"WDM",
+	"EOR",
+	"MVP",
+	"EOR",
+	"LSR",
+	"EOR",
+	"PHA",
+	"EOR",
+	"LSR",
+	"PHK",
+	"JMP",
+	"EOR",
+	"LSR",
+	"EOR", // 4
+	"BVC",
+	"EOR",
+	"EOR",
+	"EOR",
+	"MVN",
+	"EOR",
+	"LSR",
+	"EOR",
+	"CLI",
+	"EOR",
+	"PHY",
+	"TCD",
+	"JML",
+	"EOR",
+	"LSR",
+	"EOR", // 5
+	"RTS",
+	"ADC",
+	"PER",
+	"ADC",
+	"STZ",
+	"ADC",
+	"ROR",
+	"ADC",
+	"PLA",
+	"ADC",
+	"ROR",
+	"RTL",
+	"JMP",
+	"ADC",
+	"ROR",
+	"ADC", // 6
+	"BVS",
+	"ADC",
+	"ADC",
+	"ADC",
+	"STZ",
+	"ADC",
+	"ROR",
+	"ADC",
+	"SEI",
+	"ADC",
+	"PLY",
+	"TDC",
+	"JMP",
+	"ADC",
+	"ROR",
+	"ADC", // 7
+	"BRA",
+	"STA",
+	"BRL",
+	"STA",
+	"STY",
+	"STA",
+	"STX",
+	"STA",
+	"DEY",
+	"BIT",
+	"TXA",
+	"PHB",
+	"STY",
+	"STA",
+	"STX",
+	"STA", // 8
+	"BCC",
+	"STA",
+	"STA",
+	"STA",
+	"STY",
+	"STA",
+	"STX",
+	"STA",
+	"TYA",
+	"STA",
+	"TXS",
+	"TXY",
+	"STZ",
+	"STA",
+	"STZ",
+	"STA", // 9
+	"LDY",
+	"LDA",
+	"LDX",
+	"LDA",
+	"LDY",
+	"LDA",
+	"LDX",
+	"LDA",
+	"TAY",
+	"LDA",
+	"TAX",
+	"PLB",
+	"LDY",
+	"LDA",
+	"LDX",
+	"LDA", // A
+	"BCS",
+	"LDA",
+	"LDA",
+	"LDA",
+	"LDY",
+	"LDA",
+	"LDX",
+	"LDA",
+	"CLV",
+	"LDA",
+	"TSX",
+	"TYX",
+	"LDY",
+	"LDA",
+	"LDX",
+	"LDA", // B
+	"CPY",
+	"CMP",
+	"REP",
+	"CMP",
+	"CPY",
+	"CMP",
+	"DEC",
+	"CMP",
+	"INY",
+	"CMP",
+	"DEX",
+	"WAI",
+	"CPY",
+	"CMP",
+	"DEC",
+	"CMP", // C
+	"BNE",
+	"CMP",
+	"CMP",
+	"CMP",
+	"PEI",
+	"CMP",
+	"DEC",
+	"CMP",
+	"CLD",
+	"CMP",
+	"PHX",
+	"STP",
+	"JML",
+	"CMP",
+	"DEC",
+	"CMP", // D
+	"CPX",
+	"SBC",
+	"SEP",
+	"SBC",
+	"CPX",
+	"SBC",
+	"INC",
+	"SBC",
+	"INX",
+	"SBC",
+	"NOP",
+	"XBA",
+	"CPX",
+	"SBC",
+	"INC",
+	"SBC", // E
+	"BEQ",
+	"SBC",
+	"SBC",
+	"SBC",
+	"PEA",
+	"SBC",
+	"INC",
+	"SBC",
+	"SED",
+	"SBC",
+	"PLX",
+	"XCE",
+	"JSR",
+	"SBC",
+	"INC",
+	"SBC" // F
 };
 
 typedef SnesAddrMode M;
 SnesAddrMode SnesDisUtils::OpMode[256] = {
-	//0       1              2            3                 4           5           6           7                 8       9           A       B       C              D           E           F           
-	M::Imm8,  M::DirIdxIndX, M::Imm8,     M::StkRel,        M::Dir,     M::Dir,     M::Dir,     M::DirIndLng,     M::Stk, M::ImmM,    M::Acc, M::Stk, M::Abs,        M::Abs,     M::Abs,     M::AbsLng,     // 0
-	M::Rel,   M::DirIndIdxY, M::DirInd,   M::StkRelIndIdxY, M::Dir,     M::DirIdxX, M::DirIdxX, M::DirIndLngIdxY, M::Imp, M::AbsIdxY, M::Acc, M::Imp, M::Abs,        M::AbsIdxX, M::AbsIdxX, M::AbsLngIdxX, // 1
-	M::Abs,   M::DirIdxIndX, M::AbsLng,   M::StkRel,        M::Dir,     M::Dir,     M::Dir,     M::DirIndLng,     M::Stk, M::ImmM,    M::Acc, M::Stk, M::Abs,        M::Abs,     M::Abs,     M::AbsLng,     // 2
-	M::Rel,   M::DirIndIdxY, M::DirInd,   M::StkRelIndIdxY, M::DirIdxX, M::DirIdxX, M::DirIdxX, M::DirIndLngIdxY, M::Imp, M::AbsIdxY, M::Acc, M::Imp, M::AbsIdxX,    M::AbsIdxX, M::AbsIdxX, M::AbsLngIdxX, // 3
-	M::Stk,   M::DirIdxIndX, M::Imm8,     M::StkRel,        M::BlkMov,  M::Dir,     M::Dir,     M::DirIndLng,     M::Stk, M::ImmM,    M::Acc, M::Stk, M::Abs,        M::Abs,     M::Abs,     M::AbsLng,     // 4
-	M::Rel,   M::DirIndIdxY, M::DirInd,   M::StkRelIndIdxY, M::BlkMov,  M::DirIdxX, M::DirIdxX, M::DirIndLngIdxY, M::Imp, M::AbsIdxY, M::Stk, M::Imp, M::AbsLng,     M::AbsIdxX, M::AbsIdxX, M::AbsLngIdxX, // 5
-	M::Stk,   M::DirIdxIndX, M::RelLng,   M::StkRel,        M::Dir,     M::Dir,     M::Dir,     M::DirIndLng,     M::Stk, M::ImmM,    M::Acc, M::Stk, M::AbsInd,     M::Abs,     M::Abs,     M::AbsLng,     // 6
-	M::Rel,   M::DirIndIdxY, M::DirInd,   M::StkRelIndIdxY, M::DirIdxX, M::DirIdxX, M::DirIdxX, M::DirIndLngIdxY, M::Imp, M::AbsIdxY, M::Stk, M::Imp, M::AbsIdxXInd, M::AbsIdxX, M::AbsIdxX, M::AbsLngIdxX, // 7
-	M::Rel,   M::DirIdxIndX, M::RelLng,   M::StkRel,        M::Dir,     M::Dir,     M::Dir,     M::DirIndLng,     M::Imp, M::ImmM,    M::Imp, M::Stk, M::Abs,        M::Abs,     M::Abs,     M::AbsLng,     // 8
-	M::Rel,   M::DirIndIdxY, M::DirInd,   M::StkRelIndIdxY, M::DirIdxX, M::DirIdxX, M::DirIdxY, M::DirIndLngIdxY, M::Imp, M::AbsIdxY, M::Imp, M::Imp, M::Abs,        M::AbsIdxX, M::AbsIdxX, M::AbsLngIdxX, // 9
-	M::ImmX,  M::DirIdxIndX, M::ImmX,     M::StkRel,        M::Dir,     M::Dir,     M::Dir,     M::DirIndLng,     M::Imp, M::ImmM,    M::Imp, M::Stk, M::Abs,        M::Abs,     M::Abs,     M::AbsLng,     // A
-	M::Rel,   M::DirIndIdxY, M::DirInd,   M::StkRelIndIdxY, M::DirIdxX, M::DirIdxX, M::DirIdxY, M::DirIndLngIdxY, M::Imp, M::AbsIdxY, M::Imp, M::Imp, M::AbsIdxX,    M::AbsIdxX, M::AbsIdxY, M::AbsLngIdxX, // B
-	M::ImmX,  M::DirIdxIndX, M::Imm8,     M::StkRel,        M::Dir,     M::Dir,     M::Dir,     M::DirIndLng,     M::Imp, M::ImmM,    M::Imp, M::Imp, M::Abs,        M::Abs,     M::Abs,     M::AbsLng,     // C
-	M::Rel,   M::DirIndIdxY, M::DirInd,   M::StkRelIndIdxY, M::Dir,     M::DirIdxX, M::DirIdxX, M::DirIndLngIdxY, M::Imp, M::AbsIdxY, M::Stk, M::Imp, M::AbsIndLng,  M::AbsIdxX, M::AbsIdxX, M::AbsLngIdxX, // D
-	M::ImmX,  M::DirIdxIndX, M::Imm8,     M::StkRel,        M::Dir,     M::Dir,     M::Dir,     M::DirIndLng,     M::Imp, M::ImmM,    M::Imp, M::Imp, M::Abs,        M::Abs,     M::Abs,     M::AbsLng,     // E
-	M::Rel,   M::DirIndIdxY, M::DirInd,   M::StkRelIndIdxY, M::Imm16,   M::DirIdxX, M::DirIdxX, M::DirIndLngIdxY, M::Imp, M::AbsIdxY, M::Stk, M::Imp, M::AbsIdxXInd, M::AbsIdxX, M::AbsIdxX, M::AbsLngIdxX  // F
+	//0       1              2            3                 4           5           6           7                 8       9           A       B       C              D           E           F
+	M::Imm8,
+	M::DirIdxIndX,
+	M::Imm8,
+	M::StkRel,
+	M::Dir,
+	M::Dir,
+	M::Dir,
+	M::DirIndLng,
+	M::Stk,
+	M::ImmM,
+	M::Acc,
+	M::Stk,
+	M::Abs,
+	M::Abs,
+	M::Abs,
+	M::AbsLng, // 0
+	M::Rel,
+	M::DirIndIdxY,
+	M::DirInd,
+	M::StkRelIndIdxY,
+	M::Dir,
+	M::DirIdxX,
+	M::DirIdxX,
+	M::DirIndLngIdxY,
+	M::Imp,
+	M::AbsIdxY,
+	M::Acc,
+	M::Imp,
+	M::Abs,
+	M::AbsIdxX,
+	M::AbsIdxX,
+	M::AbsLngIdxX, // 1
+	M::Abs,
+	M::DirIdxIndX,
+	M::AbsLng,
+	M::StkRel,
+	M::Dir,
+	M::Dir,
+	M::Dir,
+	M::DirIndLng,
+	M::Stk,
+	M::ImmM,
+	M::Acc,
+	M::Stk,
+	M::Abs,
+	M::Abs,
+	M::Abs,
+	M::AbsLng, // 2
+	M::Rel,
+	M::DirIndIdxY,
+	M::DirInd,
+	M::StkRelIndIdxY,
+	M::DirIdxX,
+	M::DirIdxX,
+	M::DirIdxX,
+	M::DirIndLngIdxY,
+	M::Imp,
+	M::AbsIdxY,
+	M::Acc,
+	M::Imp,
+	M::AbsIdxX,
+	M::AbsIdxX,
+	M::AbsIdxX,
+	M::AbsLngIdxX, // 3
+	M::Stk,
+	M::DirIdxIndX,
+	M::Imm8,
+	M::StkRel,
+	M::BlkMov,
+	M::Dir,
+	M::Dir,
+	M::DirIndLng,
+	M::Stk,
+	M::ImmM,
+	M::Acc,
+	M::Stk,
+	M::Abs,
+	M::Abs,
+	M::Abs,
+	M::AbsLng, // 4
+	M::Rel,
+	M::DirIndIdxY,
+	M::DirInd,
+	M::StkRelIndIdxY,
+	M::BlkMov,
+	M::DirIdxX,
+	M::DirIdxX,
+	M::DirIndLngIdxY,
+	M::Imp,
+	M::AbsIdxY,
+	M::Stk,
+	M::Imp,
+	M::AbsLng,
+	M::AbsIdxX,
+	M::AbsIdxX,
+	M::AbsLngIdxX, // 5
+	M::Stk,
+	M::DirIdxIndX,
+	M::RelLng,
+	M::StkRel,
+	M::Dir,
+	M::Dir,
+	M::Dir,
+	M::DirIndLng,
+	M::Stk,
+	M::ImmM,
+	M::Acc,
+	M::Stk,
+	M::AbsInd,
+	M::Abs,
+	M::Abs,
+	M::AbsLng, // 6
+	M::Rel,
+	M::DirIndIdxY,
+	M::DirInd,
+	M::StkRelIndIdxY,
+	M::DirIdxX,
+	M::DirIdxX,
+	M::DirIdxX,
+	M::DirIndLngIdxY,
+	M::Imp,
+	M::AbsIdxY,
+	M::Stk,
+	M::Imp,
+	M::AbsIdxXInd,
+	M::AbsIdxX,
+	M::AbsIdxX,
+	M::AbsLngIdxX, // 7
+	M::Rel,
+	M::DirIdxIndX,
+	M::RelLng,
+	M::StkRel,
+	M::Dir,
+	M::Dir,
+	M::Dir,
+	M::DirIndLng,
+	M::Imp,
+	M::ImmM,
+	M::Imp,
+	M::Stk,
+	M::Abs,
+	M::Abs,
+	M::Abs,
+	M::AbsLng, // 8
+	M::Rel,
+	M::DirIndIdxY,
+	M::DirInd,
+	M::StkRelIndIdxY,
+	M::DirIdxX,
+	M::DirIdxX,
+	M::DirIdxY,
+	M::DirIndLngIdxY,
+	M::Imp,
+	M::AbsIdxY,
+	M::Imp,
+	M::Imp,
+	M::Abs,
+	M::AbsIdxX,
+	M::AbsIdxX,
+	M::AbsLngIdxX, // 9
+	M::ImmX,
+	M::DirIdxIndX,
+	M::ImmX,
+	M::StkRel,
+	M::Dir,
+	M::Dir,
+	M::Dir,
+	M::DirIndLng,
+	M::Imp,
+	M::ImmM,
+	M::Imp,
+	M::Stk,
+	M::Abs,
+	M::Abs,
+	M::Abs,
+	M::AbsLng, // A
+	M::Rel,
+	M::DirIndIdxY,
+	M::DirInd,
+	M::StkRelIndIdxY,
+	M::DirIdxX,
+	M::DirIdxX,
+	M::DirIdxY,
+	M::DirIndLngIdxY,
+	M::Imp,
+	M::AbsIdxY,
+	M::Imp,
+	M::Imp,
+	M::AbsIdxX,
+	M::AbsIdxX,
+	M::AbsIdxY,
+	M::AbsLngIdxX, // B
+	M::ImmX,
+	M::DirIdxIndX,
+	M::Imm8,
+	M::StkRel,
+	M::Dir,
+	M::Dir,
+	M::Dir,
+	M::DirIndLng,
+	M::Imp,
+	M::ImmM,
+	M::Imp,
+	M::Imp,
+	M::Abs,
+	M::Abs,
+	M::Abs,
+	M::AbsLng, // C
+	M::Rel,
+	M::DirIndIdxY,
+	M::DirInd,
+	M::StkRelIndIdxY,
+	M::Dir,
+	M::DirIdxX,
+	M::DirIdxX,
+	M::DirIndLngIdxY,
+	M::Imp,
+	M::AbsIdxY,
+	M::Stk,
+	M::Imp,
+	M::AbsIndLng,
+	M::AbsIdxX,
+	M::AbsIdxX,
+	M::AbsLngIdxX, // D
+	M::ImmX,
+	M::DirIdxIndX,
+	M::Imm8,
+	M::StkRel,
+	M::Dir,
+	M::Dir,
+	M::Dir,
+	M::DirIndLng,
+	M::Imp,
+	M::ImmM,
+	M::Imp,
+	M::Imp,
+	M::Abs,
+	M::Abs,
+	M::Abs,
+	M::AbsLng, // E
+	M::Rel,
+	M::DirIndIdxY,
+	M::DirInd,
+	M::StkRelIndIdxY,
+	M::Imm16,
+	M::DirIdxX,
+	M::DirIdxX,
+	M::DirIndLngIdxY,
+	M::Imp,
+	M::AbsIdxY,
+	M::Stk,
+	M::Imp,
+	M::AbsIdxXInd,
+	M::AbsIdxX,
+	M::AbsIdxX,
+	M::AbsLngIdxX // F
 };

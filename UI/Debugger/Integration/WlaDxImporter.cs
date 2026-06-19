@@ -7,9 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Integration;
 
@@ -357,7 +355,7 @@ public class PceWlaDxImporter : WlaDxImporter
 			return new AddressInfo() {
 				Address = (bank - 0x68) * 0x2000 + (addr & 0x1FFF),
 				Type = MemoryType.PceCardRam
-			};	
+			};
 		} else if(_format == RomFormat.PceCdRom && (bank >= 0x80 && bank <= 0x87)) {
 			return new AddressInfo() {
 				Address = (bank - 0x80) * 0x2000 + (addr & 0x1FFF),

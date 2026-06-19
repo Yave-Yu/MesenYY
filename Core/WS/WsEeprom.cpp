@@ -176,7 +176,7 @@ void WsEeprom::Run()
 }
 
 void WsEeprom::WritePort(uint8_t port, uint8_t value)
-{ 
+{
 	Run();
 
 	switch(port) {
@@ -269,8 +269,7 @@ uint8_t WsEeprom::ReadPort(uint8_t port)
 			return (
 				(_state.ReadDone ? 0x01 : 0) |
 				(_state.Idle ? 0x02 : 0) |
-				(_state.InternalEepromWriteProtected ? 0x80 : 0)
-			);
+				(_state.InternalEepromWriteProtected ? 0x80 : 0));
 	}
 
 	return 0;

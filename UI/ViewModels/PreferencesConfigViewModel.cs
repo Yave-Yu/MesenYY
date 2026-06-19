@@ -1,6 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Styling;
+﻿using Avalonia.Controls;
 using Mesen.Config;
 using Mesen.Config.Shortcuts;
 using Mesen.Utilities;
@@ -82,7 +80,7 @@ namespace Mesen.ViewModels
 				EmulatorShortcut.ToggleSprites1,
 				EmulatorShortcut.ToggleSprites2,
 				EmulatorShortcut.EnableAllLayers,
-				
+
 				EmulatorShortcut.ToggleLagCounter,
 				EmulatorShortcut.ResetLagCounter,
 
@@ -99,7 +97,7 @@ namespace Mesen.ViewModels
 				EmulatorShortcut.NormalSpeed,
 
 				EmulatorShortcut.OpenFile,
-				
+
 				EmulatorShortcut.InputBarcode,
 				EmulatorShortcut.LoadTape,
 				EmulatorShortcut.RecordTape,
@@ -167,10 +165,10 @@ namespace Mesen.ViewModels
 			}
 
 			AddDisposable(this.WhenAnyValue(_ => _.Config.HudSize).Select(_ => _ == HudDisplaySize.Fixed).ToPropertyEx(this, _ => _.ShowCustomSize));
-			AddDisposable(ReactiveHelper.RegisterRecursiveObserver(Config, (s, e) => { 
+			AddDisposable(ReactiveHelper.RegisterRecursiveObserver(Config, (s, e) => {
 				Config.ApplyConfig();
 				PreferencesConfig.UpdateTheme();
 			}));
 		}
-   }
+	}
 }

@@ -1,16 +1,11 @@
 ﻿using Mesen.Interop;
 using Mesen.Utilities;
 using Mesen.ViewModels;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Mesen.Config
 {
@@ -45,7 +40,7 @@ namespace Mesen.Config
 					} catch { }
 				}
 			}
-			
+
 			cfg = new GameConfig();
 			cfg.DipSwitches = DipSwitchDatabase.GetGameDipswitches(romInfo.DipSwitches).DefaultDipSwitches;
 			return cfg;
@@ -62,7 +57,7 @@ namespace Mesen.Config
 	public struct InteropGameConfig
 	{
 		public UInt32 DipSwitches;
-		
+
 		[MarshalAs(UnmanagedType.I1)] public bool OverrideOverscan;
 		public InteropOverscanDimensions Overscan;
 	}

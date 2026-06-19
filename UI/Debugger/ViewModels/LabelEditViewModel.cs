@@ -6,8 +6,6 @@ using Mesen.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 
@@ -20,9 +18,9 @@ namespace Mesen.Debugger.ViewModels
 		[ObservableAsProperty] public bool OkEnabled { get; }
 		[ObservableAsProperty] public string MaxAddress { get; } = "";
 		[Reactive] public string ErrorMessage { get; private set; } = "";
-		
+
 		public bool AllowDelete { get; } = false;
-		
+
 		public Enum[] AvailableMemoryTypes { get; private set; } = Array.Empty<Enum>();
 		public CpuType CpuType { get; }
 

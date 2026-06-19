@@ -2,12 +2,8 @@
 using Mesen.Debugger.Utilities;
 using Mesen.Interop;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Utilities
 {

@@ -8,7 +8,6 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,7 +20,7 @@ public class NesHeaderEditViewModel : DisposableViewModel
 	[Reactive] public bool IsBatteryCheckboxEnabled { get; private set; }
 	[Reactive] public bool IsVsSystemVisible { get; private set; }
 	[Reactive] public bool IsNes20 { get; private set; }
-	
+
 	[Reactive] public Enum[]? AvailableSystemTypes { get; private set; } = null;
 	[Reactive] public Enum[]? AvailableTimings { get; private set; } = null;
 
@@ -55,7 +54,7 @@ public class NesHeaderEditViewModel : DisposableViewModel
 		Header = NesHeader.FromBytes(headerBytes);
 
 		AddDisposable(this.WhenAnyValue(x => x.Header.SaveRam, x => x.Header.ChrRamBattery).Subscribe(x => {
-			IsBatteryCheckboxEnabled = Header.SaveRam == MemorySizes.None  && Header.ChrRamBattery == MemorySizes.None;
+			IsBatteryCheckboxEnabled = Header.SaveRam == MemorySizes.None && Header.ChrRamBattery == MemorySizes.None;
 			if(!IsBatteryCheckboxEnabled) {
 				Header.HasBattery = true;
 			}

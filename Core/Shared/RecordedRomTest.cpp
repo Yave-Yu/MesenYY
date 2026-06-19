@@ -69,7 +69,7 @@ void RecordedRomTest::ValidateFrame()
 	} else {
 		_isLastFrameGood = true;
 	}
-	
+
 	if(_currentCount == 0 && _repetitionCount.empty()) {
 		//End of test
 		_runningTest = false;
@@ -87,7 +87,7 @@ void RecordedRomTest::ProcessNotification(ConsoleNotificationType type, void* pa
 				ValidateFrame();
 			}
 			break;
-		
+
 		default:
 			break;
 	}
@@ -96,7 +96,7 @@ void RecordedRomTest::ProcessNotification(ConsoleNotificationType type, void* pa
 void RecordedRomTest::Reset()
 {
 	_previousHash = "";
-	
+
 	_currentCount = 0;
 	_repetitionCount.clear();
 
@@ -137,7 +137,7 @@ void RecordedRomTest::Record(string filename, bool reset)
 		settings->GetGbaConfig().SkipBootScreen = false;
 		settings->GetWsConfig().UseBootRom = true;
 		settings->GetWsConfig().LcdShowIcons = true;
-				
+
 		//Start recording movie alongside with screenshots
 		RecordMovieOptions options;
 		string movieFilename = FolderUtilities::CombinePath(FolderUtilities::GetFolderName(filename), FolderUtilities::GetFilename(filename, false) + ".mmo");
@@ -157,7 +157,7 @@ RomTestResult RecordedRomTest::Run(string filename)
 
 	EmuSettings* settings = _emu->GetSettings();
 	string testName = FolderUtilities::GetFilename(filename, false);
-	
+
 	ZipReader zipReader;
 	zipReader.LoadArchive(filename);
 	vector<string> files = zipReader.GetFileList();
@@ -187,12 +187,12 @@ RomTestResult RecordedRomTest::Run(string filename)
 			result.ErrorCode = -3;
 			return result;
 		}
-		
+
 		Reset();
 
 		uint32_t hashCount;
 		testData.read((char*)&hashCount, sizeof(uint32_t));
-			
+
 		for(uint32_t i = 0; i < hashCount; i++) {
 			uint8_t repeatCount = 0;
 			testData.read((char*)&repeatCount, sizeof(uint8_t));
@@ -225,7 +225,7 @@ RomTestResult RecordedRomTest::Run(string filename)
 		settings->GetSnesConfig().DisableFrameSkipping = true;
 		settings->GetPcEngineConfig().DisableFrameSkipping = true;
 		settings->GetGbaConfig().DisableFrameSkipping = true;
-		
+
 		settings->GetGbaConfig().SkipBootScreen = false;
 		settings->GetWsConfig().UseBootRom = true;
 		settings->GetWsConfig().LcdShowIcons = true;
@@ -287,7 +287,7 @@ void RecordedRomTest::Save()
 
 	uint32_t hashCount = (uint32_t)_screenshotHashes.size();
 	_file.write((char*)&hashCount, sizeof(uint32_t));
-		
+
 	for(uint32_t i = 0; i < hashCount; i++) {
 		_file.write((char*)&_repetitionCount[i], sizeof(uint8_t));
 		_file.write((char*)_screenshotHashes[i].data(), 40);
@@ -307,7 +307,7 @@ void RecordedRomTest::Save()
 	std::remove(mmoFilename.c_str());
 
 	writer.AddFile(_emu->GetRomInfo().RomFile.GetFilePath(), "TestRom" + _emu->GetRomInfo().RomFile.GetFileExtension());
-	
+
 	//Add a screenshot of the last frame to the zip file (with the sha1 hash in the filename)
 	stringstream screenshot;
 	_emu->GetVideoDecoder()->TakeScreenshot(screenshot);

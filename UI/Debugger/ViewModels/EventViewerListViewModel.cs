@@ -1,5 +1,4 @@
-﻿using Avalonia.Collections;
-using Avalonia.Controls.Selection;
+﻿using Avalonia.Controls.Selection;
 using DataBoxControl;
 using Mesen.Config;
 using Mesen.Interop;

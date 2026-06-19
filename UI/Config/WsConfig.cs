@@ -1,11 +1,7 @@
 ﻿using Mesen.Interop;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Config;
 
@@ -52,8 +48,8 @@ public class WsConfig : BaseConfig<WsConfig>
 
 			Model = Model,
 			UseBootRom = UseBootRom,
-			
-			AutoRotate= AutoRotate,
+
+			AutoRotate = AutoRotate,
 
 			BlendFrames = BlendFrames,
 			LcdAdjustColors = LcdAdjustColors,
@@ -95,7 +91,7 @@ public struct InteropWsConfig
 	[MarshalAs(UnmanagedType.I1)] public bool BlendFrames;
 	[MarshalAs(UnmanagedType.I1)] public bool LcdAdjustColors;
 	[MarshalAs(UnmanagedType.I1)] public bool LcdShowIcons;
-	
+
 	[MarshalAs(UnmanagedType.I1)] public bool HideBgLayer1;
 	[MarshalAs(UnmanagedType.I1)] public bool HideBgLayer2;
 	[MarshalAs(UnmanagedType.I1)] public bool DisableSprites;

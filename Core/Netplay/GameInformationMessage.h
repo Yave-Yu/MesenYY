@@ -15,12 +15,16 @@ private:
 	EmuSettings* _settings = nullptr;
 
 protected:
-	void Serialize(Serializer &s) override
+	void Serialize(Serializer& s) override
 	{
 		if(_settings) {
 			SV(*_settings);
 		}
-		SV(_romFilename); SV(_crc32); SV(_controller.Port); SV(_controller.SubPort); SV(_paused);
+		SV(_romFilename);
+		SV(_crc32);
+		SV(_controller.Port);
+		SV(_controller.SubPort);
+		SV(_paused);
 	}
 
 public:
@@ -37,7 +41,7 @@ public:
 		_controller = controller;
 		_paused = paused;
 	}
-	
+
 	NetplayControllerInfo GetPort()
 	{
 		return _controller;

@@ -3,7 +3,6 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Mesen.Debugger.StatusViews;
 
@@ -21,7 +20,7 @@ public class WsStatusViewModel : BaseConsoleStatusViewModel
 
 	[Reactive] public UInt16 RegCS { get; set; }
 	[Reactive] public UInt16 RegIP { get; set; }
-	
+
 	[Reactive] public UInt16 RegDI { get; set; }
 	[Reactive] public UInt16 RegSI { get; set; }
 
@@ -109,10 +108,10 @@ public class WsStatusViewModel : BaseConsoleStatusViewModel
 
 		RegSI = cpu.SI;
 		RegDI = cpu.DI;
-		
+
 		RegIP = cpu.IP;
 		RegCS = cpu.CS;
-		
+
 		RegSS = cpu.SS;
 		RegDS = cpu.DS;
 		RegES = cpu.ES;

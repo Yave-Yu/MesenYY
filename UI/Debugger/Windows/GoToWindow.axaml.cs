@@ -3,13 +3,10 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Metadata;
-using Mesen.Controls;
 using Mesen.Debugger.Labels;
 using Mesen.Interop;
 using Mesen.Localization;
 using Mesen.Utilities;
-using Mesen.Views;
-using ReactiveUI.Fody.Helpers;
 using System;
 using System.Globalization;
 

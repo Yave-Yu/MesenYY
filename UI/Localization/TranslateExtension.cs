@@ -1,9 +1,5 @@
 ﻿using Avalonia.Markup.Xaml;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Localization
 {
@@ -26,4 +22,4 @@ namespace Mesen.Localization
 			return ResourceHelper.GetViewLabel(contextType?.Name ?? "unknown", this.Key);
 		}
 	}
-}	
+}

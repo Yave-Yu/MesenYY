@@ -1,14 +1,9 @@
 ﻿using Mesen.Config;
-using Mesen.Debugger.Labels;
 using Mesen.Utilities;
 using Mesen.Windows;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Labels
 {

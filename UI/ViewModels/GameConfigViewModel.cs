@@ -1,11 +1,7 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Media;
 using Mesen.Config;
 using Mesen.Utilities;
-using Microsoft.VisualBasic;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
 
 namespace Mesen.ViewModels
 {

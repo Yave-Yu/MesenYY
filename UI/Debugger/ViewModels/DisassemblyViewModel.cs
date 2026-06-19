@@ -1,11 +1,9 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Threading;
 using Mesen.Config;
 using Mesen.Debugger.Controls;
 using Mesen.Debugger.Disassembly;
 using Mesen.Debugger.Utilities;
-using Mesen.Debugger.Views;
 using Mesen.Interop;
 using Mesen.Utilities;
 using Mesen.ViewModels;
@@ -49,7 +47,7 @@ namespace Mesen.Debugger.ViewModels
 		private Action? _refreshScrollbar = null;
 
 		[Obsolete("For designer only")]
-		public DisassemblyViewModel(): this(new DebuggerWindowViewModel(), new DebugConfig(), CpuType.Snes) { }
+		public DisassemblyViewModel() : this(new DebuggerWindowViewModel(), new DebugConfig(), CpuType.Snes) { }
 
 		public DisassemblyViewModel(DebuggerWindowViewModel debugger, DebugConfig config, CpuType cpuType)
 		{
@@ -329,7 +327,7 @@ namespace Mesen.Debugger.ViewModels
 		public string GetSelection(bool getAddresses, bool getByteCode, bool getComments, bool getHeaders, out int byteCount, bool skipGeneratedJmpSubLabels)
 		{
 			ICodeDataProvider dp = DataProvider;
-			
+
 			const int commentSpacingCharCount = 25;
 
 			int addrSize = dp.CpuType.GetAddressSize();

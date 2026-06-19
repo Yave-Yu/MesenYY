@@ -2,12 +2,8 @@
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Platform;
-using Avalonia.Rendering;
 using Avalonia.VisualTree;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Mesen.Utilities

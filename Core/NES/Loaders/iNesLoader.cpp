@@ -9,7 +9,7 @@
 #include "NES/GameDatabase.h"
 #include "Shared/RomInfo.h"
 
-void iNesLoader::LoadRom(RomData& romData, vector<uint8_t>& romFile, NesHeader *preloadedHeader, bool databaseEnabled)
+void iNesLoader::LoadRom(RomData& romData, vector<uint8_t>& romFile, NesHeader* preloadedHeader, bool databaseEnabled)
 {
 	NesHeader header;
 	uint8_t* buffer = romFile.data();
@@ -104,7 +104,7 @@ void iNesLoader::LoadRom(RomData& romData, vector<uint8_t>& romFile, NesHeader *
 		Log("[iNes] NES 2.0 file: Yes");
 	}
 	Log("[iNes] Mapper: " + std::to_string(romData.Info.MapperID) + " Sub: " + std::to_string(romData.Info.SubMapperID));
-	
+
 	if(romData.Info.System == GameSystem::VsSystem) {
 		string type = "Vs-UniSystem";
 		switch(romData.Info.VsType) {
@@ -136,7 +136,8 @@ void iNesLoader::LoadRom(RomData& romData, vector<uint8_t>& romFile, NesHeader *
 		Log("[iNes] Save RAM: " + StringUtilities::SizeToString(romData.SaveRamSize));
 	}
 
-	Log("[iNes] Mirroring: " + string(romData.Info.Mirroring == MirroringType::Horizontal ? "Horizontal" : romData.Info.Mirroring == MirroringType::Vertical ? "Vertical" : "Four Screens"));
+	Log("[iNes] Mirroring: " + string(romData.Info.Mirroring == MirroringType::Horizontal ? "Horizontal" : romData.Info.Mirroring == MirroringType::Vertical ? "Vertical" :
+																																																				  "Four Screens"));
 	Log("[iNes] Battery: " + string(romData.Info.HasBattery ? "Yes" : "No"));
 	if(romData.Info.HasTrainer) {
 		Log("[iNes] Trainer: Yes");

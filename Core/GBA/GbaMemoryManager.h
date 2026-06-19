@@ -61,9 +61,9 @@ private:
 
 	uint8_t* _saveRam = nullptr;
 	uint32_t _saveRamSize = 0;
-	
+
 	vector<GbaPendingIrq> _pendingIrqs;
-	
+
 	bool _haltModeUsed = false;
 	bool _biosLocked = false;
 	uint8_t _haltDelay = 0;
@@ -158,7 +158,7 @@ public:
 			ProcessPendingLateUpdates();
 		}
 	}
-	
+
 	void ProcessDmaStart();
 
 	__forceinline void ProcessDma()

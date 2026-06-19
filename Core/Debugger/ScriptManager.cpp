@@ -33,7 +33,7 @@ int ScriptManager::LoadScript(string name, string path, string content, int32_t 
 		_hasScript = true;
 		return scriptId;
 	} else {
-		auto result = std::find_if(_scripts.begin(), _scripts.end(), [=](unique_ptr<ScriptHost> &script) {
+		auto result = std::find_if(_scripts.begin(), _scripts.end(), [=](unique_ptr<ScriptHost>& script) {
 			return script->GetScriptId() == scriptId;
 		});
 		if(result != _scripts.end()) {
@@ -62,7 +62,8 @@ void ScriptManager::RemoveScript(int32_t scriptId)
 			return true;
 		}
 		return false;
-	}), _scripts.end());
+	}),
+		_scripts.end());
 
 	RefreshMemoryCallbackFlags();
 
@@ -81,7 +82,7 @@ void ScriptManager::RefreshMemoryCallbackFlags()
 string ScriptManager::GetScriptLog(int32_t scriptId)
 {
 	auto lock = _scriptLock.AcquireSafe();
-	for(unique_ptr<ScriptHost> &script : _scripts) {
+	for(unique_ptr<ScriptHost>& script : _scripts) {
 		if(script->GetScriptId() == scriptId) {
 			return script->GetLog();
 		}
@@ -91,7 +92,7 @@ string ScriptManager::GetScriptLog(int32_t scriptId)
 
 void ScriptManager::ProcessEvent(EventType type, CpuType cpuType)
 {
-	for(unique_ptr<ScriptHost> &script : _scripts) {
+	for(unique_ptr<ScriptHost>& script : _scripts) {
 		script->ProcessEvent(type, cpuType);
 	}
 }

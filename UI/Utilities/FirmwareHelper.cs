@@ -5,7 +5,6 @@ using Mesen.Interop;
 using Mesen.Localization;
 using Mesen.Windows;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;

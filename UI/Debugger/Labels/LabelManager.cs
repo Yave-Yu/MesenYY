@@ -1,15 +1,10 @@
-﻿using Mesen.Debugger;
-using Mesen.Interop;
+﻿using Mesen.Interop;
 using Mesen.ViewModels;
-using Mesen.Windows;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Labels
 {
@@ -123,7 +118,7 @@ namespace Mesen.Debugger.Labels
 			if(label.Length > LabelManager.MaxLength) {
 				label.Length = LabelManager.MaxLength;
 			}
-			
+
 			if(_reverseLookup.ContainsKey(label.Label)) {
 				//Another identical label exists, we need to remove it
 				DeleteLabel(_reverseLookup[label.Label], false);

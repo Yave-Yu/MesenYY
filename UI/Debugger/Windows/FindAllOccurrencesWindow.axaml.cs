@@ -2,9 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Mesen.Controls;
 using Mesen.Utilities;
-using ReactiveUI.Fody.Helpers;
 using System;
 
 namespace Mesen.Debugger.Windows

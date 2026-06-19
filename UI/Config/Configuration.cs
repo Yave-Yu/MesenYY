@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Media;
 using Mesen.Config.Shortcuts;
 using Mesen.Interop;
@@ -12,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 
 namespace Mesen.Config
@@ -117,8 +115,8 @@ namespace Mesen.Config
 		{
 			if(ConfigUpgrade < (int)ConfigUpgradeHint.SmsInput) {
 				Sms.InitializeDefaults(DefaultKeyMappings);
-			} 
-			
+			}
+
 			if(ConfigUpgrade < (int)ConfigUpgradeHint.GbaInput) {
 				Gba.InitializeDefaults(DefaultKeyMappings);
 			}

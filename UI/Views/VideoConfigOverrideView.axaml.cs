@@ -4,7 +4,6 @@ using Avalonia.Markup.Xaml;
 using Mesen.Config;
 using Mesen.Localization;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Mesen.Views

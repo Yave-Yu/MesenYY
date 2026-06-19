@@ -6,11 +6,8 @@ using Mesen.Interop;
 using Mesen.Localization;
 using Mesen.ViewModels;
 using Mesen.Windows;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -3,12 +3,8 @@ using Mesen.Config;
 using Mesen.Interop;
 using Mesen.Windows;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Utilities
 {
@@ -80,7 +76,7 @@ namespace Mesen.Utilities
 			try {
 				//Backup current version 
 				File.Copy(destFile, backupFile, true);
-				
+
 				//Update with downloaded version
 				File.Copy(srcFile, destFile, true);
 

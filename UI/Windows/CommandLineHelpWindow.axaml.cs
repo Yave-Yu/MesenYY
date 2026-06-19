@@ -1,15 +1,7 @@
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Threading;
-using System;
-using System.ComponentModel;
-using Avalonia.Data;
-using Mesen.Interop;
-using System.Collections.Generic;
-using Avalonia.Input;
 using Mesen.Utilities;
+using System.Collections.Generic;
 
 namespace Mesen.Windows
 {

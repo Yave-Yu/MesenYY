@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Media;
-using Mesen.Interop;
 using ReactiveUI.Fody.Helpers;
 
 namespace Mesen.Config

@@ -112,7 +112,7 @@ void GameServerConnection::ProcessHandshakeResponse(HandShakeMessage* message)
 		}
 	} else {
 		SendForceDisconnectMessage("Server is using a different version of Mesen (" + _emu->GetSettings()->GetVersionString() + ") - you have been disconnected.");
-		MessageManager::DisplayMessage("NetPlay", + "NetplayVersionMismatch");
+		MessageManager::DisplayMessage("NetPlay", +"NetplayVersionMismatch");
 	}
 }
 
@@ -190,7 +190,7 @@ void GameServerConnection::ProcessNotification(ConsoleNotificationType type, voi
 		case ConsoleNotificationType::CheatsChanged:
 			SendGameInformation(false);
 			break;
-		
+
 		case ConsoleNotificationType::PpuFrameDone: {
 			//Detect any configuration change that impacts emulation
 			//Send a save state to clients if any change is done

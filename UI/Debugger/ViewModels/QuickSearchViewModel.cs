@@ -1,15 +1,10 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Media;
+﻿using Avalonia.Controls;
 using Avalonia.Threading;
 using Mesen.Utilities;
 using Mesen.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -77,7 +72,7 @@ public class QuickSearchViewModel : ViewModelBase
 		if(_searchInProgress) {
 			return;
 		}
-		
+
 		_searchInProgress = true;
 
 		Task.Run(() => {

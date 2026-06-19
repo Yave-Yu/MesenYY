@@ -448,7 +448,7 @@ void GbPpu::RunDrawCycle()
 		if(_drawnPixels >= 0) {
 			GameboyConfig& cfg = _emu->GetSettings()->GetGameboyConfig();
 
-			GbFifoEntry entry = _insertGlitchBgPixel ? GbFifoEntry{} : _bgFifo.Content[_bgFifo.Position];
+			GbFifoEntry entry = _insertGlitchBgPixel ? GbFifoEntry {} : _bgFifo.Content[_bgFifo.Position];
 			GbFifoEntry sprite = _oamFifo.Content[_oamFifo.Position];
 			if(!cfg.DisableSprites && sprite.Color != 0 && (entry.Color == 0 || (!(sprite.Attributes & 0x80) && !(entry.Attributes & 0x80)) || (_state.CgbEnabled && !_state.BgEnabled))) {
 				//Use sprite pixel if:
@@ -1320,12 +1320,35 @@ void GbPpu::WriteCgbPalette(uint8_t& pos, uint16_t* pal, bool autoInc, uint8_t v
 
 void GbPpu::Serialize(Serializer& s)
 {
-	SV(_state.Scanline); SV(_state.Cycle); SV(_state.Mode); SV(_state.LyCompare); SV(_state.BgPalette); SV(_state.ObjPalette0); SV(_state.ObjPalette1);
-	SV(_state.ScrollX); SV(_state.ScrollY); SV(_state.WindowX); SV(_state.WindowY); SV(_state.Control); SV(_state.LcdEnabled); SV(_state.WindowTilemapSelect);
-	SV(_state.WindowEnabled); SV(_state.BgTileSelect); SV(_state.BgTilemapSelect); SV(_state.LargeSprites); SV(_state.SpritesEnabled); SV(_state.BgEnabled);
-	SV(_state.Status); SV(_state.FrameCount); SV(_state.LyCoincidenceFlag);
-	SV(_state.CgbBgPalAutoInc); SV(_state.CgbBgPalPosition);
-	SV(_state.CgbObjPalAutoInc); SV(_state.CgbObjPalPosition); SV(_state.CgbVramBank); SV(_state.CgbEnabled);
+	SV(_state.Scanline);
+	SV(_state.Cycle);
+	SV(_state.Mode);
+	SV(_state.LyCompare);
+	SV(_state.BgPalette);
+	SV(_state.ObjPalette0);
+	SV(_state.ObjPalette1);
+	SV(_state.ScrollX);
+	SV(_state.ScrollY);
+	SV(_state.WindowX);
+	SV(_state.WindowY);
+	SV(_state.Control);
+	SV(_state.LcdEnabled);
+	SV(_state.WindowTilemapSelect);
+	SV(_state.WindowEnabled);
+	SV(_state.BgTileSelect);
+	SV(_state.BgTilemapSelect);
+	SV(_state.LargeSprites);
+	SV(_state.SpritesEnabled);
+	SV(_state.BgEnabled);
+	SV(_state.Status);
+	SV(_state.FrameCount);
+	SV(_state.LyCoincidenceFlag);
+	SV(_state.CgbBgPalAutoInc);
+	SV(_state.CgbBgPalPosition);
+	SV(_state.CgbObjPalAutoInc);
+	SV(_state.CgbObjPalPosition);
+	SV(_state.CgbVramBank);
+	SV(_state.CgbEnabled);
 	SV(_state.Ly);
 	SV(_state.StatIrqFlag);
 
@@ -1339,8 +1362,12 @@ void GbPpu::Serialize(Serializer& s)
 
 	if(s.GetFormat() != SerializeFormat::Map) {
 		//Hide these entries from the Lua API
-		SV(_windowCounter); SV(_isFirstFrame); SV(_rendererIdle); SV(_forceBlankFrame);
-		SV(_wyEnableFlag); SV(_wxEnableFlag);
+		SV(_windowCounter);
+		SV(_isFirstFrame);
+		SV(_rendererIdle);
+		SV(_forceBlankFrame);
+		SV(_wyEnableFlag);
+		SV(_wxEnableFlag);
 		SV(_state.IdleCycles);
 		SV(_lastFrameTime);
 
@@ -1364,14 +1391,31 @@ void GbPpu::Serialize(Serializer& s)
 		SV(_stopPaletteBlocked);
 		SV(_lcdDisabled);
 
-		SV(_bgFetcher.Attributes); SV(_bgFetcher.Step); SV(_bgFetcher.Addr); SV(_bgFetcher.LowByte); SV(_bgFetcher.HighByte);
-		SV(_oamFetcher.Attributes); SV(_oamFetcher.Step); SV(_oamFetcher.Addr); SV(_oamFetcher.LowByte); SV(_oamFetcher.HighByte);
-		SV(_drawnPixels); SV(_fetchColumn); SV(_fetchWindow); SV(_fetchSprite); SV(_spriteCount);
-		SV(_bgFifo.Position); SV(_bgFifo.Size); SV(_oamFifo.Position); SV(_oamFifo.Size);
+		SV(_bgFetcher.Attributes);
+		SV(_bgFetcher.Step);
+		SV(_bgFetcher.Addr);
+		SV(_bgFetcher.LowByte);
+		SV(_bgFetcher.HighByte);
+		SV(_oamFetcher.Attributes);
+		SV(_oamFetcher.Step);
+		SV(_oamFetcher.Addr);
+		SV(_oamFetcher.LowByte);
+		SV(_oamFetcher.HighByte);
+		SV(_drawnPixels);
+		SV(_fetchColumn);
+		SV(_fetchWindow);
+		SV(_fetchSprite);
+		SV(_spriteCount);
+		SV(_bgFifo.Position);
+		SV(_bgFifo.Size);
+		SV(_oamFifo.Position);
+		SV(_oamFifo.Size);
 
 		for(int i = 0; i < 8; i++) {
-			SVI(_bgFifo.Content[i].Color); SVI(_bgFifo.Content[i].Attributes);
-			SVI(_oamFifo.Content[i].Color); SVI(_oamFifo.Content[i].Attributes);
+			SVI(_bgFifo.Content[i].Color);
+			SVI(_bgFifo.Content[i].Attributes);
+			SVI(_oamFifo.Content[i].Color);
+			SVI(_oamFifo.Content[i].Attributes);
 		}
 
 		SVArray(_oamReadBuffer, 2);

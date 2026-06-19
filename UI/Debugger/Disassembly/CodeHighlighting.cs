@@ -1,12 +1,8 @@
 ﻿using Avalonia.Media;
-using Mesen.Debugger.Controls;
 using Mesen.Config;
-using System;
+using Mesen.Debugger.Controls;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Disassembly
 {
@@ -17,7 +13,7 @@ namespace Mesen.Debugger.Disassembly
 		private static Regex _space = new Regex("^[ \t]+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 		private static Regex _comment = new Regex("^;.*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 		private static Regex _directive = new Regex("^([.][a-z0-9]+)([\\s]+|$)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-		
+
 		//(.[a-z]) is allowed after the ocode to support assemblers (for source view) that use
 		//e.g .b/.w/.l suffixes to select between 8/16bit operations, etc.
 		private static Regex _opCode = new Regex("^([a-z0-9_]+([.][a-z]){0,1})([\\s]+|$)", RegexOptions.IgnoreCase | RegexOptions.Compiled);

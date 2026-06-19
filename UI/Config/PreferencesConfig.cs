@@ -1,21 +1,12 @@
-﻿using Mesen.Localization;
+﻿using Avalonia;
+using Avalonia.Media;
+using Avalonia.Styling;
 using Mesen.Config.Shortcuts;
+using Mesen.Interop;
+using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using ReactiveUI.Fody.Helpers;
-using Avalonia.Styling;
-using Avalonia;
-using Avalonia.Markup.Xaml.Styling;
-using Mesen.Interop;
-using System.Reflection;
-using Mesen.Utilities;
-using Avalonia.Threading;
-using Avalonia.Media;
-using Mesen.ViewModels;
 
 namespace Mesen.Config
 {

@@ -92,7 +92,7 @@ public:
 
 	virtual uint32_t GetFrameCount() = 0;
 	virtual PpuFrameInfo GetPpuFrame() = 0;
-	
+
 	virtual string GetHash(HashType hashType) { return {}; }
 
 	virtual RomFormat GetRomFormat() = 0;
@@ -102,7 +102,7 @@ public:
 	virtual AddressInfo GetAbsoluteAddress(AddressInfo& relAddress) = 0;
 	virtual AddressInfo GetRelativeAddress(AddressInfo& absAddress, CpuType cpuType) = 0;
 	virtual void GetConsoleState(BaseState& state, ConsoleType consoleType) = 0;
-	
+
 	virtual optional<SaveStateCompatInfo> ValidateSaveStateCompatibility(Serializer& s, ConsoleType stateConsoleType) { return {}; }
 
 	virtual void ProcessCheatCode(InternalCheatCode& code, uint32_t addr, uint8_t& value) {}

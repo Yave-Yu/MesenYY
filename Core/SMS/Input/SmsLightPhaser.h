@@ -22,7 +22,10 @@ protected:
 		return "F";
 	}
 
-	enum Buttons { Fire };
+	enum Buttons
+	{
+		Fire
+	};
 
 	void InternalSetStateFromInput() override
 	{
@@ -56,10 +59,8 @@ protected:
 					for(int xOffset = -(radius + 1) * 5; xOffset <= (radius + 1) * 5; xOffset++) {
 						int xPos = pos.X + xOffset;
 						if(xPos >= 0 && xPos < 256) {
-							bool inRange = (
-								yPos <= scanline && yPos >= scanline - 5 &&
-								xPos <= cycle && xPos >= cycle - 50
-							);
+							bool inRange = (yPos <= scanline && yPos >= scanline - 5 &&
+								xPos <= cycle && xPos >= cycle - 50);
 							if((ignoreVdpPos || inRange) && vdp->GetPixelBrightness(xPos, yPos) >= 85) {
 								//Light cannot be detected if the Y/X position is further ahead than the PPU, or if the PPU drew a dark color
 								return true;
@@ -107,7 +108,7 @@ public:
 
 		//Make the VDP latch the H counter at the mouse's position
 		if(pos.X >= 0 && pos.Y >= 0 && IsLightFound(pos, true)) {
-			_console->GetVdp()->SetLocationLatchRequest(pos.X+38);
+			_console->GetVdp()->SetLocationLatchRequest(pos.X + 38);
 		}
 	}
 

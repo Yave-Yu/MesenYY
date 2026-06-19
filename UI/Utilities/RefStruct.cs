@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mesen.Utilities
+﻿namespace Mesen.Utilities
 {
 	public class RefStruct<T> where T : struct
 	{

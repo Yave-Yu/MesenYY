@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls;
-using Mesen.Config;
-using Mesen.Interop;
+﻿using Mesen.Config;
 using Mesen.Utilities;
 using Mesen.ViewModels;
 using ReactiveUI;
@@ -84,7 +82,7 @@ namespace Mesen.Debugger.ViewModels
 			RevertChanges(Debugger, _backupDebugger);
 			RevertChanges(Script, _backupScript);
 			RevertChanges(Integration, _backupIntegration);
-			
+
 			RevertChanges(Fonts.DisassemblyFont, _backupFont.DisassemblyFont);
 			RevertChanges(Fonts.AssemblerFont, _backupFont.AssemblerFont);
 			RevertChanges(Fonts.MemoryViewerFont, _backupFont.MemoryViewerFont);

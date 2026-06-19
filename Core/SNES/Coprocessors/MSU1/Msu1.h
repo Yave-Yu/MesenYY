@@ -34,7 +34,7 @@ private:
 
 	ifstream _dataFile;
 	uint32_t _dataSize;
-	
+
 	void LoadTrack(uint32_t startOffset = 8);
 
 public:
@@ -45,8 +45,8 @@ public:
 
 	void Write(uint16_t addr, uint8_t value);
 	uint8_t Read(uint16_t addr);
-	
+
 	void MixAudio(int16_t* buffer, uint32_t sampleCount, uint32_t sampleRate) override;
-	
-	void Serialize(Serializer &s) override;
+
+	void Serialize(Serializer& s) override;
 };

@@ -173,8 +173,8 @@ int16_t NesSoundMixer::GetOutputVolume(bool forRightChannel)
 
 	//Linear mixer flag
 	double squareVolume = _console->GetNesConfig().LinearSquareMixer ?
-		squareOutput * squareSumFactor[_squareVolume[(int)AudioChannel::Square1] + _squareVolume[(int)AudioChannel::Square2]] * 0.258483 * 20.0
-		: 479400.0 / (8128.0 / squareOutput + 75.0); //95.88 formula
+		squareOutput * squareSumFactor[_squareVolume[(int)AudioChannel::Square1] + _squareVolume[(int)AudioChannel::Square2]] * 0.258483 * 20.0 :
+		479400.0 / (8128.0 / squareOutput + 75.0); //95.88 formula
 	double tndVolume = 798950.0 / (1.0 / (tndOutput / 22638.0) + 100.0); //159.79 formula
 
 	return (int16_t)(squareVolume + tndVolume +

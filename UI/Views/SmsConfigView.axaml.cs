@@ -3,7 +3,6 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.ViewModels;
 using System;
-using System.Threading.Tasks;
 
 namespace Mesen.Views;
 

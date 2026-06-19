@@ -14,7 +14,7 @@ private:
 	bool _forceReload = false;
 
 protected:
-	void Serialize(Serializer &s) override
+	void Serialize(Serializer& s) override
 	{
 		SV(_forceReload);
 		SV(_consoleType);
@@ -23,8 +23,8 @@ protected:
 	}
 
 public:
-	SaveStateMessage(void* buffer, uint32_t length) : NetMessage(buffer, length) { }
-	
+	SaveStateMessage(void* buffer, uint32_t length) : NetMessage(buffer, length) {}
+
 	SaveStateMessage(Emulator* emu, bool forceReload) : NetMessage(MessageType::SaveState)
 	{
 		//Used when sending state to clients
@@ -42,7 +42,7 @@ public:
 		_forceReload = forceReload;
 		_consoleType = emu->GetConsoleType();
 	}
-	
+
 	void LoadState(Emulator* emu)
 	{
 		std::stringstream ss;

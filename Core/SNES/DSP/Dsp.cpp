@@ -56,37 +56,43 @@ void Dsp::Reset()
 
 bool Dsp::CheckCounter(int32_t rate)
 {
-	static uint16_t const rates[32] =
-	{
+	static uint16_t const rates[32] = {
 		UINT16_MAX,
-		2048, 1536,
-		1280, 1024,  768,
-		640,  512,  384,
-		320,  256,  192,
-		160,  128,   96,
-		80,   64,   48,
-		40,   32,   24,
-		20,   16,   12,
-		10,    8,    6,
-		5,    4,    3,
+		2048,
+		1536,
+		1280,
+		1024,
+		768,
+		640,
+		512,
+		384,
+		320,
+		256,
+		192,
+		160,
+		128,
+		96,
+		80,
+		64,
+		48,
+		40,
+		32,
+		24,
+		20,
+		16,
+		12,
+		10,
+		8,
+		6,
+		5,
+		4,
+		3,
 		2,
 		1
 	};
 
-	static uint16_t const offsets[32] =
-	{
-		1, 0, 1040,
-		536, 0, 1040,
-		536, 0, 1040,
-		536, 0, 1040,
-		536, 0, 1040,
-		536, 0, 1040,
-		536, 0, 1040,
-		536, 0, 1040,
-		536, 0, 1040,
-		536, 0, 1040,
-		0,
-		0
+	static uint16_t const offsets[32] = {
+		1, 0, 1040, 536, 0, 1040, 536, 0, 1040, 536, 0, 1040, 536, 0, 1040, 536, 0, 1040, 536, 0, 1040, 536, 0, 1040, 536, 0, 1040, 536, 0, 1040, 0, 0
 	};
 
 	return (((uint16_t)_state.Counter + offsets[rate]) % rates[rate]) == 0;
@@ -106,14 +112,14 @@ void Dsp::Write(uint8_t reg, uint8_t value)
 	_state.Regs[reg] = value;
 	_state.ExternalRegs[reg] = value;
 	switch(reg & 0x0F) {
-		case (int)DspVoiceRegs::Envelope: _state.EnvRegBuffer = value; break;
-		case (int)DspVoiceRegs::Out: _state.OutRegBuffer = value; break;
+		case(int)DspVoiceRegs::Envelope: _state.EnvRegBuffer = value; break;
+		case(int)DspVoiceRegs::Out: _state.OutRegBuffer = value; break;
 
 		case 0x0C:
 			switch(reg) {
-				case (int)DspGlobalRegs::KeyOn: _state.NewKeyOn = value; break;
+				case(int)DspGlobalRegs::KeyOn: _state.NewKeyOn = value; break;
 
-				case (int)DspGlobalRegs::VoiceEnd:
+				case(int)DspGlobalRegs::VoiceEnd:
 					_state.VoiceEndBuffer = 0;
 					WriteGlobalReg(DspGlobalRegs::VoiceEnd, 0);
 					break;
@@ -134,17 +140,17 @@ int32_t Dsp::CalculateFir(int index, int ch)
 						+ S(x-3) * FFC4 >> 6
 						+ S(x-2) * FFC5 >> 6
 						+ S(x-1) * FFC6 >> 6);
-		
+
 		We have overflow detection when adding the most recent sample only:
 		FIR = clamp16(FIR + S(x-0) * FFC7 >> 6); // newest sample
-		
+
 		Finally, mask of the LSbit to get the final 16-bit result:
 		FIR = FIR & ~1;"
 	*/
 	return (
-		_state.EchoHistory[(_state.EchoHistoryPos + index + 1) & 0x07][ch] *
-		(int8_t)_state.Regs[(int)DspGlobalRegs::EchoFilterCoeff0 + (index << 4)]
-	) >> 6;
+				 _state.EchoHistory[(_state.EchoHistoryPos + index + 1) & 0x07][ch] *
+				 (int8_t)_state.Regs[(int)DspGlobalRegs::EchoFilterCoeff0 + (index << 4)]) >>
+		6;
 }
 
 void Dsp::EchoStep22()
@@ -201,8 +207,7 @@ void Dsp::EchoStep26()
 	//"Load and apply MVOLL. Load and apply EVOLL."
 	_state.OutSamples[0] = Dsp::Clamp16(
 		((_state.OutSamples[0] * (int8_t)ReadReg(DspGlobalRegs::MasterVolLeft)) >> 7) +
-		((_state.EchoIn[0] * (int8_t)ReadReg(DspGlobalRegs::EchoVolLeft)) >> 7)
-	);
+		((_state.EchoIn[0] * (int8_t)ReadReg(DspGlobalRegs::EchoVolLeft)) >> 7));
 
 	//"Load and apply EFB."
 	int32_t leftEcho = _state.EchoOut[0] + (int16_t)((_state.EchoIn[0] * (int8_t)ReadReg(DspGlobalRegs::EchoFeedbackVol)) >> 7);
@@ -216,8 +221,7 @@ void Dsp::EchoStep27()
 	//"Load and apply MVOLR. Load and apply EVOLR."
 	_state.OutSamples[1] = Dsp::Clamp16(
 		((_state.OutSamples[1] * (int8_t)ReadReg(DspGlobalRegs::MasterVolRight)) >> 7) +
-		((_state.EchoIn[1] * (int8_t)ReadReg(DspGlobalRegs::EchoVolRight)) >> 7)
-	);
+		((_state.EchoIn[1] * (int8_t)ReadReg(DspGlobalRegs::EchoVolRight)) >> 7));
 }
 
 void Dsp::EchoStep28()
@@ -270,32 +274,133 @@ void Dsp::Exec()
 	_state.Step = (_state.Step + 1) & 0x1F;
 
 	switch(step) {
-		case  0: _voices[0].Step5(); _voices[1].Step2(); break;
-		case  1: _voices[0].Step6(); _voices[1].Step3(); break;
-		case  2: _voices[0].Step7(); _voices[1].Step4(); _voices[3].Step1(); break;
-		case  3: _voices[0].Step8(); _voices[1].Step5(); _voices[2].Step2(); break;
-		case  4: _voices[0].Step9(); _voices[1].Step6(); _voices[2].Step3(); break;
-		case  5: _voices[1].Step7(); _voices[2].Step4(); _voices[4].Step1(); break;
-		case  6: _voices[1].Step8(); _voices[2].Step5(); _voices[3].Step2(); break;
-		case  7: _voices[1].Step9(); _voices[2].Step6(); _voices[3].Step3(); break;
-		case  8: _voices[2].Step7(); _voices[3].Step4(); _voices[5].Step1(); break;
-		case  9: _voices[2].Step8(); _voices[3].Step5(); _voices[4].Step2(); break;
-		case 10: _voices[2].Step9(); _voices[3].Step6(); _voices[4].Step3(); break;
-		case 11: _voices[3].Step7(); _voices[4].Step4(); _voices[6].Step1(); break;
-		case 12: _voices[3].Step8(); _voices[4].Step5(); _voices[5].Step2(); break;
-		case 13: _voices[3].Step9(); _voices[4].Step6(); _voices[5].Step3(); break;
-		case 14: _voices[4].Step7(); _voices[5].Step4(); _voices[7].Step1(); break;
-		case 15: _voices[4].Step8(); _voices[5].Step5(); _voices[6].Step2(); break;
-		case 16: _voices[4].Step9(); _voices[5].Step6(); _voices[6].Step3(); break;
-		case 17: _voices[0].Step1(); _voices[5].Step7(); _voices[6].Step4(); break;
-		case 18: _voices[5].Step8(); _voices[6].Step5(); _voices[7].Step2(); break;
-		case 19: _voices[5].Step9(); _voices[6].Step6(); _voices[7].Step3(); break;
-		case 20: _voices[1].Step1(); _voices[6].Step7(); _voices[7].Step4(); break;
-		case 21: _voices[6].Step8(); _voices[7].Step5(); _voices[0].Step2(); break;
-		case 22: _voices[0].Step3a(); _voices[6].Step9(); _voices[7].Step6(); EchoStep22(); break;
-		case 23: _voices[7].Step7(); EchoStep23(); break;
-		case 24: _voices[7].Step8(); EchoStep24(); break;
-		case 25: _voices[0].Step3b(); _voices[7].Step9(); EchoStep25(); break;
+		case 0:
+			_voices[0].Step5();
+			_voices[1].Step2();
+			break;
+		case 1:
+			_voices[0].Step6();
+			_voices[1].Step3();
+			break;
+		case 2:
+			_voices[0].Step7();
+			_voices[1].Step4();
+			_voices[3].Step1();
+			break;
+		case 3:
+			_voices[0].Step8();
+			_voices[1].Step5();
+			_voices[2].Step2();
+			break;
+		case 4:
+			_voices[0].Step9();
+			_voices[1].Step6();
+			_voices[2].Step3();
+			break;
+		case 5:
+			_voices[1].Step7();
+			_voices[2].Step4();
+			_voices[4].Step1();
+			break;
+		case 6:
+			_voices[1].Step8();
+			_voices[2].Step5();
+			_voices[3].Step2();
+			break;
+		case 7:
+			_voices[1].Step9();
+			_voices[2].Step6();
+			_voices[3].Step3();
+			break;
+		case 8:
+			_voices[2].Step7();
+			_voices[3].Step4();
+			_voices[5].Step1();
+			break;
+		case 9:
+			_voices[2].Step8();
+			_voices[3].Step5();
+			_voices[4].Step2();
+			break;
+		case 10:
+			_voices[2].Step9();
+			_voices[3].Step6();
+			_voices[4].Step3();
+			break;
+		case 11:
+			_voices[3].Step7();
+			_voices[4].Step4();
+			_voices[6].Step1();
+			break;
+		case 12:
+			_voices[3].Step8();
+			_voices[4].Step5();
+			_voices[5].Step2();
+			break;
+		case 13:
+			_voices[3].Step9();
+			_voices[4].Step6();
+			_voices[5].Step3();
+			break;
+		case 14:
+			_voices[4].Step7();
+			_voices[5].Step4();
+			_voices[7].Step1();
+			break;
+		case 15:
+			_voices[4].Step8();
+			_voices[5].Step5();
+			_voices[6].Step2();
+			break;
+		case 16:
+			_voices[4].Step9();
+			_voices[5].Step6();
+			_voices[6].Step3();
+			break;
+		case 17:
+			_voices[0].Step1();
+			_voices[5].Step7();
+			_voices[6].Step4();
+			break;
+		case 18:
+			_voices[5].Step8();
+			_voices[6].Step5();
+			_voices[7].Step2();
+			break;
+		case 19:
+			_voices[5].Step9();
+			_voices[6].Step6();
+			_voices[7].Step3();
+			break;
+		case 20:
+			_voices[1].Step1();
+			_voices[6].Step7();
+			_voices[7].Step4();
+			break;
+		case 21:
+			_voices[6].Step8();
+			_voices[7].Step5();
+			_voices[0].Step2();
+			break;
+		case 22:
+			_voices[0].Step3a();
+			_voices[6].Step9();
+			_voices[7].Step6();
+			EchoStep22();
+			break;
+		case 23:
+			_voices[7].Step7();
+			EchoStep23();
+			break;
+		case 24:
+			_voices[7].Step8();
+			EchoStep24();
+			break;
+		case 25:
+			_voices[0].Step3b();
+			_voices[7].Step9();
+			EchoStep25();
+			break;
 
 		case 26:
 			//"Output the left sample to the DAC."
@@ -366,7 +471,10 @@ void Dsp::Exec()
 			EchoStep30();
 			break;
 
-		case 31: _voices[0].Step4(); _voices[2].Step1(); break;
+		case 31:
+			_voices[0].Step4();
+			_voices[2].Step1();
+			break;
 	}
 }
 
@@ -407,9 +515,9 @@ void Dsp::Serialize(Serializer& s)
 
 	SVArray(_state.EchoIn, 2);
 	SVArray(_state.EchoOut, 2);
-	
+
 	int16_t* echoHistory = &_state.EchoHistory[0][0];
-	SVArray(echoHistory, 8*2);
+	SVArray(echoHistory, 8 * 2);
 
 	SV(_state.EchoPointer);
 	SV(_state.EchoLength);

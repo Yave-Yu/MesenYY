@@ -1,12 +1,8 @@
 using Avalonia;
-using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Markup.Xaml;
-using Avalonia.Styling;
 using Avalonia.VisualTree;
 using Mesen.Config;
-using Mesen.Config.Shortcuts;
 using Mesen.Utilities;
 using Mesen.Windows;
 using System;

@@ -1,12 +1,5 @@
-﻿using System;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Generators;
-using Avalonia.Controls.Primitives;
-using Avalonia.Input;
-using Avalonia.Interactivity;
-using Avalonia.Styling;
-using Avalonia.VisualTree;
+﻿using Avalonia.Controls;
+using System;
 
 namespace DataBoxControl.Primitives;
 

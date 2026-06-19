@@ -41,7 +41,8 @@ public class MesenWindow : Window
 			case FontAntialiasing.SubPixelAntialias:
 				RenderOptions.SetTextRenderingMode(v, TextRenderingMode.SubpixelAntialias);
 				break;
-		};
+		}
+		;
 	}
 
 	protected override void OnClosed(EventArgs e)

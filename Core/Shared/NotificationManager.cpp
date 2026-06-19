@@ -25,10 +25,8 @@ void NotificationManager::CleanupNotificationListeners()
 		std::remove_if(
 			_listeners.begin(),
 			_listeners.end(),
-			[](weak_ptr<INotificationListener> ptr) { return ptr.expired(); }
-		),
-		_listeners.end()
-	);
+			[](weak_ptr<INotificationListener> ptr) { return ptr.expired(); }),
+		_listeners.end());
 }
 
 void NotificationManager::SendNotification(ConsoleNotificationType type, void* parameter)

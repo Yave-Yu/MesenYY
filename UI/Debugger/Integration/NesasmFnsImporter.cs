@@ -7,9 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Integration;
 
@@ -19,7 +17,7 @@ public class NesasmFnsImporter
 	{
 		//This only works reliably for NROM games with 32kb PRG
 		int errorCount = 0;
-		
+
 		bool hasLargePrg = DebugApi.GetMemorySize(MemoryType.NesPrgRom) != 0x8000;
 		Dictionary<UInt32, CodeLabel> labels = new Dictionary<uint, CodeLabel>();
 

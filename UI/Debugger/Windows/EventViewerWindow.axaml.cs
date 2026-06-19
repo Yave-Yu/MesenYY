@@ -1,22 +1,19 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using System;
+using Avalonia.Threading;
+using DataBoxControl;
+using DynamicData;
 using Mesen.Debugger.Controls;
+using Mesen.Debugger.Labels;
+using Mesen.Debugger.Utilities;
 using Mesen.Debugger.ViewModels;
 using Mesen.Interop;
-using System.ComponentModel;
-using Mesen.Config;
-using Avalonia.Input;
 using Mesen.Localization;
-using Mesen.Debugger.Labels;
-using Avalonia.Interactivity;
 using Mesen.Utilities;
-using System.Linq;
-using Avalonia.Threading;
-using Mesen.Debugger.Utilities;
-using DynamicData;
-using DataBoxControl;
+using System;
 
 namespace Mesen.Debugger.Windows
 {
@@ -124,7 +121,7 @@ namespace Mesen.Debugger.Windows
 		{
 			TooltipEntries entries = new();
 			entries.AddEntry("Type", ResourceHelper.GetEnumText(evt.Type));
-			
+
 			entries.AddSeparator("LocationSeparator");
 
 			entries.AddEntry("Scanline", evt.Scanline.ToString());

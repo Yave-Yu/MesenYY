@@ -1,14 +1,10 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Styling;
-using Mesen.Interop;
 using Mesen.Utilities;
-using Mesen.Windows;
 using System;
 
 namespace Mesen.Debugger.Controls
@@ -17,10 +13,10 @@ namespace Mesen.Debugger.Controls
 	{
 		public static readonly StyledProperty<int> ValueProperty = AvaloniaProperty.Register<CodeScrollBar, int>(nameof(Value), 0, defaultBindingMode: Avalonia.Data.BindingMode.TwoWay);
 		public static readonly StyledProperty<int> MaximumProperty = AvaloniaProperty.Register<CodeScrollBar, int>(nameof(Maximum), 0);
-		
+
 		public static readonly StyledProperty<bool> ShowMarkersProperty = AvaloniaProperty.Register<CodeScrollBar, bool>(nameof(ShowMarkers), true);
 		public static readonly StyledProperty<int[]> MarkerTopProperty = AvaloniaProperty.Register<CodeScrollBar, int[]>(nameof(MarkerTop), new int[7]);
-		
+
 		public static readonly StyledProperty<Control?> BreakpointBarProperty = AvaloniaProperty.Register<CodeScrollBar, Control?>(nameof(BreakpointBar), null);
 
 		public int Value
@@ -123,8 +119,8 @@ namespace Mesen.Debugger.Controls
 		{
 			base.OnPointerWheelChanged(e);
 			_scrollAccumulator += e.GetDeltaY() * 3;
-			Value = Math.Max(0, Math.Min(Maximum, Value - (int) _scrollAccumulator));
-			_scrollAccumulator -= (int) _scrollAccumulator;
+			Value = Math.Max(0, Math.Min(Maximum, Value - (int)_scrollAccumulator));
+			_scrollAccumulator -= (int)_scrollAccumulator;
 		}
 
 		private void IncrementClick(object? sender, RoutedEventArgs e)

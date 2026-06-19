@@ -1,11 +1,8 @@
-using Mesen.Debugger;
 using Mesen.Debugger.Utilities;
 using Mesen.Interop;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Mesen.ViewModels

@@ -1,10 +1,5 @@
-﻿using Mesen.Config;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Interop
 {
@@ -21,7 +16,7 @@ namespace Mesen.Interop
 		[DllImport(DllPath)][return: MarshalAs(UnmanagedType.I1)] public static extern bool HistoryViewerCreateSaveState([MarshalAs(UnmanagedType.LPUTF8Str)] string outfileFile, UInt32 position);
 		[DllImport(DllPath)] public static extern void HistoryViewerSetPosition(UInt32 seekPosition);
 		[DllImport(DllPath)] public static extern void HistoryViewerResumeGameplay(UInt32 seekPosition);
-		
+
 		[DllImport(DllPath)] public static extern HistoryViewerState HistoryViewerGetState();
 		[DllImport(DllPath)] public static extern void HistoryViewerSetOptions(HistoryViewerOptions options);
 

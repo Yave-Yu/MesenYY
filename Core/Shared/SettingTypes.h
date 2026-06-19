@@ -273,7 +273,7 @@ struct KeyMapping
 	uint16_t TurboR = 0;
 	uint16_t TurboSelect = 0;
 	uint16_t TurboStart = 0;
-	
+
 	uint16_t GenericKey1 = 0;
 
 	uint16_t CustomKeys[100] = {};
@@ -339,7 +339,7 @@ struct InputConfig
 	uint32_t MouseSensitivity = 1;
 
 	InputDisplayPosition DisplayInputPosition = InputDisplayPosition::TopLeft;
-	bool DisplayInputPort[8] = { };
+	bool DisplayInputPort[8] = {};
 	bool DisplayInputHorizontally = true;
 
 	double ForceFeedbackIntensity = 1.0;
@@ -429,7 +429,7 @@ struct GameboyConfig
 
 	bool BlendFrames = true;
 	bool GbcAdjustColors = true;
-	
+
 	bool DisableBackground = false;
 	bool DisableSprites = false;
 	bool HideSgbBorders = false;
@@ -484,7 +484,7 @@ struct GbaConfig
 
 	bool HideBgLayers[4] = {};
 	bool DisableSprites = false;
-	
+
 	uint32_t OverclockScanlineCount = 0;
 
 	RamState RamPowerOnState = RamState::AllZeros;
@@ -547,7 +547,7 @@ struct PcEngineConfig
 
 	OverscanDimensions Overscan = {};
 
-	uint32_t Palette[512] = { };
+	uint32_t Palette[512] = {};
 };
 
 enum class DspInterpolationType
@@ -655,9 +655,9 @@ struct NesConfig
 	bool RemoveSpriteLimit = false;
 	bool AdaptiveSpriteLimit = false;
 	bool EnablePalBorders = false;
-	
+
 	bool UseCustomVsPalette = false;
-	
+
 	OverscanDimensions NtscOverscan = {};
 	OverscanDimensions PalOverscan = {};
 
@@ -700,7 +700,7 @@ struct NesConfig
 	int32_t InputScanline = 241;
 
 	bool IsFullColorPalette = false;
-	uint32_t UserPalette[512] = { };
+	uint32_t UserPalette[512] = {};
 
 	uint32_t ChannelVolumes[11] = {};
 	uint32_t EpsmVolume = 100;
@@ -724,7 +724,7 @@ struct SmsConfig
 {
 	ControllerConfig Port1;
 	ControllerConfig Port2;
-	
+
 	ConsoleRegion Region = ConsoleRegion::Auto;
 	ConsoleRegion GameGearRegion = ConsoleRegion::Auto;
 	RamState RamPowerOnState = RamState::Random;
@@ -879,7 +879,7 @@ struct DebugConfig
 	bool GbaBreakOnInvalidOpCode = false;
 	bool GbaBreakOnUnalignedMemAccess = false;
 	GbaDisassemblyMode GbaDisMode;
-	
+
 	bool WsBreakOnInvalidOpCode = false;
 
 	bool ScriptAllowIoOsAccess = false;
@@ -1001,7 +1001,7 @@ enum class EmulatorShortcut
 	ToggleOsd,
 	ToggleAlwaysOnTop,
 	ToggleDebugInfo,
-	
+
 	ToggleAudio,
 	IncreaseVolume,
 	DecreaseVolume,

@@ -13,7 +13,6 @@ using Mesen.Interop;
 using Mesen.Utilities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 
 namespace Mesen.Debugger.Windows
@@ -35,7 +34,7 @@ namespace Mesen.Debugger.Windows
 
 			_model = model;
 			_model.InitializeMenu(this);
-			
+
 			DisassemblyViewer viewer = this.GetControl<DisassemblyViewer>("disViewer");
 			_model.SetViewer(viewer);
 			InitContextMenu(viewer);
@@ -60,7 +59,7 @@ namespace Mesen.Debugger.Windows
 			base.OnClosing(e);
 			_model.Config.SaveWindowSettings(this);
 			DebugApi.StopLogTraceToFile();
-			
+
 			//Disable trace logging for all cpus
 			foreach(CpuType cpuType in Enum.GetValues<CpuType>()) {
 				DebugApi.SetTraceOptions(cpuType, new());

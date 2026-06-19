@@ -49,22 +49,21 @@
 #include "Shared/MemoryOperationType.h"
 #include "Shared/EventType.h"
 
-Emulator::Emulator() :
-	_settings(new EmuSettings(this)),
-	_debugHud(new DebugHud()),
-	_scriptHud(new DebugHud()),
-	_notificationManager(new NotificationManager()),
-	_batteryManager(new BatteryManager()),
-	_soundMixer(new SoundMixer(this)),
-	_videoRenderer(new VideoRenderer(this)),
-	_videoDecoder(new VideoDecoder(this)),
-	_saveStateManager(new SaveStateManager(this)),
-	_cheatManager(new CheatManager(this)),
-	_movieManager(new MovieManager(this)),
-	_historyViewer(new HistoryViewer(this)),
-	_gameServer(new GameServer(this)),
-	_gameClient(new GameClient(this)),
-	_rewindManager(new RewindManager(this))
+Emulator::Emulator() : _settings(new EmuSettings(this)),
+							  _debugHud(new DebugHud()),
+							  _scriptHud(new DebugHud()),
+							  _notificationManager(new NotificationManager()),
+							  _batteryManager(new BatteryManager()),
+							  _soundMixer(new SoundMixer(this)),
+							  _videoRenderer(new VideoRenderer(this)),
+							  _videoDecoder(new VideoDecoder(this)),
+							  _saveStateManager(new SaveStateManager(this)),
+							  _cheatManager(new CheatManager(this)),
+							  _movieManager(new MovieManager(this)),
+							  _historyViewer(new HistoryViewer(this)),
+							  _gameServer(new GameServer(this)),
+							  _gameClient(new GameClient(this)),
+							  _rewindManager(new RewindManager(this))
 {
 	_paused = false;
 	_pauseOnNextFrame = false;
@@ -674,7 +673,7 @@ ConsoleType Emulator::GetConsoleType()
 vector<CpuType> Emulator::GetCpuTypes()
 {
 	shared_ptr<IConsole> console = GetConsole();
-	return console ? console->GetCpuTypes() : vector<CpuType>{};
+	return console ? console->GetCpuTypes() : vector<CpuType> {};
 }
 
 TimingInfo Emulator::GetTimingInfo(CpuType cpuType)

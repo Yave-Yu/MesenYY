@@ -6,13 +6,8 @@ using Mesen.Interop;
 using Mesen.Utilities;
 using Mesen.Windows;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Integration;
 
@@ -171,7 +166,7 @@ public class ElfImporterWs : ElfImporter
 			absAddr.Address = (int)((addr & 0xFFFF) | ((addr & 0xF00000) >> 4));
 			absAddr.Type = MemoryType.WsCartRam;
 		}
-		
+
 		symbolInfo = new() {
 			Address = absAddr,
 			Name = symbol.Name

@@ -1,5 +1,4 @@
-﻿using Mesen.Interop;
-using ReactiveUI.Fody.Helpers;
+﻿using ReactiveUI.Fody.Helpers;
 using System.Collections.Generic;
 
 namespace Mesen.Config

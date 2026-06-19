@@ -1,11 +1,8 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.Config;
 using Mesen.Interop;
-using Mesen.ViewModels;
-using System.Collections.Generic;
 
 namespace Mesen.Windows
 {

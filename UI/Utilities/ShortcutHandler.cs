@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Mesen.Config;
 using Mesen.Config.Shortcuts;
 using Mesen.Interop;
@@ -9,8 +8,6 @@ using Mesen.Windows;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mesen.Utilities
 {
@@ -54,7 +51,7 @@ namespace Mesen.Utilities
 				case EmulatorShortcut.ToggleFrameCounter: ToggleFrameCounter(); break;
 				case EmulatorShortcut.ToggleLagCounter: ToggleLagCounter(); break;
 				case EmulatorShortcut.ToggleOsd: ToggleOsd(); break;
-				
+
 				case EmulatorShortcut.ToggleAlwaysOnTop: ToggleAlwaysOnTop(); break;
 
 				case EmulatorShortcut.ToggleDebugInfo: ToggleDebugInfo(); break;
@@ -96,7 +93,7 @@ namespace Mesen.Utilities
 				case EmulatorShortcut.ToggleRecordMovie: ToggleRecordMovie(); break;
 
 				case EmulatorShortcut.TakeScreenshot: EmuApi.TakeScreenshot(); break;
-				
+
 				case EmulatorShortcut.InputBarcode: InputBarcode(); break;
 				case EmulatorShortcut.LoadTape: LoadTape(); break;
 				case EmulatorShortcut.RecordTape: RecordTape(); break;
@@ -446,7 +443,7 @@ namespace Mesen.Utilities
 			ConfigManager.Config.Cheats.DisableAllCheats = !ConfigManager.Config.Cheats.DisableAllCheats;
 			CheatCodes.ApplyCheats();
 		}
-		
+
 		private void ToggleOsd()
 		{
 			ConfigManager.Config.Preferences.DisableOsd = !ConfigManager.Config.Preferences.DisableOsd;

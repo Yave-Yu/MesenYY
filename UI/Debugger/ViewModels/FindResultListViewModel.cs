@@ -1,26 +1,19 @@
-﻿using ReactiveUI.Fody.Helpers;
+﻿using Avalonia.Controls;
+using Avalonia.Controls.Selection;
+using Avalonia.Threading;
+using DataBoxControl;
+using Mesen.Config;
+using Mesen.Debugger.Disassembly;
+using Mesen.Debugger.Utilities;
+using Mesen.Interop;
+using Mesen.Utilities;
+using Mesen.ViewModels;
+using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Reactive.Linq;
-using System.Linq;
-using Mesen.Interop;
-using Mesen.Debugger.Utilities;
-using Mesen.Config;
-using Mesen.Debugger.Windows;
-using Avalonia.Controls;
-using Mesen.ViewModels;
 using System.ComponentModel;
-using Mesen.Utilities;
-using System.Collections;
-using DataBoxControl;
-using Avalonia.Collections;
-using Avalonia.Controls.Selection;
-using Mesen.Debugger.Views.DebuggerDock;
-using Mesen.Debugger.ViewModels.DebuggerDock;
-using Dock.Model.Core;
-using Mesen.Debugger.Disassembly;
-using Avalonia.Threading;
+using System.Linq;
+using System.Reactive.Linq;
 
 namespace Mesen.Debugger.ViewModels;
 
@@ -42,7 +35,7 @@ public class FindResultListViewModel : DisposableViewModel
 	public FindResultListViewModel(DebuggerWindowViewModel debugger)
 	{
 		Debugger = debugger;
-		
+
 		_format = "X" + debugger.CpuType.GetAddressSize();
 		SortState.SetColumnSort("Address", ListSortDirection.Ascending, true);
 	}

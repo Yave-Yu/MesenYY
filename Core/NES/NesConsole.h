@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 #include "pch.h"
 
 #include "Shared/SettingTypes.h"
@@ -52,12 +52,12 @@ private:
 	ConsoleRegion _region = ConsoleRegion::Auto;
 
 	bool _nextFrameOverclockDisabled = false;
-	
+
 	void UpdateRegion(bool forceUpdate = false);
 	void LoadHdPack(VirtualFile& romFile);
 
 	template<bool isDualSystem> void InternalRunFrame();
-	
+
 	void InitializeInputDevices(GameInputType inputType, GameSystem system);
 
 	void StartRecordingHdPack(HdPackBuilderOptions options);
@@ -113,7 +113,7 @@ public:
 	uint32_t GetMasterClockRate() override;
 
 	void SaveBattery() override;
-	
+
 	ShortcutState IsShortcutAllowed(EmulatorShortcut shortcut, uint32_t shortcutParam) override;
 
 	BaseVideoFilter* GetVideoFilter(bool getDefaultFilter) override;

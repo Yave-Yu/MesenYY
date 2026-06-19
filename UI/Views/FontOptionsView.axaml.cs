@@ -3,13 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Mesen.Config;
-using Mesen.Debugger.Controls;
-using Mesen.Utilities;
-using Mesen.Windows;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace Mesen.Views
 {

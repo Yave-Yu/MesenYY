@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using Avalonia.Threading;
 using Mesen.Localization;
 using System;
@@ -16,7 +15,7 @@ namespace Mesen.Controls
 	{
 		public static readonly StyledProperty<Enum[]?> AvailableValuesProperty = AvaloniaProperty.Register<EnumComboBox, Enum[]?>(nameof(AvailableValues), null);
 		public static readonly StyledProperty<Enum?> SelectedItemProperty = AvaloniaProperty.Register<EnumComboBox, Enum?>(nameof(SelectedItem), defaultBindingMode: Avalonia.Data.BindingMode.TwoWay);
-		
+
 		public static readonly StyledProperty<IEnumerable?> InternalItemsProperty = AvaloniaProperty.Register<EnumComboBox, IEnumerable?>(nameof(InternalItems));
 		public static readonly StyledProperty<Enum?> InternalSelectedItemProperty = AvaloniaProperty.Register<EnumComboBox, Enum?>(nameof(InternalSelectedItem));
 
@@ -82,7 +81,7 @@ namespace Mesen.Controls
 			if(!IsLoaded) {
 				return;
 			}
-			
+
 			if(_enumType == null || SelectedItem == null) {
 				if(AvailableValues?.Length > 0) {
 					_enumType = AvailableValues[0].GetType();

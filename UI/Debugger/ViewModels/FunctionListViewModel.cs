@@ -1,5 +1,4 @@
 ﻿using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Selection;
 using Avalonia.Media;
@@ -13,11 +12,9 @@ using Mesen.Utilities;
 using Mesen.ViewModels;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 namespace Mesen.Debugger.ViewModels
 {
@@ -94,7 +91,7 @@ namespace Mesen.Debugger.ViewModels
 				},
 
 				new ContextMenuSeparator(),
-		
+
 				new ContextMenuAction() {
 					ActionType = ActionType.FindOccurrences,
 					Shortcut = () => ConfigManager.Config.Debug.Shortcuts.Get(DebuggerShortcut.FunctionList_FindOccurrences),
@@ -144,7 +141,7 @@ namespace Mesen.Debugger.ViewModels
 
 		public AddressInfo FuncAddr { get; private set; }
 		public CpuType _cpuType;
-			
+
 		public string AbsAddressDisplay { get; }
 		public int AbsAddress => FuncAddr.Address;
 		public int RelAddress { get; private set; }

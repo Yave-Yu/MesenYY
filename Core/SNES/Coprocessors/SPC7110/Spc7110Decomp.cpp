@@ -74,10 +74,16 @@ void Spc7110Decomp::Decode()
 
 			if(pa != pb || pb != pc) {
 				uint32_t match = pa ^ pb ^ pc;
-				diff = 4;                        //no match; all pixels differ
-				if((match ^ pc) == 0) diff = 3;  //a == b; pixel c differs
-				if((match ^ pb) == 0) diff = 2;  //c == a; pixel b differs
-				if((match ^ pa) == 0) diff = 1;  //b == c; pixel a differs
+				diff = 4; //no match; all pixels differ
+				if((match ^ pc) == 0) {
+					diff = 3; //a == b; pixel c differs
+				}
+				if((match ^ pb) == 0) {
+					diff = 2; //c == a; pixel b differs
+				}
+				if((match ^ pa) == 0) {
+					diff = 1; //b == c; pixel a differs
+				}
 			}
 
 			_colormap = MoveToFront(_colormap, pa);
@@ -105,18 +111,18 @@ void Spc7110Decomp::Decode()
 			auto& ctx = _context[set][bit + history - 1];
 			auto& model = evolution[ctx.prediction];
 			uint8_t lps_offset = _range - model.probability;
-			bool symbol = _input >= (lps_offset << 8);  //test only the MSB
+			bool symbol = _input >= (lps_offset << 8); //test only the MSB
 
 			_output = _output << 1 | ((uint8_t)symbol ^ ctx.swap);
 
-			if(symbol == MPS) {          //[0 ... range-p]
-				_range = lps_offset;        //range = range-p
-			} else {                     //[range-p+1 ... range]
-				_range -= lps_offset;       //range = p-1, with p < 0.75
-				_input -= lps_offset << 8;  //therefore, always rescale
+			if(symbol == MPS) { //[0 ... range-p]
+				_range = lps_offset; //range = range-p
+			} else { //[range-p+1 ... range]
+				_range -= lps_offset; //range = p-1, with p < 0.75
+				_input -= lps_offset << 8; //therefore, always rescale
 			}
 
-			while(_range <= Max / 2) {    //scale back into [0.75 ... 1.5]
+			while(_range <= Max / 2) { //scale back into [0.75 ... 1.5]
 				ctx.prediction = model.next[symbol];
 
 				_range <<= 1;
@@ -162,38 +168,85 @@ uint8_t Spc7110Decomp::GetBpp()
 
 void Spc7110Decomp::Serialize(Serializer& s)
 {
-	SV(_bpp); SV(_offset); SV(_bits); SV(_range); SV(_input); SV(_output); SV(_pixels); SV(_colormap); SV(_result);
+	SV(_bpp);
+	SV(_offset);
+	SV(_bits);
+	SV(_range);
+	SV(_input);
+	SV(_output);
+	SV(_pixels);
+	SV(_colormap);
+	SV(_result);
 	for(int i = 0; i < 15; i++) {
-		SVI(_context[0][i].swap); SVI(_context[0][i].prediction);
-		SVI(_context[1][i].swap); SVI(_context[1][i].prediction);
-		SVI(_context[2][i].swap); SVI(_context[2][i].prediction);
-		SVI(_context[3][i].swap); SVI(_context[3][i].prediction);
-		SVI(_context[4][i].swap); SVI(_context[4][i].prediction);
+		SVI(_context[0][i].swap);
+		SVI(_context[0][i].prediction);
+		SVI(_context[1][i].swap);
+		SVI(_context[1][i].prediction);
+		SVI(_context[2][i].swap);
+		SVI(_context[2][i].prediction);
+		SVI(_context[3][i].swap);
+		SVI(_context[3][i].prediction);
+		SVI(_context[4][i].swap);
+		SVI(_context[4][i].prediction);
 	}
 }
 
 Spc7110Decomp::ModelState Spc7110Decomp::evolution[53] = {
-	{0x5a, { 1, 1}}, {0x25, { 2, 6}}, {0x11, { 3, 8}},
-	{0x08, { 4,10}}, {0x03, { 5,12}}, {0x01, { 5,15}},
+	{ 0x5a, { 1, 1 } },
+	{ 0x25, { 2, 6 } },
+	{ 0x11, { 3, 8 } },
+	{ 0x08, { 4, 10 } },
+	{ 0x03, { 5, 12 } },
+	{ 0x01, { 5, 15 } },
 
-	{0x5a, { 7, 7}}, {0x3f, { 8,19}}, {0x2c, { 9,21}},
-	{0x20, {10,22}}, {0x17, {11,23}}, {0x11, {12,25}},
-	{0x0c, {13,26}}, {0x09, {14,28}}, {0x07, {15,29}},
-	{0x05, {16,31}}, {0x04, {17,32}}, {0x03, {18,34}},
-	{0x02, { 5,35}},
+	{ 0x5a, { 7, 7 } },
+	{ 0x3f, { 8, 19 } },
+	{ 0x2c, { 9, 21 } },
+	{ 0x20, { 10, 22 } },
+	{ 0x17, { 11, 23 } },
+	{ 0x11, { 12, 25 } },
+	{ 0x0c, { 13, 26 } },
+	{ 0x09, { 14, 28 } },
+	{ 0x07, { 15, 29 } },
+	{ 0x05, { 16, 31 } },
+	{ 0x04, { 17, 32 } },
+	{ 0x03, { 18, 34 } },
+	{ 0x02, { 5, 35 } },
 
-	{0x5a, {20,20}}, {0x48, {21,39}}, {0x3a, {22,40}},
-	{0x2e, {23,42}}, {0x26, {24,44}}, {0x1f, {25,45}},
-	{0x19, {26,46}}, {0x15, {27,25}}, {0x11, {28,26}},
-	{0x0e, {29,26}}, {0x0b, {30,27}}, {0x09, {31,28}},
-	{0x08, {32,29}}, {0x07, {33,30}}, {0x05, {34,31}},
-	{0x04, {35,33}}, {0x04, {36,33}}, {0x03, {37,34}},
-	{0x02, {38,35}}, {0x02, { 5,36}},
+	{ 0x5a, { 20, 20 } },
+	{ 0x48, { 21, 39 } },
+	{ 0x3a, { 22, 40 } },
+	{ 0x2e, { 23, 42 } },
+	{ 0x26, { 24, 44 } },
+	{ 0x1f, { 25, 45 } },
+	{ 0x19, { 26, 46 } },
+	{ 0x15, { 27, 25 } },
+	{ 0x11, { 28, 26 } },
+	{ 0x0e, { 29, 26 } },
+	{ 0x0b, { 30, 27 } },
+	{ 0x09, { 31, 28 } },
+	{ 0x08, { 32, 29 } },
+	{ 0x07, { 33, 30 } },
+	{ 0x05, { 34, 31 } },
+	{ 0x04, { 35, 33 } },
+	{ 0x04, { 36, 33 } },
+	{ 0x03, { 37, 34 } },
+	{ 0x02, { 38, 35 } },
+	{ 0x02, { 5, 36 } },
 
-	{0x58, {40,39}}, {0x4d, {41,47}}, {0x43, {42,48}},
-	{0x3b, {43,49}}, {0x34, {44,50}}, {0x2e, {45,51}},
-	{0x29, {46,44}}, {0x25, {24,45}},
+	{ 0x58, { 40, 39 } },
+	{ 0x4d, { 41, 47 } },
+	{ 0x43, { 42, 48 } },
+	{ 0x3b, { 43, 49 } },
+	{ 0x34, { 44, 50 } },
+	{ 0x2e, { 45, 51 } },
+	{ 0x29, { 46, 44 } },
+	{ 0x25, { 24, 45 } },
 
-	{0x56, {48,47}}, {0x4f, {49,47}}, {0x47, {50,48}},
-	{0x41, {51,49}}, {0x3c, {52,50}}, {0x37, {43,51}},
+	{ 0x56, { 48, 47 } },
+	{ 0x4f, { 49, 47 } },
+	{ 0x47, { 50, 48 } },
+	{ 0x41, { 51, 49 } },
+	{ 0x3c, { 52, 50 } },
+	{ 0x37, { 43, 51 } },
 };

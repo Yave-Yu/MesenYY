@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Layout;
-using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Threading;
 using Mesen.Config;
@@ -601,7 +600,7 @@ namespace Mesen.Debugger.ViewModels
 			} else {
 				ViewerBitmap.HighlightRects = null;
 			}
-				
+
 			ViewerBitmap.Invalidate();
 
 			int selectedIndex = SelectedSprite?.SpriteIndex ?? -1;

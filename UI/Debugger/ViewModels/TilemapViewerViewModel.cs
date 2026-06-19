@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
 using Mesen.Config;
@@ -235,7 +234,7 @@ namespace Mesen.Debugger.ViewModels
 			}));
 			AddDisposable(this.WhenAnyValue(x => x.SelectionRect).Subscribe(x => UpdatePreviewPanel()));
 			AddDisposable(ReactiveHelper.RegisterRecursiveObserver(Config, Config_PropertyChanged));
-			
+
 			InitNesGridOptions();
 
 			DebugShortcutManager.RegisterActions(wnd, FileMenuActions);
@@ -575,7 +574,7 @@ namespace Mesen.Debugger.ViewModels
 			DebugTilemapInfo info = _data.TilemapInfo;
 			entries.StartUpdate();
 			entries.AddEntry("Size", info.ColumnCount + "x" + info.RowCount);
-			entries.AddEntry("Size (px)", info.ColumnCount* info.TileWidth + "x" + info.RowCount* info.TileHeight);
+			entries.AddEntry("Size (px)", info.ColumnCount * info.TileWidth + "x" + info.RowCount * info.TileHeight);
 			entries.AddEntry("Tilemap Address", FormatAddress((int)info.TilemapAddress));
 			entries.AddEntry("Tileset Address", FormatAddress((int)info.TilesetAddress));
 			entries.AddEntry("Tile Format", info.Format);
@@ -622,7 +621,7 @@ namespace Mesen.Debugger.ViewModels
 			if(tileInfo.Width != 1 || tileInfo.Height != 1) {
 				entries.AddEntry("Column, Row", $"{tileInfo.Column}, {tileInfo.Row}");
 			}
-			entries.AddEntry("X, Y", $"{tileInfo.Column*tileInfo.Width}, {tileInfo.Row*tileInfo.Height}");
+			entries.AddEntry("X, Y", $"{tileInfo.Column * tileInfo.Width}, {tileInfo.Row * tileInfo.Height}");
 			entries.AddEntry("Size", tileInfo.Width + "x" + tileInfo.Height);
 
 			if(tileInfo.TileMapAddress >= 0) {
@@ -794,7 +793,8 @@ namespace Mesen.Debugger.ViewModels
 
 				Point prevStart = new();
 				Point prevEnd = new();
-				void AddLine(Point start, Point end, Color color) {
+				void AddLine(Point start, Point end, Color color)
+				{
 					if(start != prevStart && end != prevEnd) {
 						lines.Add(new PictureViewerLine() { Start = start, End = end, Width = 1.5, Color = color });
 						prevStart = start;
@@ -815,7 +815,8 @@ namespace Mesen.Debugger.ViewModels
 
 						AddLine(new Point(startX, startY), new Point(endX, endY), alphaColor);
 						if(!ppuState.Mode7.LargeMap) {
-							void Translate(ref int start, ref int end, int offset, Func<int, bool> predicate) {
+							void Translate(ref int start, ref int end, int offset, Func<int, bool> predicate)
+							{
 								while(predicate(start) || predicate(end)) {
 									start += offset;
 									end += offset;
@@ -851,7 +852,7 @@ namespace Mesen.Debugger.ViewModels
 	public class TilemapViewerTab : ViewModelBase
 	{
 		[Reactive] public string Title { get; set; } = "";
-		[Reactive] public int Layer { get; set; }  = 0;
+		[Reactive] public int Layer { get; set; } = 0;
 		[Reactive] public MemoryType? VramMemoryType { get; set; }
 		[Reactive] public bool Enabled { get; set; } = true;
 	}

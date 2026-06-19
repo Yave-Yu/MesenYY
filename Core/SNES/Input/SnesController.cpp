@@ -60,8 +60,7 @@ uint16_t SnesController::ToByte()
 {
 	//"A Super NES controller returns a 16-bit report in a similar order: B, Y, Select, Start, Up, Down, Left, Right, A, X, L, R, then four 0 bits."
 
-	return
-		(uint8_t)IsPressed(Buttons::B) |
+	return (uint8_t)IsPressed(Buttons::B) |
 		((uint8_t)IsPressed(Buttons::Y) << 1) |
 		((uint8_t)IsPressed(Buttons::Select) << 2) |
 		((uint8_t)IsPressed(Buttons::Start) << 3) |
@@ -75,7 +74,7 @@ uint16_t SnesController::ToByte()
 		((uint8_t)IsPressed(Buttons::R) << 11);
 }
 
-void SnesController::Serialize(Serializer & s)
+void SnesController::Serialize(Serializer& s)
 {
 	BaseControlDevice::Serialize(s);
 	SV(_stateBuffer);
@@ -94,7 +93,7 @@ uint8_t SnesController::ReadRam(uint16_t addr)
 		StrobeProcessRead();
 
 		if(_port >= 2) {
-			output = (_stateBuffer & 0x01) << 1;  //P3/P4 are reported in bit 2
+			output = (_stateBuffer & 0x01) << 1; //P3/P4 are reported in bit 2
 		} else {
 			output = _stateBuffer & 0x01;
 		}

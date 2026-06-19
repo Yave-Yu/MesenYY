@@ -780,8 +780,10 @@ void SmsVdp::LoadSpriteTilesSms()
 	//Cycles 264 to 325
 	uint16_t cycle = _state.Cycle - 264;
 	switch(cycle) {
-		case 0: case 12:
-		case 34: case 46: {
+		case 0:
+		case 12:
+		case 34:
+		case 46: {
 			//Load sprite N X value
 			if(cycle == 0) {
 				_spriteCount = 0;
@@ -796,8 +798,10 @@ void SmsVdp::LoadSpriteTilesSms()
 			break;
 		}
 
-		case 2: case 14:
-		case 36: case 48: {
+		case 2:
+		case 14:
+		case 36:
+		case 48: {
 			//Load sprite N+1 X value
 			_spriteShifters[_spriteCount + 1].HardwareSprite = true;
 
@@ -808,15 +812,19 @@ void SmsVdp::LoadSpriteTilesSms()
 			break;
 		}
 
-		case 4: case 16:
-		case 38: case 50:
+		case 4:
+		case 16:
+		case 38:
+		case 50:
 			//Load sprite N tile (1st word)
 			_spriteShifters[_spriteCount].TileData[0] = ReadVram(_spriteShifters[_spriteCount].TileAddr, SmsVdpMemAccess::SpriteLoadTile);
 			_spriteShifters[_spriteCount].TileData[1] = ReadVram(_spriteShifters[_spriteCount].TileAddr + 1, SmsVdpMemAccess::SpriteLoadTile);
 			break;
 
-		case 6: case 18:
-		case 40: case 52:
+		case 6:
+		case 18:
+		case 40:
+		case 52:
 			//Load sprite N tile (2nd word)
 			_spriteShifters[_spriteCount].TileData[2] = ReadVram(_spriteShifters[_spriteCount].TileAddr + 2, SmsVdpMemAccess::SpriteLoadTile);
 			_spriteShifters[_spriteCount].TileData[3] = ReadVram(_spriteShifters[_spriteCount].TileAddr + 3, SmsVdpMemAccess::SpriteLoadTile);
@@ -826,15 +834,19 @@ void SmsVdp::LoadSpriteTilesSms()
 			}
 			break;
 
-		case 8: case 20:
-		case 42: case 54:
+		case 8:
+		case 20:
+		case 42:
+		case 54:
 			//Load sprite N+1 tile (1st word)
 			_spriteShifters[_spriteCount + 1].TileData[0] = ReadVram(_spriteShifters[_spriteCount + 1].TileAddr, SmsVdpMemAccess::SpriteLoadTile);
 			_spriteShifters[_spriteCount + 1].TileData[1] = ReadVram(_spriteShifters[_spriteCount + 1].TileAddr + 1, SmsVdpMemAccess::SpriteLoadTile);
 			break;
 
-		case 10: case 22:
-		case 44: case 56:
+		case 10:
+		case 22:
+		case 44:
+		case 56:
 			//Load sprite N+1 tile (2nd word)
 			_spriteShifters[_spriteCount + 1].TileData[2] = ReadVram(_spriteShifters[_spriteCount + 1].TileAddr + 2, SmsVdpMemAccess::SpriteLoadTile);
 			_spriteShifters[_spriteCount + 1].TileData[3] = ReadVram(_spriteShifters[_spriteCount + 1].TileAddr + 3, SmsVdpMemAccess::SpriteLoadTile);
@@ -852,7 +864,13 @@ void SmsVdp::LoadSpriteTilesSms()
 			}
 			break;
 
-		case 24: case 26: case 28: case 30: case 32: case 58: case 60:
+		case 24:
+		case 26:
+		case 28:
+		case 30:
+		case 32:
+		case 58:
+		case 60:
 			//293, 295, 297, 299, 301, 327, 329
 			//external access slots
 			break;
@@ -893,8 +911,10 @@ void SmsVdp::LoadSpriteTilesSg()
 	//Cycles 264 to 325
 	uint16_t cycle = _state.Cycle - 264;
 	switch(cycle) {
-		case 0: case 12:
-		case 34: case 46: {
+		case 0:
+		case 12:
+		case 34:
+		case 46: {
 			//Sprite Y value
 			if(cycle == 0) {
 				_spriteCount = 0;
@@ -915,14 +935,18 @@ void SmsVdp::LoadSpriteTilesSg()
 			break;
 		}
 
-		case 2: case 14:
-		case 36: case 48:
+		case 2:
+		case 14:
+		case 36:
+		case 48:
 			//Sprite X value
 			_spriteShifters[_spriteIndex].SpriteX = ReadVram(spriteAddr + _inRangeSprites[_inRangeSpriteIndex] * 4 + 1, SmsVdpMemAccess::SpriteLoadTable);
 			break;
 
-		case 4: case 16:
-		case 38: case 50: {
+		case 4:
+		case 16:
+		case 38:
+		case 50: {
 			//Sprite tile index
 			uint16_t sprTileIndex = ReadVram(spriteAddr + _inRangeSprites[_inRangeSpriteIndex] * 4 + 2, SmsVdpMemAccess::SpriteLoadTable);
 			if(_state.UseLargeSprites) {
@@ -933,20 +957,26 @@ void SmsVdp::LoadSpriteTilesSg()
 			break;
 		}
 
-		case 6: case 18:
-		case 40: case 52:
+		case 6:
+		case 18:
+		case 40:
+		case 52:
 			//Sprite attributes
 			_spriteShifters[_spriteIndex].TileData[1] = ReadVram(spriteAddr + _inRangeSprites[_inRangeSpriteIndex] * 4 + 3, SmsVdpMemAccess::SpriteLoadTable);
 			break;
 
-		case 8: case 20:
-		case 42: case 54:
+		case 8:
+		case 20:
+		case 42:
+		case 54:
 			//Sprite tile data (first byte)
 			_spriteShifters[_spriteIndex].TileData[0] = ReadVram(_spriteShifters[_spriteIndex].TileAddr, SmsVdpMemAccess::SpriteLoadTile);
 			break;
 
-		case 10: case 22:
-		case 44: case 56: {
+		case 10:
+		case 22:
+		case 44:
+		case 56: {
 			//Sprite tile data (second byte - for large sprites only)
 			bool shiftSprite = _spriteShifters[_spriteIndex].TileData[1] & 0x80;
 			_spriteShifters[_spriteIndex].TileData[1] &= 0x0F; //sprite color
@@ -980,7 +1010,13 @@ void SmsVdp::LoadSpriteTilesSg()
 			break;
 		}
 
-		case 24: case 26: case 28: case 30: case 32: case 58: case 60:
+		case 24:
+		case 26:
+		case 28:
+		case 30:
+		case 32:
+		case 58:
+		case 60:
 			//293, 295, 297, 299, 301, 327, 329
 			//external access slots
 			break;
@@ -1405,7 +1441,8 @@ uint32_t SmsVdp::GetPixelBrightness(uint8_t x, uint8_t y)
 int SmsVdp::GetViewportYOffset()
 {
 	switch(_state.VisibleScanlineCount) {
-		default: case 192: return 24;
+		default:
+		case 192: return 24;
 		case 224: return 8;
 		case 240: return 0;
 	}
@@ -1445,10 +1482,7 @@ void SmsVdp::InitSmsPostBiosState()
 	_state.ScanlineCounterLatch = 0xFC;
 
 	constexpr uint8_t biosPalRam[0x20] = {
-		0x00, 0x3F, 0x3E, 0x3F, 0x30, 0x30, 0x38, 0x3F,
-		0x37, 0x3F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x03, 0x30, 0x0F, 0x07, 0x16, 0x3F, 0x02,
-		0x00, 0x0F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+		0x00, 0x3F, 0x3E, 0x3F, 0x30, 0x30, 0x38, 0x3F, 0x37, 0x3F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x30, 0x0F, 0x07, 0x16, 0x3F, 0x02, 0x00, 0x0F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	};
 
 	memcpy(_paletteRam, biosPalRam, 0x20);

@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Mesen.Config;
@@ -14,7 +13,6 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace Mesen.Debugger.ViewModels
 {
@@ -202,7 +200,7 @@ namespace Mesen.Debugger.ViewModels
 		private void UpdatePreviewPanel()
 		{
 			PreviewPanel = GetPreviewPanel(SelectedPalette, PreviewPanel);
-			
+
 			if(ViewerTooltip != null && ViewerMouseOverPalette >= 0) {
 				GetPreviewPanel(ViewerMouseOverPalette, ViewerTooltip);
 			}

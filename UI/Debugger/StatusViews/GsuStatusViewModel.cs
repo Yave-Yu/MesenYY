@@ -1,9 +1,7 @@
-﻿using Avalonia.Collections;
-using Mesen.Interop;
+﻿using Mesen.Interop;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Text;
 
 namespace Mesen.Debugger.StatusViews
 {
@@ -32,7 +30,7 @@ namespace Mesen.Debugger.StatusViews
 		[Reactive] public byte RegSrc { get; set; }
 		[Reactive] public byte RegDst { get; set; }
 		[Reactive] public byte RegColor { get; set; }
-		[Reactive] public byte RegPor { get; set;}
+		[Reactive] public byte RegPor { get; set; }
 
 		[Reactive] public byte RegPbr { get; set; }
 		[Reactive] public byte RomBank { get; set; }
@@ -42,7 +40,7 @@ namespace Mesen.Debugger.StatusViews
 		[Reactive] public bool FlagCarry { get; set; }
 		[Reactive] public bool FlagSign { get; set; }
 		[Reactive] public bool FlagOverflow { get; set; }
-		
+
 		[Reactive] public bool FlagAlt1 { get; set; }
 		[Reactive] public bool FlagAlt2 { get; set; }
 		[Reactive] public bool FlagIrq { get; set; }

@@ -1,19 +1,14 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
-using Avalonia.Media;
 using Mesen.Config;
 using Mesen.Utilities;
 using System;
-using System.Linq;
-using System.IO;
-using System.IO.Compression;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
-using Mesen.Interop;
+using System.Threading.Tasks;
 
 namespace Mesen
 {
@@ -113,7 +108,7 @@ namespace Mesen
 					.With(new Win32PlatformOptions { })
 					.With(new X11PlatformOptions {
 						EnableInputFocusProxy = Environment.GetEnvironmentVariable("XDG_CURRENT_DESKTOP") == "gamescope",
-					 })
+					})
 					.With(new AvaloniaNativePlatformOptions { RenderingMode = new AvaloniaNativeRenderingMode[] { AvaloniaNativeRenderingMode.OpenGl, AvaloniaNativeRenderingMode.Software } })
 					.LogToTrace();
 	}

@@ -1,17 +1,11 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
-using Mesen.Config;
-using Mesen.Localization;
 using Avalonia.Interactivity;
-using Avalonia.Data;
-using Mesen.Debugger.ViewModels;
+using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using Mesen.Debugger.Utilities;
+using System;
+using System.Collections.Generic;
 
 namespace Mesen.Debugger.Controls
 {

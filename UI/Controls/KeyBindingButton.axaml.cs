@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Avalonia.Styling;
 using Avalonia.VisualTree;
 using Mesen.Interop;
 using Mesen.Localization;

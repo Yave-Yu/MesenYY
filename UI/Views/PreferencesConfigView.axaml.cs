@@ -1,17 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using Mesen.Utilities;
-using Mesen.Config;
-using Mesen.Controls;
-using Avalonia.Themes.Fluent;
-using Avalonia.Styling;
-using System.Collections.Generic;
-using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Interactivity;
-using Mesen.Windows;
-using Mesen.Interop;
+using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
+using Mesen.Config;
+using Mesen.Interop;
+using Mesen.Utilities;
+using Mesen.Windows;
 
 namespace Mesen.Views
 {
@@ -26,7 +21,7 @@ namespace Mesen.Views
 		{
 			AvaloniaXamlLoader.Load(this);
 		}
-		
+
 		private void btnResetLagCounter_OnClick(object sender, RoutedEventArgs e)
 		{
 			InputApi.ResetLagCounter();

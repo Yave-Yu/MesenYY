@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Platform;
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
 using Avalonia.Threading;
@@ -9,11 +8,8 @@ using Mesen.Config;
 using Mesen.Interop;
 using Mesen.Localization;
 using Mesen.Utilities;
-using Mesen.ViewModels;
 using Mesen.Windows;
 using System;
-using System.IO;
-using System.Reflection;
 
 namespace Mesen
 {
@@ -28,7 +24,7 @@ namespace Mesen
 			} else {
 				RequestedThemeVariant = ConfigManager.Config.Preferences.Theme == MesenTheme.Dark ? ThemeVariant.Dark : ThemeVariant.Light;
 			}
-			
+
 			Dispatcher.UIThread.UnhandledException += (s, e) => {
 				MesenMsgBox.ShowException(e.Exception);
 				e.Handled = true;

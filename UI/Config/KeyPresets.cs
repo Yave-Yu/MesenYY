@@ -1,6 +1,4 @@
 ﻿using Mesen.Interop;
-using Mesen.Utilities;
-using System;
 
 namespace Mesen.Config
 {

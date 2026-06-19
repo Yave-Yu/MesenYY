@@ -7,10 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Utilities
 {
@@ -23,7 +20,7 @@ namespace Mesen.Debugger.Utilities
 
 		public static event EventHandler? SymbolProviderChanged;
 
-		public static DebugWorkspace Workspace 
+		public static DebugWorkspace Workspace
 		{
 			get
 			{

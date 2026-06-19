@@ -1,16 +1,9 @@
-using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Threading;
-using System;
-using System.ComponentModel;
-using Avalonia.Data;
-using Mesen.Interop;
-using System.Collections.Generic;
-using Avalonia.Input;
 using Mesen.Utilities;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace Mesen.Windows
 {
@@ -22,7 +15,7 @@ namespace Mesen.Windows
 		public List<AboutListEntry> AcknowledgeList { get; }
 
 		public AboutWindow()
-		{			
+		{
 			string? commitHash = UpdateHelper.GetCommitHash();
 			BuildSha = commitHash ?? "";
 			BuildShortSha = commitHash?.Substring(0, 7) ?? "";

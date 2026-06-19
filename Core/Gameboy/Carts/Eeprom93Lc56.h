@@ -41,11 +41,9 @@ public:
 
 	uint8_t Read()
 	{
-		uint8_t result = (
-			(_chipSelect ? 0x80 : 0) |
+		uint8_t result = ((_chipSelect ? 0x80 : 0) |
 			(_clk ? 0x40 : 0) |
-			(_dataIn ? 0x02 : 0)
-		);
+			(_dataIn ? 0x02 : 0));
 
 		if(_mode == Mode::ReadCommand) {
 			if(_readCounter < 0) {
@@ -70,7 +68,6 @@ public:
 			_mode = Mode::Idle;
 			return;
 		}
-
 
 		if(!clk || prevClk) {
 			//Not a rising clock

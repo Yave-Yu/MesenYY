@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Utilities
 {
@@ -18,7 +14,7 @@ namespace Mesen.Utilities
 
 		public string FileName { get { return Compressed ? InnerFile : System.IO.Path.GetFileName(Path); } }
 		public string Folder { get { return System.IO.Path.GetDirectoryName(Path) ?? ""; } }
-		
+
 		public string ReadablePath
 		{
 			get

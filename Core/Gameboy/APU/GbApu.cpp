@@ -190,7 +190,7 @@ void GbApu::ProcessLinkCableAudio()
 	}
 }
 
-void GbApu::GetSoundSamples(int16_t* &samples, uint32_t& sampleCount)
+void GbApu::GetSoundSamples(int16_t*& samples, uint32_t& sampleCount)
 {
 	Run();
 	blip_end_frame(_leftChannel, _clockCounter);
@@ -246,16 +246,30 @@ uint8_t GbApu::Read(uint16_t addr)
 uint8_t GbApu::InternalRead(uint16_t addr)
 {
 	switch(addr) {
-		case 0xFF10: case 0xFF11: case 0xFF12: case 0xFF13: case 0xFF14:
+		case 0xFF10:
+		case 0xFF11:
+		case 0xFF12:
+		case 0xFF13:
+		case 0xFF14:
 			return _square1->Read(addr - 0xFF10);
 
-		case 0xFF16: case 0xFF17: case 0xFF18: case 0xFF19:
+		case 0xFF16:
+		case 0xFF17:
+		case 0xFF18:
+		case 0xFF19:
 			return _square2->Read(addr - 0xFF15);
 
-		case 0xFF1A: case 0xFF1B: case 0xFF1C: case 0xFF1D: case 0xFF1E:
+		case 0xFF1A:
+		case 0xFF1B:
+		case 0xFF1C:
+		case 0xFF1D:
+		case 0xFF1E:
 			return _wave->Read(addr - 0xFF1A);
 
-		case 0xFF20: case 0xFF21: case 0xFF22: case 0xFF23:
+		case 0xFF20:
+		case 0xFF21:
+		case 0xFF22:
+		case 0xFF23:
 			return _noise->Read(addr - 0xFF1F);
 
 		case 0xFF24:
@@ -285,8 +299,22 @@ uint8_t GbApu::InternalRead(uint16_t addr)
 				((_state.ApuEnabled && _square2->Enabled()) ? 0x02 : 0) |
 				((_state.ApuEnabled && _square1->Enabled()) ? 0x01 : 0));
 
-		case 0xFF30: case 0xFF31: case 0xFF32: case 0xFF33: case 0xFF34: case 0xFF35: case 0xFF36: case 0xFF37:
-		case 0xFF38: case 0xFF39: case 0xFF3A: case 0xFF3B: case 0xFF3C: case 0xFF3D: case 0xFF3E: case 0xFF3F:
+		case 0xFF30:
+		case 0xFF31:
+		case 0xFF32:
+		case 0xFF33:
+		case 0xFF34:
+		case 0xFF35:
+		case 0xFF36:
+		case 0xFF37:
+		case 0xFF38:
+		case 0xFF39:
+		case 0xFF3A:
+		case 0xFF3B:
+		case 0xFF3C:
+		case 0xFF3D:
+		case 0xFF3E:
+		case 0xFF3F:
 			return _wave->ReadRam(addr);
 	}
 
@@ -309,19 +337,33 @@ void GbApu::Write(uint16_t addr, uint8_t value)
 	}
 
 	switch(addr) {
-		case 0xFF10: case 0xFF11: case 0xFF12: case 0xFF13: case 0xFF14:
+		case 0xFF10:
+		case 0xFF11:
+		case 0xFF12:
+		case 0xFF13:
+		case 0xFF14:
 			_square1->Write(addr - 0xFF10, value);
 			break;
 
-		case 0xFF16: case 0xFF17: case 0xFF18: case 0xFF19:
+		case 0xFF16:
+		case 0xFF17:
+		case 0xFF18:
+		case 0xFF19:
 			_square2->Write(addr - 0xFF15, value); //Same as square1, but without a sweep unit
 			break;
 
-		case 0xFF1A: case 0xFF1B: case 0xFF1C: case 0xFF1D: case 0xFF1E:
+		case 0xFF1A:
+		case 0xFF1B:
+		case 0xFF1C:
+		case 0xFF1D:
+		case 0xFF1E:
 			_wave->Write(addr - 0xFF1A, value);
 			break;
 
-		case 0xFF20: case 0xFF21: case 0xFF22: case 0xFF23:
+		case 0xFF20:
+		case 0xFF21:
+		case 0xFF22:
+		case 0xFF23:
 			_noise->Write(addr - 0xFF1F, value);
 			break;
 
@@ -384,8 +426,22 @@ void GbApu::Write(uint16_t addr, uint8_t value)
 			}
 			break;
 		}
-		case 0xFF30: case 0xFF31: case 0xFF32: case 0xFF33: case 0xFF34: case 0xFF35: case 0xFF36: case 0xFF37:
-		case 0xFF38: case 0xFF39: case 0xFF3A: case 0xFF3B: case 0xFF3C: case 0xFF3D: case 0xFF3E: case 0xFF3F:
+		case 0xFF30:
+		case 0xFF31:
+		case 0xFF32:
+		case 0xFF33:
+		case 0xFF34:
+		case 0xFF35:
+		case 0xFF36:
+		case 0xFF37:
+		case 0xFF38:
+		case 0xFF39:
+		case 0xFF3A:
+		case 0xFF3B:
+		case 0xFF3C:
+		case 0xFF3D:
+		case 0xFF3E:
+		case 0xFF3F:
 			_wave->WriteRam(addr, value);
 			break;
 	}
@@ -417,7 +473,7 @@ uint8_t GbApu::ReadCgbRegister(uint16_t addr)
 }
 
 template<typename T>
-void GbApu::ProcessLengthEnableFlag(uint8_t value, T &length, bool &lengthEnabled, bool &enabled)
+void GbApu::ProcessLengthEnableFlag(uint8_t value, T& length, bool& lengthEnabled, bool& enabled)
 {
 	bool newLengthEnabled = (value & 0x40) != 0;
 	if(newLengthEnabled && !lengthEnabled && ((_state.FrameSequenceStep & 0x01) == 1 || _skipFirstEventCounter)) {
@@ -449,11 +505,25 @@ void GbApu::Serialize(Serializer& s)
 		blip_clear(_rightChannel);
 	}
 
-	SV(_state.ApuEnabled); SV(_state.FrameSequenceStep);
-	SV(_state.EnableLeftSq1); SV(_state.EnableLeftSq2); SV(_state.EnableLeftWave); SV(_state.EnableLeftNoise);
-	SV(_state.EnableRightSq1); SV(_state.EnableRightSq2); SV(_state.EnableRightWave); SV(_state.EnableRightNoise);
-	SV(_state.LeftVolume); SV(_state.RightVolume); SV(_state.ExtAudioLeftEnabled); SV(_state.ExtAudioRightEnabled);
-	SV(_prevLeftOutput); SV(_prevRightOutput); SV(_clockCounter); SV(_prevClockCount); SV(_skipFirstEventCounter);
+	SV(_state.ApuEnabled);
+	SV(_state.FrameSequenceStep);
+	SV(_state.EnableLeftSq1);
+	SV(_state.EnableLeftSq2);
+	SV(_state.EnableLeftWave);
+	SV(_state.EnableLeftNoise);
+	SV(_state.EnableRightSq1);
+	SV(_state.EnableRightSq2);
+	SV(_state.EnableRightWave);
+	SV(_state.EnableRightNoise);
+	SV(_state.LeftVolume);
+	SV(_state.RightVolume);
+	SV(_state.ExtAudioLeftEnabled);
+	SV(_state.ExtAudioRightEnabled);
+	SV(_prevLeftOutput);
+	SV(_prevRightOutput);
+	SV(_clockCounter);
+	SV(_prevClockCount);
+	SV(_skipFirstEventCounter);
 	SV(_powerOnCycle);
 
 	SV(_square1);

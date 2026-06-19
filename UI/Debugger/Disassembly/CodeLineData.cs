@@ -3,11 +3,8 @@ using Mesen.Debugger.Controls;
 using Mesen.Debugger.Labels;
 using Mesen.Interop;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger
 {
@@ -26,7 +23,7 @@ namespace Mesen.Debugger
 		public byte[] ByteCode = Array.Empty<byte>();
 
 		private string _byteCodeString = "";
-		public string ByteCodeStr 
+		public string ByteCodeStr
 		{
 			get
 			{

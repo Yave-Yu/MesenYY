@@ -63,11 +63,9 @@ vector<ControllerData> BaseControlManager::GetPortStates()
 {
 	vector<ControllerData> states;
 	for(shared_ptr<BaseControlDevice>& device : _controlDevices) {
-		states.push_back({
-			device->GetControllerType(),
+		states.push_back({ device->GetControllerType(),
 			device->GetRawState(),
-			device->GetPort()
-		});
+			device->GetPort() });
 	}
 	return states;
 }

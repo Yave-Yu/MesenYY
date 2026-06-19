@@ -1,22 +1,16 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Data;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.VisualTree;
+using Mesen.Debugger.Controls;
+using Mesen.Utilities;
+using Mesen.ViewModels;
+using Mesen.Windows;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
-using Mesen.Config;
-using Mesen.Localization;
-using Avalonia.Interactivity;
-using Avalonia.Data;
 using System.IO;
-using Mesen.ViewModels;
-using Mesen.Debugger.Controls;
-using Mesen.Windows;
-using Mesen.Utilities;
-using ReactiveUI;
-using System.Reactive;
-using Avalonia.VisualTree;
 
 namespace Mesen.Controls
 {

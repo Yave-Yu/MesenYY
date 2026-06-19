@@ -1,8 +1,4 @@
-﻿using Avalonia.Media;
-using Mesen.ViewModels;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-using System;
+﻿using ReactiveUI.Fody.Helpers;
 
 namespace Mesen.Config
 {

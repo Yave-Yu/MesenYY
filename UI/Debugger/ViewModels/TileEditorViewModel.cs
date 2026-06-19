@@ -6,7 +6,6 @@ using Avalonia.Threading;
 using Mesen.Config;
 using Mesen.Debugger.Controls;
 using Mesen.Debugger.Utilities;
-using Mesen.Debugger.Windows;
 using Mesen.Interop;
 using Mesen.Utilities;
 using Mesen.ViewModels;
@@ -14,8 +13,6 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 
 namespace Mesen.Debugger.ViewModels;
@@ -61,7 +58,7 @@ public class TileEditorViewModel : DisposableViewModel
 		PixelSize size = format.GetTileSize();
 		_tileBuffer = new UInt32[size.Width * size.Height];
 		ViewerBitmap = new DynamicBitmap(new PixelSize(size.Width * _columnCount, size.Height * _rowCount), new Vector(96, 96), PixelFormat.Bgra8888, AlphaFormat.Premul);
-		
+
 		if(Design.IsDesignMode) {
 			return;
 		}
@@ -224,7 +221,7 @@ public class TileEditorViewModel : DisposableViewModel
 					TransformType.TranslateLeft => x < width - 1 ? (x + 1) : 0,
 					TransformType.TranslateRight => x > 0 ? (x - 1) : width - 1,
 					TransformType.TranslateUp => x,
-					TransformType.TranslateDown => x, 
+					TransformType.TranslateDown => x,
 					_ => x
 				};
 

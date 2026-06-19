@@ -1,11 +1,7 @@
 ﻿using Avalonia.Controls;
 using Mesen.Interop;
 using Mesen.Localization;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Utilities
 {

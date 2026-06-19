@@ -1,16 +1,11 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
-using DataBoxControl;
-using Mesen.Debugger.Controls;
 using Mesen.Debugger.Utilities;
 using Mesen.Debugger.ViewModels;
 using Mesen.Interop;
 using System;
-using System.ComponentModel;
 
 namespace Mesen.Debugger.Windows
 {

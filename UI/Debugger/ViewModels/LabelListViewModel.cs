@@ -1,5 +1,4 @@
 ﻿using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Selection;
 using Avalonia.Media;
@@ -13,7 +12,6 @@ using Mesen.Utilities;
 using Mesen.ViewModels;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;

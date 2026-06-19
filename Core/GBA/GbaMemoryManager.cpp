@@ -35,7 +35,7 @@ GbaMemoryManager::GbaMemoryManager(Emulator* emu, GbaConsole* console, GbaPpu* p
 	_prefetch = prefetch;
 
 	_mgbaLog.reset(new MgbaLogHandler());
-	
+
 	_prgRom = (uint8_t*)emu->GetMemory(MemoryType::GbaPrgRom).Memory;
 	_prgRomSize = emu->GetMemory(MemoryType::GbaPrgRom).Size;
 	_bootRom = (uint8_t*)emu->GetMemory(MemoryType::GbaBootRom).Memory;
@@ -161,16 +161,14 @@ void GbaMemoryManager::ProcessPendingUpdates(bool allowStartDma)
 		_ppu->ProcessObjEnableChange();
 	}
 
-	_hasPendingUpdates = (
-		_dmaController->HasPendingDma() ||
+	_hasPendingUpdates = (_dmaController->HasPendingDma() ||
 		_timer->HasPendingTimers() ||
 		_state.IrqUpdateCounter ||
 		_pendingIrqs.size() ||
 		_haltDelay ||
 		_objEnableDelay ||
 		(_dmaController->IsRunning() && _dmaIrqCounter < 10) ||
-		_serial->HasPendingIrq()
-	);
+		_serial->HasPendingIrq());
 }
 
 void GbaMemoryManager::ProcessPendingLateUpdates()
@@ -613,7 +611,7 @@ uint32_t GbaMemoryManager::ReadRegister(uint32_t addr)
 
 void GbaMemoryManager::WriteRegister(GbaAccessModeVal mode, uint32_t addr, uint8_t value)
 {
-	static constexpr uint8_t defaultWaitStates[4] = { 4,3,2,8 };
+	static constexpr uint8_t defaultWaitStates[4] = { 4, 3, 2, 8 };
 
 	switch(addr) {
 		case 0x132:
@@ -621,11 +619,23 @@ void GbaMemoryManager::WriteRegister(GbaAccessModeVal mode, uint32_t addr, uint8
 			_controlManager->WriteInputPort(mode, addr, value);
 			break;
 
-		case 0x200: _state.NewIE = (_state.NewIE & 0xFF00) | value; TriggerIrqUpdate(); break;
-		case 0x201: _state.NewIE = (_state.NewIE & 0xFF) | (value << 8); TriggerIrqUpdate(); break;
+		case 0x200:
+			_state.NewIE = (_state.NewIE & 0xFF00) | value;
+			TriggerIrqUpdate();
+			break;
+		case 0x201:
+			_state.NewIE = (_state.NewIE & 0xFF) | (value << 8);
+			TriggerIrqUpdate();
+			break;
 
-		case 0x202: _state.NewIF = (_state.NewIF & 0xFF00) | ((_state.NewIF & 0xFF) & ~value); TriggerIrqUpdate(); break;
-		case 0x203: _state.NewIF = ((_state.NewIF & 0xFF00) & ~(value << 8)) | (_state.NewIF & 0xFF); TriggerIrqUpdate(); break;
+		case 0x202:
+			_state.NewIF = (_state.NewIF & 0xFF00) | ((_state.NewIF & 0xFF) & ~value);
+			TriggerIrqUpdate();
+			break;
+		case 0x203:
+			_state.NewIF = ((_state.NewIF & 0xFF00) & ~(value << 8)) | (_state.NewIF & 0xFF);
+			TriggerIrqUpdate();
+			break;
 
 		case 0x204:
 			BitUtilities::SetBits<0>(_state.WaitControl, value);
@@ -644,11 +654,14 @@ void GbaMemoryManager::WriteRegister(GbaAccessModeVal mode, uint32_t addr, uint8
 			_state.PrefetchEnabled = (value & 0x40);
 			_waitStates.GenerateWaitStateLut(_state);
 			break;
-		
+
 		case 0x206: break; //waitcontrol
 		case 0x207: break; //waitcontrol
 
-		case 0x208: _state.NewIME = value & 0x01; TriggerIrqUpdate(); break;
+		case 0x208:
+			_state.NewIME = value & 0x01;
+			TriggerIrqUpdate();
+			break;
 		case 0x209: break; //ime
 		case 0x20A: break; //ime
 		case 0x20B: break; //ime
@@ -671,7 +684,7 @@ void GbaMemoryManager::WriteRegister(GbaAccessModeVal mode, uint32_t addr, uint8
 			}
 			break;
 
-		//TODOGBA case 0x800: break;
+			//TODOGBA case 0x800: break;
 
 		default:
 			if(addr < 0x60) {
@@ -815,8 +828,12 @@ uint8_t GbaMemoryManager::DebugRead(uint32_t addr)
 
 		case 0x07: return _oam[addr & (GbaConsole::SpriteRamSize - 1)];
 
-		case 0x08: case 0x09: case 0x0A:
-		case 0x0B: case 0x0C: case 0x0D: {
+		case 0x08:
+		case 0x09:
+		case 0x0A:
+		case 0x0B:
+		case 0x0C:
+		case 0x0D: {
 			uint32_t romAddr = ((bank & 0x01) << 24) | addr;
 			if(romAddr < _prgRomSize) {
 				return _prgRom[romAddr];
@@ -824,7 +841,8 @@ uint8_t GbaMemoryManager::DebugRead(uint32_t addr)
 			break;
 		}
 
-		case 0x0E: case 0x0F:
+		case 0x0E:
+		case 0x0F:
 			return _cart->ReadRam(addr, addr);
 	}
 
@@ -853,21 +871,28 @@ void GbaMemoryManager::DebugWrite(uint32_t addr, uint8_t value)
 
 		case 0x06:
 			if(addr & 0x10000) {
-				_vram[addr & 0x17FFF] = value; break;
+				_vram[addr & 0x17FFF] = value;
+				break;
 			} else {
-				_vram[addr & 0xFFFF] = value; break;
+				_vram[addr & 0xFFFF] = value;
+				break;
 			}
 
 		case 0x07: _oam[addr & (GbaConsole::SpriteRamSize - 1)] = value; break;
 
-		case 0x08: case 0x09: case 0x0A:
-		case 0x0B: case 0x0C: case 0x0D:
+		case 0x08:
+		case 0x09:
+		case 0x0A:
+		case 0x0B:
+		case 0x0C:
+		case 0x0D:
 			if(addr < _prgRomSize) {
 				_prgRom[addr] = value;
 			}
 			break;
 
-		case 0x0E: case 0x0F:
+		case 0x0E:
+		case 0x0F:
 			_cart->DebugWriteRam(addr, value);
 			break;
 	}

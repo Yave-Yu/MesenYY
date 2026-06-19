@@ -1,14 +1,14 @@
 #if (defined(DUMMYCPU) && !defined(__DUMMYCPU__H)) || (!defined(DUMMYCPU) && !defined(__CPU__H))
-#ifdef DUMMYCPU
-#define __DUMMYCPU__H
-#else
-#define __CPU__H
-#endif
+	#ifdef DUMMYCPU
+		#define __DUMMYCPU__H
+	#else
+		#define __CPU__H
+	#endif
 
-#include "pch.h"
-#include "Utilities/ISerializable.h"
-#include "NesTypes.h"
-#include "Shared/MemoryOperationType.h"
+	#include "pch.h"
+	#include "Utilities/ISerializable.h"
+	#include "NesTypes.h"
+	#include "Shared/MemoryOperationType.h"
 
 enum class ConsoleRegion;
 class NesConsole;
@@ -24,7 +24,7 @@ public:
 	static constexpr uint16_t IRQVector = 0xFFFE;
 
 private:
-	typedef void(NesCpu::*Func)();
+	typedef void (NesCpu::*Func)();
 
 	uint64_t _masterClock;
 	uint8_t _ppuOffset;
@@ -141,34 +141,40 @@ private:
 	void MemoryWrite(uint16_t addr, uint8_t value, MemoryOperationType operationType = MemoryOperationType::Write);
 	uint8_t MemoryRead(uint16_t addr, MemoryOperationType operationType = MemoryOperationType::Read);
 
-	uint16_t MemoryReadWord(uint16_t addr, MemoryOperationType operationType = MemoryOperationType::Read) {
+	uint16_t MemoryReadWord(uint16_t addr, MemoryOperationType operationType = MemoryOperationType::Read)
+	{
 		uint8_t lo = MemoryRead(addr, operationType);
 		uint8_t hi = MemoryRead(addr + 1, operationType);
 		return lo | hi << 8;
 	}
 
-	void SetRegister(uint8_t &reg, uint8_t value) {
+	void SetRegister(uint8_t& reg, uint8_t value)
+	{
 		ClearFlags(PSFlags::Zero | PSFlags::Negative);
 		SetZeroNegativeFlags(value);
 		reg = value;
 	}
 
-	void Push(uint8_t value) {
+	void Push(uint8_t value)
+	{
 		MemoryWrite(SP() + 0x100, value);
 		SetSP(SP() - 1);
 	}
 
-	void Push(uint16_t value) {
+	void Push(uint16_t value)
+	{
 		Push((uint8_t)(value >> 8));
 		Push((uint8_t)value);
 	}
 
-	uint8_t Pop() {
+	uint8_t Pop()
+	{
 		SetSP(SP() + 1);
 		return MemoryRead(0x100 + SP());
 	}
 
-	uint16_t PopWord() {
+	uint16_t PopWord()
+	{
 		uint8_t lo = Pop();
 		uint8_t hi = Pop();
 
@@ -206,12 +212,14 @@ private:
 	uint8_t GetImmediate() { return ReadByte(); }
 	uint8_t GetZeroAddr() { return ReadByte(); }
 
-	uint8_t GetZeroXAddr() {
+	uint8_t GetZeroXAddr()
+	{
 		uint8_t value = ReadByte();
 		MemoryRead(value, MemoryOperationType::DummyRead); //Dummy read
 		return value + X();
 	}
-	uint8_t GetZeroYAddr() {
+	uint8_t GetZeroYAddr()
+	{
 		uint8_t value = ReadByte();
 		MemoryRead(value, MemoryOperationType::DummyRead); //Dummy read
 		return value + Y();
@@ -219,7 +227,8 @@ private:
 
 	uint16_t GetAbsAddr() { return ReadWord(); }
 
-	uint16_t GetAbsXAddr(bool dummyRead = true) {
+	uint16_t GetAbsXAddr(bool dummyRead = true)
+	{
 		uint16_t baseAddr = ReadWord();
 		bool pageCrossed = CheckPageCrossed(baseAddr, X());
 
@@ -230,7 +239,8 @@ private:
 		return baseAddr + X();
 	}
 
-	uint16_t GetAbsYAddr(bool dummyRead = true) {
+	uint16_t GetAbsYAddr(bool dummyRead = true)
+	{
 		uint16_t baseAddr = ReadWord();
 		bool pageCrossed = CheckPageCrossed(baseAddr, Y());
 
@@ -242,7 +252,8 @@ private:
 		return baseAddr + Y();
 	}
 
-	uint16_t GetInd() {
+	uint16_t GetInd()
+	{
 		uint16_t addr = GetOperand();
 		if((addr & 0xFF) == 0xFF) {
 			uint8_t lo = MemoryRead(addr);
@@ -253,7 +264,8 @@ private:
 		}
 	}
 
-	uint16_t GetIndXAddr() {
+	uint16_t GetIndXAddr()
+	{
 		uint8_t zero = ReadByte();
 
 		//Dummy read
@@ -272,7 +284,8 @@ private:
 		return addr;
 	}
 
-	uint16_t GetIndYAddr(bool dummyRead = true) {
+	uint16_t GetIndYAddr(bool dummyRead = true)
+	{
 		uint8_t zero = ReadByte();
 
 		uint16_t addr;
@@ -372,7 +385,8 @@ private:
 		return result;
 	}
 
-	uint8_t LSR(uint8_t value) {
+	uint8_t LSR(uint8_t value)
+	{
 		ClearFlags(PSFlags::Carry | PSFlags::Negative | PSFlags::Zero);
 		if(value & 0x01) {
 			SetFlags(PSFlags::Carry);
@@ -383,7 +397,8 @@ private:
 		return result;
 	}
 
-	uint8_t ROL(uint8_t value) {
+	uint8_t ROL(uint8_t value)
+	{
 		bool carryFlag = CheckFlag(PSFlags::Carry);
 		ClearFlags(PSFlags::Carry | PSFlags::Negative | PSFlags::Zero);
 
@@ -396,7 +411,8 @@ private:
 		return result;
 	}
 
-	uint8_t ROR(uint8_t value) {
+	uint8_t ROR(uint8_t value)
+	{
 		bool carryFlag = CheckFlag(PSFlags::Carry);
 		ClearFlags(PSFlags::Carry | PSFlags::Negative | PSFlags::Zero);
 		if(value & 0x01) {
@@ -408,39 +424,45 @@ private:
 		return result;
 	}
 
-	void ASLAddr() {
+	void ASLAddr()
+	{
 		uint16_t addr = GetOperand();
 		uint8_t value = MemoryRead(addr);
 		MemoryWrite(addr, value, MemoryOperationType::DummyWrite); //Dummy write
 		MemoryWrite(addr, ASL(value));
 	}
 
-	void LSRAddr() {
+	void LSRAddr()
+	{
 		uint16_t addr = GetOperand();
 		uint8_t value = MemoryRead(addr);
 		MemoryWrite(addr, value, MemoryOperationType::DummyWrite); //Dummy write
 		MemoryWrite(addr, LSR(value));
 	}
 
-	void ROLAddr() {
+	void ROLAddr()
+	{
 		uint16_t addr = GetOperand();
 		uint8_t value = MemoryRead(addr);
 		MemoryWrite(addr, value, MemoryOperationType::DummyWrite); //Dummy write
 		MemoryWrite(addr, ROL(value));
 	}
 
-	void RORAddr() {
+	void RORAddr()
+	{
 		uint16_t addr = GetOperand();
 		uint8_t value = MemoryRead(addr);
 		MemoryWrite(addr, value, MemoryOperationType::DummyWrite); //Dummy write
 		MemoryWrite(addr, ROR(value));
 	}
 
-	void JMP(uint16_t addr) {
+	void JMP(uint16_t addr)
+	{
 		SetPC(addr);
 	}
 
-	void BranchRelative(bool branch) {
+	void BranchRelative(bool branch)
+	{
 		int8_t offset = (int8_t)GetOperand();
 		if(branch) {
 			//"a taken non-page-crossing branch ignores IRQ/NMI during its last clock, so that next instruction executes before the IRQ"
@@ -460,7 +482,8 @@ private:
 		}
 	}
 
-	void BIT() {
+	void BIT()
+	{
 		uint8_t value = GetOperandValue();
 		ClearFlags(PSFlags::Zero | PSFlags::Overflow | PSFlags::Negative);
 		if((A() & value) == 0) {
@@ -492,17 +515,20 @@ private:
 
 	void PHA() { Push(A()); }
 
-	void PHP() {
+	void PHP()
+	{
 		uint8_t flags = PS() | PSFlags::Break | PSFlags::Reserved;
 		Push((uint8_t)flags);
 	}
 
-	void PLA() {
+	void PLA()
+	{
 		DummyStackRead();
 		SetA(Pop());
 	}
 
-	void PLP() {
+	void PLP()
+	{
 		DummyStackRead();
 		SetPS(Pop());
 	}
@@ -525,12 +551,14 @@ private:
 	void ROR_Acc() { SetA(ROR(A())); }
 	void ROR_Memory() { RORAddr(); }
 
-	void JMP_Abs() {
+	void JMP_Abs()
+	{
 		JMP(GetOperand());
 	}
 	void JMP_Ind() { JMP(GetInd()); }
 
-	void JSR() {
+	void JSR()
+	{
 		uint8_t lo = ReadByte();
 		DummyStackRead();
 		Push(PC());
@@ -538,7 +566,8 @@ private:
 		JMP(addr);
 	}
 
-	void RTS() {
+	void RTS()
+	{
 		DummyStackRead();
 		uint16_t addr = PopWord();
 		SetPC(addr);
@@ -546,35 +575,43 @@ private:
 		SetPC(addr + 1);
 	}
 
-	void BCC() {
+	void BCC()
+	{
 		BranchRelative(!CheckFlag(PSFlags::Carry));
 	}
 
-	void BCS() {
+	void BCS()
+	{
 		BranchRelative(CheckFlag(PSFlags::Carry));
 	}
 
-	void BEQ() {
+	void BEQ()
+	{
 		BranchRelative(CheckFlag(PSFlags::Zero));
 	}
 
-	void BMI() {
+	void BMI()
+	{
 		BranchRelative(CheckFlag(PSFlags::Negative));
 	}
 
-	void BNE() {
+	void BNE()
+	{
 		BranchRelative(!CheckFlag(PSFlags::Zero));
 	}
 
-	void BPL() {
+	void BPL()
+	{
 		BranchRelative(!CheckFlag(PSFlags::Negative));
 	}
 
-	void BVC() {
+	void BVC()
+	{
 		BranchRelative(!CheckFlag(PSFlags::Overflow));
 	}
 
-	void BVS() {
+	void BVS()
+	{
 		BranchRelative(CheckFlag(PSFlags::Overflow));
 	}
 
@@ -588,13 +625,15 @@ private:
 
 	void BRK();
 
-	void RTI() {
+	void RTI()
+	{
 		DummyStackRead();
 		SetPS(Pop());
 		SetPC(PopWord());
 	}
 
-	void NOP() {
+	void NOP()
+	{
 		//Make sure the nop operation takes as many cycles as meant to
 		GetOperandValue();
 	}
@@ -817,7 +856,7 @@ private:
 	}
 
 protected:
-	void Serialize(Serializer &s) override;
+	void Serialize(Serializer& s) override;
 
 public:
 	NesCpu(NesConsole* console);
@@ -856,8 +895,8 @@ public:
 		state.PC = originalPc;
 	}
 
-#ifdef DUMMYCPU
-#undef NesCpu
+	#ifdef DUMMYCPU
+		#undef NesCpu
 private:
 	uint32_t _memOpCounter = 0;
 	MemoryOperationInfo _memOperations[10] = {};
@@ -867,9 +906,9 @@ public:
 	uint32_t GetOperationCount();
 	void LogMemoryOperation(uint32_t addr, uint8_t value, MemoryOperationType type);
 	MemoryOperationInfo GetOperationInfo(uint32_t index);
-#else
+	#else
 	friend DummyNesCpu;
-#endif
+	#endif
 };
 
 #endif

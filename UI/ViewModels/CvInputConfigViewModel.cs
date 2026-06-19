@@ -1,9 +1,6 @@
-﻿using Avalonia.Threading;
-using Mesen.Config;
-using ReactiveUI;
+﻿using Mesen.Config;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Reactive.Linq;
 
 namespace Mesen.ViewModels
 {

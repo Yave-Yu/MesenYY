@@ -4,19 +4,14 @@ using Mesen.Debugger.ViewModels;
 using Mesen.Debugger.Windows;
 using Mesen.Interop;
 using Mesen.Localization;
-using Mesen.Utilities;
-using Mesen.ViewModels;
 using Mesen.Windows;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Mesen.Utilities;
 

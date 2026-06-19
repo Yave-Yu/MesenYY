@@ -1,15 +1,12 @@
-﻿using ReactiveUI.Fody.Helpers;
-using System;
-using System.Reactive.Linq;
-using System.Linq;
-using Mesen.Interop;
+﻿using Avalonia.Controls;
 using Mesen.Config;
+using Mesen.Interop;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
+using System;
+using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
-using Avalonia.Controls;
-using System.Collections.Generic;
-using Mesen.Utilities;
-using Mesen.Windows;
 
 namespace Mesen.ViewModels
 {

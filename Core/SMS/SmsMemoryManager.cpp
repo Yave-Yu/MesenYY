@@ -111,9 +111,9 @@ void SmsMemoryManager::RefreshMappings()
 	if(_model == SmsModel::ColecoVision) {
 		Map(0x0000, 0x1FFF, MemoryType::SmsBootRom, 0, true);
 		for(int i = 0; i < 8; i++) {
-			Map(0x6000+i*0x400, 0x63FF+i*0x400, MemoryType::SmsWorkRam, 0, false);
+			Map(0x6000 + i * 0x400, 0x63FF + i * 0x400, MemoryType::SmsWorkRam, 0, false);
 		}
-		
+
 		//Don't mirror rom (Sammy Lightfoot breaks if mirrored)
 		Map(0x8000, std::min<int>(0x8000 + _prgRomSize - 1, 0xFFFF), MemoryType::SmsPrgRom, 0, true);
 	} else {
@@ -357,11 +357,13 @@ void SmsMemoryManager::WriteSmsPort(uint8_t port, uint8_t value)
 			_controlManager->WriteControlPort(value);
 			break;
 
-		case 0x40: case 0x41:
+		case 0x40:
+		case 0x41:
 			_psg->Write(value);
 			break;
 
-		case 0x80: case 0x81:
+		case 0x80:
+		case 0x81:
 			//Ports: BE (VDP data), BF (VDP control)
 			_vdp->WritePort(port, value);
 			break;
@@ -388,7 +390,8 @@ void SmsMemoryManager::WriteColecoVisionPort(uint8_t port, uint8_t value)
 void SmsMemoryManager::WriteGameGearPort(uint8_t port, uint8_t value)
 {
 	switch(port) {
-		case 0: break; //read-only
+		case 0:
+			break; //read-only
 
 		//TODOSMS GG - input/output ext port
 		case 1: _state.GgExtData = value & 0x7F; break;
@@ -414,7 +417,10 @@ uint8_t SmsMemoryManager::ReadSmsPort(uint8_t port)
 	switch(port & 0xC1) {
 		case 0x00: return GetOpenBus(); //Port 3E (Memory Control)
 
-		case 0x40: case 0x41: case 0x80: case 0x81:
+		case 0x40:
+		case 0x41:
+		case 0x80:
+		case 0x81:
 			//Ports: 7E (V counter), 7F (H counter), BE (VDP data), BF (VDP control)
 			return isPeek ? _vdp->PeekPort(port) : _vdp->ReadPort(port);
 
@@ -457,8 +463,7 @@ uint8_t SmsMemoryManager::ReadGameGearPort(uint8_t port)
 			return (
 				(_controlManager->IsPausePressed() ? 0x00 : 0x80) |
 				(region == ConsoleRegion::NtscJapan ? 0x00 : 0x40) |
-				(region == ConsoleRegion::Pal ? 0x20 : 0x00)
-			);
+				(region == ConsoleRegion::Pal ? 0x20 : 0x00));
 		}
 
 		//TODOSMS GG - input/output ext port
@@ -478,10 +483,12 @@ uint8_t SmsMemoryManager::ReadGameGearPort(uint8_t port)
 				return isPeek ? _vdp->PeekPort(port) : _vdp->ReadPort(port);
 			} else {
 				switch(port) {
-					case 0xC0: case 0xDC:
+					case 0xC0:
+					case 0xDC:
 						return _controlManager->ReadPort(0);
 
-					case 0xC1: case 0xDD:
+					case 0xC1:
+					case 0xDD:
 						return _controlManager->ReadPort(1);
 				}
 			}
@@ -502,7 +509,7 @@ uint32_t SmsMemoryManager::DetectSgCartRam(vector<uint8_t>& romData)
 			}
 		}
 	}
-	
+
 	if(isUnlicensedRom) {
 		_sgRamMapAddress = 0x2000;
 		return 0x2000;
@@ -529,7 +536,7 @@ void SmsMemoryManager::Serialize(Serializer& s)
 	if(_biosMapper) {
 		SV(_biosMapper);
 	}
-	
+
 	SV(_state.OpenBus);
 
 	SV(_state.ExpEnabled);

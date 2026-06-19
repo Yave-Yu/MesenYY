@@ -1,10 +1,5 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Layout;
+﻿using Avalonia.Controls;
 using Avalonia.Platform;
-using Mesen.Config;
-using Mesen.Interop;
-using Mesen.ViewModels;
 using System;
 
 namespace Mesen

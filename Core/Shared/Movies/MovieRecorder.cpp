@@ -70,7 +70,7 @@ bool MovieRecorder::Record(RecordMovieOptions options)
 			//Get rid of any inputs recorded while the game was reloaded
 			_inputData = stringstream();
 		}
-		
+
 		_emu->GetBatteryManager()->SetBatteryProvider(nullptr);
 		_emu->GetBatteryManager()->SetBatteryRecorder(nullptr);
 		_emu->Unlock();
@@ -81,7 +81,7 @@ bool MovieRecorder::Record(RecordMovieOptions options)
 	}
 }
 
-void MovieRecorder::GetGameSettings(stringstream &out)
+void MovieRecorder::GetGameSettings(stringstream& out)
 {
 	EmuSettings* settings = _emu->GetSettings();
 	WriteString(out, MovieKeys::MesenVersion, settings->GetVersionString());
@@ -95,7 +95,7 @@ void MovieRecorder::GetGameSettings(stringstream &out)
 	if(patchFile.IsValid()) {
 		WriteString(out, MovieKeys::PatchFile, patchFile.GetFileName());
 		WriteString(out, MovieKeys::PatchFileSha1, patchFile.GetSha1Hash());
-	
+
 		romFile.ApplyPatch(patchFile);
 		WriteString(out, MovieKeys::PatchedRomSha1, romFile.GetSha1Hash());
 	}
@@ -110,22 +110,22 @@ void MovieRecorder::GetGameSettings(stringstream &out)
 
 	out << settingsOut.str();
 
-	for(CheatCode &code : _emu->GetCheatManager()->GetCheats()) {
-		out << "Cheat " << magic_enum::enum_name(code.Type) << " "  << string(code.Code) << "\n";
+	for(CheatCode& code : _emu->GetCheatManager()->GetCheats()) {
+		out << "Cheat " << magic_enum::enum_name(code.Type) << " " << string(code.Code) << "\n";
 	}
 }
 
-void MovieRecorder::WriteString(stringstream &out, string name, string value)
+void MovieRecorder::WriteString(stringstream& out, string name, string value)
 {
 	out << name << " " << value << "\n";
 }
 
-void MovieRecorder::WriteInt(stringstream &out, string name, uint32_t value)
+void MovieRecorder::WriteInt(stringstream& out, string name, uint32_t value)
 {
 	out << name << " " << std::to_string(value) << "\n";
 }
 
-void MovieRecorder::WriteBool(stringstream &out, string name, bool enabled)
+void MovieRecorder::WriteBool(stringstream& out, string name, bool enabled)
 {
 	out << name << " " << (enabled ? "true" : "false") << "\n";
 }
@@ -144,7 +144,8 @@ bool MovieRecorder::Stop()
 		if(!_author.empty() || !_description.empty()) {
 			stringstream movieInfo;
 			WriteString(movieInfo, "Author", _author);
-			movieInfo << "Description\n" << _description;
+			movieInfo << "Description\n"
+						 << _description;
 			_writer->AddFile(movieInfo, "MovieInfo.txt");
 		}
 
@@ -174,7 +175,7 @@ bool MovieRecorder::Stop()
 
 void MovieRecorder::RecordInput(vector<shared_ptr<BaseControlDevice>> devices)
 {
-	for(shared_ptr<BaseControlDevice> &device : devices) {
+	for(shared_ptr<BaseControlDevice>& device : devices) {
 		_inputData << ("|" + device->GetTextState());
 	}
 	_inputData << "\n";
@@ -190,14 +191,14 @@ vector<uint8_t> MovieRecorder::LoadBattery(string extension)
 	return vector<uint8_t>();
 }
 
-void MovieRecorder::ProcessNotification(ConsoleNotificationType type, void *parameter)
+void MovieRecorder::ProcessNotification(ConsoleNotificationType type, void* parameter)
 {
 	if(type == ConsoleNotificationType::AfterInitConsole) {
 		_emu->RegisterInputRecorder(this);
 	}
 }
 
-bool MovieRecorder::CreateMovie(string movieFile, deque<RewindData> &data, uint32_t startPosition, uint32_t endPosition, bool hasBattery)
+bool MovieRecorder::CreateMovie(string movieFile, deque<RewindData>& data, uint32_t startPosition, uint32_t endPosition, bool hasBattery)
 {
 	shared_ptr<IConsole> console = _emu->GetConsole();
 	if(!console) {
@@ -208,7 +209,7 @@ bool MovieRecorder::CreateMovie(string movieFile, deque<RewindData> &data, uint3
 	_writer.reset(new ZipWriter());
 	if(startPosition < data.size() && endPosition <= data.size() && _writer->Initialize(_filename)) {
 		vector<shared_ptr<BaseControlDevice>> devices = console->GetControlManager()->GetControlDevices();
-		
+
 		if(startPosition > 0 || hasBattery || _emu->GetSettings()->HasRandomPowerOnState(_emu->GetConsoleType())) {
 			//Create a movie from a savestate if we don't start from the beginning (or if the game has save ram, or if the power on state is random)
 			_hasSaveState = true;
@@ -237,7 +238,7 @@ bool MovieRecorder::CreateMovie(string movieFile, deque<RewindData> &data, uint3
 			}
 
 			for(uint32_t j = skipFirstInput ? 1 : 0; j < len; j++) {
-				for(shared_ptr<BaseControlDevice> &device : devices) {
+				for(shared_ptr<BaseControlDevice>& device : devices) {
 					uint8_t port = device->GetPort();
 					if(j < rewindData.InputLogs[port].size()) {
 						device->SetRawState(rewindData.InputLogs[port][j]);

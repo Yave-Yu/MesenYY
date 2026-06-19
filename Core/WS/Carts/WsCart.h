@@ -11,7 +11,7 @@ class WsRtc;
 
 //TODOWS Flash
 
-class WsCart final: public ISerializable
+class WsCart final : public ISerializable
 {
 protected:
 	WsCartState _state = {};
@@ -19,7 +19,7 @@ protected:
 	WsMemoryManager* _memoryManager = nullptr;
 	WsEeprom* _cartEeprom = nullptr;
 	WsRtc* _cartRtc = nullptr;
-	
+
 	void Map(uint32_t start, uint32_t end, MemoryType type, uint32_t offset, bool readonly);
 	void Unmap(uint32_t start, uint32_t end);
 
@@ -29,7 +29,7 @@ public:
 
 	void Init(WsMemoryManager* memoryManager, WsEeprom* cartEeprom, WsRtc* cartRtc);
 	void RefreshMappings();
-	
+
 	WsCartState& GetState() { return _state; }
 	WsEeprom* GetEeprom() { return _cartEeprom; }
 	WsRtc* GetRtc() { return _cartRtc; }

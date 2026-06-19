@@ -3,11 +3,9 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.Config;
-using Mesen.Controls;
 using Mesen.Utilities;
 using Mesen.ViewModels;
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Mesen.Windows

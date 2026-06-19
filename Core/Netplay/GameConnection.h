@@ -23,7 +23,7 @@ private:
 	void ReadSocket();
 	virtual void ProcessPendingEvents() {}
 
-	bool ExtractMessage(void *buffer, uint32_t &messageLength);
+	bool ExtractMessage(void* buffer, uint32_t& messageLength);
 	NetMessage* ReadMessage();
 
 	virtual void ProcessMessage(NetMessage* message) = 0;
@@ -38,5 +38,5 @@ public:
 
 	bool ConnectionError();
 	void ProcessMessages();
-	void SendNetMessage(NetMessage &message);
+	void SendNetMessage(NetMessage& message);
 };

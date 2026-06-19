@@ -3,11 +3,6 @@ using Mesen.Interop;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.ViewModels
 {
@@ -15,7 +10,7 @@ namespace Mesen.ViewModels
 	{
 		[Reactive] public AudioPlayerConfig Config { get; set; }
 		[Reactive] public bool IsPaused { get; set; }
-		
+
 		public AudioPlayerViewModel()
 		{
 			Config = ConfigManager.Config.AudioPlayer;

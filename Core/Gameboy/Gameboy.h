@@ -75,14 +75,14 @@ public:
 
 	Gameboy(Emulator* emu, bool allowSgb = false);
 	virtual ~Gameboy();
-	
+
 	static vector<string> GetSupportedExtensions() { return { ".gb", ".gbc", ".gbx", ".gbs" }; }
 	static vector<string> GetSupportedSignatures() { return { "GBS" }; }
 
 	void PowerOn(SuperGameboy* sgb);
 
 	void RunSgb(uint64_t runUntilClock);
-	
+
 	void LoadBattery();
 	void SaveBattery() override;
 
@@ -92,7 +92,7 @@ public:
 	GbPpu* GetPpu();
 	GbCpu* GetCpu();
 	GbTimer* GetTimer();
-	void GetSoundSamples(int16_t* &samples, uint32_t& sampleCount);
+	void GetSoundSamples(int16_t*& samples, uint32_t& sampleCount);
 	GbState GetState();
 	void GetConsoleState(BaseState& state, ConsoleType consoleType) override;
 	GameboyHeader GetHeader();
@@ -111,7 +111,7 @@ public:
 
 	uint64_t GetCycleCount();
 	uint64_t GetApuCycleCount();
-	
+
 	void ProcessEndOfFrame();
 
 	void RunApu();

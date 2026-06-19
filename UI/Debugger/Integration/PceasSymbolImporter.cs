@@ -7,9 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Integration;
 
@@ -235,7 +233,7 @@ public class PceasSymbolImporter : ISymbolProvider
 
 							SymbolInfo symbol = new(originalLabel, absAddr);
 							_symbols.Add(symbol);
-							
+
 							string orgLabel = label;
 							int j = 1;
 							while(labels.ContainsKey(label)) {

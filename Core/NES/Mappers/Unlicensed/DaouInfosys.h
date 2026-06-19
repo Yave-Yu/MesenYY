@@ -44,11 +44,22 @@ protected:
 	void WriteRegister(uint16_t addr, uint8_t value) override
 	{
 		switch(addr) {
-			case 0xC000: case 0xC001: case 0xC002: case 0xC003:
-			case 0xC004: case 0xC005: case 0xC006: case 0xC007:
-			case 0xC008: case 0xC009: case 0xC00A: case 0xC00B:
-			case 0xC00C: case 0xC00D: case 0xC00E: case 0xC00F:
-			{
+			case 0xC000:
+			case 0xC001:
+			case 0xC002:
+			case 0xC003:
+			case 0xC004:
+			case 0xC005:
+			case 0xC006:
+			case 0xC007:
+			case 0xC008:
+			case 0xC009:
+			case 0xC00A:
+			case 0xC00B:
+			case 0xC00C:
+			case 0xC00D:
+			case 0xC00E:
+			case 0xC00F: {
 				uint8_t bank = (addr & 0x03) + ((addr >= 0xC008) ? 4 : 0);
 				uint8_t* arr = (addr & 0x04) ? _chrHigh : _chrLow;
 				arr[bank] = value;
@@ -64,6 +75,5 @@ protected:
 				SetMirroringType((value & 0x01) == 0x01 ? MirroringType::Horizontal : MirroringType::Vertical);
 				break;
 		}
-
 	}
 };

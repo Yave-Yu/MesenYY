@@ -1,11 +1,8 @@
 ﻿using Mesen.Config;
 using Mesen.Interop;
 using Mesen.Utilities;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
 using System.IO;
-using System.Reactive.Linq;
 
 namespace Mesen.ViewModels
 {
@@ -13,7 +10,7 @@ namespace Mesen.ViewModels
 	{
 		[Reactive] public string SavePath { get; set; }
 		[Reactive] public MovieRecordConfig Config { get; set; }
-		
+
 		public MovieRecordConfigViewModel()
 		{
 			Config = ConfigManager.Config.MovieRecord.Clone();
@@ -25,5 +22,5 @@ namespace Mesen.ViewModels
 		{
 			ConfigManager.Config.MovieRecord = Config.Clone();
 		}
-   }
+	}
 }

@@ -1,34 +1,27 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Threading;
 using Mesen.Config;
 using Mesen.Config.Shortcuts;
 using Mesen.Interop;
 using Mesen.Localization;
-using Mesen.Utilities;
 using Mesen.Views;
-using Mesen.Windows;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.ViewModels
 {
 	public class NesInputConfigViewModel : DisposableViewModel
 	{
 		[Reactive] public NesConfig Config { get; set; }
-		
+
 		public List<ShortcutKeyInfo> ShortcutKeys { get; set; }
 
 		private MainWindowViewModel MainWindow { get; }
-		
+
 		[Reactive] public bool ShowMapperInput { get; private set; }
 		[Reactive] public bool HasFourScore { get; private set; }
 		[ObservableAsProperty] public bool HasFourPlayerAdapter { get; }
@@ -130,7 +123,7 @@ namespace Mesen.ViewModels
 			}));
 
 			AddDisposable(this.WhenAnyValue(x => x.Config.ExpPort.Type).Select(t => t == ControllerType.FourPlayerAdapter).ToPropertyEx(this, x => x.HasFourPlayerAdapter));
-			
+
 			AddDisposable(
 				this.WhenAnyValue(x => x.Config.ExpPort.Type)
 					.Select(t => t == ControllerType.TwoPlayerAdapter || t == ControllerType.FourPlayerAdapter)

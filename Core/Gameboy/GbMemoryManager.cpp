@@ -120,7 +120,7 @@ void GbMemoryManager::Map(uint16_t start, uint16_t end, GbMemoryType type, uint3
 		while(offset >= size) {
 			offset -= size;
 		}
-		
+
 		src += offset;
 		for(int i = start; i < end; i += 0x100) {
 			_reads[i >> 8] = src;
@@ -163,7 +163,7 @@ uint8_t GbMemoryManager::Read(uint16_t addr)
 	if(_dmaController->IsOamDmaRunning()) {
 		addr = _dmaController->ProcessOamDmaReadConflict(addr);
 	}
-	
+
 	if(_state.IsReadRegister[addr >> 8]) {
 		_ppu->ProcessOamCorruption<oamCorruptionType>(addr);
 		value = ReadRegister(addr);
@@ -303,7 +303,10 @@ uint8_t GbMemoryManager::ReadRegister(uint16_t addr)
 						return _state.CgbRegRpInfrared | 0x3E;
 
 					case 0xFF4F: //CGB - VRAM bank
-					case 0xFF68: case 0xFF69: case 0xFF6A: case 0xFF6B: //CGB - Palette
+					case 0xFF68:
+					case 0xFF69:
+					case 0xFF6A:
+					case 0xFF6B: //CGB - Palette
 						return _ppu->ReadCgbRegister(addr);
 
 					//FF70 - SVBK - CGB Mode Only - WRAM Bank
@@ -319,7 +322,8 @@ uint8_t GbMemoryManager::ReadRegister(uint16_t addr)
 
 					case 0xFF75: return _state.CgbRegFF75 | 0x8F;
 
-					case 0xFF76: case 0xFF77:
+					case 0xFF76:
+					case 0xFF77:
 						return _apu->ReadCgbRegister(addr);
 				}
 			}
@@ -339,7 +343,10 @@ uint8_t GbMemoryManager::ReadRegister(uint16_t addr)
 				case 0xFF01: return _state.SerialData; //SB - Serial transfer data (R/W)
 				case 0xFF02: return _state.SerialControl | (_gameboy->IsCgb() ? 0x7C : 0x7E); //SC - Serial Transfer Control (R/W)
 
-				case 0xFF04: case 0xFF05: case 0xFF06: case 0xFF07:
+				case 0xFF04:
+				case 0xFF05:
+				case 0xFF06:
+				case 0xFF07:
 					return _timer->Read(addr);
 
 				case 0xFF0F: return _state.IrqRequests | 0xE0; //IF - Interrupt flags (R/W)
@@ -381,7 +388,11 @@ void GbMemoryManager::WriteRegister(uint16_t addr, uint8_t value)
 						}
 						break;
 
-					case 0xFF51: case 0xFF52: case 0xFF53: case 0xFF54: case 0xFF55: //CGB - DMA
+					case 0xFF51:
+					case 0xFF52:
+					case 0xFF53:
+					case 0xFF54:
+					case 0xFF55: //CGB - DMA
 						if(_ppu->IsCgbEnabled()) {
 							_dmaController->WriteCgb(addr, value);
 						}
@@ -401,7 +412,10 @@ void GbMemoryManager::WriteRegister(uint16_t addr, uint8_t value)
 						break;
 
 					case 0xFF4F: //CGB - VRAM banking
-					case 0xFF68: case 0xFF69: case 0xFF6A: case 0xFF6B: //CGB - Palette
+					case 0xFF68:
+					case 0xFF69:
+					case 0xFF6A:
+					case 0xFF6B: //CGB - Palette
 						_ppu->WriteCgbRegister(addr, value);
 						break;
 
@@ -447,7 +461,10 @@ void GbMemoryManager::WriteRegister(uint16_t addr, uint8_t value)
 					}
 					break;
 
-				case 0xFF04: case 0xFF05: case 0xFF06: case 0xFF07:
+				case 0xFF04:
+				case 0xFF05:
+				case 0xFF06:
+				case 0xFF07:
 					_timer->Write(addr, value);
 					break;
 
@@ -597,10 +614,21 @@ bool GbMemoryManager::ExchangeSerialBits(bool serialBit)
 
 void GbMemoryManager::Serialize(Serializer& s)
 {
-	SV(_state.DisableBootRom); SV(_state.IrqEnabled); SV(_state.IrqRequests);
-	SV(_state.ApuCycleCount); SV(_state.CgbHighSpeed); SV(_state.CgbSwitchSpeedRequest); SV(_state.CgbWorkRamBank);
-	SV(_state.SerialData); SV(_state.SerialControl); SV(_state.SerialBitCount); SV(_state.MostRecentSerialBit);
-	SV(_state.CgbRegFF72); SV(_state.CgbRegFF73); SV(_state.CgbRegFF74); SV(_state.CgbRegFF75);
+	SV(_state.DisableBootRom);
+	SV(_state.IrqEnabled);
+	SV(_state.IrqRequests);
+	SV(_state.ApuCycleCount);
+	SV(_state.CgbHighSpeed);
+	SV(_state.CgbSwitchSpeedRequest);
+	SV(_state.CgbWorkRamBank);
+	SV(_state.SerialData);
+	SV(_state.SerialControl);
+	SV(_state.SerialBitCount);
+	SV(_state.MostRecentSerialBit);
+	SV(_state.CgbRegFF72);
+	SV(_state.CgbRegFF73);
+	SV(_state.CgbRegFF74);
+	SV(_state.CgbRegFF75);
 	SV(_state.CgbRegRpInfrared);
 
 	if(!s.IsSaving()) {

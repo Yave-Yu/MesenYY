@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 #include "pch.h"
 #include "NES/NesConsole.h"
 #include "NES/APU/NesApu.h"
@@ -60,7 +60,7 @@ public:
 		_currentReg = 0;
 		_muted = false;
 		_clockTimer = 0;
-		
+
 		_opll = OPLL_new(Vrc7Audio::OpllClockRate, Vrc7Audio::OpllSampleRate);
 
 		//Set OPLL emulator to VRC7 mode

@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Mesen.Utilities;
 using Mesen.Config;
 using System.Collections.Generic;
 

@@ -4,17 +4,12 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
-using Mesen.Config;
-using Mesen.Controls;
 using Mesen.Debugger.Integration;
 using Mesen.Debugger.Utilities;
 using Mesen.Debugger.ViewModels;
 using Mesen.Interop;
 using Mesen.Utilities;
-using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Mesen.Debugger.Windows
@@ -29,7 +24,7 @@ namespace Mesen.Debugger.Windows
 		public GoToAllWindow(GoToAllViewModel model)
 		{
 			_model = model;
-			DataContext =  model;
+			DataContext = model;
 
 			InitializeComponent();
 #if DEBUG
@@ -98,7 +93,7 @@ namespace Mesen.Debugger.Windows
 				case Key.PageUp: MoveSelection(-5); e.Handled = true; break;
 				case Key.Home: _model.SelectionModel.SelectedIndex = 0; e.Handled = true; break;
 				case Key.End: _model.SelectionModel.SelectedIndex = _model.SearchResults.Count - 1; e.Handled = true; break;
-			} 
+			}
 			base.OnKeyDown(e);
 		}
 
@@ -109,7 +104,7 @@ namespace Mesen.Debugger.Windows
 				Close();
 			}
 		}
-		
+
 		private void Select_OnClick(object sender, RoutedEventArgs e)
 		{
 			SelectAndClose();

@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Mesen.Interop;
 
 namespace Mesen.Views
 {

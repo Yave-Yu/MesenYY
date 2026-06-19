@@ -5,7 +5,6 @@ using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Mesen.Config;
 using Mesen.Interop;
 using Mesen.Localization;
 using Mesen.Utilities;
@@ -193,7 +192,7 @@ namespace Mesen.Debugger.Controls
 				AddEntry(name, value == NullableBoolean.True);
 			}
 		}
-		
+
 		public void AddEntry(string name, object value, bool useMonoFont = false)
 		{
 			_updatedKeys.Add(name);

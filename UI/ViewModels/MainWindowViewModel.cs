@@ -3,18 +3,11 @@ using Mesen.Config;
 using Mesen.Controls;
 using Mesen.Interop;
 using Mesen.Localization;
-using Mesen.Utilities;
 using Mesen.Windows;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.ViewModels
 {
@@ -31,7 +24,7 @@ namespace Mesen.ViewModels
 		[Reactive] public Size RendererSize { get; set; }
 
 		[Reactive] public bool IsMenuVisible { get; set; }
-		
+
 		[Reactive] public bool IsNativeRendererVisible { get; set; }
 		[Reactive] public bool IsSoftwareRendererVisible { get; set; }
 
@@ -60,7 +53,7 @@ namespace Mesen.ViewModels
 				IsNativeRendererVisible = !RecentGames.Visible && SoftwareRenderer.FrameSurface == null;
 				IsSoftwareRendererVisible = !RecentGames.Visible && SoftwareRenderer.FrameSurface != null;
 			});
-			
+
 			this.WhenAnyValue(x => x.RomInfo).Subscribe(x => {
 				bool showAudioPlayer = x.Format == RomFormat.Nsf || x.Format == RomFormat.Spc || x.Format == RomFormat.Gbs || x.Format == RomFormat.PceHes;
 				if(AudioPlayer == null && showAudioPlayer) {

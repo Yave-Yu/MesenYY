@@ -18,74 +18,298 @@ static constexpr const char* _modSegRegLut[4] = { "ES", "CS", "SS", "DS" };
 
 constexpr const char* _opTemplate[256] = {
 	//0-0F
-	"ADD m", "ADD m", "ADD m", "ADD m", "ADD AL, i", "ADD AX, j", "PUSH ES", "POP ES",
-	"OR m",  "OR m",  "OR m",  "OR m",  "OR AL, i",  "OR AX, j",  "PUSH CS", "UNDEFINED_0F",
-	
+	"ADD m",
+	"ADD m",
+	"ADD m",
+	"ADD m",
+	"ADD AL, i",
+	"ADD AX, j",
+	"PUSH ES",
+	"POP ES",
+	"OR m",
+	"OR m",
+	"OR m",
+	"OR m",
+	"OR AL, i",
+	"OR AX, j",
+	"PUSH CS",
+	"UNDEFINED_0F",
+
 	//10-1F
-	"ADC m", "ADC m", "ADC m", "ADC m", "ADC AL, i", "ADC AX, j", "PUSH SS", "POP SS",
-	"SBB m", "SBB m", "SBB m", "SBB m", "SBB AL, i", "SBB AX, j", "PUSH DS", "POP DS",
+	"ADC m",
+	"ADC m",
+	"ADC m",
+	"ADC m",
+	"ADC AL, i",
+	"ADC AX, j",
+	"PUSH SS",
+	"POP SS",
+	"SBB m",
+	"SBB m",
+	"SBB m",
+	"SBB m",
+	"SBB AL, i",
+	"SBB AX, j",
+	"PUSH DS",
+	"POP DS",
 
 	//20-2F
-	"AND m", "AND m", "AND m", "AND m", "AND AL, i", "AND AX, j", "ES:", "DAA",
-	"SUB m", "SUB m", "SUB m", "SUB m", "SUB AL, i", "SUB AX, j", "CS:", "DAS",
+	"AND m",
+	"AND m",
+	"AND m",
+	"AND m",
+	"AND AL, i",
+	"AND AX, j",
+	"ES:",
+	"DAA",
+	"SUB m",
+	"SUB m",
+	"SUB m",
+	"SUB m",
+	"SUB AL, i",
+	"SUB AX, j",
+	"CS:",
+	"DAS",
 
 	//30-3F
-	"XOR m", "XOR m", "XOR m", "XOR m", "XOR AL, i", "XOR AX, j", "SS:", "AAA",
-	"CMP m", "CMP m", "CMP m", "CMP m", "CMP AL, i", "CMP AX, j", "DS:", "AAS",
+	"XOR m",
+	"XOR m",
+	"XOR m",
+	"XOR m",
+	"XOR AL, i",
+	"XOR AX, j",
+	"SS:",
+	"AAA",
+	"CMP m",
+	"CMP m",
+	"CMP m",
+	"CMP m",
+	"CMP AL, i",
+	"CMP AX, j",
+	"DS:",
+	"AAS",
 
 	//40-4F
-	"INC AX", "INC CX", "INC DX", "INC BX", "INC SP", "INC BP", "INC SI", "INC DI",
-	"DEC AX", "DEC CX", "DEC DX", "DEC BX", "DEC SP", "DEC BP", "DEC SI", "DEC DI",
+	"INC AX",
+	"INC CX",
+	"INC DX",
+	"INC BX",
+	"INC SP",
+	"INC BP",
+	"INC SI",
+	"INC DI",
+	"DEC AX",
+	"DEC CX",
+	"DEC DX",
+	"DEC BX",
+	"DEC SP",
+	"DEC BP",
+	"DEC SI",
+	"DEC DI",
 
 	//50-5F
-	"PUSH AX", "PUSH CX", "PUSH DX", "PUSH BX", "PUSH SP", "PUSH BP", "PUSH SI", "PUSH DI",
-	"POP AX", "POP CX", "POP DX", "POP BX", "POP SP", "POP BP", "POP SI", "POP DI",
+	"PUSH AX",
+	"PUSH CX",
+	"PUSH DX",
+	"PUSH BX",
+	"PUSH SP",
+	"PUSH BP",
+	"PUSH SI",
+	"PUSH DI",
+	"POP AX",
+	"POP CX",
+	"POP DX",
+	"POP BX",
+	"POP SP",
+	"POP BP",
+	"POP SI",
+	"POP DI",
 
 	//60-6F
-	"PUSHA", "POPA", "BOUND p", "UNDEFINED_63", "UNDEFINED_64", "UNDEFINED_65", "UNDEFINED_66", "UNDEFINED_67",
-	"PUSH j", "IMUL n, j", "PUSH i", "IMUL n, i", "INSB", "INSW", "OUTSB", "OUTSW",
+	"PUSHA",
+	"POPA",
+	"BOUND p",
+	"UNDEFINED_63",
+	"UNDEFINED_64",
+	"UNDEFINED_65",
+	"UNDEFINED_66",
+	"UNDEFINED_67",
+	"PUSH j",
+	"IMUL n, j",
+	"PUSH i",
+	"IMUL n, i",
+	"INSB",
+	"INSW",
+	"OUTSB",
+	"OUTSW",
 
 	//70-7F
-	"JO r", "JNO r", "JB r", "JNB r", "JZ r", "JNZ r", "JBE r", "JA r",
-	"JS r", "JNS r", "JPE r", "JPO r", "JL r", "JGE r", "JLE r", "JG r",
+	"JO r",
+	"JNO r",
+	"JB r",
+	"JNB r",
+	"JZ r",
+	"JNZ r",
+	"JBE r",
+	"JA r",
+	"JS r",
+	"JNS r",
+	"JPE r",
+	"JPO r",
+	"JL r",
+	"JGE r",
+	"JLE r",
+	"JG r",
 
 	//80-8F
-	"v", "v", "v", "v", "TEST m", "TEST m", "XCHG m", "XCHG m",
-	"MOV m", "MOV m", "MOV m", "MOV m", "MOV q", "LEA o", "MOV q", "POP n",
+	"v",
+	"v",
+	"v",
+	"v",
+	"TEST m",
+	"TEST m",
+	"XCHG m",
+	"XCHG m",
+	"MOV m",
+	"MOV m",
+	"MOV m",
+	"MOV m",
+	"MOV q",
+	"LEA o",
+	"MOV q",
+	"POP n",
 
 	//90-9F
-	"NOP", "XCHG CX, AX", "XCHG DX, AX", "XCHG BX, AX", "XCHG SP, AX", "XCHG BP, AX", "XCHG SI, AX", "XCHG DI, AX",
-	"CBW", "CWD", "CALL t", "WAIT", "PUSHF", "POPF", "SAHF", "LAHF",
+	"NOP",
+	"XCHG CX, AX",
+	"XCHG DX, AX",
+	"XCHG BX, AX",
+	"XCHG SP, AX",
+	"XCHG BP, AX",
+	"XCHG SI, AX",
+	"XCHG DI, AX",
+	"CBW",
+	"CWD",
+	"CALL t",
+	"WAIT",
+	"PUSHF",
+	"POPF",
+	"SAHF",
+	"LAHF",
 
 	//A0-AF
-	"MOV AL, a", "MOV AX, a", "MOV a, AL", "MOV a, AX", "MOVSB", "MOVSW", "CMPSB", "CMPSW",
-	"TEST AL, i", "TEST AX, j", "STOSB", "STOSW", "LODSB", "LODSW", "SCASB", "SCASW",
+	"MOV AL, a",
+	"MOV AX, a",
+	"MOV a, AL",
+	"MOV a, AX",
+	"MOVSB",
+	"MOVSW",
+	"CMPSB",
+	"CMPSW",
+	"TEST AL, i",
+	"TEST AX, j",
+	"STOSB",
+	"STOSW",
+	"LODSB",
+	"LODSW",
+	"SCASB",
+	"SCASW",
 
 	//B0-BF
-	"MOV AL, i", "MOV CL, i", "MOV DL, i", "MOV BL, i", "MOV AH, i", "MOV CH, i", "MOV DH, i", "MOV BH, i", 
-	"MOV AX, j", "MOV CX, j", "MOV DX, j", "MOV BX, j", "MOV SP, j", "MOV BP, j", "MOV SI, j", "MOV DI, j",
+	"MOV AL, i",
+	"MOV CL, i",
+	"MOV DL, i",
+	"MOV BL, i",
+	"MOV AH, i",
+	"MOV CH, i",
+	"MOV DH, i",
+	"MOV BH, i",
+	"MOV AX, j",
+	"MOV CX, j",
+	"MOV DX, j",
+	"MOV BX, j",
+	"MOV SP, j",
+	"MOV BP, j",
+	"MOV SI, j",
+	"MOV DI, j",
 
 	//C0-CF
-	"w, i", "w, i", "RET j", "RET", "LES o", "LDS o", "MOV n, i", "MOV n, j",
-	"ENTER j, i", "LEAVE", "RETF j", "RETF", "INT 3", "INT i" , "INTO", "IRET",
+	"w, i",
+	"w, i",
+	"RET j",
+	"RET",
+	"LES o",
+	"LDS o",
+	"MOV n, i",
+	"MOV n, j",
+	"ENTER j, i",
+	"LEAVE",
+	"RETF j",
+	"RETF",
+	"INT 3",
+	"INT i",
+	"INTO",
+	"IRET",
 
 	//D0-DF
-	"w", "w", "w, CL", "w, CL", "AAM i", "AAD i", "SALC", "XLAT",
-	"UNDEFINED_D8", "UNDEFINED_D9", "UNDEFINED_DA", "UNDEFINED_DB", "UNDEFINED_DC", "UNDEFINED_DD", "UNDEFINED_DE", "UNDEFINED_DF",
+	"w",
+	"w",
+	"w, CL",
+	"w, CL",
+	"AAM i",
+	"AAD i",
+	"SALC",
+	"XLAT",
+	"UNDEFINED_D8",
+	"UNDEFINED_D9",
+	"UNDEFINED_DA",
+	"UNDEFINED_DB",
+	"UNDEFINED_DC",
+	"UNDEFINED_DD",
+	"UNDEFINED_DE",
+	"UNDEFINED_DF",
 
 	//E0-EF
-	"LOOPNZ r", "LOOPZ r", "LOOP r", "JCXZ r", "IN AL, i", "IN AX, i", "OUT i, AL", "OUT i, AX",
-	"CALL s", "JMP s", "JMP t", "JMP r", "IN AL, DX", "IN AX, DX", "OUT DX, AL", "OUT DX, AX",
+	"LOOPNZ r",
+	"LOOPZ r",
+	"LOOP r",
+	"JCXZ r",
+	"IN AL, i",
+	"IN AX, i",
+	"OUT i, AL",
+	"OUT i, AX",
+	"CALL s",
+	"JMP s",
+	"JMP t",
+	"JMP r",
+	"IN AL, DX",
+	"IN AX, DX",
+	"OUT DX, AL",
+	"OUT DX, AX",
 
 	//F0-FF
-	"LOCK", "UNDEFINED_F1", "REPNZ", "REPZ", "HLT", "CMC", "x", "x",
-	"CLC", "STC", "CLI", "STI", "CLD", "STD", "y", "z"
+	"LOCK",
+	"UNDEFINED_F1",
+	"REPNZ",
+	"REPZ",
+	"HLT",
+	"CMC",
+	"x",
+	"x",
+	"CLC",
+	"STC",
+	"CLI",
+	"STI",
+	"CLD",
+	"STD",
+	"y",
+	"z"
 };
 
 void WsDisUtils::GetDisassembly(DisassemblyInfo& info, string& out, uint32_t memoryAddr, LabelManager* labelManager, EmuSettings* settings)
 {
 	FastString str(settings->GetDebugConfig().UseLowerCaseDisassembly);
-	
+
 	uint8_t* byteCode = info.GetByteCode();
 	uint8_t opCode = byteCode[0];
 
@@ -121,8 +345,14 @@ void WsDisUtils::GetDisassembly(DisassemblyInfo& info, string& out, uint32_t mem
 				break;
 
 			//Immediate values
-			case 'i': str.WriteAll("$", HexUtilities::ToHex(byteCode[1])); byteCode++; break;
-			case 'j': str.WriteAll("$", HexUtilities::ToHex((uint16_t)(byteCode[1] | (byteCode[2] << 8)))); byteCode += 2; break;
+			case 'i':
+				str.WriteAll("$", HexUtilities::ToHex(byteCode[1]));
+				byteCode++;
+				break;
+			case 'j':
+				str.WriteAll("$", HexUtilities::ToHex((uint16_t)(byteCode[1] | (byteCode[2] << 8))));
+				byteCode += 2;
+				break;
 
 			//ModRM (2 operands)
 			case 'm': {
@@ -174,13 +404,13 @@ void WsDisUtils::GetDisassembly(DisassemblyInfo& info, string& out, uint32_t mem
 					str.Write(", ");
 					GetModSegRegParam(str, byteCode);
 				}
-				break;	
+				break;
 			}
 
 			//Relative jumps
-			case 'r': GetJmpDestination(str, byteCode+1, 1); break;
-			case 's': GetJmpDestination(str, byteCode+1, 2); break;
-			case 't': GetJmpDestination(str, byteCode+1, 4); break;
+			case 'r': GetJmpDestination(str, byteCode + 1, 1); break;
+			case 's': GetJmpDestination(str, byteCode + 1, 2); break;
+			case 't': GetJmpDestination(str, byteCode + 1, 4); break;
 
 			case 'v': //GRP1
 				switch((byteCode[1] >> 3) & 0x07) {
@@ -297,7 +527,8 @@ void WsDisUtils::GetJmpDestination(FastString& str, uint8_t* byteCode, uint8_t s
 void WsDisUtils::GetSegment(FastString& str, WsSegment segment, const char* defaultSegment)
 {
 	switch(segment) {
-		default: case WsSegment::Default: str.WriteAll(defaultSegment, ':'); break;
+		default:
+		case WsSegment::Default: str.WriteAll(defaultSegment, ':'); break;
 		case WsSegment::ES: str.Write("ES:"); break;
 		case WsSegment::SS: str.Write("SS:"); break;
 		case WsSegment::CS: str.Write("CS:"); break;
@@ -332,14 +563,38 @@ int WsDisUtils::GetModRmParam(FastString& str, uint8_t* byteCode, WsSegment segm
 	if(mode == 3) {
 		if(forLeaLdsLes) {
 			switch(rm) {
-				case 0x00: GetSegment(str, segment, "DS"); str.Write("[BX+AX]"); break;
-				case 0x01: GetSegment(str, segment, "DS"); str.Write("[BX+CX]"); break;
-				case 0x02: GetSegment(str, segment, "SS"); str.Write("[BP+DX]"); break;
-				case 0x03: GetSegment(str, segment, "SS"); str.Write("[BP+BX]"); break;
-				case 0x04: GetSegment(str, segment, "DS"); str.Write("[SP+SI]"); break;
-				case 0x05: GetSegment(str, segment, "DS"); str.Write("[BP+DI]"); break;
-				case 0x06: GetSegment(str, segment, "SS"); str.Write("[BP+SI]"); break;
-				case 0x07: GetSegment(str, segment, "DS"); str.Write("[BX+DI]"); break;
+				case 0x00:
+					GetSegment(str, segment, "DS");
+					str.Write("[BX+AX]");
+					break;
+				case 0x01:
+					GetSegment(str, segment, "DS");
+					str.Write("[BX+CX]");
+					break;
+				case 0x02:
+					GetSegment(str, segment, "SS");
+					str.Write("[BP+DX]");
+					break;
+				case 0x03:
+					GetSegment(str, segment, "SS");
+					str.Write("[BP+BX]");
+					break;
+				case 0x04:
+					GetSegment(str, segment, "DS");
+					str.Write("[SP+SI]");
+					break;
+				case 0x05:
+					GetSegment(str, segment, "DS");
+					str.Write("[BP+DI]");
+					break;
+				case 0x06:
+					GetSegment(str, segment, "SS");
+					str.Write("[BP+SI]");
+					break;
+				case 0x07:
+					GetSegment(str, segment, "DS");
+					str.Write("[BX+DI]");
+					break;
 			}
 		} else {
 			str.Write(word ? _modRegLut16[rm] : _modRegLut8[rm]);
@@ -350,14 +605,38 @@ int WsDisUtils::GetModRmParam(FastString& str, uint8_t* byteCode, WsSegment segm
 		len += 2;
 	} else {
 		switch(rm) {
-			case 0x00: GetSegment(str, segment, "DS"); str.Write("[BX+SI"); break;
-			case 0x01: GetSegment(str, segment, "DS"); str.Write("[BX+DI"); break;
-			case 0x02: GetSegment(str, segment, "SS"); str.Write("[BP+SI"); break;
-			case 0x03: GetSegment(str, segment, "SS"); str.Write("[BP+DI"); break;
-			case 0x04: GetSegment(str, segment, "DS"); str.Write("[SI"); break;
-			case 0x05: GetSegment(str, segment, "DS"); str.Write("[DI"); break;
-			case 0x06: GetSegment(str, segment, "SS"); str.Write("[BP"); break;
-			case 0x07: GetSegment(str, segment, "DS"); str.Write("[BX"); break;
+			case 0x00:
+				GetSegment(str, segment, "DS");
+				str.Write("[BX+SI");
+				break;
+			case 0x01:
+				GetSegment(str, segment, "DS");
+				str.Write("[BX+DI");
+				break;
+			case 0x02:
+				GetSegment(str, segment, "SS");
+				str.Write("[BP+SI");
+				break;
+			case 0x03:
+				GetSegment(str, segment, "SS");
+				str.Write("[BP+DI");
+				break;
+			case 0x04:
+				GetSegment(str, segment, "DS");
+				str.Write("[SI");
+				break;
+			case 0x05:
+				GetSegment(str, segment, "DS");
+				str.Write("[DI");
+				break;
+			case 0x06:
+				GetSegment(str, segment, "SS");
+				str.Write("[BP");
+				break;
+			case 0x07:
+				GetSegment(str, segment, "DS");
+				str.Write("[BX");
+				break;
 		}
 
 		if(mode == 1) {
@@ -409,7 +688,7 @@ EffectiveAddressInfo WsDisUtils::GetEffectiveAddress(DisassemblyInfo& info, WsCo
 			MemoryOperationInfo prevOpInfo = dummyCpu.GetOperationInfo(i - 1);
 			EffectiveAddressInfo result;
 			result.ShowAddress = true;
-			
+
 			if(dummyCpu.IsWordAccess(i)) {
 				result.ValueSize = 2;
 				if(dummyCpu.IsWordAccess(i - 1) && prevOpInfo.Type == opInfo.Type && prevOpInfo.Address == opInfo.Address - 2) {
@@ -473,8 +752,8 @@ uint8_t WsDisUtils::GetOpSize(uint32_t cpuAddress, MemoryType memType, MemoryDum
 	while(op[i]) {
 		switch(op[i]) {
 			//Absolute address
-			case 'a': size+=2; break;
-			
+			case 'a': size += 2; break;
+
 			//Immediate values
 			case 'i': size++; break;
 			case 'j': size += 2; break;
@@ -534,10 +813,8 @@ uint16_t WsDisUtils::GetFullOpCode(uint16_t cs, uint16_t ip, WsMemoryManager* me
 
 	return (
 		memoryManager->DebugRead((cs << 4) + ip) |
-		(memoryManager->DebugRead((cs << 4) + (uint16_t)(ip + 1)) << 8)
-	);
+		(memoryManager->DebugRead((cs << 4) + (uint16_t)(ip + 1)) << 8));
 }
-
 
 uint16_t WsDisUtils::GetFullOpCode(DisassemblyInfo& disInfo)
 {
@@ -548,7 +825,7 @@ uint16_t WsDisUtils::GetFullOpCode(DisassemblyInfo& disInfo)
 		i++;
 	}
 
-	return byteCode[i] | (byteCode[i+1] << 8);
+	return byteCode[i] | (byteCode[i + 1] << 8);
 }
 
 bool WsDisUtils::IsJumpToSub(uint16_t opCode)
@@ -695,25 +972,45 @@ bool WsDisUtils::IsPushPopInstruction(uint16_t opCode)
 {
 	switch((uint8_t)opCode) {
 		//Push/pop segments
-		case 0x06: case 0x07: case 0x0E: case 0x16:
-		case 0x17: case 0x1E: case 0x1F:
+		case 0x06:
+		case 0x07:
+		case 0x0E:
+		case 0x16:
+		case 0x17:
+		case 0x1E:
+		case 0x1F:
 
 		//Push
-		case 0x50: case 0x51: case 0x52: case 0x53:
-		case 0x54: case 0x55: case 0x56: case 0x57:
+		case 0x50:
+		case 0x51:
+		case 0x52:
+		case 0x53:
+		case 0x54:
+		case 0x55:
+		case 0x56:
+		case 0x57:
 
 		//Pop
-		case 0x58: case 0x59: case 0x5A: case 0x5B:
-		case 0x5C: case 0x5D: case 0x5E: case 0x5F:
+		case 0x58:
+		case 0x59:
+		case 0x5A:
+		case 0x5B:
+		case 0x5C:
+		case 0x5D:
+		case 0x5E:
+		case 0x5F:
 
 		//Push/pop all
-		case 0x60: case 0x61:
+		case 0x60:
+		case 0x61:
 
 		//Push immediate
-		case 0x68: case 0x6A:
+		case 0x68:
+		case 0x6A:
 
 		//Push/pop flags
-		case 0x9C: case 0x9D:
+		case 0x9C:
+		case 0x9D:
 			return true;
 	}
 
@@ -729,7 +1026,7 @@ CdlFlags::CdlFlags WsDisUtils::GetOpFlags(uint16_t opCode, uint32_t pc, uint32_t
 	} else if(WsDisUtils::IsConditionalJump(opCode) && (pc != prevPc + opSize)) {
 		return CdlFlags::JumpTarget;
 	}
-	
+
 	return CdlFlags::None;
 }
 

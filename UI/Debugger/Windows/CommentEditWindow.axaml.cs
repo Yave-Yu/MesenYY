@@ -5,7 +5,6 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.Debugger.Labels;
 using Mesen.Debugger.ViewModels;
-using Mesen.Interop;
 using Mesen.Utilities;
 using System;
 
@@ -14,7 +13,7 @@ namespace Mesen.Debugger.Windows
 	public class CommentEditWindow : MesenWindow
 	{
 		private CommentEditViewModel _model;
-		
+
 		[Obsolete("For designer only")]
 		public CommentEditWindow() : this(new()) { }
 
@@ -24,7 +23,7 @@ namespace Mesen.Debugger.Windows
 
 			DataContext = model;
 			_model = model;
-			
+
 			AddHandler(CommentEditWindow.KeyDownEvent, this.KeyDownHandler, RoutingStrategies.Tunnel);
 
 #if DEBUG

@@ -1,23 +1,14 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
-using Mesen.Config;
-using Mesen.Localization;
-using Avalonia.Interactivity;
-using Avalonia.Data;
-using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
+using Mesen.Config;
 using Mesen.Interop;
-using Splat.ModeDetection;
+using Mesen.Utilities;
 using Mesen.ViewModels;
 using ReactiveUI.Fody.Helpers;
-using Avalonia.Media;
-using Mesen.Utilities;
+using System;
 
 namespace Mesen.Controls
 {

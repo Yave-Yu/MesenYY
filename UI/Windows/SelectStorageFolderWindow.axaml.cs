@@ -4,10 +4,6 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.Config;
 using Mesen.ViewModels;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Mesen.Windows
 {

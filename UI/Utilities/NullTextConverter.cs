@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Data.Converters;
+﻿using Avalonia.Data.Converters;
 using System;
 
 namespace Mesen.Utilities;

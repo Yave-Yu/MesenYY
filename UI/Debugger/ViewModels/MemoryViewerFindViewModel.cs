@@ -1,13 +1,9 @@
-﻿using Avalonia.Controls;
-using Avalonia.Threading;
-using Mesen.Config;
+﻿using Avalonia.Threading;
 using Mesen.Debugger.Utilities;
 using Mesen.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 

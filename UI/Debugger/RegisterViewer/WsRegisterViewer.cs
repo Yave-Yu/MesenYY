@@ -1,7 +1,6 @@
 ﻿using Mesen.Config;
 using Mesen.Debugger.ViewModels;
 using Mesen.Interop;
-using System;
 using System.Collections.Generic;
 using static Mesen.Debugger.ViewModels.RegEntry;
 

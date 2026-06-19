@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mesen.Utilities
 {
@@ -20,7 +15,7 @@ namespace Mesen.Utilities
 		public VirtualArray(int size, Func<int, int, T[]> loader)
 		{
 			_size = size;
-			_pageData = new T[0];			
+			_pageData = new T[0];
 			_loader = loader;
 		}
 

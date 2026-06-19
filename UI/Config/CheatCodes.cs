@@ -5,7 +5,6 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.Json;
 
 namespace Mesen.Config
@@ -30,7 +29,7 @@ namespace Mesen.Config
 					cheats = (CheatCodes?)JsonSerializer.Deserialize(File.ReadAllText(path), typeof(CheatCodes), MesenSerializerContext.Default) ?? new CheatCodes();
 				} catch { }
 			}
-			
+
 			return cheats;
 		}
 

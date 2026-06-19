@@ -2,15 +2,11 @@
 using Mesen.Interop;
 using Mesen.Localization;
 using Mesen.Utilities;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Mesen.ViewModels
@@ -22,7 +18,7 @@ namespace Mesen.ViewModels
 		[Reactive] public string Title { get; private set; } = "";
 		[Reactive] public GameScreenMode Mode { get; private set; }
 		[Reactive] public List<RecentGameInfo> GameEntries { get; private set; } = new List<RecentGameInfo>();
-		
+
 		public RecentGamesViewModel()
 		{
 			Visible = ConfigManager.Config.Preferences.GameSelectionScreenMode != GameSelectionMode.Disabled;
@@ -66,7 +62,7 @@ namespace Mesen.ViewModels
 				}
 
 				Title = mode == GameScreenMode.LoadState ? ResourceHelper.GetMessage("LoadStateDialog") : ResourceHelper.GetMessage("SaveStateDialog");
-				
+
 				string romName = EmuApi.GetRomInfo().GetRomName();
 				for(int i = 0; i < (mode == GameScreenMode.LoadState ? 11 : 10); i++) {
 					entries.Add(new RecentGameInfo() {

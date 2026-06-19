@@ -1,22 +1,21 @@
-﻿using ReactiveUI.Fody.Helpers;
-using System.Collections.Generic;
-using System.Reactive.Linq;
-using System.Linq;
-using Mesen.Interop;
-using Mesen.ViewModels;
-using System.Text.RegularExpressions;
-using Mesen.Debugger.Labels;
-using System;
-using System.Globalization;
-using Mesen.Debugger.Disassembly;
-using Mesen.Debugger.Utilities;
-using Avalonia.Controls;
-using Mesen.Config;
-using Mesen.Debugger.Windows;
-using Avalonia.Collections;
+﻿using Avalonia.Controls;
 using Avalonia.Controls.Selection;
 using Avalonia.Interactivity;
+using Mesen.Config;
+using Mesen.Debugger.Disassembly;
+using Mesen.Debugger.Labels;
+using Mesen.Debugger.Utilities;
+using Mesen.Debugger.Windows;
+using Mesen.Interop;
 using Mesen.Utilities;
+using Mesen.ViewModels;
+using ReactiveUI.Fody.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reactive.Linq;
+using System.Text.RegularExpressions;
 
 namespace Mesen.Debugger.ViewModels
 {
@@ -83,7 +82,7 @@ namespace Mesen.Debugger.ViewModels
 
 			Manager.UpdateWatch(index, expression);
 		}
-		
+
 		public void MoveUp(int index)
 		{
 			List<string> entries = Manager.WatchEntries;

@@ -17,7 +17,7 @@
 #include "Shared/NotificationManager.h"
 #include "Shared/RomFinder.h"
 
-GameClientConnection::GameClientConnection(Emulator* emu, unique_ptr<Socket> socket, ClientConnectionData &connectionData) : GameConnection(emu, std::move(socket))
+GameClientConnection::GameClientConnection(Emulator* emu, unique_ptr<Socket> socket, ClientConnectionData& connectionData) : GameConnection(emu, std::move(socket))
 {
 	_connectionData = connectionData;
 	_shutdown = false;
@@ -170,7 +170,7 @@ void GameClientConnection::DisableControllers()
 	}
 }
 
-bool GameClientConnection::SetInput(BaseControlDevice *device)
+bool GameClientConnection::SetInput(BaseControlDevice* device)
 {
 	if(_enableControllers) {
 		uint8_t port = device->GetPort();
@@ -248,7 +248,7 @@ void GameClientConnection::SendInput()
 			_controlDevice->SetStateFromInput();
 			inputState = _controlDevice->GetRawState();
 		}
-		
+
 		if(_lastInputSent != inputState) {
 			InputDataMessage message(inputState);
 			SendNetMessage(message);
