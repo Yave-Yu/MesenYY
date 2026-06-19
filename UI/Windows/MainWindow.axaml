@@ -46,7 +46,6 @@
 				Name="RendererContainer"
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
-				IsVisible="{Binding IsNativeRendererVisible}"
 			/>
 
 			<Panel IsVisible="{Binding IsSoftwareRendererVisible}">
