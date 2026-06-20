@@ -77,7 +77,7 @@ void SystemHud::ShowFpsCounter(DebugHud* hud, uint32_t screenWidth, int lineNumb
 {
 	int yPos = 10 + 10 * lineNumber;
 
-	string fpsString = string("FPS: ") + StringUtilities::ToString(_currentFPS, 2);
+	string fpsString = string("FPS: ") + StringUtilities::ToString(_currentFPS, 1);
 	uint32_t length = DrawStringCommand::MeasureString(fpsString).X;
 	DrawString(hud, screenWidth, fpsString, screenWidth - 8 - length, yPos);
 }
