@@ -75,6 +75,7 @@ void VideoRenderer::RenderThread()
 	}
 
 	Timer lastFrameTimer;
+	bool needClearHud = false;
 	while(!_stopFlag.load()) {
 		//Wait until a frame is ready, or until 32ms have passed (to allow HUD to update at ~30fps when paused)
 		bool forceRender = !_waitForRender.Wait(32);
@@ -93,28 +94,30 @@ void VideoRenderer::RenderThread()
 				frame = _lastFrame;
 			}
 
-			bool showDebugInfo = _emu->GetSettings()->GetPreferences().ShowDebugInfo;
-			if(showDebugInfo) {
+			if(needClearHud) {
 				_emuHudSurface.Clear();
 				_rendererHud->ClearScreen();
 			}
 
 			_inputHud->DrawControllers(size, frame.InputData);
-
 			{
 				auto lock = _hudLock.AcquireSafe();
 				_systemHud->Draw(_rendererHud.get(), size.Width, size.Height);
 			}
 
+			bool showDebugInfo = _emu->GetSettings()->GetPreferences().ShowDebugInfo;
 			if(showDebugInfo) {
 				double lastFrameTime = lastFrameTimer.GetElapsedMS();
 				lastFrameTimer.Reset();
 				_emu->GetDebugStats()->UpdateStats(_emu, true, lastFrameTime);
 				_emu->GetDebugStats()->DisplayStats(_emu, _rendererHud.get());
+				needClearHud = true;
 			}
 
-			_emuHudSurface.IsDirty = _rendererHud->Draw(_emuHudSurface.Buffer, size, {}, 0, {}, !showDebugInfo);
+			_emuHudSurface.IsDirty = _rendererHud->Draw(_emuHudSurface.Buffer, size, {}, 0, {}, !needClearHud);
 			_scriptHudSurface.IsDirty = DrawScriptHud(frame);
+
+			needClearHud = showDebugInfo;
 
 			if(forceRender || _needRedraw || _emuHudSurface.IsDirty || _scriptHudSurface.IsDirty) {
 				_needRedraw = false;

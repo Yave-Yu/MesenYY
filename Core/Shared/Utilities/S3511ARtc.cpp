@@ -203,12 +203,15 @@ uint8_t S3511ARtc::ToBCD(int value)
 void S3511ARtc::GetSystemClock()
 {
 	_lastUpdateTime = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	time_t currentTime = _lastUpdateTime;
+	tm dateTime;
 
 #if(defined(WIN32) || defined(_WIN32) || defined(__WIN32__))
 	localtime_s(&dateTime, &currentTime);
-	time_t currentTime = _lastUpdateTime;
-	tm dateTime;
-	
+#else
+	localtime_r(&currentTime, &dateTime);
+#endif
+
 	_state.Year = ToBCD(dateTime.tm_year % 100);
 	_state.Month = ToBCD(dateTime.tm_mon + 1);
 	_state.Day = ToBCD(dateTime.tm_mday);
@@ -216,11 +219,6 @@ void S3511ARtc::GetSystemClock()
 	_state.Hour = ToBCD(dateTime.tm_hour);
 	_state.Minute = ToBCD(dateTime.tm_min);
 	_state.Second = ToBCD(dateTime.tm_sec);
-#else
-	//See if this still compile error
-	_state.Month = 1;
-	_state.Day = 1;
-#endif	
 }
 
 void S3511ARtc::Reset()
