@@ -42,7 +42,7 @@ MacOSKeyManager::MacOSKeyManager(Emulator* emu)
 	}
 
 	_disableAllKeys = false;
-	
+
 	//On some versions of macOS, there is an assert in the GameController code that seems to verify
 	//that the GCController is getting accessed on the main thread. Users are reporting this issue
 	//only on older versions of intel MacOS, so it's hard to be 100% certain, but this reliably fixes

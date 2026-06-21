@@ -42,7 +42,7 @@ private:
 	};
 
 	void HandleModifiers(uint32_t flags);
-	
+
 	void AddController(void* controller);
 
 public:
