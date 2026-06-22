@@ -7,7 +7,7 @@ Highlight improvement:
 - Separate battery save folder.
 - Bigger window size, suitable for 4K.
 
-Due to mystery reason that caused Linux and Mac version's compilation error, MesenYY is Windows only at this moment.
+Due to sign binary issue, macOS version doesn't available at this moment. Release only available for Windows, so Linux user please download latest development build below.
 
 Special thanks to [MesenCE](https://github.com/nesdev-org/mesence).
 
