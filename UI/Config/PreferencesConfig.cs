@@ -131,8 +131,6 @@ namespace Mesen.Config
 			AddShortcut(new ShortcutKeyInfo { Shortcut = EmulatorShortcut.SetScale8x, KeyCombination = new KeyCombination() { Key1 = alt, Key2 = InputApi.GetKeyCode("8") } });
 			AddShortcut(new ShortcutKeyInfo { Shortcut = EmulatorShortcut.SetScale9x, KeyCombination = new KeyCombination() { Key1 = alt, Key2 = InputApi.GetKeyCode("9") } });
 			AddShortcut(new ShortcutKeyInfo { Shortcut = EmulatorShortcut.SetScale10x, KeyCombination = new KeyCombination() { Key1 = alt, Key2 = InputApi.GetKeyCode("0") } });
-			AddShortcut(new ShortcutKeyInfo { Shortcut = EmulatorShortcut.SetScale11x, KeyCombination = new KeyCombination() { Key1 = alt, Key2 = InputApi.GetKeyCode("-") } });
-			AddShortcut(new ShortcutKeyInfo { Shortcut = EmulatorShortcut.SetScale12x, KeyCombination = new KeyCombination() { Key1 = alt, Key2 = InputApi.GetKeyCode("=") } });
 
 			AddShortcut(new ShortcutKeyInfo { Shortcut = EmulatorShortcut.OpenFile, KeyCombination = new KeyCombination() { Key1 = ctrl, Key2 = InputApi.GetKeyCode("O") } });
 
