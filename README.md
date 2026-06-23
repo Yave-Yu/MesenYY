@@ -7,7 +7,7 @@ Highlight improvement:
 - Separate battery save folder.
 - Bigger window size, suitable for 4K.
 
-Due to sign binary error, macOS version doesn't available at this moment. Even though MesenYY has releases, I still recommended you download latest bevelopment build below.
+Due to sign binary error, macOS version doesn't available at this moment. Even though here has releases, I still recommended you download latest development build below, so you can experience fixes and updates much quicker.
 
 Special thanks to [MesenCE](https://github.com/nesdev-org/mesence).
 
