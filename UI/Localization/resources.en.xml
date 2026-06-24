@@ -852,6 +852,7 @@
 			<Control ID="wndTitle">About</Control>
 			<Control ID="lblName">MesenYY</Control>
 			<Control ID="lblVersion">Version:</Control>
+			<Control ID="lblRuntimeVersion">Runtime:</Control>
 			<Control ID="lblOriginal">Based on Mesen 2.1.1</Control>
 
 			<Control ID="grpAcknowledgements">Acknowledgements</Control>

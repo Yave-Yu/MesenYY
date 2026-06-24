@@ -3,7 +3,9 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Mesen.Windows
 {
@@ -11,6 +13,7 @@ namespace Mesen.Windows
 	{
 		public string BuildSha { get; }
 		public string BuildShortSha { get; }
+		public string RuntimeVersion { get; }
 		public List<AboutListEntry> LibraryList { get; }
 		public List<AboutListEntry> AcknowledgeList { get; }
 
@@ -19,6 +22,8 @@ namespace Mesen.Windows
 			string? commitHash = UpdateHelper.GetCommitHash();
 			BuildSha = commitHash ?? "";
 			BuildShortSha = commitHash?.Substring(0, 7) ?? "";
+			RuntimeVersion = ".NET " + Environment.Version;
+			RuntimeVersion += RuntimeFeature.IsDynamicCodeSupported ? " (JIT)" : " (AOT)";
 
 			LibraryList = new List<AboutListEntry>() {
 				new("Avalonia", "", "MIT", "https://github.com/AvaloniaUI/Avalonia"),
