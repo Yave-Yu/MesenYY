@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         platform: [
+          {netversion: 8.x, targetframework: net8.0, aot: false, singleFile: true, aotString: ""},
           {netversion: 8.x, targetframework: net8.0, aot: true, singleFile: false, aotString: " - AoT"}
         ]
       fail-fast: false
@@ -52,17 +53,22 @@ jobs:
           name: Mesen (Windows - ${{ matrix.platform.targetframework }}${{ matrix.platform.aotString }})
           path: |
             build/TmpReleaseBuild/Mesen.exe
-            
+
+
   linux:
     if: ${{ (github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository) }}
     strategy:
       matrix:
-        compiler: [clang_aot]
+        compiler: [gcc, clang, clang_aot]
         platform: [
           {os: ubuntu-22.04, path: x64},
           {os: ubuntu-22.04-arm, path: arm64}
         ]
         include:
+          - compiler: gcc
+            make_flags: "USE_GCC=true"
+          - compiler: clang
+            make_flags: ""
           - compiler: clang_aot
             make_flags: "USE_AOT=true"
       fail-fast: false
