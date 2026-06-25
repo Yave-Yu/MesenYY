@@ -63,7 +63,7 @@
 							<c:EnumRadioButton
 								Grid.ColumnSpan="3"
 								Value="{Binding CompareTo}"
-								CheckedWhen="{x:Static dvm:MemorySearchCompareTo.PreviousSearchValue}"
+								CheckedWhen="{x:Static dvm:MemorySearchCompareTo.LastValue}"
 							/>
 							<c:EnumRadioButton
 								Grid.Row="1"
