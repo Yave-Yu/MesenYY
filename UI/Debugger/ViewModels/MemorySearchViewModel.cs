@@ -30,7 +30,7 @@ public class MemorySearchViewModel : DisposableViewModel
 	[Reactive] public MemorySearchFormat Format { get; set; } = MemorySearchFormat.Unsigned;
 	[Reactive] public MemorySearchValueSize ValueSize { get; set; } = MemorySearchValueSize.Byte;
 
-	[Reactive] public MemorySearchCompareTo CompareTo { get; set; } = MemorySearchCompareTo.PreviousSearchValue;
+	[Reactive] public MemorySearchCompareTo CompareTo { get; set; } = MemorySearchCompareTo.LastValue;
 	[Reactive] public MemorySearchOperator Operator { get; set; } = MemorySearchOperator.Equal;
 
 	[Reactive] public MesenList<MemoryAddressViewModel> ListData { get; private set; } = new();
@@ -256,7 +256,7 @@ public class MemorySearchViewModel : DisposableViewModel
 		long value = GetValue(address, _memoryState);
 
 		long compareValue = CompareTo switch {
-			MemorySearchCompareTo.PreviousSearchValue => GetValue(address, _lastSearchSnapshot),
+			MemorySearchCompareTo.LastValue => GetValue(address, _lastSearchSnapshot),
 			MemorySearchCompareTo.SpecificAddress => GetValue(SpecificAddress, _memoryState),
 			MemorySearchCompareTo.SpecificValue => SpecificValue,
 			_ => throw new Exception("Unsupported compare type")
@@ -523,7 +523,7 @@ public enum MemorySearchValueSize
 
 public enum MemorySearchCompareTo
 {
-	PreviousSearchValue,
+	LastValue,
 	SpecificValue,
 	SpecificAddress
 }
