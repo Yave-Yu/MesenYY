@@ -12,7 +12,6 @@ jobs:
     strategy:
       matrix:
         platform: [
-          {netversion: 8.x, targetframework: net8.0, aot: false, singleFile: true, aotString: ""},
           {netversion: 8.x, targetframework: net8.0, aot: true, singleFile: false, aotString: " - AoT"}
         ]
       fail-fast: false
@@ -58,14 +57,12 @@ jobs:
     if: ${{ (github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository) }}
     strategy:
       matrix:
-        compiler: [clang, clang_aot]
+        compiler: [clang_aot]
         platform: [
           {os: ubuntu-22.04, path: x64},
           {os: ubuntu-22.04-arm, path: arm64}
         ]
         include:
-          - compiler: clang
-            make_flags: ""
           - compiler: clang_aot
             make_flags: "USE_AOT=true"
       fail-fast: false
