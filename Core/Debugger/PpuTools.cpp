@@ -110,6 +110,7 @@ void PpuTools::InternalGetTileView(GetTileViewOptions options, uint8_t* source, 
 			options.Width /= 2;
 			options.Height /= 2;
 			break;
+
 		case TileFormat::PceSpriteBpp2Sp01:
 			bpp = 4;
 			rowOffset = 2;
@@ -118,6 +119,7 @@ void PpuTools::InternalGetTileView(GetTileViewOptions options, uint8_t* source, 
 			options.Width /= 2;
 			options.Height /= 2;
 			break;
+
 		case TileFormat::PceSpriteBpp2Sp23:
 			bpp = 4;
 			rowOffset = 2;
@@ -135,6 +137,7 @@ void PpuTools::InternalGetTileView(GetTileViewOptions options, uint8_t* source, 
 			bpp = 4;
 			rowOffset = 4;
 			break;
+
 		case TileFormat::SmsSgBpp1:
 			bpp = 1;
 			rowOffset = 1;
@@ -144,6 +147,7 @@ void PpuTools::InternalGetTileView(GetTileViewOptions options, uint8_t* source, 
 			bpp = 4;
 			rowOffset = 4;
 			break;
+
 		case TileFormat::GbaBpp8:
 			bpp = 8;
 			rowOffset = 8;
@@ -168,10 +172,12 @@ void PpuTools::InternalGetTileView(GetTileViewOptions options, uint8_t* source, 
 				colors = _grayscaleColorsBpp1;
 				colorMask = 0x01;
 				break;
+
 			case 2:
 				colors = _grayscaleColorsBpp2;
 				colorMask = 0x03;
 				break;
+
 			default:
 				colors = _grayscaleColorsBpp4;
 				colorMask = 0x0F;

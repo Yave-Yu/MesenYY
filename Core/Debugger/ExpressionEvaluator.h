@@ -299,7 +299,6 @@ private:
 	int64_t PrivateEvaluate(string expression, EvalResultType& resultType, MemoryOperationInfo& operationInfo, AddressInfo& addressInfo, bool& success);
 	ExpressionData* PrivateGetRpnList(string expression, bool& success);
 
-protected:
 public:
 	ExpressionEvaluator(Debugger* debugger, IDebugger* cpuDebugger, CpuType cpuType);
 

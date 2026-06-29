@@ -145,6 +145,7 @@ struct DiscInfo
 			uint32_t byteOffset = trk.FileOffset + (sector - trk.FirstSector) * sectorSize;
 			if(!Files[trk.FileIndex].ReadChunk(outData, byteOffset + sectorHeaderSize, 2048)) {
 				LogDebug("Invalid read offsets");
+				outData.insert(outData.end(), 2048, 0);
 			}
 		}
 	}

@@ -236,14 +236,17 @@ public:
 				filename = "dmg_boot.bin";
 				altFilename = "gb_bios.bin";
 				break;
+
 			case FirmwareType::GameboyColor:
 				filename = "cgb_boot.bin";
 				altFilename = "gbc_bios.bin";
 				break;
+
 			case FirmwareType::Sgb1GameboyCpu:
 				filename = "sgb_boot.bin";
 				altFilename = "sgb_bios.bin";
 				break;
+
 			case FirmwareType::Sgb2GameboyCpu:
 				filename = "sgb2_boot.bin";
 				altFilename = "sgb_bios.bin";
@@ -405,10 +408,12 @@ public:
 				filename = "bootrom.ws";
 				firmwareType = FirmwareType::WonderSwan;
 				break;
+
 			case WsModel::Color:
 				filename = "bootrom.wsc";
 				firmwareType = FirmwareType::WonderSwanColor;
 				break;
+
 			case WsModel::SwanCrystal:
 				filename = "bootrom_sc.wsc";
 				firmwareType = FirmwareType::SwanCrystal;

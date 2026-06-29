@@ -41,7 +41,6 @@ void RecordedRomTest::SaveFrame()
 			_repetitionCount.push_back(_currentCount);
 		}
 		_currentCount = 1;
-
 		_previousHash = hash;
 
 		_signal.Signal();
@@ -241,7 +240,7 @@ RomTestResult RecordedRomTest::Run(string filename)
 			_emu->Resume();
 			_signal.Wait();
 			if(!_isLastFrameGood) {
-				_emu->GetVideoDecoder()->TakeScreenshot();
+				_emu->GetVideoDecoder()->TakeScreenshot(FolderUtilities::GetFilename(filename, false));
 			}
 			_emu->Stop(!_inBackground);
 			_runningTest = false;

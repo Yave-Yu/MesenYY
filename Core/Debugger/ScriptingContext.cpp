@@ -312,11 +312,12 @@ void ScriptingContext::UnregisterMemoryCallback(CallbackType type, int startAddr
 
 	for(size_t i = 0; i < _callbacks[(int)type].size(); i++) {
 		MemoryCallback& callback = _callbacks[(int)type][i];
-		bool isMatch = (callback.Reference == reference &&
+		bool isMatch =
+			callback.Reference == reference &&
 			callback.Cpu == cpuType &&
 			callback.MemType == memType &&
 			(int)callback.StartAddress == startAddr &&
-			(int)callback.EndAddress == endAddr);
+			(int)callback.EndAddress == endAddr;
 
 		if(isMatch) {
 			_callbacks[(int)type].erase(_callbacks[(int)type].begin() + i);

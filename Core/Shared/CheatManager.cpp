@@ -164,23 +164,9 @@ optional<InternalCheatCode> CheatManager::ConvertFromNesProActionRocky(string co
 	}
 
 	int shiftValues[31] = {
-		3, 13, 14, 1, 6, 9, 5, 0, 12, 7, 2, 8, 10, 11, 4, //address
-		19,
-		21,
-		23,
-		22,
-		20,
-		17,
-		16,
-		18, //compare
-		29,
-		31,
-		24,
-		26,
-		25,
-		30,
-		27,
-		28 //value
+		3, 13, 14, 1, 6, 9, 5, 0, 12, 7, 2, 8, 10, 11, 4,	//address
+		19, 21, 23, 22, 20, 17, 16, 18,						//compare
+		29, 31, 24, 26, 25, 30, 27, 28						//value
 	};
 
 	uint32_t key = 0x7E5EE93A;
@@ -352,13 +338,14 @@ optional<InternalCheatCode> CheatManager::ConvertFromSnesGameGenie(string code)
 	InternalCheatCode cheat = {};
 	cheat.Type = CheatType::SnesGameGenie;
 	cheat.Cpu = CpuType::Snes;
-	cheat.Address = (((rawValue & 0x3C00) << 10) |
+	cheat.Address =
+		((rawValue & 0x3C00) << 10) |
 		((rawValue & 0x3C) << 14) |
 		((rawValue & 0xF00000) >> 8) |
 		((rawValue & 0x03) << 10) |
 		((rawValue & 0xC000) >> 6) |
 		((rawValue & 0xF0000) >> 12) |
-		((rawValue & 0x3C0) >> 6));
+		((rawValue & 0x3C0) >> 6);
 
 	cheat.Value = rawValue >> 24;
 

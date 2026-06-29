@@ -53,7 +53,7 @@ void ScriptManager::RemoveScript(int32_t scriptId)
 {
 	DebugBreakHelper helper(_debugger);
 	auto lock = _scriptLock.AcquireSafe();
-	_scripts.erase(std::remove_if(_scripts.begin(), _scripts.end(), [=](const unique_ptr<ScriptHost>& script) {
+	auto predicate = [=](const unique_ptr<ScriptHost>& script) {
 		if(script->GetScriptId() == scriptId) {
 			//Send a ScriptEnded event before unloading the script
 			script->ProcessEvent(EventType::ScriptEnded, _debugger->GetMainCpuType());
@@ -62,8 +62,9 @@ void ScriptManager::RemoveScript(int32_t scriptId)
 			return true;
 		}
 		return false;
-	}),
-		_scripts.end());
+	};
+
+	_scripts.erase(std::remove_if(_scripts.begin(), _scripts.end(), predicate), _scripts.end());
 
 	RefreshMemoryCallbackFlags();
 
