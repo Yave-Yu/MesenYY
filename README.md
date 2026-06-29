@@ -7,7 +7,7 @@ Highlight improvement:
 - Separate battery save folder.
 - Bigger window size, suitable for 4K.
 
-Due to sign binary error, macOS version doesn't available at this moment. Even though here has releases, still recommended you download latest development build below, get fixes and changes faster. Linux version requires SDL2.
+Due to sign binary error, macOS version doesn't available at this moment. Linux version requires SDL2. Even though here has releases, still recommended you download latest development build below, get fixes and changes faster.
 
 Special thanks to [MesenCE](https://github.com/nesdev-org/mesence).
 

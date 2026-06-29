@@ -7,7 +7,7 @@
 #include "Utilities/CRC32.h"
 #include "Utilities/FolderUtilities.h"
 #include "Utilities/HexUtilities.h"
-#include "Utilities/StringUtilities.h"ccc
+#include "Utilities/StringUtilities.h"
 
 std::unordered_map<uint32_t, GameInfo> GameDatabase::_gameDatabase;
 bool GameDatabase::_enabled = true;
