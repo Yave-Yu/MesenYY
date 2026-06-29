@@ -15,10 +15,12 @@ void SmsBiosMapper::WriteRegister(uint16_t addr, uint8_t value)
 			_prgBanks[0] = value;
 			_memoryManager->RefreshMappings();
 			break;
+
 		case 0xFFFE:
 			_prgBanks[1] = value;
 			_memoryManager->RefreshMappings();
 			break;
+
 		case 0xFFFF:
 			_prgBanks[2] = value;
 			_memoryManager->RefreshMappings();

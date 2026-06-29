@@ -12,550 +12,55 @@
 #include "Shared/MemoryType.h"
 
 static constexpr uint8_t _opSize[22] = {
-	1,
-	1,
-	1,
-	2,
-	2,
-	2,
-	3,
-	2,
-	2,
-	3,
-	2,
-	2,
-	3,
-	3,
-	2,
-	3,
+	1, 1, 1, 2, 2,
+	2, 3, 2, 2,
+	3, 2, 2,
+	3, 3,
+	2, 3,
 	7,
-	3,
-	3,
-	4,
-	4,
+	3, 3, 4, 4,
 	3
 };
 
 static constexpr const char* _opName[256] = {
 	//	0			1			2			3			4			5			6			7			8			9			A			B			C			D			E			F
-	"BRK",
-	"ORA",
-	"SXY",
-	"ST0",
-	"TSB",
-	"ORA",
-	"ASL",
-	"RMB0",
-	"PHP",
-	"ORA",
-	"ASL",
-	"NOP_0B",
-	"TSB",
-	"ORA",
-	"ASL",
-	"BBR0", //0
-	"BPL",
-	"ORA",
-	"ORA",
-	"ST1",
-	"TRB",
-	"ORA",
-	"ASL",
-	"RMB1",
-	"CLC",
-	"ORA",
-	"INC",
-	"NOP_1B",
-	"TRB",
-	"ORA",
-	"ASL",
-	"BBR1", //1
-	"JSR",
-	"AND",
-	"SAX",
-	"ST2",
-	"BIT",
-	"AND",
-	"ROL",
-	"RMB2",
-	"PLP",
-	"AND",
-	"ROL",
-	"NOP_2B",
-	"BIT",
-	"AND",
-	"ROL",
-	"BBR2", //2
-	"BMI",
-	"AND",
-	"AND",
-	"NOP_33",
-	"BIT",
-	"AND",
-	"ROL",
-	"RMB3",
-	"SEC",
-	"AND",
-	"DEC",
-	"NOP_3B",
-	"BIT",
-	"AND",
-	"ROL",
-	"BBR3", //3
-	"RTI",
-	"EOR",
-	"SAY",
-	"TMA",
-	"BSR",
-	"EOR",
-	"LSR",
-	"RMB4",
-	"PHA",
-	"EOR",
-	"LSR",
-	"NOP_4B",
-	"JMP",
-	"EOR",
-	"LSR",
-	"BBR4", //4
-	"BVC",
-	"EOR",
-	"EOR",
-	"TAM",
-	"CSL",
-	"EOR",
-	"LSR",
-	"RMB5",
-	"CLI",
-	"EOR",
-	"PHY",
-	"NOP_5B",
-	"NOP_5C",
-	"EOR",
-	"LSR",
-	"BBR5", //5
-	"RTS",
-	"ADC",
-	"CLA",
-	"NOP_63",
-	"STZ",
-	"ADC",
-	"ROR",
-	"RMB6",
-	"PLA",
-	"ADC",
-	"ROR",
-	"NOP_6B",
-	"JMP",
-	"ADC",
-	"ROR",
-	"BBR6", //6
-	"BVS",
-	"ADC",
-	"ADC",
-	"TII",
-	"STZ",
-	"ADC",
-	"ROR",
-	"RMB7",
-	"SEI",
-	"ADC",
-	"PLY",
-	"NOP_7B",
-	"JMP",
-	"ADC",
-	"ROR",
-	"BBR7", //7
-	"BRA",
-	"STA",
-	"CLX",
-	"TST",
-	"STY",
-	"STA",
-	"STX",
-	"SMB0",
-	"DEY",
-	"BIT",
-	"TXA",
-	"NOP_8B",
-	"STY",
-	"STA",
-	"STX",
-	"BBS0", //8
-	"BCC",
-	"STA",
-	"STA",
-	"TST",
-	"STY",
-	"STA",
-	"STX",
-	"SMB1",
-	"TYA",
-	"STA",
-	"TXS",
-	"NOP_9B",
-	"STZ",
-	"STA",
-	"STZ",
-	"BBS1", //9
-	"LDY",
-	"LDA",
-	"LDX",
-	"TST",
-	"LDY",
-	"LDA",
-	"LDX",
-	"SMB2",
-	"TAY",
-	"LDA",
-	"TAX",
-	"NOP_AB",
-	"LDY",
-	"LDA",
-	"LDX",
-	"BBS2", //A
-	"BCS",
-	"LDA",
-	"LDA",
-	"TST",
-	"LDY",
-	"LDA",
-	"LDX",
-	"SMB3",
-	"CLV",
-	"LDA",
-	"TSX",
-	"NOP_BB",
-	"LDY",
-	"LDA",
-	"LDX",
-	"BBS3", //B
-	"CPY",
-	"CMP",
-	"CLY",
-	"TDD",
-	"CPY",
-	"CMP",
-	"DEC",
-	"SMB4",
-	"INY",
-	"CMP",
-	"DEX",
-	"NOP_CB",
-	"CPY",
-	"CMP",
-	"DEC",
-	"BBS4", //C
-	"BNE",
-	"CMP",
-	"CMP",
-	"TIN",
-	"CSH",
-	"CMP",
-	"DEC",
-	"SMB5",
-	"CLD",
-	"CMP",
-	"PHX",
-	"NOP_DB",
-	"NOP_DC",
-	"CMP",
-	"DEC",
-	"BBS5", //D
-	"CPX",
-	"SBC",
-	"NOP_E2",
-	"TIA",
-	"CPX",
-	"SBC",
-	"INC",
-	"SMB6",
-	"INX",
-	"SBC",
-	"NOP",
-	"NOP_EB",
-	"CPX",
-	"SBC",
-	"INC",
-	"BBS6", //E
-	"BEQ",
-	"SBC",
-	"SBC",
-	"TAI",
-	"SET",
-	"SBC",
-	"INC",
-	"SMB7",
-	"SED",
-	"SBC",
-	"PLX",
-	"NOP_FB",
-	"NOP_FC",
-	"SBC",
-	"INC",
-	"BBS7" //F
+	"BRK",	"ORA",	"SXY",	"ST0",	"TSB",	"ORA",	"ASL",	"RMB0",	"PHP",	"ORA",	"ASL",	"NOP_0B","TSB",	"ORA",	"ASL",	"BBR0", //0
+	"BPL",	"ORA",	"ORA",	"ST1",	"TRB",	"ORA",	"ASL",	"RMB1",	"CLC",	"ORA",	"INC",	"NOP_1B","TRB",	"ORA",	"ASL",	"BBR1", //1
+	"JSR",	"AND",	"SAX",	"ST2",	"BIT",	"AND",	"ROL",	"RMB2",	"PLP",	"AND",	"ROL",	"NOP_2B","BIT",	"AND",	"ROL",	"BBR2", //2
+	"BMI",	"AND",	"AND",	"NOP_33","BIT",	"AND",	"ROL",	"RMB3",	"SEC",	"AND",	"DEC",	"NOP_3B","BIT",	"AND",	"ROL",	"BBR3", //3
+	"RTI",	"EOR",	"SAY",	"TMA",	"BSR",	"EOR",	"LSR",	"RMB4",	"PHA",	"EOR",	"LSR",	"NOP_4B","JMP",	"EOR",	"LSR",	"BBR4", //4
+	"BVC",	"EOR",	"EOR",	"TAM",	"CSL",	"EOR",	"LSR",	"RMB5",	"CLI",	"EOR",	"PHY",	"NOP_5B","NOP_5C","EOR",	"LSR",	"BBR5", //5
+	"RTS",	"ADC",	"CLA",	"NOP_63","STZ",	"ADC",	"ROR",	"RMB6",	"PLA",	"ADC",	"ROR",	"NOP_6B","JMP",	"ADC",	"ROR",	"BBR6", //6
+	"BVS",	"ADC",	"ADC",	"TII",	"STZ",	"ADC",	"ROR",	"RMB7",	"SEI",	"ADC",	"PLY",	"NOP_7B","JMP",	"ADC",	"ROR",	"BBR7", //7
+	"BRA",	"STA",	"CLX",	"TST",	"STY",	"STA",	"STX",	"SMB0",	"DEY",	"BIT",	"TXA",	"NOP_8B","STY",	"STA",	"STX",	"BBS0", //8
+	"BCC",	"STA",	"STA",	"TST",	"STY",	"STA",	"STX",	"SMB1",	"TYA",	"STA",	"TXS",	"NOP_9B","STZ",	"STA",	"STZ",	"BBS1", //9
+	"LDY",	"LDA",	"LDX",	"TST",	"LDY",	"LDA",	"LDX",	"SMB2",	"TAY",	"LDA",	"TAX",	"NOP_AB","LDY",	"LDA",	"LDX",	"BBS2", //A
+	"BCS",	"LDA",	"LDA",	"TST",	"LDY",	"LDA",	"LDX",	"SMB3",	"CLV",	"LDA",	"TSX",	"NOP_BB","LDY",	"LDA",	"LDX",	"BBS3", //B
+	"CPY",	"CMP",	"CLY",	"TDD",	"CPY",	"CMP",	"DEC",	"SMB4",	"INY",	"CMP",	"DEX",	"NOP_CB","CPY",	"CMP",	"DEC",	"BBS4", //C
+	"BNE",	"CMP",	"CMP",	"TIN",	"CSH",	"CMP",	"DEC",	"SMB5",	"CLD",	"CMP",	"PHX",	"NOP_DB","NOP_DC","CMP",	"DEC",	"BBS5", //D
+	"CPX",	"SBC",	"NOP_E2","TIA",	"CPX",	"SBC",	"INC",	"SMB6",	"INX",	"SBC",	"NOP",	"NOP_EB","CPX",	"SBC",	"INC",	"BBS6", //E
+	"BEQ",	"SBC",	"SBC",	"TAI",	"SET",	"SBC",	"INC",	"SMB7",	"SED",	"SBC",	"PLX",	"NOP_FB","NOP_FC","SBC",	"INC",	"BBS7" //F
 };
 
 typedef PceAddrMode M;
 static constexpr PceAddrMode _opMode[] = {
 	//	0			1				2			3				4				5				6				7				8			9			A			B			C				D			E			F
-	M::Imm,
-	M::IndX,
-	M::Imp,
-	M::Imm,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Imp,
-	M::Imm,
-	M::Acc,
-	M::Imp,
-	M::Abs,
-	M::Abs,
-	M::Abs,
-	M::ZeroRel, //0
-	M::Rel,
-	M::IndY,
-	M::ZInd,
-	M::Imm,
-	M::Zero,
-	M::ZeroX,
-	M::ZeroX,
-	M::Zero,
-	M::Imp,
-	M::AbsY,
-	M::Imp,
-	M::Imp,
-	M::Abs,
-	M::AbsX,
-	M::AbsX,
-	M::ZeroRel, //1
-	M::Abs,
-	M::IndX,
-	M::Imp,
-	M::Imm,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Imp,
-	M::Imm,
-	M::Acc,
-	M::Imp,
-	M::Abs,
-	M::Abs,
-	M::Abs,
-	M::ZeroRel, //2
-	M::Rel,
-	M::IndY,
-	M::ZInd,
-	M::Imp,
-	M::ZeroX,
-	M::ZeroX,
-	M::ZeroX,
-	M::Zero,
-	M::Imp,
-	M::AbsY,
-	M::Imp,
-	M::Imp,
-	M::AbsX,
-	M::AbsX,
-	M::AbsX,
-	M::ZeroRel, //3
-	M::Imp,
-	M::IndX,
-	M::Imp,
-	M::Imm,
-	M::Rel,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Imp,
-	M::Imm,
-	M::Acc,
-	M::Imp,
-	M::Abs,
-	M::Abs,
-	M::Abs,
-	M::ZeroRel, //4
-	M::Rel,
-	M::IndY,
-	M::ZInd,
-	M::Imm,
-	M::Imp,
-	M::ZeroX,
-	M::ZeroX,
-	M::Zero,
-	M::Imp,
-	M::AbsY,
-	M::Imp,
-	M::Imp,
-	M::Imp,
-	M::AbsX,
-	M::AbsX,
-	M::ZeroRel, //5
-	M::Imp,
-	M::IndX,
-	M::Imp,
-	M::Imp,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Imp,
-	M::Imm,
-	M::Acc,
-	M::Imp,
-	M::Ind,
-	M::Abs,
-	M::Abs,
-	M::ZeroRel, //6
-	M::Rel,
-	M::IndY,
-	M::ZInd,
-	M::Block,
-	M::ZeroX,
-	M::ZeroX,
-	M::ZeroX,
-	M::Zero,
-	M::Imp,
-	M::AbsY,
-	M::Imp,
-	M::Imp,
-	M::AbsXInd,
-	M::AbsX,
-	M::AbsX,
-	M::ZeroRel, //7
-	M::Rel,
-	M::IndX,
-	M::Imp,
-	M::ImZero,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Imp,
-	M::Imm,
-	M::Imp,
-	M::Imp,
-	M::Abs,
-	M::Abs,
-	M::Abs,
-	M::ZeroRel, //8
-	M::Rel,
-	M::IndY,
-	M::ZInd,
-	M::ImAbs,
-	M::ZeroX,
-	M::ZeroX,
-	M::ZeroY,
-	M::Zero,
-	M::Imp,
-	M::AbsY,
-	M::Imp,
-	M::Imp,
-	M::Abs,
-	M::AbsX,
-	M::AbsX,
-	M::ZeroRel, //9
-	M::Imm,
-	M::IndX,
-	M::Imm,
-	M::ImZeroX,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Imp,
-	M::Imm,
-	M::Imp,
-	M::Imp,
-	M::Abs,
-	M::Abs,
-	M::Abs,
-	M::ZeroRel, //A
-	M::Rel,
-	M::IndY,
-	M::ZInd,
-	M::ImAbsX,
-	M::ZeroX,
-	M::ZeroX,
-	M::ZeroY,
-	M::Zero,
-	M::Imp,
-	M::AbsY,
-	M::Imp,
-	M::Imp,
-	M::AbsX,
-	M::AbsX,
-	M::AbsY,
-	M::ZeroRel, //B
-	M::Imm,
-	M::IndX,
-	M::Imp,
-	M::Block,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Imp,
-	M::Imm,
-	M::Imp,
-	M::Imp,
-	M::Abs,
-	M::Abs,
-	M::Abs,
-	M::ZeroRel, //C
-	M::Rel,
-	M::IndY,
-	M::ZInd,
-	M::Block,
-	M::Imp,
-	M::ZeroX,
-	M::ZeroX,
-	M::Zero,
-	M::Imp,
-	M::AbsY,
-	M::Imp,
-	M::Imp,
-	M::Imp,
-	M::AbsX,
-	M::AbsX,
-	M::ZeroRel, //D
-	M::Imm,
-	M::IndX,
-	M::Imp,
-	M::Block,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Zero,
-	M::Imp,
-	M::Imm,
-	M::Imp,
-	M::Imp,
-	M::Abs,
-	M::Abs,
-	M::Abs,
-	M::ZeroRel, //E
-	M::Rel,
-	M::IndY,
-	M::ZInd,
-	M::Block,
-	M::Imp,
-	M::ZeroX,
-	M::ZeroX,
-	M::Zero,
-	M::Imp,
-	M::AbsY,
-	M::Imp,
-	M::Imp,
-	M::Imp,
-	M::AbsX,
-	M::AbsX,
-	M::ZeroRel, //F
-
+	M::Imm,	M::IndX,		M::Imp,	M::Imm,		M::Zero,		M::Zero,		M::Zero,		M::Zero,		M::Imp,	M::Imm,	M::Acc,	M::Imp,	M::Abs,		M::Abs,	M::Abs,	M::ZeroRel,	//0
+	M::Rel,	M::IndY,		M::ZInd,	M::Imm,		M::Zero,		M::ZeroX,	M::ZeroX,	M::Zero,		M::Imp,	M::AbsY,	M::Imp,	M::Imp,	M::Abs,		M::AbsX,	M::AbsX,	M::ZeroRel,	//1
+	M::Abs,	M::IndX,		M::Imp,	M::Imm,		M::Zero,		M::Zero,		M::Zero,		M::Zero,		M::Imp,	M::Imm,	M::Acc,	M::Imp,	M::Abs,		M::Abs,	M::Abs,	M::ZeroRel,	//2
+	M::Rel,	M::IndY,		M::ZInd,	M::Imp,		M::ZeroX,	M::ZeroX,	M::ZeroX,	M::Zero,		M::Imp,	M::AbsY,	M::Imp,	M::Imp,	M::AbsX,		M::AbsX,	M::AbsX,	M::ZeroRel,	//3
+	M::Imp,	M::IndX,		M::Imp,	M::Imm,		M::Rel,		M::Zero,		M::Zero,		M::Zero,		M::Imp,	M::Imm,	M::Acc,	M::Imp,	M::Abs,		M::Abs,	M::Abs,	M::ZeroRel,	//4
+	M::Rel,	M::IndY,		M::ZInd,	M::Imm,		M::Imp,		M::ZeroX,	M::ZeroX,	M::Zero,		M::Imp,	M::AbsY,	M::Imp,	M::Imp,	M::Imp,		M::AbsX,	M::AbsX,	M::ZeroRel,	//5
+	M::Imp,	M::IndX,		M::Imp,	M::Imp,		M::Zero,		M::Zero,		M::Zero,		M::Zero,		M::Imp,	M::Imm,	M::Acc,	M::Imp,	M::Ind,		M::Abs,	M::Abs,	M::ZeroRel,	//6
+	M::Rel,	M::IndY,		M::ZInd,	M::Block,	M::ZeroX,	M::ZeroX,	M::ZeroX,	M::Zero,		M::Imp,	M::AbsY,	M::Imp,	M::Imp,	M::AbsXInd,	M::AbsX,	M::AbsX,	M::ZeroRel,	//7
+	M::Rel,	M::IndX,		M::Imp,	M::ImZero,	M::Zero,		M::Zero,		M::Zero,		M::Zero,		M::Imp,	M::Imm,	M::Imp,	M::Imp,	M::Abs,		M::Abs,	M::Abs,	M::ZeroRel,	//8
+	M::Rel,	M::IndY,		M::ZInd,	M::ImAbs,	M::ZeroX,	M::ZeroX,	M::ZeroY,	M::Zero,		M::Imp,	M::AbsY,	M::Imp,	M::Imp,	M::Abs,		M::AbsX,	M::AbsX,	M::ZeroRel,	//9
+	M::Imm,	M::IndX,		M::Imm,	M::ImZeroX,	M::Zero,		M::Zero,		M::Zero,		M::Zero,		M::Imp,	M::Imm,	M::Imp,	M::Imp,	M::Abs,		M::Abs,	M::Abs,	M::ZeroRel,	//A
+	M::Rel,	M::IndY,		M::ZInd,	M::ImAbsX,	M::ZeroX,	M::ZeroX,	M::ZeroY,	M::Zero,		M::Imp,	M::AbsY,	M::Imp,	M::Imp,	M::AbsX,		M::AbsX,	M::AbsY,	M::ZeroRel,	//B
+	M::Imm,	M::IndX,		M::Imp,	M::Block,	M::Zero,		M::Zero,		M::Zero,		M::Zero,		M::Imp,	M::Imm,	M::Imp,	M::Imp,	M::Abs,		M::Abs,	M::Abs,	M::ZeroRel,	//C
+	M::Rel,	M::IndY,		M::ZInd,	M::Block,	M::Imp,		M::ZeroX,	M::ZeroX,	M::Zero,		M::Imp,	M::AbsY,	M::Imp,	M::Imp,	M::Imp,		M::AbsX,	M::AbsX,	M::ZeroRel,	//D
+	M::Imm,	M::IndX,		M::Imp,	M::Block,	M::Zero,		M::Zero,		M::Zero,		M::Zero,		M::Imp,	M::Imm,	M::Imp,	M::Imp,	M::Abs,		M::Abs,	M::Abs,	M::ZeroRel,	//E
+	M::Rel,	M::IndY,		M::ZInd,	M::Block,	M::Imp,		M::ZeroX,	M::ZeroX,	M::Zero,		M::Imp,	M::AbsY,	M::Imp,	M::Imp,	M::Imp,		M::AbsX,	M::AbsX,	M::ZeroRel //F
 };
 
 void PceDisUtils::GetDisassembly(DisassemblyInfo& info, string& out, uint32_t memoryAddr, LabelManager* labelManager, EmuSettings* settings)
@@ -625,6 +130,7 @@ void PceDisUtils::GetDisassembly(DisassemblyInfo& info, string& out, uint32_t me
 			writeLabelOrAddr(byteCode[1] | (byteCode[2] << 8));
 			str.Write(",X");
 			break;
+
 		case PceAddrMode::AbsY:
 			writeLabelOrAddr(byteCode[1] | (byteCode[2] << 8));
 			str.Write(",Y");
@@ -634,6 +140,7 @@ void PceDisUtils::GetDisassembly(DisassemblyInfo& info, string& out, uint32_t me
 			writeZeroAddr(byteCode[1]);
 			str.Write(",X");
 			break;
+
 		case PceAddrMode::ZeroY:
 			writeZeroAddr(byteCode[1]);
 			str.Write(",Y");
@@ -828,22 +335,27 @@ CdlFlags::CdlFlags PceDisUtils::GetOpFlags(uint8_t opCode, uint16_t pc, uint16_t
 		case 0xB0: //BCS
 		case 0xD0: //BNE
 		case 0xF0: //BEQ
+
+		//BBR
 		case 0x0F:
 		case 0x1F:
 		case 0x2F:
-		case 0x3F: //BBR
+		case 0x3F:
+		//BBR
 		case 0x4F:
 		case 0x5F:
 		case 0x6F:
-		case 0x7F: //BBR
+		case 0x7F:
+		//BBS
 		case 0x8F:
 		case 0x9F:
 		case 0xAF:
-		case 0xBF: //BBS
+		case 0xBF:
+		//BBS
 		case 0xCF:
 		case 0xDF:
 		case 0xEF:
-		case 0xFF: //BBS
+		case 0xFF:
 			return pc != prevPc + PceDisUtils::GetOpSize(opCode) ? CdlFlags::JumpTarget : CdlFlags::None;
 
 		default:

@@ -29,7 +29,6 @@ template<class T> NesPpu<T>::NesPpu(NesConsole* console)
 	_emu = console->GetEmulator();
 	_mapper = console->GetMapper();
 	_masterClock = 0;
-	_masterClockFrameStart = 0;
 	_masterClockDivider = 4;
 	_settings = _emu->GetSettings();
 
@@ -71,7 +70,6 @@ template<class T> NesPpu<T>::NesPpu(NesConsole* console)
 template<class T> void NesPpu<T>::Reset(bool softReset)
 {
 	_masterClock = 0;
-	_masterClockFrameStart = 0;
 
 	//Reset OAM decay timestamps regardless of the reset PPU option
 	memset(_oamDecayCycles, 0, sizeof(_oamDecayCycles));
@@ -265,19 +263,26 @@ template<class T> void NesPpu<T>::ProcessStatusRegOpenBus(uint8_t& openBusMask, 
 			openBusMask = 0x00;
 			returnValue |= 0x1B;
 			break;
+
 		case PpuModel::Ppu2C05B:
 			openBusMask = 0x00;
 			returnValue |= 0x3D;
 			break;
+
 		case PpuModel::Ppu2C05C:
 			openBusMask = 0x00;
 			returnValue |= 0x1C;
 			break;
+
 		case PpuModel::Ppu2C05D:
 			openBusMask = 0x00;
 			returnValue |= 0x1B;
 			break;
-		case PpuModel::Ppu2C05E: openBusMask = 0x00; break;
+
+		case PpuModel::Ppu2C05E:
+			openBusMask = 0x00;
+			break;
+
 		default: break;
 	}
 }
@@ -336,9 +341,11 @@ template<class T> uint8_t NesPpu<T>::ReadRam(uint16_t addr)
 	switch(GetRegisterID(addr)) {
 		case PpuRegisters::Status:
 			_writeToggle = false;
-			returnValue = (((uint8_t)_statusFlags.SpriteOverflow << 5) |
+			returnValue =
+				((uint8_t)_statusFlags.SpriteOverflow << 5) |
 				((uint8_t)_statusFlags.Sprite0Hit << 6) |
-				((uint8_t)_statusFlags.VerticalBlank << 7));
+				((uint8_t)_statusFlags.VerticalBlank << 7);
+
 			UpdateStatusFlag();
 			openBusMask = 0x1F;
 
@@ -350,7 +357,7 @@ template<class T> uint8_t NesPpu<T>::ReadRam(uint16_t addr)
 				if(_scanline <= 239 && IsRenderingEnabled()) {
 					//While the screen is being drawn
 					if((_cycle >= 257 && _cycle <= 340) || _cycle == 0) {
-						//If we're doing sprite rendering, set OAM copy buffer to its proper value.  This is done here for performance
+						//If we're doing sprite rendering, set OAM copy buffer to its proper value. This is done here for performance
 						//It's faster to only do this here when it's needed, rather than splitting LoadSpriteTileInfo() into an 8-step process
 						_oamCopybuffer = _secondarySpriteRam[_secondaryOamAddr & 0x1F];
 					}
@@ -1033,8 +1040,8 @@ template<class T> void NesPpu<T>::ProcessScanlineImpl()
 				//Delay all sprites by 1 pixel
 				for(int i = 0; i < 8; i++) {
 					_spriteShifterList[i] += 1 << 4;
-					_nextSpriteShifterCycle++;
 				}
+				_nextSpriteShifterCycle++;
 			}
 		}
 
@@ -1286,12 +1293,12 @@ template<class T> void NesPpu<T>::SendFrame()
 		_emu->GetNotificationManager()->SendNotification(ConsoleNotificationType::PpuFrameDone, _currentOutputBuffer);
 	}
 
-	//Get phase at the start of the current frame
-	uint32_t videoPhase = (_masterClockFrameStart % 6) * 2;
+	//Get phase at the start of the current frame (341*241 cycles ago)
+	uint32_t videoPhase = ((_masterClock / _masterClockDivider) - 82181) % 3;
 	NesConfig& cfg = _console->GetNesConfig();
 	if(_region != ConsoleRegion::Ntsc || cfg.PpuExtraScanlinesAfterNmi != 0 || cfg.PpuExtraScanlinesBeforeNmi != 0) {
 		//Force 2-phase pattern for PAL or when overclocking is used
-		videoPhase = (_frameCount & 0x01) * 4;
+		videoPhase = _frameCount & 0x01;
 	}
 
 	RenderedFrame frame(_currentOutputBuffer, NesConstants::ScreenWidth, NesConstants::ScreenHeight, 1.0, _frameCount, _console->GetControlManager()->GetPortStates(), videoPhase);
@@ -1657,7 +1664,6 @@ template<class T> void NesPpu<T>::Serialize(Serializer& s)
 
 	SV(_ppuBusAddress);
 	SV(_masterClock);
-	SV(_masterClockFrameStart);
 
 	if(s.GetFormat() != SerializeFormat::Map) {
 		//Hide these entries from the Lua API
@@ -1698,6 +1704,10 @@ template<class T> void NesPpu<T>::Serialize(Serializer& s)
 		SV(_updateVramAddrDelay);
 
 		SV(_allowFullPpuAccess);
+
+		SV(_ppuMemoryDataReadStateMachine);
+		SV(_ppuMemoryDataWriteStateMachine);
+		SV(_ppuMemoryDataWriteLatch);
 
 		for(int i = 0; i < _spriteCount; i++) {
 			SVI(_spriteTiles[i].SpriteX);

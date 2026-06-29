@@ -120,9 +120,10 @@ void SnesDebugger::ProcessConfigChange()
 	_predictiveBreakpoints = _settings->GetDebugConfig().UsePredictiveBreakpoints;
 
 	_runSpc = _spcTraceLogger->IsEnabled() || _settings->CheckDebuggerFlag(DebuggerFlags::SpcDebuggerEnabled);
-	_runCoprocessors = ((_dspTraceLogger && _dspTraceLogger->IsEnabled()) ||
+	_runCoprocessors =
+		(_dspTraceLogger && _dspTraceLogger->IsEnabled()) ||
 		_settings->CheckDebuggerFlag(DebuggerFlags::NecDspDebuggerEnabled) ||
-		_settings->CheckDebuggerFlag(DebuggerFlags::GbDebuggerEnabled));
+		_settings->CheckDebuggerFlag(DebuggerFlags::GbDebuggerEnabled);
 	_needCoprocessors = _runSpc || _runCoprocessors;
 }
 
@@ -182,16 +183,19 @@ void SnesDebugger::ProcessInstruction()
 					_step->Break(BreakSource::BreakOnBrk);
 				}
 				break;
+
 			case 0x02:
 				if(_settings->GetDebugConfig().SnesBreakOnCop) {
 					_step->Break(BreakSource::BreakOnCop);
 				}
 				break;
+
 			case 0x42:
 				if(_settings->GetDebugConfig().SnesBreakOnWdm) {
 					_step->Break(BreakSource::BreakOnWdm);
 				}
 				break;
+
 			case 0xDB:
 				if(_settings->GetDebugConfig().SnesBreakOnStp) {
 					_step->Break(BreakSource::BreakOnStp);
@@ -402,8 +406,7 @@ void SnesDebugger::ProcessInterrupt(uint32_t originalPc, uint32_t currentPc, boo
 	ProcessCallStackUpdates(ret, originalPc, GetCpuState().PS, originalSp);
 	ResetPrevOpCode();
 
-	_debugger->InternalProcessInterrupt(
-		_cpuType, *this, *_step.get(), ret, originalPc, dest, currentPc, ret, originalPc, originalSp, forNmi);
+	_debugger->InternalProcessInterrupt(_cpuType, *this, *_step.get(), ret, originalPc, dest, currentPc, ret, originalPc, originalSp, forNmi);
 }
 
 void SnesDebugger::ProcessPpuRead(uint16_t addr, uint8_t value, MemoryType memoryType)

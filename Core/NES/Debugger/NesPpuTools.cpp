@@ -219,12 +219,13 @@ void NesPpuTools::ApplyHighlights(GetTilemapOptions options, uint8_t nametableIn
 			case TilemapHighlightMode::None:
 				return false;
 
-				//Highlight if modified since the last update
+			//Highlight if modified since the last update
 			case TilemapHighlightMode::Changes:
 				return prevVram[addr] != vram[addr];
 
-				//Highlight if modified in the last frame
-			case TilemapHighlightMode::Writes: return accessCounters && masterClock - accessCounters[addr].WriteStamp < clockRate;
+			//Highlight if modified in the last frame
+			case TilemapHighlightMode::Writes:
+				return accessCounters && masterClock - accessCounters[addr].WriteStamp < clockRate;
 		}
 	};
 
@@ -253,10 +254,11 @@ void NesPpuTools::ApplyHighlights(GetTilemapOptions options, uint8_t nametableIn
 
 					if(attrHighlighted) {
 						static constexpr uint32_t attrChangedColor = 0x80FFFF00;
-						bool isEdge = (((column & 3) == 0 && x == 0) ||
+						bool isEdge =
+							((column & 3) == 0 && x == 0) ||
 							((row & 3) == 0 && y == 0) ||
 							((column & 3) == 3 && x == 7) ||
-							((row & 3) == 3 && y == 7));
+							((row & 3) == 3 && y == 7);
 						if(isEdge) {
 							outBuffer[offset + x] = 0xFF000000 | attrChangedColor;
 						} else {

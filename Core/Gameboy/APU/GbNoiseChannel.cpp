@@ -119,15 +119,17 @@ uint8_t GbNoiseChannel::Read(uint16_t addr)
 	uint8_t value = 0;
 	switch(addr) {
 		case 2:
-			value = ((_state.EnvVolume << 4) |
+			value =
+				(_state.EnvVolume << 4) |
 				(_state.EnvRaiseVolume ? 0x08 : 0) |
-				_state.EnvPeriod);
+				_state.EnvPeriod;
 			break;
 
 		case 3:
-			value = ((_state.PeriodShift << 4) |
+			value =
+				(_state.PeriodShift << 4) |
 				(_state.ShortWidthMode ? 0x08 : 0) |
-				_state.Divisor);
+				_state.Divisor;
 			break;
 
 		case 4: value = _state.LengthEnabled ? 0x40 : 0; break;

@@ -23,7 +23,9 @@ void BaseMapper::WriteRegister(uint16_t addr, uint8_t value)
 {
 }
 uint8_t BaseMapper::ReadRegister(uint16_t addr)
-{ return 0; }
+{
+	return 0;
+}
 void BaseMapper::InitMapper(RomData& romData)
 {
 }

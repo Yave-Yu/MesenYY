@@ -319,24 +319,12 @@ uint8_t GbaDmaController::ReadRegister(uint32_t addr)
 	GbaDmaChannel& ch = _state.Ch[(addr - 0xB0) / 12];
 
 	switch(addr) {
-		case 0xB8:
-		case 0xC4:
-		case 0xD0:
-		case 0xDC:
-		case 0xB9:
-		case 0xC5:
-		case 0xD1:
-		case 0xDD:
+		case 0xB8: case 0xC4: case 0xD0: case 0xDC:
+		case 0xB9: case 0xC5: case 0xD1: case 0xDD:
 			return 0;
 
-		case 0xBA:
-		case 0xC6:
-		case 0xD2:
-		case 0xDE: return BitUtilities::GetBits<0>(ch.Control);
-		case 0xBB:
-		case 0xC7:
-		case 0xD3:
-		case 0xDF: return BitUtilities::GetBits<8>(ch.Control);
+		case 0xBA: case 0xC6: case 0xD2: case 0xDE: return BitUtilities::GetBits<0>(ch.Control);
+		case 0xBB: case 0xC7: case 0xD3: case 0xDF: return BitUtilities::GetBits<8>(ch.Control);
 
 		default:
 			//MessageManager::Log("Read unknown DMA register: " + HexUtilities::ToHex32(addr));
@@ -350,63 +338,27 @@ void GbaDmaController::WriteRegister(uint32_t addr, uint8_t value)
 	GbaDmaChannel& ch = _state.Ch[chIndex];
 
 	switch(addr) {
-		case 0xB0:
-		case 0xBC:
-		case 0xC8:
-		case 0xD4: BitUtilities::SetBits<0>(ch.Source, value); break;
-		case 0xB1:
-		case 0xBD:
-		case 0xC9:
-		case 0xD5: BitUtilities::SetBits<8>(ch.Source, value); break;
-		case 0xB2:
-		case 0xBE:
-		case 0xCA:
-		case 0xD6: BitUtilities::SetBits<16>(ch.Source, value); break;
-		case 0xB3:
-		case 0xBF:
-		case 0xCB:
-		case 0xD7: BitUtilities::SetBits<24>(ch.Source, value & (chIndex == 0 ? 0x07 : 0x0F)); break;
+		case 0xB0: case 0xBC: case 0xC8: case 0xD4: BitUtilities::SetBits<0>(ch.Source, value); break;
+		case 0xB1: case 0xBD: case 0xC9: case 0xD5: BitUtilities::SetBits<8>(ch.Source, value); break;
+		case 0xB2: case 0xBE: case 0xCA: case 0xD6: BitUtilities::SetBits<16>(ch.Source, value); break;
+		case 0xB3: case 0xBF: case 0xCB: case 0xD7: BitUtilities::SetBits<24>(ch.Source, value & (chIndex == 0 ? 0x07 : 0x0F)); break;
 
-		case 0xB4:
-		case 0xC0:
-		case 0xCC:
-		case 0xD8: BitUtilities::SetBits<0>(ch.Destination, value); break;
-		case 0xB5:
-		case 0xC1:
-		case 0xCD:
-		case 0xD9: BitUtilities::SetBits<8>(ch.Destination, value); break;
-		case 0xB6:
-		case 0xC2:
-		case 0xCE:
-		case 0xDA: BitUtilities::SetBits<16>(ch.Destination, value); break;
-		case 0xB7:
-		case 0xC3:
-		case 0xCF:
-		case 0xDB: BitUtilities::SetBits<24>(ch.Destination, value & (chIndex == 3 ? 0x0F : 0x07)); break;
+		case 0xB4: case 0xC0: case 0xCC: case 0xD8: BitUtilities::SetBits<0>(ch.Destination, value); break;
+		case 0xB5: case 0xC1: case 0xCD: case 0xD9: BitUtilities::SetBits<8>(ch.Destination, value); break;
+		case 0xB6: case 0xC2: case 0xCE: case 0xDA: BitUtilities::SetBits<16>(ch.Destination, value); break;
+		case 0xB7: case 0xC3: case 0xCF: case 0xDB: BitUtilities::SetBits<24>(ch.Destination, value & (chIndex == 3 ? 0x0F : 0x07)); break;
 
-		case 0xB8:
-		case 0xC4:
-		case 0xD0:
-		case 0xDC: BitUtilities::SetBits<0>(ch.Length, value); break;
-		case 0xB9:
-		case 0xC5:
-		case 0xD1:
-		case 0xDD: BitUtilities::SetBits<8>(ch.Length, value & (chIndex == 3 ? 0xFF : 0x3F)); break;
+		case 0xB8: case 0xC4: case 0xD0: case 0xDC: BitUtilities::SetBits<0>(ch.Length, value); break;
+		case 0xB9: case 0xC5: case 0xD1: case 0xDD: BitUtilities::SetBits<8>(ch.Length, value & (chIndex == 3 ? 0xFF : 0x3F)); break;
 
-		case 0xBA:
-		case 0xC6:
-		case 0xD2:
-		case 0xDE:
+		case 0xBA: case 0xC6: case 0xD2: case 0xDE:
 			value &= 0xE0;
 			BitUtilities::SetBits<0>(ch.Control, value);
 			ch.DestMode = (GbaDmaAddrMode)((value >> 5) & 0x03);
 			ch.SrcMode = (GbaDmaAddrMode)(((value >> 7) & 0x01) | ((ch.Control & 0x100) >> 7));
 			break;
 
-		case 0xBB:
-		case 0xC7:
-		case 0xD3:
-		case 0xDF: {
+		case 0xBB: case 0xC7: case 0xD3: case 0xDF: {
 			if(chIndex != 3) {
 				//drq mode bit not available on channels 0 to 2
 				value &= ~0x08;

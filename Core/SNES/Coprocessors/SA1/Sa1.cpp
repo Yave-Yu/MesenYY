@@ -138,22 +138,28 @@ void Sa1::Sa1RegisterWrite(uint16_t addr, uint8_t value)
 			break;
 
 		case 0x2212:
+			//HCNT (Timer H-Count - Low)
 			_state.HTimer = (_state.HTimer & 0x0100) | value;
 			LogDebug("Set timer");
-			break; //HCNT (Timer H-Count - Low)
+			break;
+
 		case 0x2213:
+			//HCNT (Timer H-Count - High)
 			_state.HTimer = (_state.HTimer & 0xFF) | ((value & 0x01) << 8);
 			LogDebug("Set timer");
-			break; //HCNT (Timer H-Count - High)
+			break;
 
 		case 0x2214:
+			//VCNT (Timer V-Count - Low)
 			_state.VTimer = (_state.VTimer & 0x0100) | value;
 			LogDebug("Set timer");
-			break; //VCNT (Timer V-Count - Low)
+			break;
+
 		case 0x2215:
+			//VCNT (Timer V-Count - High)
 			_state.VTimer = (_state.VTimer & 0xFF) | ((value & 0x01) << 8);
 			LogDebug("Set timer");
-			break; //VCNT (Timer V-Count - High)
+			break;
 
 		case 0x2225:
 			//BMAP (SA-1 BW-RAM Address Mapping)
@@ -234,18 +240,25 @@ void Sa1::Sa1RegisterWrite(uint16_t addr, uint8_t value)
 				_state.MathOpResult = 0;
 			}
 			break;
+
 		case 0x2251:
+			//MA (Arithmetic parameters - Multiplicand/Dividend - Low)
 			ProcessMathOp();
 			_state.MultiplicandDividend = (_state.MultiplicandDividend & 0xFF00) | value;
-			break; //MA (Arithmetic parameters - Multiplicand/Dividend - Low)
+			break;
+
 		case 0x2252:
+			//MA (Arithmetic parameters - Multiplicand/Dividend - High)
 			ProcessMathOp();
 			_state.MultiplicandDividend = (_state.MultiplicandDividend & 0x00FF) | (value << 8);
-			break; //MA (Arithmetic parameters - Multiplicand/Dividend - High)
+			break;
+
 		case 0x2253:
+			//MB (Arithmetic parameters - Multiplier/Divisor - Low)
 			ProcessMathOp();
 			_state.MultiplierDivisor = (_state.MultiplierDivisor & 0xFF00) | value;
-			break; //MB (Arithmetic parameters - Multiplier/Divisor - Low)
+			break;
+
 		case 0x2254:
 			ProcessMathOp();
 
@@ -422,23 +435,26 @@ uint8_t Sa1::Sa1RegisterRead(uint16_t addr)
 
 		case 0x2306: ProcessMathOp(); return _state.MathOpResult & 0xFF; //MR (Arithmetic result)
 		case 0x2307: ProcessMathOp(); return (_state.MathOpResult >> 8) & 0xFF; //MR (Arithmetic result)
+
 		case 0x2308:
+			//MR (Arithmetic result)
 			ProcessMathOp();
 			return (_state.MathOpResult >> 16) & 0xFF;
-			break; //MR (Arithmetic result)
+
 		case 0x2309:
+			//MR (Arithmetic result)
 			ProcessMathOp();
 			return (_state.MathOpResult >> 24) & 0xFF;
-			break; //MR (Arithmetic result)
+
 		case 0x230A:
+			//MR (Arithmetic result)
 			ProcessMathOp();
 			return (_state.MathOpResult >> 32) & 0xFF;
-			break; //MR (Arithmetic result)
 
 		case 0x230B:
+			//OF (Arithmetic overflow flag)
 			ProcessMathOp();
 			return _state.MathOverflow;
-			break; //OF (Arithmetic overflow flag)
 
 		case 0x230C: {
 			//VDP (Variable length data port - Low)

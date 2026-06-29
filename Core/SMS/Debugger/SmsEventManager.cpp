@@ -141,16 +141,22 @@ EventViewerCategoryCfg SmsEventManager::GetEventConfig(DebugEventInfo& evt)
 					case 0x41: return _config.VdpHCounterRead;
 					case 0x80: return _config.VdpVramRead;
 					case 0x81: return _config.VdpControlPortRead;
+
 					case 0xC0:
-					case 0xC1: return _config.IoRead;
+					case 0xC1:
+						return _config.IoRead;
+
 					default: return {};
 				}
 			} else {
 				switch(evt.Operation.Address & 0xC1) {
 					case 0x00: return _config.MemoryControlWrite;
 					case 0x01: return _config.IoWrite;
+
 					case 0x40:
-					case 0x41: return _config.PsgWrite;
+					case 0x41:
+						return _config.PsgWrite;
+
 					case 0x80: return (evt.Flags & (uint32_t)EventFlags::SmsVdpPaletteWrite) ? _config.VdpPaletteWrite : _config.VdpVramWrite;
 					case 0x81: return _config.VdpControlPortWrite;
 					default: return {};

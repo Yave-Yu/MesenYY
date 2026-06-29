@@ -65,8 +65,8 @@ void Msu1::Write(uint16_t addr, uint8_t value)
 			_trackSelect = (_trackSelect & 0xFF) | (value << 8);
 			if(_trackSelect == _audioResumeTrack) {
 				LoadTrack(_audioResumeOffset);
-				_audioResumeTrack = 0;
-				_audioResumeOffset = 0;
+				_audioResumeTrack = -1;
+				_audioResumeOffset = DefaultStartOffset;
 			} else {
 				LoadTrack();
 			}
@@ -75,11 +75,14 @@ void Msu1::Write(uint16_t addr, uint8_t value)
 		case 0x2006: _volume = value; break;
 		case 0x2007:
 			if(!_audioBusy) {
-				_resume = (value & 0x04) == 0;
+				const bool resume = (value & 0x04);
 				_repeat = (value & 0x02) != 0;
 				_paused = (value & 0x01) == 0;
 				_pcmReader.SetLoopFlag(_repeat);
-				if(_paused && !_resume) {
+				//qwertymodo's SMSU-1 revision 2 spec says the resume bit is ignored if it is set at the same time as bits 1 or 0,
+				//but implementations of MSU-1 only seem to check bit 0. To avoid breaking compatibility with software that may
+				//set bit 1, we'll just check bit 0
+				if(_paused && resume) {
 					_audioResumeTrack = _trackSelect;
 					_audioResumeOffset = _pcmReader.GetOffset();
 				}
@@ -141,7 +144,6 @@ void Msu1::Serialize(Serializer& s)
 	SV(_paused);
 	SV(_volume);
 	SV(_trackMissing);
-	SV(_resume);
 	SV(_audioBusy);
 	SV(_dataBusy);
 	SV(offset);

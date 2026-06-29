@@ -303,10 +303,12 @@ uint8_t GbMemoryManager::ReadRegister(uint16_t addr)
 						return _state.CgbRegRpInfrared | 0x3E;
 
 					case 0xFF4F: //CGB - VRAM bank
+
 					case 0xFF68:
 					case 0xFF69:
 					case 0xFF6A:
-					case 0xFF6B: //CGB - Palette
+					case 0xFF6B:
+						//CGB - Palette
 						return _ppu->ReadCgbRegister(addr);
 
 					//FF70 - SVBK - CGB Mode Only - WRAM Bank
@@ -392,7 +394,8 @@ void GbMemoryManager::WriteRegister(uint16_t addr, uint8_t value)
 					case 0xFF52:
 					case 0xFF53:
 					case 0xFF54:
-					case 0xFF55: //CGB - DMA
+					case 0xFF55:
+						//CGB - DMA
 						if(_ppu->IsCgbEnabled()) {
 							_dmaController->WriteCgb(addr, value);
 						}
@@ -412,10 +415,12 @@ void GbMemoryManager::WriteRegister(uint16_t addr, uint8_t value)
 						break;
 
 					case 0xFF4F: //CGB - VRAM banking
+
 					case 0xFF68:
 					case 0xFF69:
 					case 0xFF6A:
-					case 0xFF6B: //CGB - Palette
+					case 0xFF6B:
+						//CGB - Palette
 						_ppu->WriteCgbRegister(addr, value);
 						break;
 

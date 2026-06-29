@@ -316,26 +316,32 @@ void WsCpu::ReadModRmByte()
 				Idle();
 				offset = _state.BX + _state.SI;
 				break;
+
 			case 0x01:
 				Idle();
 				offset = _state.BX + _state.DI;
 				break;
+
 			case 0x02:
 				Idle();
 				offset = _state.BP + _state.SI;
 				seg = GetSegment(WsSegment::SS);
 				break;
+
 			case 0x03:
 				Idle();
 				offset = _state.BP + _state.DI;
 				seg = GetSegment(WsSegment::SS);
 				break;
+
 			case 0x04: offset = _state.SI; break;
 			case 0x05: offset = _state.DI; break;
+
 			case 0x06:
 				offset = _state.BP;
 				seg = GetSegment(WsSegment::SS);
 				break;
+
 			case 0x07: offset = _state.BX; break;
 		}
 
@@ -657,20 +663,25 @@ void WsCpu::LdsLesLeaModRm()
 			default:
 			case 0x00: offset = _state.BX + _state.AX; break;
 			case 0x01: offset = _state.BX + _state.CX; break;
+
 			case 0x02:
 				offset = _state.BP + _state.DX;
 				seg = GetSegment(WsSegment::SS);
 				break;
+
 			case 0x03:
 				offset = _state.BP + _state.BX;
 				seg = GetSegment(WsSegment::SS);
 				break;
+
 			case 0x04: offset = _state.SP + _state.SI; break;
 			case 0x05: offset = _state.BP + _state.DI; break;
+
 			case 0x06:
 				offset = _state.BP + _state.SI;
 				seg = GetSegment(WsSegment::SS);
 				break;
+
 			case 0x07: offset = _state.BX + _state.DI; break;
 		}
 		_modRm.Segment = seg;
@@ -972,10 +983,12 @@ void WsCpu::Grp2ModRm()
 			shift = 1;
 			Idle();
 			break;
+
 		case Grp2Mode::CL:
 			shift = _state.CX & 0xFF;
 			Idle<3>();
 			break;
+
 		case Grp2Mode::Immediate:
 			shift = ReadCodeByte();
 			Idle<3>();
@@ -1011,22 +1024,28 @@ void WsCpu::Grp3ModRm()
 	switch(_modRm.Register) {
 		case 0x00: And<T>(param, ReadImmediate<T>()); break; //TEST
 		case 0x01: break; //NOP
+
 		case 0x02:
 			param = ~param;
 			SetModRm(param);
 			break;
+
 		case 0x03:
+			//NEG
 			param = Sub<T>(0, param, 0);
 			SetModRm(param);
-			break; //NEG
+			break;
+
 		case 0x04:
 			Idle<2>();
 			MulUnsigned<T>((T)_state.AX, param);
 			break;
+
 		case 0x05:
 			Idle<2>();
 			MulSigned<T>((T)_state.AX, param);
 			break;
+
 		case 0x06: DivUnsigned<T>(param); break;
 		case 0x07: DivSigned<T>(param); break;
 	}

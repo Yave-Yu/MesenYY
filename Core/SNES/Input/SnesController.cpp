@@ -60,7 +60,7 @@ uint16_t SnesController::ToByte()
 {
 	//"A Super NES controller returns a 16-bit report in a similar order: B, Y, Select, Start, Up, Down, Left, Right, A, X, L, R, then four 0 bits."
 
-	return (uint8_t)IsPressed(Buttons::B) |
+	return ((uint8_t)IsPressed(Buttons::B) |
 		((uint8_t)IsPressed(Buttons::Y) << 1) |
 		((uint8_t)IsPressed(Buttons::Select) << 2) |
 		((uint8_t)IsPressed(Buttons::Start) << 3) |
@@ -71,7 +71,7 @@ uint16_t SnesController::ToByte()
 		((uint8_t)IsPressed(Buttons::A) << 8) |
 		((uint8_t)IsPressed(Buttons::X) << 9) |
 		((uint8_t)IsPressed(Buttons::L) << 10) |
-		((uint8_t)IsPressed(Buttons::R) << 11);
+		((uint8_t)IsPressed(Buttons::R) << 11));
 }
 
 void SnesController::Serialize(Serializer& s)

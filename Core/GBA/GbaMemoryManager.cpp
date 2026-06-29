@@ -161,14 +161,15 @@ void GbaMemoryManager::ProcessPendingUpdates(bool allowStartDma)
 		_ppu->ProcessObjEnableChange();
 	}
 
-	_hasPendingUpdates = (_dmaController->HasPendingDma() ||
+	_hasPendingUpdates =
+		_dmaController->HasPendingDma() ||
 		_timer->HasPendingTimers() ||
 		_state.IrqUpdateCounter ||
 		_pendingIrqs.size() ||
 		_haltDelay ||
 		_objEnableDelay ||
 		(_dmaController->IsRunning() && _dmaIrqCounter < 10) ||
-		_serial->HasPendingIrq());
+		_serial->HasPendingIrq();
 }
 
 void GbaMemoryManager::ProcessPendingLateUpdates()
@@ -623,6 +624,7 @@ void GbaMemoryManager::WriteRegister(GbaAccessModeVal mode, uint32_t addr, uint8
 			_state.NewIE = (_state.NewIE & 0xFF00) | value;
 			TriggerIrqUpdate();
 			break;
+
 		case 0x201:
 			_state.NewIE = (_state.NewIE & 0xFF) | (value << 8);
 			TriggerIrqUpdate();
@@ -632,6 +634,7 @@ void GbaMemoryManager::WriteRegister(GbaAccessModeVal mode, uint32_t addr, uint8
 			_state.NewIF = (_state.NewIF & 0xFF00) | ((_state.NewIF & 0xFF) & ~value);
 			TriggerIrqUpdate();
 			break;
+
 		case 0x203:
 			_state.NewIF = ((_state.NewIF & 0xFF00) & ~(value << 8)) | (_state.NewIF & 0xFF);
 			TriggerIrqUpdate();
@@ -662,6 +665,7 @@ void GbaMemoryManager::WriteRegister(GbaAccessModeVal mode, uint32_t addr, uint8
 			_state.NewIME = value & 0x01;
 			TriggerIrqUpdate();
 			break;
+
 		case 0x209: break; //ime
 		case 0x20A: break; //ime
 		case 0x20B: break; //ime

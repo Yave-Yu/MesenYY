@@ -149,7 +149,6 @@ void NesConsole::Reset()
 		_vsSubConsole->Reset();
 	}
 	_mapper->OnAfterResetPowerOn();
-
 	if(_mapper->GetEpsm()) {
 		_mapper->GetEpsm()->Reset();
 	}

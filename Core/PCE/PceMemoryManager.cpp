@@ -236,10 +236,11 @@ uint8_t PceMemoryManager::ReadRegister(uint16_t addr)
 		//Unless the UI option to disable the save ram for hucard games is enabled, always report that the CDROM is connected
 		bool cdromConnected = _cdrom != nullptr;
 
-		_state.IoBuffer = ((cdromConnected ? 0 : 0x80) |
+		_state.IoBuffer =
+			(cdromConnected ? 0 : 0x80) |
 			(isTurboGrafx ? 0 : 0x40) |
 			0x30 |
-			_controlManager->ReadInputPort());
+			_controlManager->ReadInputPort();
 
 		return _state.IoBuffer;
 	} else if(addr <= 0x17FF) {

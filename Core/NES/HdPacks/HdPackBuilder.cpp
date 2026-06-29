@@ -268,8 +268,8 @@ void HdPackBuilder::SaveHdPack()
 				pngName = "Chr_" + HexUtilities::ToHex(chrBankId) + "_" + std::to_string(pngNumber) + ".png";
 			}
 
-			tileRows << std::endl
-						<< "#" << pngName << std::endl;
+			tileRows << std::endl;
+			tileRows << "#" << pngName << std::endl;
 			tileRows << pngRows.str();
 			pngRows = stringstream();
 

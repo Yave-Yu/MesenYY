@@ -323,8 +323,11 @@ void PceVdc::ProcessSpriteEvaluation()
 			default:
 			case 0: height = 16; break;
 			case 1: height = 32; break;
+
 			case 2:
-			case 3: height = 64; break;
+			case 3:
+				height = 64;
+				break;
 		}
 
 		if(_spriteRow >= y + height) {
@@ -419,7 +422,9 @@ void PceVdc::LoadBackgroundTiles()
 					case 0:
 					case 2:
 					case 4:
-					case 6: _allowVramAccess = true; break;
+					case 6:
+						_allowVramAccess = true;
+						break;
 
 					case 1: LoadBatEntry(scrollOffset, columnMask, row); break;
 					case 3: _allowVramAccess = false; break; //Unused BAT read?
@@ -522,7 +527,10 @@ void PceVdc::LoadSpriteTiles()
 		uint16_t clocksPerSprite;
 		switch(_state.HvLatch.SpriteAccessMode) {
 			default:
-			case 0: clocksPerSprite = 4; break;
+			case 0:
+				clocksPerSprite = 4;
+				break;
+
 			case 2: clocksPerSprite = 8; break;
 			case 3: clocksPerSprite = 16; break;
 		}
@@ -1027,7 +1035,10 @@ void PceVdc::ProcessVramAccesses()
 			switch(_state.HvLatch.SpriteAccessMode) {
 				default:
 				case 0:
-				case 1: clocksPerSprite = 4; break;
+				case 1:
+					clocksPerSprite = 4;
+					break;
+
 				case 2: clocksPerSprite = 8; break;
 				case 3: clocksPerSprite = 16; break;
 			}
@@ -1246,8 +1257,11 @@ void PceVdc::WriteRegister(uint16_t addr, uint8_t value)
 						switch((value >> 4) & 0x03) {
 							case 0: _state.HvReg.ColumnCount = 32; break;
 							case 1: _state.HvReg.ColumnCount = 64; break;
+
 							case 2:
-							case 3: _state.HvReg.ColumnCount = 128; break;
+							case 3:
+								_state.HvReg.ColumnCount = 128;
+								break;
 						}
 
 						_state.HvReg.RowCount = (value & 0x40) ? 64 : 32;

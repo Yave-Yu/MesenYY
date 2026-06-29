@@ -149,19 +149,26 @@ uint8_t GbaTimer::ReadRegister(uint32_t addr)
 		case 0x100:
 		case 0x104:
 		case 0x108:
-		case 0x10C: return BitUtilities::GetBits<0>(timer.Timer);
+		case 0x10C:
+			return BitUtilities::GetBits<0>(timer.Timer);
+
 		case 0x101:
 		case 0x105:
 		case 0x109:
-		case 0x10D: return BitUtilities::GetBits<8>(timer.Timer);
+		case 0x10D:
+			return BitUtilities::GetBits<8>(timer.Timer);
+
 		case 0x102:
 		case 0x106:
 		case 0x10A:
-		case 0x10E: return timer.Control;
+		case 0x10E:
+			return timer.Control;
+
 		case 0x103:
 		case 0x107:
 		case 0x10B:
-		case 0x10F: return 0;
+		case 0x10F:
+			return 0;
 	}
 
 	return 0;

@@ -158,11 +158,13 @@ void GbaPpu::ProcessEndOfScanline()
 
 		_emu->ProcessEvent(EventType::StartFrame, CpuType::Gba);
 
-		_skipRender = (!cfg.DisableFrameSkipping &&
+		_skipRender =
+			!cfg.DisableFrameSkipping &&
 			!_emu->GetRewindManager()->IsRewinding() &&
 			!_emu->GetVideoRenderer()->IsRecording() &&
 			(settings->GetEmulationSpeed() == 0 || settings->GetEmulationSpeed() > 150) &&
-			_frameSkipTimer.GetElapsedMS() < 15);
+			_frameSkipTimer.GetElapsedMS() < 15;
+
 		if(!_skipRender) {
 			_currentBuffer = _currentBuffer == _outputBuffers[0] ? _outputBuffers[1] : _outputBuffers[0];
 		}
@@ -258,10 +260,12 @@ void GbaPpu::RenderScanline(bool forceRender)
 			RenderBitmapMode<3>();
 			activeLayers = _state.Control2 & 0x04;
 			break;
+
 		case 4:
 			RenderBitmapMode<4>();
 			activeLayers = _state.Control2 & 0x04;
 			break;
+
 		case 5:
 			RenderBitmapMode<5>();
 			activeLayers = _state.Control2 & 0x04;
@@ -516,10 +520,11 @@ void GbaPpu::PushBgPixels(int renderX)
 		if constexpr(bpp8) {
 			tileData = ((tileData & 0xFF00) >> 8) | ((tileData & 0x00FF) << 8);
 		} else {
-			tileData = (((tileData & 0xF000) >> 12) |
+			tileData =
+				((tileData & 0xF000) >> 12) |
 				((tileData & 0x0F00) >> 4) |
 				((tileData & 0x00F0) << 4) |
-				((tileData & 0x000F) << 12));
+				((tileData & 0x000F) << 12);
 		}
 	}
 
@@ -1394,22 +1399,44 @@ void GbaPpu::WriteRegister(uint32_t addr, uint8_t value)
 			break;
 
 		case 0x28:
-		case 0x38: SetTransformOrigin<0>((addr & 0x10) >> 4, value, false); break;
+		case 0x38:
+			SetTransformOrigin<0>((addr & 0x10) >> 4, value, false);
+			break;
+
 		case 0x29:
-		case 0x39: SetTransformOrigin<8>((addr & 0x10) >> 4, value, false); break;
+		case 0x39:
+			SetTransformOrigin<8>((addr & 0x10) >> 4, value, false);
+			break;
+
 		case 0x2A:
-		case 0x3A: SetTransformOrigin<16>((addr & 0x10) >> 4, value, false); break;
+		case 0x3A:
+			SetTransformOrigin<16>((addr & 0x10) >> 4, value, false);
+			break;
+
 		case 0x2B:
-		case 0x3B: SetTransformOrigin<24>((addr & 0x10) >> 4, value & 0x0F, false); break;
+		case 0x3B:
+			SetTransformOrigin<24>((addr & 0x10) >> 4, value & 0x0F, false);
+			break;
 
 		case 0x2C:
-		case 0x3C: SetTransformOrigin<0>((addr & 0x10) >> 4, value, true); break;
+		case 0x3C:
+			SetTransformOrigin<0>((addr & 0x10) >> 4, value, true);
+			break;
+
 		case 0x2D:
-		case 0x3D: SetTransformOrigin<8>((addr & 0x10) >> 4, value, true); break;
+		case 0x3D:
+			SetTransformOrigin<8>((addr & 0x10) >> 4, value, true);
+			break;
+
 		case 0x2E:
-		case 0x3E: SetTransformOrigin<16>((addr & 0x10) >> 4, value, true); break;
+		case 0x3E:
+			SetTransformOrigin<16>((addr & 0x10) >> 4, value, true);
+			break;
+
 		case 0x2F:
-		case 0x3F: SetTransformOrigin<24>((addr & 0x10) >> 4, value & 0x0F, true); break;
+		case 0x3F:
+			SetTransformOrigin<24>((addr & 0x10) >> 4, value & 0x0F, true);
+			break;
 
 		case 0x40: SetWindowX(_state.Window[0].RightX, value); break;
 		case 0x41: SetWindowX(_state.Window[0].LeftX, value); break;
@@ -1425,14 +1452,17 @@ void GbaPpu::WriteRegister(uint32_t addr, uint8_t value)
 			_state.Window0Control = value & 0x3F;
 			SetWindowActiveLayers(0, value & 0x3F);
 			break;
+
 		case 0x49:
 			_state.Window1Control = value & 0x3F;
 			SetWindowActiveLayers(1, value & 0x3F);
 			break;
+
 		case 0x4A:
 			_state.OutWindowControl = value & 0x3F;
 			SetWindowActiveLayers(3, value & 0x3F);
 			break;
+
 		case 0x4B:
 			_state.ObjWindowControl = value & 0x3F;
 			SetWindowActiveLayers(2, value & 0x3F);

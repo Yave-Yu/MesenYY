@@ -37,14 +37,17 @@ public:
 				_prgBanks[2] = value;
 				_memoryManager->RefreshMappings();
 				break;
+
 			case 1:
 				_prgBanks[3] = value;
 				_memoryManager->RefreshMappings();
 				break;
+
 			case 2:
 				_prgBanks[0] = value;
 				_memoryManager->RefreshMappings();
 				break;
+
 			case 3:
 				_prgBanks[1] = value;
 				_memoryManager->RefreshMappings();

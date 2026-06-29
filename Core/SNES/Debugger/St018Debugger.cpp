@@ -218,8 +218,7 @@ void St018Debugger::ProcessInterrupt(uint32_t originalPc, uint32_t currentPc, bo
 	ProcessCallStackUpdates(ret, originalPc);
 	ResetPrevOpCode();
 
-	_debugger->InternalProcessInterrupt(
-		CpuType::St018, *this, *_step.get(), ret, originalPc, dest, currentPc, ret, originalPc, 0, forNmi);
+	_debugger->InternalProcessInterrupt(CpuType::St018, *this, *_step.get(), ret, originalPc, dest, currentPc, ret, originalPc, 0, forNmi);
 }
 
 DebuggerFeatures St018Debugger::GetSupportedFeatures()

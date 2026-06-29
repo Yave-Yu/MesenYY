@@ -534,8 +534,7 @@ BaseMapper* MapperFactory::GetMapperFromID(RomData& romData)
 		//267
 		case 268: return new MMC3_Coolboy();
 		//269-270
-		case 271:
-			break; //22026
+		case 271: break; //22026
 		//272-273
 		case 274: return new Bmc80013B();
 		//275-282
@@ -550,8 +549,7 @@ BaseMapper* MapperFactory::GetMapperFromID(RomData& romData)
 		//291
 		case 292: return new DragonFighter();
 		//293-294
-		case 295:
-			break; //13IN1JY110
+		case 295: break; //13IN1JY110
 		//296-297
 		case 298: return new Tf1201();
 		case 299: return new Bmc11160();
@@ -569,8 +567,7 @@ BaseMapper* MapperFactory::GetMapperFromID(RomData& romData)
 		case 312: return new Kaiser7013B();
 		case 313: return new ResetTxrom();
 		case 314: return new Bmc64in1NoRepeat();
-		case 315:
-			break; //830134C
+		case 315: break; //830134C
 		//316-318
 		case 319: return new Hp898f();
 		case 320: return new Bmc830425C4391T();
@@ -585,8 +582,7 @@ BaseMapper* MapperFactory::GetMapperFromID(RomData& romData)
 		//330
 		case 331: return new Bmc12in1();
 		case 332: return new Super40in1Ws();
-		case 333:
-			return new Bmc8in1(); // + NEWSTAR-GRM070-8IN1
+		case 333: return new Bmc8in1(); // + NEWSTAR-GRM070-8IN1
 		//334
 		case 335: break; //CTC-09
 		case 336: return new BmcK3046();
@@ -595,8 +591,7 @@ BaseMapper* MapperFactory::GetMapperFromID(RomData& romData)
 		case 339: break; //K-3006
 		case 340: break; //K-3036
 		case 341: break; //TJ-03
-		case 342:
-			break; //COOLGIRL
+		case 342: break; //COOLGIRL
 		//343
 		case 344: break; //GN26
 		case 345: break; //L6IN1

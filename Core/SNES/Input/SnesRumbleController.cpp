@@ -20,8 +20,8 @@ void SnesRumbleController::Serialize(Serializer& s)
 {
 	SnesController::Serialize(s);
 	SV(_rumbleData);
-	SV(_lastRumbleFrame);
 	SV(_rumbleActive);
+	SV(_lastRumbleFrame);
 }
 
 void SnesRumbleController::RefreshStateBuffer()

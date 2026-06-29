@@ -264,18 +264,22 @@ void Spc7110::Write(uint32_t addr, uint8_t value)
 
 		//Memory mapping (4830-4834)
 		case 0x4830: _sramEnabled = value & 0x87; break;
+
 		case 0x4831:
 			_dataRomBanks[0] = value & 0x07;
 			UpdateMappings();
 			break;
+
 		case 0x4832:
 			_dataRomBanks[1] = value & 0x07;
 			UpdateMappings();
 			break;
+
 		case 0x4833:
 			_dataRomBanks[2] = value & 0x07;
 			UpdateMappings();
 			break;
+
 		case 0x4834: _dataRomSize = value & 0x07; break;
 
 		//RTC (4840-4842)

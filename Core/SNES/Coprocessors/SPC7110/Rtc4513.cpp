@@ -6,7 +6,7 @@
 #include "Shared/BatteryManager.h"
 #include "Utilities/HexUtilities.h"
 #include "Utilities/Serializer.h"
-#include <Utilities/TimeUtilities.h>
+#include "Utilities/TimeUtilities.h"
 
 //TODO: Partial implementation
 //Missing stuff: most flags e.g: 30ADJ, 24/12, CAL/HW, WRAP, etc.

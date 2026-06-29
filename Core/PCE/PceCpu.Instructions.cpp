@@ -161,11 +161,19 @@ void PceCpu::CMP(uint8_t reg, uint8_t value)
 }
 
 void PceCpu::CPA()
-{ CMP(A(), GetOperandValue()); }
+{
+	CMP(A(), GetOperandValue());
+}
+
 void PceCpu::CPX()
-{ CMP(X(), GetOperandValue()); }
+{
+	CMP(X(), GetOperandValue());
+}
+
 void PceCpu::CPY()
-{ CMP(Y(), GetOperandValue()); }
+{
+	CMP(Y(), GetOperandValue());
+}
 
 void PceCpu::INC()
 {
@@ -387,40 +395,84 @@ void PceCpu::CSH()
 
 //OP Codes
 void PceCpu::LDA()
-{ SetA(GetOperandValue()); }
+{
+	SetA(GetOperandValue());
+}
+
 void PceCpu::LDX()
-{ SetX(GetOperandValue()); }
+{
+	SetX(GetOperandValue());
+}
+
 void PceCpu::LDY()
-{ SetY(GetOperandValue()); }
+{
+	SetY(GetOperandValue());
+}
 
 void PceCpu::STA()
-{ MemoryWrite(GetOperand(), A()); }
+{
+	MemoryWrite(GetOperand(), A());
+}
+
 void PceCpu::STX()
-{ MemoryWrite(GetOperand(), X()); }
+{
+	MemoryWrite(GetOperand(), X());
+}
+
 void PceCpu::STY()
-{ MemoryWrite(GetOperand(), Y()); }
+{
+	MemoryWrite(GetOperand(), Y());
+}
+
 void PceCpu::STZ()
-{ MemoryWrite(GetOperand(), 0); }
+{
+	MemoryWrite(GetOperand(), 0);
+}
 
 void PceCpu::TAX()
-{ SetX(A()); }
+{
+	SetX(A());
+}
+
 void PceCpu::TAY()
-{ SetY(A()); }
+{
+	SetY(A());
+}
+
 void PceCpu::TSX()
-{ SetX(SP()); }
+{
+	SetX(SP());
+}
+
 void PceCpu::TXA()
-{ SetA(X()); }
+{
+	SetA(X());
+}
+
 void PceCpu::TXS()
-{ SetSP(X()); }
+{
+	SetSP(X());
+}
+
 void PceCpu::TYA()
-{ SetA(Y()); }
+{
+	SetA(Y());
+}
 
 void PceCpu::PHA()
-{ Push(A()); }
+{
+	Push(A());
+}
+
 void PceCpu::PHX()
-{ Push(X()); }
+{
+	Push(X());
+}
+
 void PceCpu::PHY()
-{ Push(Y()); }
+{
+	Push(Y());
+}
 
 void PceCpu::PHP()
 {
@@ -453,38 +505,74 @@ void PceCpu::PLY()
 }
 
 void PceCpu::INC_Acc()
-{ SetA(A() + 1); }
+{
+	SetA(A() + 1);
+}
+
 void PceCpu::INX()
-{ SetX(X() + 1); }
+{
+	SetX(X() + 1);
+}
+
 void PceCpu::INY()
-{ SetY(Y() + 1); }
+{
+	SetY(Y() + 1);
+}
 
 void PceCpu::DEC_Acc()
-{ SetA(A() - 1); }
+{
+	SetA(A() - 1);
+}
+
 void PceCpu::DEX()
-{ SetX(X() - 1); }
+{
+	SetX(X() - 1);
+}
+
 void PceCpu::DEY()
-{ SetY(Y() - 1); }
+{
+	SetY(Y() - 1);
+}
 
 void PceCpu::ASL_Acc()
-{ SetA(ASL(A())); }
+{
+	SetA(ASL(A()));
+}
+
 void PceCpu::ASL_Memory()
-{ ASLAddr(); }
+{
+	ASLAddr();
+}
 
 void PceCpu::LSR_Acc()
-{ SetA(LSR(A())); }
+{
+	SetA(LSR(A()));
+}
+
 void PceCpu::LSR_Memory()
-{ LSRAddr(); }
+{
+	LSRAddr();
+}
 
 void PceCpu::ROL_Acc()
-{ SetA(ROL(A())); }
+{
+	SetA(ROL(A()));
+}
+
 void PceCpu::ROL_Memory()
-{ ROLAddr(); }
+{
+	ROLAddr();
+}
 
 void PceCpu::ROR_Acc()
-{ SetA(ROR(A())); }
+{
+	SetA(ROR(A()));
+}
+
 void PceCpu::ROR_Memory()
-{ RORAddr(); }
+{
+	RORAddr();
+}
 
 void PceCpu::JMP_Abs()
 {
@@ -565,21 +653,44 @@ void PceCpu::BVS()
 }
 
 void PceCpu::CLC()
-{ ClearFlags(PceCpuFlags::Carry); }
+{
+	ClearFlags(PceCpuFlags::Carry);
+}
+
 void PceCpu::CLD()
-{ ClearFlags(PceCpuFlags::Decimal); }
+{
+	ClearFlags(PceCpuFlags::Decimal);
+}
+
 void PceCpu::CLI()
-{ ClearFlags(PceCpuFlags::Interrupt); }
+{
+	ClearFlags(PceCpuFlags::Interrupt);
+}
+
 void PceCpu::CLV()
-{ ClearFlags(PceCpuFlags::Overflow); }
+{
+	ClearFlags(PceCpuFlags::Overflow);
+}
+
 void PceCpu::SEC()
-{ SetFlags(PceCpuFlags::Carry); }
+{
+	SetFlags(PceCpuFlags::Carry);
+}
+
 void PceCpu::SED()
-{ SetFlags(PceCpuFlags::Decimal); }
+{
+	SetFlags(PceCpuFlags::Decimal);
+}
+
 void PceCpu::SEI()
-{ SetFlags(PceCpuFlags::Interrupt); }
+{
+	SetFlags(PceCpuFlags::Interrupt);
+}
+
 void PceCpu::SET()
-{ SetFlags(PceCpuFlags::Memory); }
+{
+	SetFlags(PceCpuFlags::Memory);
+}
 
 void PceCpu::BRK()
 {

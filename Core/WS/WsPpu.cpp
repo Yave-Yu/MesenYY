@@ -374,14 +374,14 @@ void WsPpu::DrawIcons()
 
 void WsPpu::DrawIcon(bool visible, const uint16_t icon[11], uint8_t position)
 {
-	if(!visible) {
+	if(!visible || _console->GetModel() == WsModel::PocketChallenge) {
 		return;
 	}
 
 	uint8_t xPos;
 	uint8_t yPos;
 	uint16_t color;
-	if(!visible || _console->GetModel() == WsModel::PocketChallenge) {
+	if(_console->GetModel() == WsModel::Monochrome) {
 		xPos = position + 1;
 		yPos = 145;
 		color = 0;

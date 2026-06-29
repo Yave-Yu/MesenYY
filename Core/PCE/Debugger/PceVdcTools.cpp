@@ -198,8 +198,9 @@ void PceVdcTools::InternalGetSpriteInfo(DebugSpriteInfo& sprite, uint32_t* sprit
 			break;
 	}
 
-	bool visible = (((spriteX + width) > 32 && (spriteX < 256 + 32)) ||
-		((spriteY + height) > 64 && (spriteY < 242 + 64)));
+	bool visible =
+		((spriteX + width) > 32 && (spriteX < 256 + 32)) ||
+		((spriteY + height) > 64 && (spriteY < 242 + 64));
 
 	sprite.Bpp = 4; //Report 2bpp modes as 4bpp to display the right palette in UI
 	sprite.Format = format;

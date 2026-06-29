@@ -64,7 +64,7 @@ BisqwitNtscFilter::BisqwitNtscFilter(Emulator* emu) : BaseVideoFilter(emu)
 			int scale = 8 / _resDivider;
 			outputBuffer += frameInfo.Width * ((120 - GetOverscan().Top) * scale);
 
-			DecodeFrame(120, 239 - GetOverscan().Bottom, _ppuOutputBuffer, outputBuffer, GetVideoPhase() + 120 * 341 * _signalsPerPixel);
+			DecodeFrame(120, 239 - GetOverscan().Bottom, _ppuOutputBuffer, outputBuffer, (GetVideoPhase() * 4) + 327360);
 
 			_workDone = true;
 		}
@@ -88,7 +88,7 @@ void BisqwitNtscFilter::ApplyFilter(uint16_t* ppuOutputBuffer)
 
 	_workDone = false;
 	_waitWork.Signal();
-	DecodeFrame(GetOverscan().Top, 120, ppuOutputBuffer, GetOutputBuffer(), GetVideoPhase() + GetOverscan().Top * 341 * _signalsPerPixel);
+	DecodeFrame(GetOverscan().Top, 120, ppuOutputBuffer, GetOutputBuffer(), (GetVideoPhase() * 4) + GetOverscan().Top * 341 * 8);
 	while(!_workDone) {}
 }
 

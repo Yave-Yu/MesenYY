@@ -75,7 +75,7 @@ void WsApu::WriteDma(bool forHyperVoice, uint8_t sampleValue)
 
 uint8_t WsApu::ReadSample(uint8_t ch, uint8_t pos)
 {
-	//SoundTest force-output mode: override wavetable nibble source with fixed values
+	//TODOWS review once the exact behavior for these 2 flags is understood
 	if(_state.ForceOutput4) {
 		return 4;
 	} else if(_state.ForceOutput2) {
@@ -96,15 +96,17 @@ void WsApu::UpdateOutput()
 {
 	WsConfig& cfg = _emu->GetSettings()->GetWsConfig();
 
-	int32_t leftOutput = (_state.Ch1.LeftOutput * cfg.Channel1Vol / 100 +
+	int32_t leftOutput =
+		_state.Ch1.LeftOutput * cfg.Channel1Vol / 100 +
 		_state.Ch2.LeftOutput * cfg.Channel2Vol / 100 +
 		_state.Ch3.LeftOutput * cfg.Channel3Vol / 100 +
-		_state.Ch4.LeftOutput * cfg.Channel4Vol / 100);
+		_state.Ch4.LeftOutput * cfg.Channel4Vol / 100;
 
-	int32_t rightOutput = (_state.Ch1.RightOutput * cfg.Channel1Vol / 100 +
+	int32_t rightOutput =
+		_state.Ch1.RightOutput * cfg.Channel1Vol / 100 +
 		_state.Ch2.RightOutput * cfg.Channel2Vol / 100 +
 		_state.Ch3.RightOutput * cfg.Channel3Vol / 100 +
-		_state.Ch4.RightOutput * cfg.Channel4Vol / 100);
+		_state.Ch4.RightOutput * cfg.Channel4Vol / 100;
 
 	if(_state.ForceOutputCh2Voice) {
 		leftOutput = (_state.Ch2.GetVolume() * 5) & 0x3FF;
@@ -136,10 +138,12 @@ void WsApu::UpdateOutput()
 						leftOutput = 0;
 						rightOutput = 0;
 						break;
+
 					case 1:
 						leftOutput >>= 1;
 						rightOutput >>= 1;
 						break;
+
 					case 2: break;
 				}
 			} else {
@@ -148,14 +152,17 @@ void WsApu::UpdateOutput()
 						leftOutput = 0;
 						rightOutput = 0;
 						break;
+
 					case 1:
 						leftOutput /= 3;
 						rightOutput /= 3;
 						break;
+
 					case 2:
 						leftOutput = leftOutput * 2 / 3;
 						rightOutput = rightOutput * 2 / 3;
 						break;
+
 					case 3: break;
 				}
 			}
@@ -352,7 +359,7 @@ void WsApu::Write(uint16_t port, uint8_t value)
 			_state.HoldChannels = value & 0x01;
 			_state.Ch3.UseSweepCpuClock = value & 0x02;
 			_state.Ch4.HoldLfsr = (value & 0x0C) >> 2;
-			//Bit 4 remains reserved/unknown on current hardware references
+			//TODOWS bit 4?
 			_state.ForceOutputCh2Voice = value & 0x20;
 			_state.ForceOutput2 = value & 0x40;
 			_state.ForceOutput4 = value & 0x80;

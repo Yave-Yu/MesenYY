@@ -188,8 +188,9 @@ void SnesPpuTools::RenderTilemap(GetTilemapOptions& options, int rowCount, Layer
 				uint8_t yTileOffset = (largeTileHeight ? ((y & 0x08) ? (vMirror ? 0 : 16) : (vMirror ? 16 : 0)) : 0);
 
 				for(int x = 0; x < tileWidth; x++) {
-					uint16_t tileOffset = (yTileOffset +
-						(largeTileWidth ? ((x & 0x08) ? (hMirror ? 0 : 1) : (hMirror ? 1 : 0)) : 0));
+					uint16_t tileOffset =
+						yTileOffset +
+						(largeTileWidth ? ((x & 0x08) ? (hMirror ? 0 : 1) : (hMirror ? 1 : 0)) : 0);
 
 					uint16_t tileStart = (layer.ChrAddress << 1) + ((tileIndex + tileOffset) & 0x3FF) * 8 * bpp;
 					uint16_t pixelStart = tileStart + yOffset * 2;

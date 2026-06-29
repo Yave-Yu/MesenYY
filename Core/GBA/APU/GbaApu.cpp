@@ -138,39 +138,37 @@ void GbaApu::InternalRun()
 
 			double gbVolume = _state.GbVolume ? _state.GbVolume : 0.5;
 
-			int16_t gbLeftOutput = ((_square1->GetOutput() * (int32_t)(cfg.Square1Vol & _state.EnableLeftSq1) / 100) +
-											  (_square2->GetOutput() * (int32_t)(cfg.Square2Vol & _state.EnableLeftSq2) / 100) +
-											  (_wave->GetOutput() * (int32_t)(cfg.WaveVol & _state.EnableLeftWave) / 100) +
-											  (_noise->GetOutput() * (int32_t)(cfg.NoiseVol & _state.EnableLeftNoise) / 100)) *
-				(_state.LeftVolume + 1) * gbVolume;
+			int16_t baseGbLeftOutput =
+				(_square1->GetOutput() * (int32_t)(cfg.Square1Vol & _state.EnableLeftSq1) / 100) +
+				(_square2->GetOutput() * (int32_t)(cfg.Square2Vol & _state.EnableLeftSq2) / 100) +
+				(_wave->GetOutput() * (int32_t)(cfg.WaveVol & _state.EnableLeftWave) / 100) +
+				(_noise->GetOutput() * (int32_t)(cfg.NoiseVol & _state.EnableLeftNoise) / 100);
 
-			_leftSample = ((std::clamp(
-									 _state.Bias +
-										 gbLeftOutput +
-										 ((_state.EnableLeftA ? (_state.DmaSampleA * (int32_t)cfg.ChannelAVol / 100) : 0) << (_state.VolumeA + 1)) +
-										 ((_state.EnableLeftB ? (_state.DmaSampleB * (int32_t)cfg.ChannelBVol / 100) : 0) << (_state.VolumeB + 1)),
-									 0,
-									 0x3FF) &
-									bitRateMask) -
-								  _state.Bias) *
-				32;
+			int16_t gbLeftOutput = baseGbLeftOutput * (_state.LeftVolume + 1) * gbVolume;
 
-			int16_t gbRightOutput = ((_square1->GetOutput() * (int32_t)(cfg.Square1Vol & _state.EnableRightSq1) / 100) +
-												(_square2->GetOutput() * (int32_t)(cfg.Square2Vol & _state.EnableRightSq2) / 100) +
-												(_wave->GetOutput() * (int32_t)(cfg.WaveVol & _state.EnableRightWave) / 100) +
-												(_noise->GetOutput() * (int32_t)(cfg.NoiseVol & _state.EnableRightNoise) / 100)) *
-				(_state.RightVolume + 1) * gbVolume;
+			int32_t leftSample =
+				_state.Bias +
+				gbLeftOutput +
+				((_state.EnableLeftA ? (_state.DmaSampleA * (int32_t)cfg.ChannelAVol / 100) : 0) << (_state.VolumeA + 1)) +
+				((_state.EnableLeftB ? (_state.DmaSampleB * (int32_t)cfg.ChannelBVol / 100) : 0) << (_state.VolumeB + 1));
 
-			_rightSample = ((std::clamp(
-									  _state.Bias +
-										  gbRightOutput +
-										  ((_state.EnableRightA ? (_state.DmaSampleA * (int32_t)cfg.ChannelAVol / 100) : 0) << (_state.VolumeA + 1)) +
-										  ((_state.EnableRightB ? (_state.DmaSampleB * (int32_t)cfg.ChannelBVol / 100) : 0) << (_state.VolumeB + 1)),
-									  0,
-									  0x3FF) &
-									 bitRateMask) -
-									_state.Bias) *
-				32;
+			_leftSample = ((std::clamp(leftSample, 0, 0x3FF) & bitRateMask) - _state.Bias) * 32;
+
+			int16_t baseGbRightOutput =
+				(_square1->GetOutput() * (int32_t)(cfg.Square1Vol & _state.EnableRightSq1) / 100) +
+				(_square2->GetOutput() * (int32_t)(cfg.Square2Vol & _state.EnableRightSq2) / 100) +
+				(_wave->GetOutput() * (int32_t)(cfg.WaveVol & _state.EnableRightWave) / 100) +
+				(_noise->GetOutput() * (int32_t)(cfg.NoiseVol & _state.EnableRightNoise) / 100);
+
+			int16_t gbRightOutput = baseGbRightOutput * (_state.RightVolume + 1) * gbVolume;
+
+			int32_t rightSample =
+				_state.Bias +
+				gbRightOutput +
+				((_state.EnableRightA ? (_state.DmaSampleA * (int32_t)cfg.ChannelAVol / 100) : 0) << (_state.VolumeA + 1)) +
+				((_state.EnableRightB ? (_state.DmaSampleB * (int32_t)cfg.ChannelBVol / 100) : 0) << (_state.VolumeB + 1));
+
+			_rightSample = ((std::clamp(rightSample, 0, 0x3FF) & bitRateMask) - _state.Bias) * 32;
 		}
 
 		//Use low pass filter and subtract the result to filter out DC offset
@@ -513,10 +511,11 @@ void GbaApu::ClockFifo(uint8_t timerIndex)
 
 void GbaApu::UpdateEnabledChannels()
 {
-	_enabledChannels = ((_noise->Enabled() ? 0x08 : 0) |
+	_enabledChannels =
+		(_noise->Enabled() ? 0x08 : 0) |
 		(_wave->Enabled() ? 0x04 : 0) |
 		(_square2->Enabled() ? 0x02 : 0) |
-		(_square1->Enabled() ? 0x01 : 0));
+		(_square1->Enabled() ? 0x01 : 0);
 }
 
 void GbaApu::UpdateSampleRate()

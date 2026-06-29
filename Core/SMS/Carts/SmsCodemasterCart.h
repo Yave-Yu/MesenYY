@@ -38,10 +38,12 @@ public:
 				_prgBanks[0] = value;
 				_memoryManager->RefreshMappings();
 				break;
+
 			case 0x4000:
 				_prgBanks[1] = value;
 				_memoryManager->RefreshMappings();
 				break;
+
 			case 0x8000:
 				_prgBanks[2] = value;
 				_memoryManager->RefreshMappings();

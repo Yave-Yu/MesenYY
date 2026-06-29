@@ -329,8 +329,7 @@ void WsDebugger::ProcessInterrupt(uint32_t originalPc, uint32_t currentPc, bool 
 	ProcessCallStackUpdates(ret, originalPc, originalSp);
 	ResetPrevOpCode();
 
-	_debugger->InternalProcessInterrupt(
-		CpuType::Ws, *this, *_step.get(), ret, originalPc, dest, currentPc, ret, originalPc, originalSp, forNmi);
+	_debugger->InternalProcessInterrupt(CpuType::Ws, *this, *_step.get(), ret, originalPc, dest, currentPc, ret, originalPc, originalSp, forNmi);
 }
 
 void WsDebugger::ProcessPpuCycle()

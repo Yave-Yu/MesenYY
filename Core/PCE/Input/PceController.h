@@ -45,7 +45,7 @@ protected:
 			ClearBit(Buttons::Select);
 		}
 
-		if(!_emu->GetSettings()->GetPcEngineConfig().AllowInvalidInput) {
+		if(!cfg.AllowInvalidInput) {
 			//If both U+D or L+R are pressed at the same time, act as if neither is pressed
 			if(IsPressed(Buttons::Up) && IsPressed(Buttons::Down)) {
 				ClearBit(Buttons::Down);

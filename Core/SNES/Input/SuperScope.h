@@ -15,6 +15,7 @@ private:
 		Turbo = 2,
 		Pause = 3
 	};
+
 	uint32_t _stateBuffer = 0;
 	bool _prevFireButton = false;
 	bool _prevTurboButton = false;

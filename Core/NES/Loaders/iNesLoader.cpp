@@ -136,8 +136,16 @@ void iNesLoader::LoadRom(RomData& romData, vector<uint8_t>& romFile, NesHeader* 
 		Log("[iNes] Save RAM: " + StringUtilities::SizeToString(romData.SaveRamSize));
 	}
 
-	Log("[iNes] Mirroring: " + string(romData.Info.Mirroring == MirroringType::Horizontal ? "Horizontal" : romData.Info.Mirroring == MirroringType::Vertical ? "Vertical" :
-																																																				  "Four Screens"));
+	string mirroringType = "";
+	switch(romData.Info.Mirroring) {
+		case MirroringType::Horizontal: mirroringType = "Horizontal"; break;
+		case MirroringType::Vertical: mirroringType = "Vertical"; break;
+		case MirroringType::ScreenAOnly: mirroringType = "1-Screen (A)"; break;
+		case MirroringType::ScreenBOnly: mirroringType = "1-Screen (B)"; break;
+		case MirroringType::FourScreens: mirroringType = "Four Screens"; break;
+	}
+	Log("[iNes] Mirroring: " + mirroringType);
+
 	Log("[iNes] Battery: " + string(romData.Info.HasBattery ? "Yes" : "No"));
 	if(romData.Info.HasTrainer) {
 		Log("[iNes] Trainer: Yes");

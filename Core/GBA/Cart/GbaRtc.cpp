@@ -28,7 +28,7 @@ void GbaRtc::Write(uint8_t value)
 
 	if(!chipSelect || !_chipSelect) {
 		ResetBus();
-
+		_clk = 0;
 		_bitOut = 1;
 		_chipSelect = chipSelect;
 		return;
