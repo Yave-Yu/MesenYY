@@ -15,7 +15,8 @@ enum class ArmOpCategory
 	BlockDataTransfer,
 	SingleDataSwap,
 	SoftwareInterrupt,
-	InvalidOp,
+	CoprocessorTransfer,
+	InvalidOp
 };
 
 enum class ArmAluOperation : uint8_t
