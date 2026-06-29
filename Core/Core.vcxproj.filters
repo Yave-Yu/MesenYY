@@ -2970,6 +2970,9 @@
     <ClInclude Include="NES\Mappers\Nintendo\CnromProtect.h">
       <Filter>NES\Mappers\Nintendo</Filter>
     </ClInclude>
+    <ClInclude Include="NES\Mappers\Homebrew\BnuyRom.h">
+      <Filter>NES\Mappers\Homebrew</Filter>
+    </ClInclude>
     <ClInclude Include="GBA\GbaWaitStates.h">
       <Filter>GBA</Filter>
     </ClInclude>

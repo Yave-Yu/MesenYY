@@ -522,6 +522,7 @@
     <ClInclude Include="NES\Mappers\VsSystem\VsControlManager.h" />
     <ClInclude Include="NES\Mappers\VsSystem\VsSystem.h" />
     <ClInclude Include="NES\Mappers\VsSystem\VsInputButtons.h" />
+    <ClInclude Include="NES\Mappers\Homebrew\BnuyRom.h" />
     <ClInclude Include="NES\NesConstants.h" />
     <ClInclude Include="NES\NesNtscFilter.h" />
     <ClInclude Include="NES\NsfPpu.h" />
