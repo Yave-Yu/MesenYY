@@ -4,6 +4,7 @@
 #include "SNES/SnesPpu.h"
 #include "SNES/Spc.h"
 #include "SNES/InternalRegisters.h"
+#include "SNES/RegisterHandlerB.h"
 #include "SNES/SnesControlManager.h"
 #include "SNES/SnesMemoryManager.h"
 #include "SNES/SnesDmaController.h"
@@ -74,7 +75,9 @@ void SnesConsole::ProcessEndOfFrame()
 	//when a very long DMA transfer is running across multiple frames.
 	//(RunFrame above can run more than one frame in this scenario, which could cause crashes)
 	_spc->ProcessEndFrame();
+
 	_emu->ProcessEndOfFrame();
+
 	_controlManager->UpdateControlDevices();
 	_controlManager->UpdateInputState();
 	_internalRegisters->SetAutoJoypadReadClock();

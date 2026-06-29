@@ -238,10 +238,12 @@ void SnesPpu::GetChrData(uint8_t layerIndex, uint8_t column, uint8_t plane)
 
 	uint16_t tileIndex = tilemapData & 0x3FF;
 	if(largeTileWidth) {
-		tileIndex = (tileIndex +
-							(config.LargeTiles ? (((realY + tileData.VScroll) & 0x08) ? (vMirror ? 0 : 16) : (vMirror ? 16 : 0)) : 0) +
-							(largeTileWidth ? (useSecondTile ? (hMirror ? 0 : 1) : (hMirror ? 1 : 0)) : 0)) &
-			0x3FF;
+		tileIndex =
+			tileIndex +
+			(config.LargeTiles ? (((realY + tileData.VScroll) & 0x08) ? (vMirror ? 0 : 16) : (vMirror ? 16 : 0)) : 0) +
+			(largeTileWidth ? (useSecondTile ? (hMirror ? 0 : 1) : (hMirror ? 1 : 0)) : 0);
+
+		tileIndex &= 0x3FF;
 	}
 
 	uint16_t tileStart = config.ChrAddress + tileIndex * 4 * bpp;
@@ -257,7 +259,7 @@ uint16_t SnesPpu::GetHvOffsetByteAddress(uint8_t columnIndex, bool forVertOffset
 {
 	uint16_t tilemapAddr = _state.Layers[2].TilemapAddress;
 
-	//Mode 6 always uses uses tiles that are 16 pixels wide, so the 8x8 size becomes 16x8
+	//Mode 6 always uses tiles that are 16 pixels wide, so the 8x8 size becomes 16x8
 	//Other code in this file already applies this, so don't apply it a second time here
 	uint8_t vShift = _state.Layers[2].LargeTiles ? 4 : 3;
 	uint8_t hShift = _state.BgMode == 6 ? 3 : vShift;
@@ -503,12 +505,13 @@ bool SnesPpu::ProcessEndOfScanline(uint16_t& hClock)
 			_timeOver = false;
 			_emu->ProcessEvent(EventType::StartFrame);
 
-			_skipRender = (!_settings->GetSnesConfig().DisableFrameSkipping &&
+			_skipRender =
+				!_settings->GetSnesConfig().DisableFrameSkipping &&
 				(!_interlacedFrame || (_frameCount & 0x02)) &&
 				!_emu->GetRewindManager()->IsRewinding() &&
 				!_emu->GetVideoRenderer()->IsRecording() &&
 				(_settings->GetEmulationSpeed() == 0 || _settings->GetEmulationSpeed() > 150) &&
-				_frameSkipTimer.GetElapsedMS() < 10);
+				_frameSkipTimer.GetElapsedMS() < 10;
 
 			if(_emu->IsRunAheadFrame()) {
 				_skipRender = true;
@@ -1164,15 +1167,17 @@ void SnesPpu::RenderTilemapMode7()
 	}
 	uint8_t mosaicCounter = applyMosaic ? (_drawStartX % _state.MosaicSize) : 0;
 
-	int32_t xValue = (((_state.Mode7.Matrix[0] * clip(hScroll - centerX)) & ~63) +
+	int32_t xValue =
+		((_state.Mode7.Matrix[0] * clip(hScroll - centerX)) & ~63) +
 		((_state.Mode7.Matrix[1] * realY) & ~63) +
 		((_state.Mode7.Matrix[1] * clip(vScroll - centerY)) & ~63) +
-		(centerX << 8));
+		(centerX << 8);
 
-	int32_t yValue = (((_state.Mode7.Matrix[2] * clip(hScroll - centerX)) & ~63) +
+	int32_t yValue =
+		((_state.Mode7.Matrix[2] * clip(hScroll - centerX)) & ~63) +
 		((_state.Mode7.Matrix[3] * realY) & ~63) +
 		((_state.Mode7.Matrix[3] * clip(vScroll - centerY)) & ~63) +
-		(centerY << 8));
+		(centerY << 8);
 
 	int16_t xStep = _state.Mode7.Matrix[0];
 	int16_t yStep = _state.Mode7.Matrix[2];
@@ -1840,11 +1845,12 @@ uint8_t SnesPpu::Read(uint16_t addr)
 
 		case 0x213E: {
 			//STAT77 - PPU Status Flag and Version
-			uint8_t value = ((_timeOver ? 0x80 : 0) |
+			uint8_t value =
+				(_timeOver ? 0x80 : 0) |
 				(_rangeOver ? 0x40 : 0) |
 				(_state.Ppu1OpenBus & 0x10) |
-				0x01 //PPU (5c77) chip version
-			);
+				0x01; //PPU (5C77) chip version
+
 			_state.Ppu1OpenBus = value;
 			return value;
 		}
@@ -1853,12 +1859,12 @@ uint8_t SnesPpu::Read(uint16_t addr)
 			//STAT78 - PPU Status Flag and Version
 			ProcessLocationLatchRequest();
 
-			uint8_t value = ((_oddFrame ? 0x80 : 0) |
+			uint8_t value =
+				(_oddFrame ? 0x80 : 0) |
 				(_locationLatched ? 0x40 : 0) |
 				(_state.Ppu2OpenBus & 0x20) |
 				(_console->GetRegion() == ConsoleRegion::Pal ? 0x10 : 0) |
-				0x03 //PPU (5c78) chip version
-			);
+				0x03; //PPU (5C78) chip version
 
 			if(_regs->GetIoPortOutput() & 0x80) {
 				_locationLatched = false;
@@ -2038,7 +2044,9 @@ void SnesPpu::Write(uint32_t addr, uint8_t value)
 				case 1: _state.VramIncrementValue = 32; break;
 
 				case 2:
-				case 3: _state.VramIncrementValue = 128; break;
+				case 3:
+					_state.VramIncrementValue = 128;
+					break;
 			}
 
 			_state.VramAddressRemapping = (value & 0x0C) >> 2;

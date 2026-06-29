@@ -176,26 +176,10 @@ void SnesMemoryManager::IncMasterClock8()
 
 void SnesMemoryManager::IncMasterClock40()
 {
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
-	Exec();
+	Exec(); Exec(); Exec(); Exec(); Exec();
+	Exec(); Exec(); Exec(); Exec(); Exec();
+	Exec(); Exec(); Exec(); Exec(); Exec();
+	Exec(); Exec(); Exec(); Exec(); Exec();
 }
 
 void SnesMemoryManager::IncMasterClockStartup()

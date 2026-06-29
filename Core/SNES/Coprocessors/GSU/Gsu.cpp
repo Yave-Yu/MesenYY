@@ -6,7 +6,6 @@
 #include "SNES/SnesCpu.h"
 #include "SNES/SnesMemoryManager.h"
 #include "SNES/BaseCartridge.h"
-#include "SNES/CartTypes.h"
 #include "SNES/RamHandler.h"
 #include "Shared/Emulator.h"
 #include "Shared/EmuSettings.h"
@@ -52,67 +51,25 @@ Gsu::Gsu(SnesConsole* console, uint32_t gsuRamSize)
 	cpuMappings->RegisterHandler(0x00, 0x3F, 0x3000, 0x3FFF, this);
 	cpuMappings->RegisterHandler(0x80, 0xBF, 0x3000, 0x3FFF, this);
 
-	bool isHiRom = (_console->GetCartridge()->GetCartFlags() & CartFlags::HiRom) != 0;
-
-	if(isHiRom) {
-		//HiROM+GSU: use pageIncrement=8 so $00:$8000 maps to ROM offset $8000 (not $0000)
-		cpuMappings->RegisterHandler(0x00, 0x3F, 0x8000, 0xFFFF, _gsuCpuRomHandlers, 8);
-		cpuMappings->RegisterHandler(0x80, 0xBF, 0x8000, 0xFFFF, _gsuCpuRomHandlers, 8);
-		//ROM at $40-$7D, skipping $70-$71 (GSU RAM banks)
-		cpuMappings->RegisterHandler(0x40, 0x6F, 0x0000, 0xFFFF, _gsuCpuRomHandlers);
-		uint16_t startPage72 = (uint16_t)(((0x72 - 0x40) * 16) % _gsuCpuRomHandlers.size());
-		cpuMappings->RegisterHandler(0x72, 0x7D, 0x0000, 0xFFFF, _gsuCpuRomHandlers, 0, startPage72);
-		//ROM at $C0-$FF, skipping $F0-$F1 (GSU RAM mirrors)
-		cpuMappings->RegisterHandler(0xC0, 0xEF, 0x0000, 0xFFFF, _gsuCpuRomHandlers);
-		uint16_t startPageF2 = (uint16_t)(((0xF2 - 0xC0) * 16) % _gsuCpuRomHandlers.size());
-		cpuMappings->RegisterHandler(0xF2, 0xFF, 0x0000, 0xFFFF, _gsuCpuRomHandlers, 0, startPageF2);
-
-		//GSU-side ROM: HiROM layout (linear 64KB per bank)
-		_mappings.RegisterHandler(0x00, 0x3F, 0x0000, 0xFFFF, prgRomHandlers);
-		_mappings.RegisterHandler(0x40, 0x5F, 0x0000, 0xFFFF, prgRomHandlers);
-	} else {
-		//LoROM+GSU: EXACT original Mesen mapping (order matters)
-		for(int i = 0; i < 0x3F; i++) {
-			cpuMappings->RegisterHandler(i, i, 0x6000, 0x7FFF, _gsuCpuRamHandlers);
-			cpuMappings->RegisterHandler(i + 0x80, i + 0x80, 0x6000, 0x7FFF, _gsuCpuRamHandlers);
-		}
-		cpuMappings->RegisterHandler(0x70, 0x71, 0x0000, 0xFFFF, _gsuCpuRamHandlers);
-		cpuMappings->RegisterHandler(0xF0, 0xF1, 0x0000, 0xFFFF, _gsuCpuRamHandlers);
-
-		cpuMappings->RegisterHandler(0x00, 0x3F, 0x8000, 0xFFFF, _gsuCpuRomHandlers);
-		cpuMappings->RegisterHandler(0x80, 0xBF, 0x8000, 0xFFFF, _gsuCpuRomHandlers);
-		cpuMappings->RegisterHandler(0x40, 0x5F, 0x0000, 0xFFFF, _gsuCpuRomHandlers);
-		cpuMappings->RegisterHandler(0xC0, 0xDF, 0x0000, 0xFFFF, _gsuCpuRomHandlers);
-
-		//GSU-side ROM: LoROM layout
-		_mappings.RegisterHandler(0x00, 0x3F, 0x8000, 0xFFFF, prgRomHandlers);
-		_mappings.RegisterHandler(0x00, 0x3F, 0x0000, 0x7FFF, prgRomHandlers); //Mirror
-		_mappings.RegisterHandler(0x40, 0x5F, 0x0000, 0xFFFF, prgRomHandlers);
-
-		//GSU-side RAM
-		_mappings.RegisterHandler(0x70, 0x71, 0x0000, 0xFFFF, _gsuRamHandlers);
+	for(int i = 0; i < 0x3F; i++) {
+		cpuMappings->RegisterHandler(i, i, 0x6000, 0x7FFF, _gsuCpuRamHandlers);
+		cpuMappings->RegisterHandler(i + 0x80, i + 0x80, 0x6000, 0x7FFF, _gsuCpuRamHandlers);
 	}
+	cpuMappings->RegisterHandler(0x70, 0x71, 0x0000, 0xFFFF, _gsuCpuRamHandlers);
+	cpuMappings->RegisterHandler(0xF0, 0xF1, 0x0000, 0xFFFF, _gsuCpuRamHandlers);
 
-	if(isHiRom) {
-		//HiROM RAM ¡ª registered AFTER ROM so $70-$71 overrides ROM
-		for(int i = 0; i < 0x3F; i++) {
-			cpuMappings->RegisterHandler(i, i, 0x6000, 0x7FFF, _gsuCpuRamHandlers);
-			cpuMappings->RegisterHandler(i + 0x80, i + 0x80, 0x6000, 0x7FFF, _gsuCpuRamHandlers);
-		}
-		for(uint8_t bank = 0x70; bank <= 0x71; bank++) {
-			for(uint32_t addr = 0x0000; addr <= 0xF000; addr += 0x1000) {
-				uint32_t ramPage = ((bank - 0x70) * 16 + (addr >> 12)) % _gsuCpuRamHandlers.size();
-				cpuMappings->RegisterHandler(bank, bank, (uint16_t)addr, (uint16_t)(addr | 0x0FFF), _gsuCpuRamHandlers[ramPage].get());
-			}
-		}
-		for(uint8_t bank = 0xF0; bank <= 0xF1; bank++) {
-			for(uint32_t addr = 0x0000; addr <= 0xF000; addr += 0x1000) {
-				uint32_t ramPage = ((bank - 0xF0) * 16 + (addr >> 12)) % _gsuCpuRamHandlers.size();
-				cpuMappings->RegisterHandler(bank, bank, (uint16_t)addr, (uint16_t)(addr | 0x0FFF), _gsuCpuRamHandlers[ramPage].get());
-			}
-		}
-		_mappings.RegisterHandler(0x70, 0x71, 0x0000, 0xFFFF, _gsuRamHandlers);
-	}
+	cpuMappings->RegisterHandler(0x00, 0x3F, 0x8000, 0xFFFF, _gsuCpuRomHandlers);
+	cpuMappings->RegisterHandler(0x80, 0xBF, 0x8000, 0xFFFF, _gsuCpuRomHandlers);
+
+	cpuMappings->RegisterHandler(0x40, 0x5F, 0x0000, 0xFFFF, _gsuCpuRomHandlers);
+	cpuMappings->RegisterHandler(0xC0, 0xDF, 0x0000, 0xFFFF, _gsuCpuRomHandlers);
+
+	//GSU mappings
+	_mappings.RegisterHandler(0x00, 0x3F, 0x8000, 0xFFFF, prgRomHandlers);
+	_mappings.RegisterHandler(0x00, 0x3F, 0x0000, 0x7FFF, prgRomHandlers); //Mirror
+
+	_mappings.RegisterHandler(0x40, 0x5F, 0x0000, 0xFFFF, prgRomHandlers);
+	_mappings.RegisterHandler(0x70, 0x71, 0x0000, 0xFFFF, _gsuRamHandlers);
 }
 
 Gsu::~Gsu()
@@ -164,56 +121,18 @@ void Gsu::Exec()
 		case 0x0E: BVC(); break;
 		case 0x0F: BVS(); break;
 
-		case 0x10:
-		case 0x11:
-		case 0x12:
-		case 0x13:
-		case 0x14:
-		case 0x15:
-		case 0x16:
-		case 0x17:
-		case 0x18:
-		case 0x19:
-		case 0x1A:
-		case 0x1B:
-		case 0x1C:
-		case 0x1D:
-		case 0x1E:
-		case 0x1F:
+		case 0x10: case 0x11: case 0x12: case 0x13: case 0x14: case 0x15: case 0x16: case 0x17:
+		case 0x18: case 0x19: case 0x1A: case 0x1B: case 0x1C: case 0x1D: case 0x1E: case 0x1F:
 			TO(opCode & 0x0F);
 			break;
 
-		case 0x20:
-		case 0x21:
-		case 0x22:
-		case 0x23:
-		case 0x24:
-		case 0x25:
-		case 0x26:
-		case 0x27:
-		case 0x28:
-		case 0x29:
-		case 0x2A:
-		case 0x2B:
-		case 0x2C:
-		case 0x2D:
-		case 0x2E:
-		case 0x2F:
+		case 0x20: case 0x21: case 0x22: case 0x23: case 0x24: case 0x25: case 0x26: case 0x27:
+		case 0x28: case 0x29: case 0x2A: case 0x2B: case 0x2C: case 0x2D: case 0x2E: case 0x2F:
 			WITH(opCode & 0x0F);
 			break;
 
-		case 0x30:
-		case 0x31:
-		case 0x32:
-		case 0x33:
-		case 0x34:
-		case 0x35:
-		case 0x36:
-		case 0x37:
-		case 0x38:
-		case 0x39:
-		case 0x3A:
-		case 0x3B:
+		case 0x30: case 0x31: case 0x32: case 0x33: case 0x34: case 0x35: case 0x36: case 0x37:
+		case 0x38: case 0x39: case 0x3A: case 0x3B:
 			STORE(opCode & 0x0F);
 			break;
 
@@ -222,18 +141,8 @@ void Gsu::Exec()
 		case 0x3E: ALT2(); break;
 		case 0x3F: ALT3(); break;
 
-		case 0x40:
-		case 0x41:
-		case 0x42:
-		case 0x43:
-		case 0x44:
-		case 0x45:
-		case 0x46:
-		case 0x47:
-		case 0x48:
-		case 0x49:
-		case 0x4A:
-		case 0x4B:
+		case 0x40: case 0x41: case 0x42: case 0x43: case 0x44: case 0x45: case 0x46: case 0x47:
+		case 0x48: case 0x49: case 0x4A: case 0x4B:
 			LOAD(opCode & 0x0F);
 			break;
 
@@ -242,80 +151,25 @@ void Gsu::Exec()
 		case 0x4E: ColorCMode(); break;
 		case 0x4F: NOT(); break;
 
-		case 0x50:
-		case 0x51:
-		case 0x52:
-		case 0x53:
-		case 0x54:
-		case 0x55:
-		case 0x56:
-		case 0x57:
-		case 0x58:
-		case 0x59:
-		case 0x5A:
-		case 0x5B:
-		case 0x5C:
-		case 0x5D:
-		case 0x5E:
-		case 0x5F:
+		case 0x50: case 0x51: case 0x52: case 0x53: case 0x54: case 0x55: case 0x56: case 0x57:
+		case 0x58: case 0x59: case 0x5A: case 0x5B: case 0x5C: case 0x5D: case 0x5E: case 0x5F:
 			Add(opCode & 0x0F);
 			break;
 
-		case 0x60:
-		case 0x61:
-		case 0x62:
-		case 0x63:
-		case 0x64:
-		case 0x65:
-		case 0x66:
-		case 0x67:
-		case 0x68:
-		case 0x69:
-		case 0x6A:
-		case 0x6B:
-		case 0x6C:
-		case 0x6D:
-		case 0x6E:
-		case 0x6F:
+		case 0x60: case 0x61: case 0x62: case 0x63: case 0x64: case 0x65: case 0x66: case 0x67:
+		case 0x68: case 0x69: case 0x6A: case 0x6B: case 0x6C: case 0x6D: case 0x6E: case 0x6F:
 			SubCompare(opCode & 0x0F);
 			break;
 
 		case 0x70: MERGE(); break;
 
-		case 0x71:
-		case 0x72:
-		case 0x73:
-		case 0x74:
-		case 0x75:
-		case 0x76:
-		case 0x77:
-		case 0x78:
-		case 0x79:
-		case 0x7A:
-		case 0x7B:
-		case 0x7C:
-		case 0x7D:
-		case 0x7E:
-		case 0x7F:
+		case 0x71: case 0x72: case 0x73: case 0x74: case 0x75: case 0x76: case 0x77:
+		case 0x78: case 0x79: case 0x7A: case 0x7B: case 0x7C: case 0x7D: case 0x7E: case 0x7F:
 			AndBitClear(opCode & 0x0F);
 			break;
 
-		case 0x80:
-		case 0x81:
-		case 0x82:
-		case 0x83:
-		case 0x84:
-		case 0x85:
-		case 0x86:
-		case 0x87:
-		case 0x88:
-		case 0x89:
-		case 0x8A:
-		case 0x8B:
-		case 0x8C:
-		case 0x8D:
-		case 0x8E:
-		case 0x8F:
+		case 0x80: case 0x81: case 0x82: case 0x83: case 0x84: case 0x85: case 0x86: case 0x87:
+		case 0x88: case 0x89: case 0x8A: case 0x8B: case 0x8C: case 0x8D: case 0x8E: case 0x8F:
 			MULT(opCode & 0x0F);
 			break;
 
@@ -331,132 +185,46 @@ void Gsu::Exec()
 		case 0x96: ASR(); break;
 		case 0x97: ROR(); break;
 
-		case 0x98:
-		case 0x99:
-		case 0x9A:
-		case 0x9B:
-		case 0x9C:
-		case 0x9D:
+		case 0x98: case 0x99: case 0x9A: case 0x9B: case 0x9C: case 0x9D:
 			JMP(opCode & 0x0F);
 			break;
 
 		case 0x9E: LOB(); break;
 		case 0x9F: FMultLMult(); break;
 
-		case 0xA0:
-		case 0xA1:
-		case 0xA2:
-		case 0xA3:
-		case 0xA4:
-		case 0xA5:
-		case 0xA6:
-		case 0xA7:
-		case 0xA8:
-		case 0xA9:
-		case 0xAA:
-		case 0xAB:
-		case 0xAC:
-		case 0xAD:
-		case 0xAE:
-		case 0xAF:
+		case 0xA0: case 0xA1: case 0xA2: case 0xA3: case 0xA4: case 0xA5: case 0xA6: case 0xA7:
+		case 0xA8: case 0xA9: case 0xAA: case 0xAB: case 0xAC: case 0xAD: case 0xAE: case 0xAF:
 			IbtSmsLms(opCode & 0x0F);
 			break;
 
-		case 0xB0:
-		case 0xB1:
-		case 0xB2:
-		case 0xB3:
-		case 0xB4:
-		case 0xB5:
-		case 0xB6:
-		case 0xB7:
-		case 0xB8:
-		case 0xB9:
-		case 0xBA:
-		case 0xBB:
-		case 0xBC:
-		case 0xBD:
-		case 0xBE:
-		case 0xBF:
+		case 0xB0: case 0xB1: case 0xB2: case 0xB3: case 0xB4: case 0xB5: case 0xB6: case 0xB7:
+		case 0xB8: case 0xB9: case 0xBA: case 0xBB: case 0xBC: case 0xBD: case 0xBE: case 0xBF:
 			FROM(opCode & 0x0F);
 			break;
 
 		case 0xC0: HIB(); break;
 
-		case 0xC1:
-		case 0xC2:
-		case 0xC3:
-		case 0xC4:
-		case 0xC5:
-		case 0xC6:
-		case 0xC7:
-		case 0xC8:
-		case 0xC9:
-		case 0xCA:
-		case 0xCB:
-		case 0xCC:
-		case 0xCD:
-		case 0xCE:
-		case 0xCF:
+		case 0xC1: case 0xC2: case 0xC3: case 0xC4: case 0xC5: case 0xC6: case 0xC7:
+		case 0xC8: case 0xC9: case 0xCA: case 0xCB: case 0xCC: case 0xCD: case 0xCE: case 0xCF:
 			OrXor(opCode & 0x0F);
 			break;
 
-		case 0xD0:
-		case 0xD1:
-		case 0xD2:
-		case 0xD3:
-		case 0xD4:
-		case 0xD5:
-		case 0xD6:
-		case 0xD7:
-		case 0xD8:
-		case 0xD9:
-		case 0xDA:
-		case 0xDB:
-		case 0xDC:
-		case 0xDD:
-		case 0xDE:
+		case 0xD0: case 0xD1: case 0xD2: case 0xD3: case 0xD4: case 0xD5: case 0xD6: case 0xD7:
+		case 0xD8: case 0xD9: case 0xDA: case 0xDB: case 0xDC: case 0xDD: case 0xDE:
 			INC(opCode & 0x0F);
 			break;
 
 		case 0xDF: GetCRamBRomB(); break;
 
-		case 0xE0:
-		case 0xE1:
-		case 0xE2:
-		case 0xE3:
-		case 0xE4:
-		case 0xE5:
-		case 0xE6:
-		case 0xE7:
-		case 0xE8:
-		case 0xE9:
-		case 0xEA:
-		case 0xEB:
-		case 0xEC:
-		case 0xED:
-		case 0xEE:
+		case 0xE0: case 0xE1: case 0xE2: case 0xE3: case 0xE4: case 0xE5: case 0xE6: case 0xE7:
+		case 0xE8: case 0xE9: case 0xEA: case 0xEB: case 0xEC: case 0xED: case 0xEE:
 			DEC(opCode & 0x0F);
 			break;
 
 		case 0xEF: GETB(); break;
 
-		case 0xF0:
-		case 0xF1:
-		case 0xF2:
-		case 0xF3:
-		case 0xF4:
-		case 0xF5:
-		case 0xF6:
-		case 0xF7:
-		case 0xF8:
-		case 0xF9:
-		case 0xFA:
-		case 0xFB:
-		case 0xFC:
-		case 0xFD:
-		case 0xFE:
-		case 0xFF:
+		case 0xF0: case 0xF1: case 0xF2: case 0xF3: case 0xF4: case 0xF5: case 0xF6: case 0xF7:
+		case 0xF8: case 0xF9: case 0xFA: case 0xFB: case 0xFC: case 0xFD: case 0xFE: case 0xFF:
 			IwtLmSm(opCode & 0x0F);
 			break;
 	}
@@ -617,11 +385,8 @@ void Gsu::WaitRamOperation()
 void Gsu::WaitForRomAccess()
 {
 	if(!_state.GsuRomAccess) {
-		//When executing from RAM (PBR >= $60), the R14 ROM prefetch is a no-op on real hardware ¡ª don't stall the GSU for it.
-		if(_state.ProgramBank <= 0x5F) {
-			_waitForRomAccess = true;
-			_stopped = true;
-		}
+		_waitForRomAccess = true;
+		_stopped = true;
 	}
 }
 
@@ -665,8 +430,7 @@ void Gsu::Step(uint64_t cycles)
 	_state.CycleCount += cycles;
 
 	if(_state.RomDelay) {
-		uint8_t romDec = (cycles >= _state.RomDelay) ? _state.RomDelay : (uint8_t)cycles;
-		_state.RomDelay -= romDec;
+		_state.RomDelay -= std::min<uint8_t>((uint8_t)cycles, _state.RomDelay);
 		if(_state.RomDelay == 0) {
 			WaitForRomAccess();
 			_state.RomReadBuffer = ReadGsu((_state.RomBank << 16) | _state.R[14], MemoryOperationType::Read);
@@ -675,8 +439,7 @@ void Gsu::Step(uint64_t cycles)
 	}
 
 	if(_state.RamDelay) {
-		uint8_t ramDec = (cycles >= _state.RamDelay) ? _state.RamDelay : (uint8_t)cycles;
-		_state.RamDelay -= ramDec;
+		_state.RamDelay -= std::min<uint8_t>((uint8_t)cycles, _state.RamDelay);
 		if(_state.RamDelay == 0) {
 			WaitForRamAccess();
 			WriteGsu(0x700000 | (_state.RamBank << 16) | _state.RamWriteAddress, _state.RamWriteValue, MemoryOperationType::Write);
@@ -706,40 +469,12 @@ uint8_t Gsu::Read(uint32_t addr)
 	}
 
 	switch(addr) {
-		case 0x3000:
-		case 0x3002:
-		case 0x3004:
-		case 0x3006:
-		case 0x3008:
-		case 0x300A:
-		case 0x300C:
-		case 0x300E:
-		case 0x3010:
-		case 0x3012:
-		case 0x3014:
-		case 0x3016:
-		case 0x3018:
-		case 0x301A:
-		case 0x301C:
-		case 0x301E:
+		case 0x3000: case 0x3002: case 0x3004: case 0x3006: case 0x3008: case 0x300A: case 0x300C:case 0x300E:
+		case 0x3010: case 0x3012: case 0x3014: case 0x3016: case 0x3018: case 0x301A: case 0x301C:case 0x301E:
 			return (uint8_t)_state.R[(addr >> 1) & 0x0F];
 
-		case 0x3001:
-		case 0x3003:
-		case 0x3005:
-		case 0x3007:
-		case 0x3009:
-		case 0x300B:
-		case 0x300D:
-		case 0x300F:
-		case 0x3011:
-		case 0x3013:
-		case 0x3015:
-		case 0x3017:
-		case 0x3019:
-		case 0x301B:
-		case 0x301D:
-		case 0x301F:
+		case 0x3001: case 0x3003: case 0x3005: case 0x3007: case 0x3009: case 0x300B: case 0x300D:case 0x300F:
+		case 0x3011: case 0x3013: case 0x3015: case 0x3017: case 0x3019: case 0x301B: case 0x301D:case 0x301F:
 			return _state.R[(addr >> 1) & 0x0F] >> 8;
 
 		case 0x3030: return _state.SFR.GetFlagsLow();
@@ -777,41 +512,13 @@ void Gsu::Write(uint32_t addr, uint8_t value)
 	}
 
 	switch(addr) {
-		case 0x3000:
-		case 0x3002:
-		case 0x3004:
-		case 0x3006:
-		case 0x3008:
-		case 0x300A:
-		case 0x300C:
-		case 0x300E:
-		case 0x3010:
-		case 0x3012:
-		case 0x3014:
-		case 0x3016:
-		case 0x3018:
-		case 0x301A:
-		case 0x301C:
-		case 0x301E:
+		case 0x3000: case 0x3002: case 0x3004: case 0x3006: case 0x3008: case 0x300A: case 0x300C: case 0x300E:
+		case 0x3010: case 0x3012: case 0x3014: case 0x3016: case 0x3018: case 0x301A: case 0x301C: case 0x301E:
 			_state.RegisterLatch = value;
 			break;
 
-		case 0x3001:
-		case 0x3003:
-		case 0x3005:
-		case 0x3007:
-		case 0x3009:
-		case 0x300B:
-		case 0x300D:
-		case 0x300F:
-		case 0x3011:
-		case 0x3013:
-		case 0x3015:
-		case 0x3017:
-		case 0x3019:
-		case 0x301B:
-		case 0x301D:
-		case 0x301F: {
+		case 0x3001: case 0x3003: case 0x3005: case 0x3007: case 0x3009: case 0x300B: case 0x300D: case 0x300F:
+		case 0x3011: case 0x3013: case 0x3015: case 0x3017: case 0x3019: case 0x301B: case 0x301D: case 0x301F: {
 			uint8_t reg = (addr >> 1) & 0x0F;
 			_state.R[reg] = (value << 8) | _state.RegisterLatch;
 
@@ -820,18 +527,6 @@ void Gsu::Write(uint32_t addr, uint8_t value)
 				_state.RomDelay = _state.ClockSelect ? 5 : 6;
 			} else if(addr == 0x301F) {
 				_state.SFR.Running = true;
-				_waitForRomAccess = false;
-				_waitForRamAccess = false;
-				_state.SFR.RomReadPending = false;
-				_state.RomDelay = 0;
-				_state.RamDelay = 0;
-				//Ensure CycleCount doesn't exceed master clock so Run() can execute
-				{
-					uint64_t target = _memoryManager->GetMasterClock() * _clockMultiplier;
-					if(_state.CycleCount > target) {
-						_state.CycleCount = target;
-					}
-				}
 				UpdateRunningState();
 			}
 			break;
@@ -854,6 +549,7 @@ void Gsu::Write(uint32_t addr, uint8_t value)
 		}
 
 		case 0x3033: _state.BackupRamEnabled = (value & 0x01); break;
+
 		case 0x3034:
 			_state.ProgramBank = (value & 0x7F);
 			InvalidateCache();

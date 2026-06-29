@@ -145,6 +145,7 @@ bool SnesDmaController::InitHdmaChannels()
 			_memoryManager->IncMasterClock4();
 			_dmaClockCounter += 8;
 
+			ch.HdmaTableAddress++;
 			bool stopped = ch.HdmaLineCounterAndRepeat == 0;
 			if(stopped) {
 				StopHdmaChannel(i);
