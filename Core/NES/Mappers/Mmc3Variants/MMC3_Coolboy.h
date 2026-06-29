@@ -9,7 +9,7 @@ private:
 	uint8_t _exRegs[4] = {};
 
 protected:
-	uint16_t RegisterStartAddress() override { return 0x6000; }
+	uint16_t RegisterStartAddress() override { return _romInfo.SubMapperID == 1 ? 0x5000 : 0x6000; }
 	uint32_t GetChrRamSize() override { return 0x40000; }
 
 	void Reset(bool softReset) override
