@@ -54,6 +54,7 @@ namespace Mesen.Config
 		//Emulation
 		[Reactive] public bool EnableRandomPowerOnState { get; set; } = false;
 		[Reactive] public bool EnableStrictBoardMappings { get; set; } = false;
+		[Reactive] public bool AllowInvalidVRAMAccess { get; set; } = false;
 		[Reactive] public RamState RamPowerOnState { get; set; } = RamState.AllZeros;
 		[Reactive][MinMax(-999, 999)] public Int32 SpcClockSpeedAdjustment { get; set; } = 40;
 
@@ -113,6 +114,7 @@ namespace Mesen.Config
 
 				EnableRandomPowerOnState = this.EnableRandomPowerOnState,
 				EnableStrictBoardMappings = this.EnableStrictBoardMappings,
+				AllowInvalidVRAMAccess = this.AllowInvalidVRAMAccess,
 				PpuExtraScanlinesBeforeNmi = this.PpuExtraScanlinesBeforeNmi,
 				PpuExtraScanlinesAfterNmi = this.PpuExtraScanlinesAfterNmi,
 				GsuClockSpeed = this.GsuClockSpeed,
@@ -171,6 +173,7 @@ namespace Mesen.Config
 
 		[MarshalAs(UnmanagedType.I1)] public bool EnableRandomPowerOnState;
 		[MarshalAs(UnmanagedType.I1)] public bool EnableStrictBoardMappings;
+		[MarshalAs(UnmanagedType.I1)] public bool AllowInvalidVRAMAccess;
 		public RamState RamPowerOnState;
 		public Int32 SpcClockSpeedAdjustment;
 

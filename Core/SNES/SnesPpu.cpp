@@ -1631,7 +1631,7 @@ bool SnesPpu::IsDoubleWidth()
 
 bool SnesPpu::CanAccessCgram()
 {
-	bool allowAccess = _scanline >= _nmiScanline || _scanline == 0 || _state.ForcedBlank || _memoryManager->GetHClock() < 88 || _memoryManager->GetHClock() >= 1096;
+	bool allowAccess = _emu->GetSettings()->GetSnesConfig().AllowInvalidVRAMAccess || (_scanline >= _nmiScanline || _scanline == 0 || _state.ForcedBlank || _memoryManager->GetHClock() < 88 || _memoryManager->GetHClock() >= 1096);
 	if(!allowAccess) {
 		_emu->BreakIfDebugging(CpuType::Snes, BreakSource::SnesInvalidPpuAccess);
 	}
@@ -1640,7 +1640,7 @@ bool SnesPpu::CanAccessCgram()
 
 bool SnesPpu::CanAccessVram()
 {
-	bool allowAccess = _scanline >= _nmiScanline || _state.ForcedBlank;
+	bool allowAccess = _emu->GetSettings()->GetSnesConfig().AllowInvalidVRAMAccess || (_scanline >= _nmiScanline || _state.ForcedBlank);
 	if(!allowAccess) {
 		_emu->BreakIfDebugging(CpuType::Snes, BreakSource::SnesInvalidPpuAccess);
 	}
@@ -1684,7 +1684,7 @@ void SnesPpu::UpdateOamAddress()
 
 uint16_t SnesPpu::GetOamAddress()
 {
-	if(_state.ForcedBlank || _scanline >= _vblankStartScanline) {
+	if(_emu->GetSettings()->GetSnesConfig().AllowInvalidVRAMAccess || _state.ForcedBlank || _scanline >= _vblankStartScanline) {
 		return _state.InternalOamAddress;
 	} else {
 		_emu->BreakIfDebugging(CpuType::Snes, BreakSource::SnesInvalidPpuAccess);

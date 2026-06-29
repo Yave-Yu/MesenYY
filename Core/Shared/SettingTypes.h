@@ -532,6 +532,7 @@ struct PcEngineConfig
 
 	RamState RamPowerOnState = RamState::Random;
 	bool EnableRandomPowerOnState = false;
+	bool AllowInvalidVRAMAccess = false;
 
 	uint32_t ChannelVol[6] = { 100, 100, 100, 100, 100, 100 };
 	uint32_t CdAudioVolume = 100;
@@ -593,6 +594,7 @@ struct SnesConfig
 
 	bool EnableRandomPowerOnState = false;
 	bool EnableStrictBoardMappings = false;
+	bool AllowInvalidVRAMAccess = false;
 	RamState RamPowerOnState = RamState::Random;
 	int32_t SpcClockSpeedAdjustment = 0;
 

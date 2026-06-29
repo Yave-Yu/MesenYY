@@ -107,6 +107,7 @@
 					
 					<c:CheckBoxWarning IsChecked="{Binding Config.EnableRandomPowerOnState}" Text="{l:Translate chkRandomPowerOnState}" />
 					<c:CheckBoxWarning IsChecked="{Binding Config.EnableStrictBoardMappings}" Text="{l:Translate chkStrictBoardMappings}" />
+					<c:CheckBoxWarning IsChecked="{Binding Config.AllowInvalidVRAMAccess}" Text="{l:Translate chkAllowInvalidVRAMAccess}" />
 				</StackPanel>
 			</ScrollViewer>
 		</TabItem>
