@@ -167,7 +167,12 @@ protected:
 	void UpdatePrgState()
 	{
 		bool invertBits = (_prgMode & 0x03) == 0x03;
-		int prgRegs[4] = { InvertPrgBits(_prgRegs[0], invertBits), InvertPrgBits(_prgRegs[1], invertBits), InvertPrgBits(_prgRegs[2], invertBits), InvertPrgBits(_prgRegs[3], invertBits) };
+		int prgRegs[4] = {
+			InvertPrgBits(_prgRegs[0], invertBits),
+			InvertPrgBits(_prgRegs[1], invertBits),
+			InvertPrgBits(_prgRegs[2], invertBits),
+			InvertPrgBits(_prgRegs[3], invertBits)
+		};
 
 		switch(_prgMode & 0x03) {
 			case 0:
@@ -217,14 +222,17 @@ protected:
 					mask = 0x1F;
 					shift = 5;
 					break;
+
 				case 1:
 					mask = 0x3F;
 					shift = 6;
 					break;
+
 				case 2:
 					mask = 0x7F;
 					shift = 7;
 					break;
+
 				case 3:
 					mask = 0xFF;
 					shift = 8;

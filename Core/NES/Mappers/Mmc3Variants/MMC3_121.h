@@ -63,37 +63,45 @@ protected:
 				_exRegs[7] = 1;
 				_exRegs[0] = _exRegs[6];
 				break;
+
 			case 0x29:
 				_exRegs[7] = 1;
 				_exRegs[0] = _exRegs[6];
 				break;
+
 			case 0x26:
 				_exRegs[7] = 0;
 				_exRegs[0] = _exRegs[6];
 				break;
+
 			case 0x2B:
 				_exRegs[7] = 1;
 				_exRegs[0] = _exRegs[6];
 				break;
+
 			case 0x2C:
 				_exRegs[7] = 1;
 				if(_exRegs[6]) {
 					_exRegs[0] = _exRegs[6];
 				}
 				break;
+
 			case 0x3C:
 			case 0x3F:
 				_exRegs[7] = 1;
 				_exRegs[0] = _exRegs[6];
 				break;
+
 			case 0x28:
 				_exRegs[7] = 0;
 				_exRegs[1] = _exRegs[6];
 				break;
+
 			case 0x2A:
 				_exRegs[7] = 0;
 				_exRegs[2] = _exRegs[6];
 				break;
+
 			case 0x2F: break;
 			default: _exRegs[5] = 0; break;
 		}

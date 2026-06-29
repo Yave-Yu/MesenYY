@@ -74,6 +74,7 @@ protected:
 				_reg = lut[value & 0x07];
 				UpdateState();
 				break;
+
 			case 0x4120:
 				_swap = value & 0x01;
 				UpdateState();

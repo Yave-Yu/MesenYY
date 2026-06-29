@@ -75,10 +75,12 @@ protected:
 						_variant = NamcoVariant::Unknown;
 						_autoDetectVariant = true;
 						break;
+
 					case 1:
 						_variant = NamcoVariant::Namco175;
 						_autoDetectVariant = false;
 						break;
+
 					case 2:
 						_variant = NamcoVariant::Namco340;
 						_autoDetectVariant = false;

@@ -99,14 +99,17 @@ protected:
 				mirroringType = "Horizontal";
 				mirValue = 3;
 				break;
+
 			case MirroringType::Vertical:
 				mirroringType = "Vertical";
 				mirValue = 2;
 				break;
+
 			case MirroringType::ScreenBOnly:
 				mirroringType = "Screen B";
 				mirValue = 1;
 				break;
+
 			case MirroringType::ScreenAOnly:
 				mirroringType = "Screen A";
 				mirValue = 0;

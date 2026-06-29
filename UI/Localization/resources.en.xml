@@ -249,7 +249,7 @@
 			<Control ID="tpgEmulation">Emulation</Control>
 			<Control ID="lblRamPowerOnState">Default power on state for RAM: </Control>
 			<Control ID="chkRandomPowerOnState">Randomize power-on state</Control>
-			<Control ID="chkStrictBoardMappings">Use strict board mappings (breaks some romhacks)</Control>
+			<Control ID="chkStrictBoardMappings">Use strict board mappings</Control>
 			<Control ID="chkAllowInvalidVRAMAccess">Allow invalid VRAM access</Control>
 			<Control ID="lblSpcClockSpeedAdjustment">SPC clock speed adjustment: </Control>
 			<Control ID="lblNotRecommended">(not recommended)</Control>

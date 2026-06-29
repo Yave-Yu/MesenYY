@@ -40,8 +40,12 @@ protected:
 				}
 			}
 
-			MMC3::SelectChrPage(slot,
-				(page & 0x80 & mask) | ((((_exRegs[0] & 0x08) << 4) & ~mask)) | ((_exRegs[2] & 0x0F) << 3) | slot);
+			page =
+				(page & 0x80 & mask) | ((((_exRegs[0] & 0x08) << 4) & ~mask)) |
+				((_exRegs[2] & 0x0F) << 3) |
+				slot;
+
+			MMC3::SelectChrPage(slot, page);
 		} else {
 			if(_exRegs[3] & 0x40) {
 				switch(cbase ^ addr) {
@@ -69,11 +73,13 @@ protected:
 						page = 0;
 					}
 					break;
+
 				case 2:
 					if(!_prgMode) {
 						page = 0;
 					}
 					break;
+
 				case 3: page = 0; break;
 			}
 		}

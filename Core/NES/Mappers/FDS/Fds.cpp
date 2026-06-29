@@ -269,8 +269,6 @@ void Fds::ProcessCpuClock()
 {
 	BaseProcessCpuClock();
 
-	ProcessAutoDiskInsert();
-
 	ClockIrq();
 	_audio->Clock();
 

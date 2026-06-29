@@ -32,6 +32,7 @@ protected:
 				_prgBank = (_prgBank & 0xF0) | (value & 0x0F);
 				SelectPrgPage(0, _prgBank);
 				break;
+
 			case 0x5100:
 				_prgBank = (_prgBank & 0x0F) | ((value & 0x0F) << 4);
 				SelectPrgPage(0, _prgBank);

@@ -102,10 +102,12 @@ protected:
 					_exRegs[0] = value;
 					UpdateState();
 					break;
+
 				case 0x5001:
 					_exRegs[1] = value;
 					UpdateState();
 					break;
+
 				case 0x5007: _exRegs[2] = value; break;
 			}
 		} else {

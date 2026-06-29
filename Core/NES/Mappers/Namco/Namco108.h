@@ -85,7 +85,7 @@ protected:
 		return entries;
 	}
 
-	//more thorough IRQ removal
+	//More thorough IRQ removal
 	void NotifyVramAddressChange(uint16_t addr) override
 	{
 	}

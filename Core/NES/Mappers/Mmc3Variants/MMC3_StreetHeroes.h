@@ -46,12 +46,23 @@ protected:
 		} else {
 			switch(slot) {
 				case 0:
-				case 1: MMC3::SelectChrPage(slot, page | ((_exReg & 0x08) << 5)); break;
+				case 1:
+					MMC3::SelectChrPage(slot, page | ((_exReg & 0x08) << 5));
+					break;
+
 				case 2:
-				case 3: MMC3::SelectChrPage(slot, page | ((_exReg & 0x04) << 6)); break;
+				case 3:
+					MMC3::SelectChrPage(slot, page | ((_exReg & 0x04) << 6));
+					break;
+
 				case 4:
-				case 5: MMC3::SelectChrPage(slot, page | ((_exReg & 0x01) << 8)); break;
-				default: MMC3::SelectChrPage(slot, page | ((_exReg & 0x02) << 7)); break;
+				case 5:
+					MMC3::SelectChrPage(slot, page | ((_exReg & 0x01) << 8));
+					break;
+
+				default:
+					MMC3::SelectChrPage(slot, page | ((_exReg & 0x02) << 7));
+					break;
 			}
 		}
 	}

@@ -249,7 +249,7 @@
 			<Control ID="tpgEmulation">模拟</Control>
 			<Control ID="lblRamPowerOnState">RAM初始状态：</Control>
 			<Control ID="chkRandomPowerOnState">随机开机状态</Control>
-			<Control ID="chkStrictBoardMappings">严格内存映射（会导致部分改版异常）</Control>
+			<Control ID="chkStrictBoardMappings">严格内存映射</Control>
 			<Control ID="chkAllowInvalidVRAMAccess">允许无效VRAM访问</Control>
 			<Control ID="lblSpcClockSpeedAdjustment">SPC时钟调节：</Control>
 			<Control ID="lblNotRecommended">（不推荐）</Control>

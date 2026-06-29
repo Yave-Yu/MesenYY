@@ -154,12 +154,20 @@ public:
 						ResetState();
 						_unlockBypass = true;
 						break;
-					case 0x80: _mode = ChipMode::Erase; break;
+
+					case 0x80:
+						_mode = ChipMode::Erase;
+						break;
+
 					case 0x90:
 						ResetState();
 						_softwareId = true;
 						break;
-					case 0xA0: _mode = ChipMode::Write; break;
+
+					case 0xA0:
+						_mode = ChipMode::Write;
+						break;
+
 					case 0xF0:
 						ResetState();
 						_softwareId = false;

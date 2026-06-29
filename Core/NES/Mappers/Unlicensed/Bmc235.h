@@ -34,8 +34,11 @@ protected:
 
 	void WriteRegister(uint16_t addr, uint8_t value) override
 	{
-		SetMirroringType((addr & 0x0400) ? MirroringType::ScreenAOnly : (addr & 0x2000) ? MirroringType::Horizontal :
-																													 MirroringType::Vertical);
+		if(addr & 0x0400) {
+			SetMirroringType(MirroringType::ScreenAOnly);
+		} else {
+			SetMirroringType((addr & 0x2000) ? MirroringType::Horizontal : MirroringType::Vertical);
+		}
 
 		const uint8_t config[4][4][2] = {
 			{ { 0x00, 0 }, { 0x00, 1 }, { 0x00, 1 }, { 0x00, 1 } },

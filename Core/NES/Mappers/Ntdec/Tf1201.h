@@ -95,11 +95,16 @@ protected:
 					_prgRegs[0] = value;
 					UpdatePrg();
 					break;
+
 				case 0xA000:
 					_prgRegs[1] = value;
 					UpdatePrg();
 					break;
-				case 0x9000: SetMirroringType(value & 0x01 ? MirroringType::Horizontal : MirroringType::Vertical); break;
+
+				case 0x9000:
+					SetMirroringType(value & 0x01 ? MirroringType::Horizontal : MirroringType::Vertical);
+					break;
+
 				case 0x9001:
 					_swapPrg = (value & 0x03) != 0;
 					UpdatePrg();

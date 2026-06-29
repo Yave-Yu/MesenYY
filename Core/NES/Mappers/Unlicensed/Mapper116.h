@@ -235,10 +235,12 @@ protected:
 					_vrc2Prg[0] = value;
 					UpdatePrg();
 					break;
+
 				case 0xA000:
 					_vrc2Prg[1] = value;
 					UpdatePrg();
 					break;
+
 				case 0x9000:
 					_vrc2Mirroring = value;
 					UpdateMirroring();

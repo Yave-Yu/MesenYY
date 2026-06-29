@@ -99,6 +99,7 @@ protected:
 				mirroringType = "Vertical";
 				mirValue = 0;
 				break;
+
 			case MirroringType::Horizontal:
 				mirroringType = "Horizontal";
 				mirValue = 1;

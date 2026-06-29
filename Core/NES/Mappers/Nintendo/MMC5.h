@@ -610,18 +610,22 @@ protected:
 					_prgMode = value & 0x03;
 					UpdatePrgBanks();
 					break;
+
 				case 0x5101:
 					_chrMode = value & 0x03;
 					UpdateChrBanks(true);
 					break;
+
 				case 0x5102:
 					_prgRamProtect1 = value & 0x03;
 					UpdatePrgBanks();
 					break;
+
 				case 0x5103:
 					_prgRamProtect2 = value & 0x03;
 					UpdatePrgBanks();
 					break;
+
 				case 0x5104: SetExtendedRamMode(value & 0x03); break;
 				case 0x5105: SetNametableMapping(value); break;
 				case 0x5106: SetFillModeTile(value); break;

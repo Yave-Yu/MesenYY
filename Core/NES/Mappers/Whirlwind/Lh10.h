@@ -46,7 +46,10 @@ protected:
 	void WriteRegister(uint16_t addr, uint8_t value) override
 	{
 		switch(addr & 0xE001) {
-			case 0x8000: _currentRegister = value & 0x07; break;
+			case 0x8000:
+				_currentRegister = value & 0x07;
+				break;
+
 			case 0x8001:
 				_regs[_currentRegister] = value;
 				UpdateState();

@@ -51,6 +51,7 @@ protected:
 			case 0x8000: SelectPrgPage(0, value); break;
 
 			case 0x9001: SetMirroringType(value & 0x80 ? MirroringType::Horizontal : MirroringType::Vertical); break;
+
 			case 0x9003:
 				_irqEnabled = (value & 0x80) == 0x80;
 				_console->GetCpu()->ClearIrqSource(IRQSource::External);
