@@ -212,6 +212,7 @@ enum class ControllerType
 	FamilyBasicKeyboard,
 	PartyTap,
 	Pachinko,
+	FcnsController,
 	ExcitingBoxing,
 	JissenMahjong,
 	SuborKeyboard,

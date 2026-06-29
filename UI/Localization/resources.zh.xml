@@ -1774,8 +1774,6 @@
 		<Message ID="SetKeyHint">按任意一个键设定新绑定。</Message>
 		<Message ID="SetKeyMouseHint">按键盘、控制器、鼠标上任意一个键设定新绑定。</Message>
 
-		<Message ID="ClearHistory">清空历史</Message>
-
 		<Message ID="SpcClockSpeedMsg">= {0} Hz（默认40）</Message>
 E
 		<Message ID="FirmwareNotFound">此游戏需要依靠固件运行：{0}&#xA;&#xA;　文件：{1}&#xA;　大小：{2}字节&#xA;&#xA;选择此文件来加载？</Message>
@@ -1783,29 +1781,8 @@ E
 		<Message ID="FirmwareFileWrongSize">选择的文件不匹配大小（{0}字节），无法使用。</Message>
 
 		<Message ID="MouseModeEnabled">已启用鼠标，暂停可释放</Message>
-		<Message ID="BandaiMicrophone">Bandai麦克风</Message>
-		<Message ID="DatachBarcodeReader">Datach刷码机</Message>
-
-		<Message ID="HelpFullscreen">/fullscreen：启动Mesen直接全屏。</Message>
-		<Message ID="HelpDoNotSaveSettings">/DoNotSaveSettings：防止设置保存到硬盘（对通过指令选项从默认设置启用的情况很有用）。</Message>
-		<Message ID="HelpRecordMovie">/RecordMovie="filename.mmo"：加载游戏后录制影片。</Message>
-		<Message ID="HelpLoadLastSession">/LoadLastSession：从上次关闭的进度继续游戏。</Message>
 
 		<Message ID="RightClickToClearBinding">鼠标右键清除绑定</Message>
-
-		<Message ID="Resume">运行</Message>
-		<Message ID="Pause">暂停</Message>
-		<Message ID="StartServer">启动服务器</Message>
-		<Message ID="StopServer">停止服务器</Message>
-		<Message ID="ConnectToServer">连接到服务器</Message>
-		<Message ID="Disconnect">断开连接</Message>
-		<Message ID="PlayerNumber">玩家{0}</Message>
-		<Message ID="ExpansionDevice">拓展设备</Message>
-
-		<Message ID="PressToExitFullscreen">按{0}退出全屏</Message>
-		<Message ID="DefaultResolution">默认</Message>
-
-		<Message ID="RomsFound">找到{0}个ROM</Message>
 
 		<Message ID="ResetSettingsConfirmation">警告：这将会重置全部设置且无法撤销！&#xA;&#xA;是否继续？</Message>
 
@@ -1814,22 +1791,11 @@ E
 		<Message ID="ImportLabelsWithErrors">导入完成：已导入{0}个标签（{1}个错误）。</Message>
 		<Message ID="ImportLabelsWithMissingFiles">导入完成：已导入{0}个标签。&#xA;&#xA;找不到以下文件：&#xA;{1}</Message>
 		<Message ID="ImportLabelsWithErrorsAndMissingFiles">导入完成：已导入{0}个标签（{1}个错误）。&#xA;&#xA;找不到以下文件：&#xA;{2}</Message>
-		<Message ID="RandomGameNoGameFound">Mesen找不到游戏来加载。</Message>
 
 		<Message ID="InvalidPaletteFile">无效的调色板文件（太小或太大）。</Message>
 
 		<Message ID="CannotWriteToFolder">选择的文件夹无法写入，请选择别的文件夹后重试。&#xA;&#xA;详情：&#xA;{0}</Message>
-		<Message ID="InvalidPaths">以下文件夹覆盖无效：&#xA;&#xA;{0}&#xA;&#xA;请使用有效及可写的文件夹后重试。</Message>
-		<Message ID="CopyMesenDataPrompt">将从以下文件夹复制全部文件：&#xA;&#xA;{0}&#xA;到&#xA;{1}&#xA;&#xA;当文件复制完后，Mesen将重启。&#xA;是否继续？</Message>
-
-		<Message ID="CheatsFound">在数据库找到{0}款游戏</Message>
-		<Message ID="CheatsImported">已为{1}导入{0}金手指代码。</Message>
-
-		<Message ID="NsfNextTrack">下一曲（按住以快进）</Message>
-		<Message ID="NsfUnnamedTrack">&lt;无名字&gt;</Message>
-		<Message ID="NsfUnknownField">&lt;未知&gt;</Message>
-
-		<Message ID="CouldNotInstallRuntime">无法正确安装Visual Studio运行库。</Message>
+		
 		<Message ID="EmptyState">&lt;空&gt;</Message>
 		<Message ID="FileNotFound">找不到文件：{0}</Message>
 		<Message ID="InvalidArgument">无效参数：{0}</Message>
@@ -1838,13 +1804,7 @@ E
 		<Message ID="SelectRomIps">请为此补丁选择ROM。</Message>
 		<Message ID="UnableToStartMissingSdl">因找不到SDL2而无法启动Mesen，安装SDL2后重试。&#xA;&#xA;错误详情：&#xA;{0}</Message>
 		<Message ID="UnableToStartMissingDependencies">因缺少依赖库而无法启动Mesen。&#xA;&#xA;错误详情：&#xA;{0}</Message>
-		<Message ID="UnableToStartMissingFiles">因缺少组件而无法启动Mesen。&#xA;&#xA;错误：找不到MesenCore.dll。</Message>
 		<Message ID="UnexpectedError">发生了未知错误。&#xA;&#xA;错误详情：&#xA;{0}</Message>
-		<Message ID="Net45NotFound">找不到.NET Framework 4.5，请从微软官网下载及安装最新.NET Framework然后重试。</Message>
-
-		<Message ID="InvalidCheatFile">选择的文件（{0}）不是有效的金手指。</Message>
-		<Message ID="InvalidXmlFile">选择的文件（{0}）不是有效的XML。</Message>
-		<Message ID="NoMatchingCheats">选择的金手指文件（{0}）不包含匹配当前游戏的代码。</Message>
 
 		<Message ID="ConfirmReset">你确定要复位吗？</Message>
 		<Message ID="ConfirmPowerCycle">你确定要重启电源吗？</Message>
@@ -2040,6 +2000,7 @@ E
 			<Value ID="FamilyBasicKeyboard">Family BASIC键盘</Value>
 			<Value ID="PartyTap">Partytap</Value>
 			<Value ID="Pachinko">Pachinko控制器</Value>
+			<Value ID="FcnsController">FCNS控制器</Value>
 			<Value ID="ExcitingBoxing">兴奋拳击打拳沙袋</Value>
 			<Value ID="JissenMahjong">Jissen麻将控制器</Value>
 			<Value ID="SuborKeyboard">小霸王键盘</Value>
@@ -2088,6 +2049,23 @@ E
 		<Enum ID="NesPachinkoButtons">
 			<Value ID="Press">按下</Value>
 			<Value ID="Release">松开</Value>
+		</Enum>
+		<Enum ID="NesFcnsButtons">
+			<Value ID="Num0">0</Value>
+			<Value ID="Num1">1</Value>
+			<Value ID="Num2">2</Value>
+			<Value ID="Num3">3</Value>
+			<Value ID="Num4">4</Value>
+			<Value ID="Num5">5</Value>
+			<Value ID="Num6">6</Value>
+			<Value ID="Num7">7</Value>
+			<Value ID="Num8">8</Value>
+			<Value ID="Num9">9</Value>
+			<Value ID="Star">*</Value>
+			<Value ID="Pound">#</Value>
+			<Value ID="Period">.</Value>
+			<Value ID="C">C</Value>
+			<Value ID="EndComunication">挂断</Value>
 		</Enum>
 		<Enum ID="NesPartyTapButtons">
 			<Value ID="B1">按键1</Value>
@@ -2732,8 +2710,8 @@ E
 			<Value ID="Pec586Keyboard">PEC-586键盘</Value>
 			<Value ID="Bit79Keyboard">Bit-79键盘</Value>
 			<Value ID="SuborKeyboard">小霸王键盘</Value>
-			<Value ID="SuborKeyboardMouse1">小霸王键盘+鼠标（A类）</Value>
-			<Value ID="SuborKeyboardMouse2">小霸王键盘+鼠标（B类）</Value>
+			<Value ID="SuborKeyboardMouse1">小霸王键盘+Marco Winners鼠标</Value>
+			<Value ID="SuborKeyboardMouse2">小霸王键盘+小霸王鼠标（$4016）</Value>
 			<Value ID="SnesMouse">SNES鼠标</Value>
 			<Value ID="GenericMulticart">Generic Multicart</Value>
 			<Value ID="SnesControllers">SNES控制器</Value>
@@ -2743,9 +2721,16 @@ E
 			<Value ID="CityPatrolmanLightgun">City Patrolman光枪</Value>
 			<Value ID="SharpC1CassetteInterface">Sharp C1磁带接口</Value>
 			<Value ID="StandardControllerWithSwappedButtons">互换左右/上下/BA的标准控制器</Value>
-			<Value ID="ExcaliborSudokuPad">Excalibor数独板</Value>
+			<Value ID="ExcaliburSudokuPad">Excalibur数独板</Value>
 			<Value ID="AblPinball">ABL弹珠台</Value>
-			<Value ID="GoldenNuggetCasino">Golden Nugget Casino</Value>
+			<Value ID="GoldenNuggetCasino">Golden Nugget赌场</Value>
+			<Value ID="KedaKeyboard">Keda键盘</Value>
+			<Value ID="SuborKeyboardMouse3">小霸王键盘+小霸王鼠标（$4017）</Value>
+			<Value ID="PortTestController">接口测试控制器</Value>
+			<Value ID="BandaiMultiGamePlayer">Bandai多人玩家游戏板</Value>
+			<Value ID="VenomTVDance">Venom电视跳舞毯</Value>
+			<Value ID="LgTvRemote">LG电视遥控器</Value>
+			<Value ID="FcnsController">FCNS控制器</Value>
 		</Enum>
 
 		<Enum ID="FirmwareType">
