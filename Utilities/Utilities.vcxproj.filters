@@ -154,6 +154,7 @@
     <ClInclude Include="ZipWriter.h" />
     <ClInclude Include="AutoResetEvent.h" />
     <ClInclude Include="Base64.h" />
+    <ClInclude Include="EncodingUtilities.h" />
     <ClInclude Include="FastString.h" />
     <ClInclude Include="FolderUtilities.h" />
     <ClInclude Include="HexUtilities.h" />
