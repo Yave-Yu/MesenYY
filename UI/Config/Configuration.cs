@@ -19,7 +19,7 @@ namespace Mesen.Config
 	{
 		private string _fileData = "";
 
-		public string Version { get; set; } = "2.1.1";
+		public string Version { get; set; } = "2.2.1";
 		public int ConfigUpgrade { get; set; } = 0;
 		public int LanguageID { get; set; } = 0;
 		public bool EnableTestMode { get; set; } = false;
