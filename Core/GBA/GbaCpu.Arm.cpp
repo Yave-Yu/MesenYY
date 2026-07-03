@@ -523,12 +523,8 @@ void GbaCpu::ArmCoprocessorTransfer()
 	//MRC/MCR
 	//----_1110_oool_nnnn_dddd_pppp_rrr1_mmmm
 	bool load = _opCode & (1 << 20);
-	//uint8_t crn = (_opCode >> 16) & 0x0F;
 	uint8_t rd = (_opCode >> 12) & 0x0F;
-	//uint8_t crm = _opCode & 0x0F;
-	//uint8_t cpr = (_opCode >> 5) & 0x07;
 	uint8_t cp = (_opCode >> 8) & 0x0F;
-	//uint8_t cpOp = (_opCode >> 21) & 0x07;
 
 	if(cp != 14) {
 		//Any coprocessor except CP14 generates an undefined exception
@@ -537,10 +533,9 @@ void GbaCpu::ArmCoprocessorTransfer()
 		_emu->BreakIfDebugging(CpuType::Gba, BreakSource::GbaInvalidOpCode);
 #endif
 	} else {
-		Idle();
 		if(load) {
-			//CPU gets the previous value on the bus (since nothing will actually put a value on the bus for CP14)
-			uint32_t value = _memoryManager->GetOpenBus();
+			//MRC (CPU gets the previous value on the bus - nothing will actually put a value on the bus for CP14)
+			uint32_t value = _memoryManager->ReadCoprocessor();
 			if(rd == 15) {
 				//Reg 15 does not get modified, and only these 4 flags are updated instead
 				_state.CPSR.Negative = (value & (1 << 31));
@@ -551,9 +546,10 @@ void GbaCpu::ArmCoprocessorTransfer()
 				_state.R[rd] = value;
 			}
 		} else {
-			//MCR updates the open bus value but doesn't do anything else?
-			_memoryManager->SetOpenBus(_state.R[rd]);
+			//MCR (Updates value on the bus)
+			_memoryManager->WriteCoprocessor(_state.R[rd]);
 		}
+		Idle();
 	}
 }
 
