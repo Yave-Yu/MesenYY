@@ -10,7 +10,7 @@
     <StartupObject>Mesen.Program</StartupObject>
     <Version>2.2.1</Version>
     <FileVersion>2.2.1</FileVersion>
-    <Copyright>© 2014-2026 Sour &#38; Community  © 2026 Yave Yu</Copyright>
+    <Copyright>© 2014-2026 Sour   © 2026 Yave Yu</Copyright>
   </PropertyGroup>
 	<PropertyGroup>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>

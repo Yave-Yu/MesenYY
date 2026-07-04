@@ -854,7 +854,7 @@
 			<Control ID="lblName">MesenYY</Control>
 			<Control ID="lblVersion">Version:</Control>
 			<Control ID="lblRuntimeVersion">Runtime:</Control>
-			<Control ID="lblOriginal">Started from Mesen 2.1.1, following MesenCE</Control>
+			<Control ID="lblOriginal">From Mesen 2.1.1, following MesenCE</Control>
 
 			<Control ID="grpAcknowledgements">Acknowledgements</Control>
 			<Control ID="lblAcknowledgeList">Thank you to the following people/projects for their direct and indirect help in making Mesen possible:</Control>
