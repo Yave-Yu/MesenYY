@@ -240,7 +240,7 @@ namespace Mesen.Config
 			}
 
 			Type = type;
-			TurboSpeed = 1;
+			TurboSpeed = 2;
 
 			if(mappings.Count > 0) {
 				Mapping1 = mappings[0];

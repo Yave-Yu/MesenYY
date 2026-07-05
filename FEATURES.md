@@ -9,7 +9,7 @@ Compare to Mesen2 and MesenCE, MesenYY has following features:
 - Tweaked audio player HUD after modified HUD font, and 10 minutes won't display to right side anymore
 - More Prescale factors, but no Prescale 10x
 - Bilinear interpolation now also has override option
-- Faster turbo speed of controller, now it has 12, 15, 20, 30 (highest still same though)
+- Faster turbo speed of controller, now it has 10, 12, 15, 20, 30 (highest still same though)
 - New _Keep size_ option could keep current window size (e.g. NES 7x switch to SNES won't change to 8x)
 - HUD size could be changed in setting
 - NES: Replaced default YUV palette to [Five Reality](https://forums.nesdev.org/viewtopic.php?p=293025#p293025), it has similar brightness, but more saturated, and matches NTSC NES, just compare darker cyan and brighter colors' hue change
@@ -18,7 +18,6 @@ Compare to Mesen2 and MesenCE, MesenYY has following features:
 - NES: New _Not reset square channels phase_ option, mimics some Famiclones which not swap duty cycles
 - NES: Tweaked non-linear square channel mixer, slightly closer to Famicom
 - SNES: New _Allow invalid VRAM access_ option, same as Snes9x
-- SNES: New _Enable gamma correction_ option, same as BSNES
 - Gameboy: Replaced default palette and presets
 - Gameboy: Made a short sound silent of GBC's bootROM, caused a side effect though, currently only found _King James Bible_ had be affected
 - Gameboy: Renamed .srm to .sav, for tranfer to other Gameboy emulator conveniently

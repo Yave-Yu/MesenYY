@@ -22,7 +22,7 @@ BaseControlDevice::~BaseControlDevice()
 
 bool BaseControlDevice::IsTurboOn(uint8_t turboSpeed)
 {
-	uint8_t turboFreq = 5 - turboSpeed;
+	uint8_t turboFreq = 6 - turboSpeed;
 	bool turboOn = (uint8_t)(_emu->GetFrameCount() % turboFreq) < (turboFreq >> 1);
 	return turboOn;
 }
