@@ -586,6 +586,8 @@ struct SnesConfig
 	bool DisableFrameSkipping = false;
 	bool ForceFixedResolution = false;
 
+	bool EnableGammaCorrection = false;
+
 	OverscanDimensions Overscan = {};
 
 	DspInterpolationType InterpolationType = DspInterpolationType::Gauss;

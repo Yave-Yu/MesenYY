@@ -172,6 +172,10 @@
 						<c:CheckBoxWarning IsChecked="{Binding Config.HideSprites}" Text="{l:Translate chkHideSprites}" />
 					</c:OptionSection>
 
+					<c:OptionSection Header="{l:Translate lblColorSettings}">
+						<CheckBox IsChecked="{Binding Config.EnableGammaCorrection}" Content="{l:Translate chkGammaCorrection}"/>
+					</c:OptionSection>
+					
 					<c:OptionSection Header="{l:Translate lblOverscan}">
 						<c:OverscanInput Overscan="{Binding Config.Overscan}" />
 					</c:OptionSection>

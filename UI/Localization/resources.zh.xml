@@ -272,13 +272,16 @@
 
 			<Control ID="tpgVideo">视频</Control>
 			<Control ID="lblMiscSettings">其它设置</Control>
-
 			<Control ID="lblHighResBlendMode">高分辨率混合模式：</Control>
 			<Control ID="chkHideBgLayer1">隐藏背景图层1</Control>
 			<Control ID="chkHideBgLayer2">隐藏背景图层2</Control>
 			<Control ID="chkHideBgLayer3">隐藏背景图层3</Control>
 			<Control ID="chkHideBgLayer4">隐藏背景图层4</Control>
 			<Control ID="chkHideSprites">隐藏活动块</Control>
+			
+			<Control ID="lblColorSettings">色彩设置</Control>
+			<Control ID="chkGammaCorrection">校正亮度曲线</Control>
+			
 			<Control ID="lblOverscan">屏幕裁剪</Control>
 			<Control ID="chkDisableFrameSkipping">快进时不跳帧</Control>
 			<Control ID="chkForceFixedResolution">固定2倍分辨率输出</Control>

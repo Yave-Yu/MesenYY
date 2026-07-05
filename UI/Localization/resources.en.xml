@@ -223,7 +223,7 @@
 		</Form>
 
 		<Form ID="VideoConfigOverrideView">
-			<Control ID="lblHeader">Global settings overrides</Control>
+			<Control ID="lblHeader">Global Settings Overrides</Control>
 			<Control ID="chkOverrideBilinearInterpolation">Override bilinear interpolation</Control>
 			<Control ID="chkOverrideVideoFilter">Override video filter:</Control>
 			<Control ID="chkOverrideAspectRatio">Override aspect ratio:</Control>
@@ -272,13 +272,16 @@
 
 			<Control ID="tpgVideo">Video</Control>
 			<Control ID="lblMiscSettings">Miscellaneous Settings</Control>
-
 			<Control ID="lblHighResBlendMode">High resolution blend mode: </Control>
 			<Control ID="chkHideBgLayer1">Hide background layer 1</Control>
 			<Control ID="chkHideBgLayer2">Hide background layer 2</Control>
 			<Control ID="chkHideBgLayer3">Hide background layer 3</Control>
 			<Control ID="chkHideBgLayer4">Hide background layer 4</Control>
 			<Control ID="chkHideSprites">Hide sprites</Control>
+
+			<Control ID="lblColorSettings">Color Settings</Control>
+			<Control ID="chkGammaCorrection">Enable gamma correction</Control>
+			
 			<Control ID="lblOverscan">Overscan</Control>
 			<Control ID="chkDisableFrameSkipping">Disable frame skipping when fast forwarding</Control>
 			<Control ID="chkForceFixedResolution">Use fixed output resolution (2x scale, ≈512x478)</Control>

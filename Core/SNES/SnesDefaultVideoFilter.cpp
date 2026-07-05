@@ -44,13 +44,14 @@ OverscanDimensions SnesDefaultVideoFilter::GetOverscan()
 void SnesDefaultVideoFilter::InitLookupTable()
 {
 	VideoConfig config = _emu->GetSettings()->GetVideoConfig();
+	SnesConfig snesConfig = _emu->GetSettings()->GetSnesConfig();
 
 	InitConversionMatrix(config.Hue, config.Saturation);
 
 	for(int rgb555 = 0; rgb555 < 0x8000; rgb555++) {
-		uint8_t r = ColorUtilities::Convert5BitTo8Bit(rgb555 & 0x1F);
-		uint8_t g = ColorUtilities::Convert5BitTo8Bit((rgb555 >> 5) & 0x1F);
-		uint8_t b = ColorUtilities::Convert5BitTo8Bit((rgb555 >> 10) & 0x1F);
+		uint8_t r = snesConfig.EnableGammaCorrection ? gammaRamp[rgb555 & 0x1F] : ColorUtilities::Convert5BitTo8Bit(rgb555 & 0x1F);
+		uint8_t g = snesConfig.EnableGammaCorrection ? gammaRamp[(rgb555 >> 5) & 0x1F] : ColorUtilities::Convert5BitTo8Bit((rgb555 >> 5) & 0x1F);
+		uint8_t b = snesConfig.EnableGammaCorrection ? gammaRamp[(rgb555 >> 10) & 0x1F] : ColorUtilities::Convert5BitTo8Bit((rgb555 >> 10) & 0x1F);
 
 		if(config.Hue != 0 || config.Saturation != 0 || config.Brightness != 0 || config.Contrast != 0) {
 			ApplyColorOptions(r, g, b, config.Brightness, config.Contrast);
@@ -61,6 +62,7 @@ void SnesDefaultVideoFilter::InitLookupTable()
 	}
 
 	_videoConfig = config;
+	_snesConfig = snesConfig;
 }
 
 void SnesDefaultVideoFilter::OnBeforeApplyFilter()
@@ -68,7 +70,7 @@ void SnesDefaultVideoFilter::OnBeforeApplyFilter()
 	VideoConfig& config = _emu->GetSettings()->GetVideoConfig();
 	SnesConfig& snesConfig = _emu->GetSettings()->GetSnesConfig();
 
-	if(_videoConfig.Hue != config.Hue || _videoConfig.Saturation != config.Saturation || _videoConfig.Contrast != config.Contrast || _videoConfig.Brightness != config.Brightness) {
+	if(_snesConfig.EnableGammaCorrection != snesConfig.EnableGammaCorrection || _videoConfig.Hue != config.Hue || _videoConfig.Saturation != config.Saturation || _videoConfig.Contrast != config.Contrast || _videoConfig.Brightness != config.Brightness) {
 		InitLookupTable();
 	}
 	_forceFixedRes = snesConfig.ForceFixedResolution;

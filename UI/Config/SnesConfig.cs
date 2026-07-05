@@ -38,6 +38,8 @@ namespace Mesen.Config
 		[Reactive] public bool DisableFrameSkipping { get; set; } = false;
 		[Reactive] public bool ForceFixedResolution { get; set; } = false;
 
+		[Reactive] public bool EnableGammaCorrection { get; set; } = false;
+
 		[Reactive] public OverscanConfig Overscan { get; set; } = new() { Top = 7, Bottom = 8 };
 
 		//Audio
@@ -99,6 +101,8 @@ namespace Mesen.Config
 				DisableFrameSkipping = DisableFrameSkipping,
 				ForceFixedResolution = ForceFixedResolution,
 
+				EnableGammaCorrection = EnableGammaCorrection,
+
 				Overscan = Overscan.ToInterop(),
 
 				InterpolationType = InterpolationType,
@@ -158,6 +162,8 @@ namespace Mesen.Config
 		[MarshalAs(UnmanagedType.I1)] public bool HideSprites;
 		[MarshalAs(UnmanagedType.I1)] public bool DisableFrameSkipping;
 		[MarshalAs(UnmanagedType.I1)] public bool ForceFixedResolution;
+
+		[MarshalAs(UnmanagedType.I1)] public bool EnableGammaCorrection;
 
 		public InteropOverscanDimensions Overscan;
 
