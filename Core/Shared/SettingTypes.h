@@ -566,6 +566,13 @@ enum class SnesHighResBlendMode
 	BlendEvenOdd
 };
 
+enum class SnesColorCorrectionMode
+{
+	None,
+	NtscBlackLevel,
+	DeepBlackBoost
+};
+
 struct SnesConfig
 {
 	ControllerConfig Port1;
@@ -577,6 +584,7 @@ struct SnesConfig
 	ConsoleRegion Region = ConsoleRegion::Auto;
 
 	bool AllowInvalidInput = false;
+	SnesColorCorrectionMode ColorCorrection = SnesColorCorrectionMode::None;
 	SnesHighResBlendMode HighResBlendMode = SnesHighResBlendMode::None;
 	bool HideBgLayer1 = false;
 	bool HideBgLayer2 = false;
@@ -585,8 +593,6 @@ struct SnesConfig
 	bool HideSprites = false;
 	bool DisableFrameSkipping = false;
 	bool ForceFixedResolution = false;
-
-	bool EnableGammaCorrection = false;
 
 	OverscanDimensions Overscan = {};
 

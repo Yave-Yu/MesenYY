@@ -272,16 +272,14 @@
 
 			<Control ID="tpgVideo">视频</Control>
 			<Control ID="lblMiscSettings">其它设置</Control>
+			<Control ID="lblColorCorrection">色彩校正类型：</Control>
 			<Control ID="lblHighResBlendMode">高分辨率混合模式：</Control>
 			<Control ID="chkHideBgLayer1">隐藏背景图层1</Control>
 			<Control ID="chkHideBgLayer2">隐藏背景图层2</Control>
 			<Control ID="chkHideBgLayer3">隐藏背景图层3</Control>
 			<Control ID="chkHideBgLayer4">隐藏背景图层4</Control>
 			<Control ID="chkHideSprites">隐藏活动块</Control>
-			
-			<Control ID="lblColorSettings">色彩设置</Control>
-			<Control ID="chkGammaCorrection">校正亮度曲线</Control>
-			
+
 			<Control ID="lblOverscan">屏幕裁剪</Control>
 			<Control ID="chkDisableFrameSkipping">快进时不跳帧</Control>
 			<Control ID="chkForceFixedResolution">固定2倍分辨率输出</Control>
@@ -1315,7 +1313,7 @@
 		</Form>
 		
 		<Form ID="CallStackView">
-			<Control ID="colFunction">功能</Control>
+			<Control ID="colFunction">函数</Control>
 			<Control ID="colPcAddress">PC地址</Control>
 			<Control ID="colRomAddress">ROM地址</Control>
 		</Form>
@@ -1326,7 +1324,7 @@
 		</Form>
 
 		<Form ID="FunctionListView">
-			<Control ID="colFunction">功能</Control>
+			<Control ID="colFunction">函数</Control>
 			<Control ID="colCpuAddr">CPU地址</Control>
 			<Control ID="colRomAddr">ROM地址</Control>
 		</Form>
@@ -1606,7 +1604,7 @@
 			<Control ID="btnRefresh">刷新</Control>
 			<Control ID="chkRefreshOnBreakPause">中断时刷新</Control>
 
-			<Control ID="colFunction">功能（条目地址）</Control>
+			<Control ID="colFunction">函数（条目地址）</Control>
 			<Control ID="colCallCount">回调次数</Control>
 			<Control ID="colInclusiveTime">公用时间（周期）</Control>
 			<Control ID="colInclusiveTimePercent">公用时间（%）</Control>
@@ -2487,6 +2485,11 @@ E
 			<Value ID="BlendAll">混合整屏</Value>
 			<Value ID="BlendEvenOdd">混合奇偶列（假透明）</Value>
 		</Enum>
+		<Enum ID="SnesColorCorrectionMode">
+			<Value ID="None">无（默认）</Value>
+			<Value ID="NtscBlackLevel">NTSC黑电平（美版）</Value>
+			<Value ID="DeepBlackBoost">深黑增强（ares）</Value>
+		</Enum>
 		<Enum ID="PceConsoleType">
 			<Value ID="Auto">自动（推荐）</Value>
 			<Value ID="PcEngine">PC Engine（日版）</Value>
@@ -3323,11 +3326,11 @@ E
 			<Value ID="LabelList_GoToLocation">标签列表：跳转到地址</Value>
 			<Value ID="LabelList_FindOccurrences">标签列表：搜索并显示全部结果</Value>
 			<Value ID="LabelList_ViewInMemoryViewer">标签列表：用内存查看器查看</Value>
-			<Value ID="FunctionList_EditLabel">功能列表：编辑标签</Value>
-			<Value ID="FunctionList_ToggleBreakpoint">功能列表：切换断点</Value>
-			<Value ID="FunctionList_GoToLocation">功能列表：跳转到地址</Value>
+			<Value ID="FunctionList_EditLabel">函数列表：编辑标签</Value>
+			<Value ID="FunctionList_ToggleBreakpoint">函数列表：切换断点</Value>
+			<Value ID="FunctionList_GoToLocation">函数列表：跳转到地址</Value>
 			<Value ID="FunctionList_FindOccurrences">标签列表：搜索并显示全部结果</Value>
-			<Value ID="FunctionList_ViewInMemoryViewer">功能列表：用内存查看器查看</Value>
+			<Value ID="FunctionList_ViewInMemoryViewer">函数列表：用内存查看器查看</Value>
 			<Value ID="BreakpointList_Add">断点列表：添加断点</Value>
 			<Value ID="BreakpointList_AddForbid">断点列表：屏蔽断点</Value>
 			<Value ID="BreakpointList_Edit">断点列表：编辑断点</Value>
@@ -3462,7 +3465,7 @@ E
 
 			<Value ID="ShowBreakpointList">断点列表</Value>
 			<Value ID="ShowLabelList">标签列表</Value>
-			<Value ID="ShowFunctionList">功能列表</Value>
+			<Value ID="ShowFunctionList">函数列表</Value>
 			<Value ID="ShowWatchList">监视列表</Value>
 			<Value ID="ShowCallStack">调用堆栈</Value>
 			<Value ID="ShowConsoleStatus">CPU控制台</Value>

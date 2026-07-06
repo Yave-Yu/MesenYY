@@ -29,6 +29,7 @@ namespace Mesen.Config
 		[Reactive] public ConsoleRegion Region { get; set; } = ConsoleRegion.Auto;
 
 		//Video
+		[Reactive] public SnesColorCorrectionMode ColorCorrection { get; set; } = SnesColorCorrectionMode.None;
 		[Reactive] public SnesHighResBlendMode HighResBlendMode { get; set; } = SnesHighResBlendMode.None;
 		[Reactive] public bool HideBgLayer1 { get; set; } = false;
 		[Reactive] public bool HideBgLayer2 { get; set; } = false;
@@ -37,8 +38,6 @@ namespace Mesen.Config
 		[Reactive] public bool HideSprites { get; set; } = false;
 		[Reactive] public bool DisableFrameSkipping { get; set; } = false;
 		[Reactive] public bool ForceFixedResolution { get; set; } = false;
-
-		[Reactive] public bool EnableGammaCorrection { get; set; } = false;
 
 		[Reactive] public OverscanConfig Overscan { get; set; } = new() { Top = 7, Bottom = 8 };
 
@@ -91,6 +90,7 @@ namespace Mesen.Config
 
 				AllowInvalidInput = this.AllowInvalidInput,
 
+				ColorCorrection = this.ColorCorrection,
 				HighResBlendMode = this.HighResBlendMode,
 				HideBgLayer1 = this.HideBgLayer1,
 				HideBgLayer2 = this.HideBgLayer2,
@@ -100,8 +100,6 @@ namespace Mesen.Config
 
 				DisableFrameSkipping = DisableFrameSkipping,
 				ForceFixedResolution = ForceFixedResolution,
-
-				EnableGammaCorrection = EnableGammaCorrection,
 
 				Overscan = Overscan.ToInterop(),
 
@@ -154,6 +152,7 @@ namespace Mesen.Config
 
 		[MarshalAs(UnmanagedType.I1)] public bool AllowInvalidInput;
 
+		public SnesColorCorrectionMode ColorCorrection;
 		public SnesHighResBlendMode HighResBlendMode;
 		[MarshalAs(UnmanagedType.I1)] public bool HideBgLayer1;
 		[MarshalAs(UnmanagedType.I1)] public bool HideBgLayer2;
@@ -162,8 +161,6 @@ namespace Mesen.Config
 		[MarshalAs(UnmanagedType.I1)] public bool HideSprites;
 		[MarshalAs(UnmanagedType.I1)] public bool DisableFrameSkipping;
 		[MarshalAs(UnmanagedType.I1)] public bool ForceFixedResolution;
-
-		[MarshalAs(UnmanagedType.I1)] public bool EnableGammaCorrection;
 
 		public InteropOverscanDimensions Overscan;
 
@@ -203,5 +200,12 @@ namespace Mesen.Config
 		None,
 		BlendAll,
 		BlendEvenOdd
+	}
+
+	public enum SnesColorCorrectionMode
+	{
+		None,
+		NtscBlackLevel,
+		DeepBlackBoost
 	}
 }
