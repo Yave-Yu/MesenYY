@@ -274,6 +274,9 @@
 			<Control ID="lblMiscSettings">Miscellaneous Settings</Control>
 			<Control ID="lblColorCorrection">Color correction type:</Control>
 			<Control ID="lblHighResBlendMode">High resolution blend mode:</Control>
+			<Control ID="chkRemoveSpriteLimit">Remove sprite limit</Control>
+			<Control ID="chkDisableFrameSkipping">Disable frame skipping when fast forwarding</Control>
+			<Control ID="chkForceFixedResolution">Use fixed output resolution (2x scale, ≈512x478)</Control>
 			<Control ID="chkHideBgLayer1">Hide background layer 1</Control>
 			<Control ID="chkHideBgLayer2">Hide background layer 2</Control>
 			<Control ID="chkHideBgLayer3">Hide background layer 3</Control>
@@ -281,8 +284,6 @@
 			<Control ID="chkHideSprites">Hide sprites</Control>
 			
 			<Control ID="lblOverscan">Overscan</Control>
-			<Control ID="chkDisableFrameSkipping">Disable frame skipping when fast forwarding</Control>
-			<Control ID="chkForceFixedResolution">Use fixed output resolution (2x scale, ≈512x478)</Control>
 		</Form>
 		<Form ID="NesConfigView">
 			<Control ID="tpgGeneral">General</Control>

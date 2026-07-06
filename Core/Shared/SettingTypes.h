@@ -586,6 +586,7 @@ struct SnesConfig
 	bool AllowInvalidInput = false;
 	SnesColorCorrectionMode ColorCorrection = SnesColorCorrectionMode::None;
 	SnesHighResBlendMode HighResBlendMode = SnesHighResBlendMode::None;
+	bool RemoveSpriteLimit = false;
 	bool HideBgLayer1 = false;
 	bool HideBgLayer2 = false;
 	bool HideBgLayer3 = false;

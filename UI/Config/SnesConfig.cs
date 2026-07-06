@@ -31,6 +31,7 @@ namespace Mesen.Config
 		//Video
 		[Reactive] public SnesColorCorrectionMode ColorCorrection { get; set; } = SnesColorCorrectionMode.None;
 		[Reactive] public SnesHighResBlendMode HighResBlendMode { get; set; } = SnesHighResBlendMode.None;
+		[Reactive] public bool RemoveSpriteLimit { get; set; } = false;
 		[Reactive] public bool HideBgLayer1 { get; set; } = false;
 		[Reactive] public bool HideBgLayer2 { get; set; } = false;
 		[Reactive] public bool HideBgLayer3 { get; set; } = false;
@@ -92,12 +93,12 @@ namespace Mesen.Config
 
 				ColorCorrection = this.ColorCorrection,
 				HighResBlendMode = this.HighResBlendMode,
+				RemoveSpriteLimit = RemoveSpriteLimit,
 				HideBgLayer1 = this.HideBgLayer1,
 				HideBgLayer2 = this.HideBgLayer2,
 				HideBgLayer3 = this.HideBgLayer3,
 				HideBgLayer4 = this.HideBgLayer4,
 				HideSprites = this.HideSprites,
-
 				DisableFrameSkipping = DisableFrameSkipping,
 				ForceFixedResolution = ForceFixedResolution,
 
@@ -154,6 +155,7 @@ namespace Mesen.Config
 
 		public SnesColorCorrectionMode ColorCorrection;
 		public SnesHighResBlendMode HighResBlendMode;
+		[MarshalAs(UnmanagedType.I1)] public bool RemoveSpriteLimit;
 		[MarshalAs(UnmanagedType.I1)] public bool HideBgLayer1;
 		[MarshalAs(UnmanagedType.I1)] public bool HideBgLayer2;
 		[MarshalAs(UnmanagedType.I1)] public bool HideBgLayer3;
