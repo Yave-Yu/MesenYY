@@ -89,27 +89,29 @@ public:
 	void InternalDrawController(InputHud& hud) override
 	{
 		if(_console->IsVerticalMode()) {
-			hud.DrawOutline(28, 31);
+			hud.DrawOutline(28, 35);
 
-			hud.DrawButton(20, 20, 3, 3, IsPressed(Buttons::Right));
-			hud.DrawButton(20, 26, 3, 3, IsPressed(Buttons::Left));
-			hud.DrawButton(17, 23, 3, 3, IsPressed(Buttons::Up));
-			hud.DrawButton(23, 23, 3, 3, IsPressed(Buttons::Down));
+			hud.DrawButton(20, 24, 3, 3, IsPressed(Buttons::Right));
+			hud.DrawButton(20, 30, 3, 3, IsPressed(Buttons::Left));
+			hud.DrawButton(17, 27, 3, 3, IsPressed(Buttons::Up));
+			hud.DrawButton(23, 27, 3, 3, IsPressed(Buttons::Down));
 
-			hud.DrawButton(5, 20, 3, 3, IsPressed(Buttons::Right2));
-			hud.DrawButton(5, 26, 3, 3, IsPressed(Buttons::Left2));
-			hud.DrawButton(2, 23, 3, 3, IsPressed(Buttons::Up2));
-			hud.DrawButton(8, 23, 3, 3, IsPressed(Buttons::Down2));
+			hud.DrawButton(5, 24, 3, 3, IsPressed(Buttons::Right2));
+			hud.DrawButton(5, 30, 3, 3, IsPressed(Buttons::Left2));
+			hud.DrawButton(2, 27, 3, 3, IsPressed(Buttons::Up2));
+			hud.DrawButton(8, 27, 3, 3, IsPressed(Buttons::Down2));
 
-			hud.DrawButton(23, 6, 3, 3, IsPressed(Buttons::B));
-			hud.DrawButton(20, 3, 3, 3, IsPressed(Buttons::A));
+			hud.DrawButton(21, 9, 5, 3, IsPressed(Buttons::B));
+			hud.DrawButton(22, 8, 3, 5, IsPressed(Buttons::B));
+			hud.DrawButton(18, 3, 5, 3, IsPressed(Buttons::A));
+			hud.DrawButton(19, 2, 3, 5, IsPressed(Buttons::A));
 
-			hud.DrawButton(21, 11, 2, 3, IsPressed(Buttons::Start));
-			hud.DrawButton(21, 15, 2, 3, IsPressed(Buttons::Sound));
+			hud.DrawButton(21, 15, 2, 3, IsPressed(Buttons::Start));
+			hud.DrawButton(21, 19, 2, 3, IsPressed(Buttons::Sound));
 
 			hud.DrawNumber(_port + 1, 13, 2);
 		} else {
-			hud.DrawOutline(35, 24);
+			hud.DrawOutline(37, 24);
 
 			hud.DrawButton(5, 2, 3, 3, IsPressed(Buttons::Up2));
 			hud.DrawButton(5, 8, 3, 3, IsPressed(Buttons::Down2));
@@ -121,11 +123,13 @@ public:
 			hud.DrawButton(2, 16, 3, 3, IsPressed(Buttons::Left));
 			hud.DrawButton(8, 16, 3, 3, IsPressed(Buttons::Right));
 
-			hud.DrawButton(25, 19, 3, 3, IsPressed(Buttons::B));
-			hud.DrawButton(29, 16, 3, 3, IsPressed(Buttons::A));
+			hud.DrawButton(30, 15, 5, 3, IsPressed(Buttons::A));
+			hud.DrawButton(31, 14, 3, 5, IsPressed(Buttons::A));
+			hud.DrawButton(24, 18, 5, 3, IsPressed(Buttons::B));
+			hud.DrawButton(25, 17, 3, 5, IsPressed(Buttons::B));
 
-			hud.DrawButton(14, 17, 4, 2, IsPressed(Buttons::Sound));
-			hud.DrawButton(19, 17, 4, 2, IsPressed(Buttons::Start));
+			hud.DrawButton(13, 17, 4, 2, IsPressed(Buttons::Sound));
+			hud.DrawButton(18, 17, 4, 2, IsPressed(Buttons::Start));
 
 			hud.DrawNumber(_port + 1, 16, 2);
 		}

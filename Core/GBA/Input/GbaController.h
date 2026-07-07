@@ -89,7 +89,7 @@ public:
 
 	void InternalDrawController(InputHud& hud) override
 	{
-		hud.DrawOutline(35, 14);
+		hud.DrawOutline(37, 14);
 
 		hud.DrawButton(5, 3, 3, 3, IsPressed(Buttons::Up));
 		hud.DrawButton(5, 9, 3, 3, IsPressed(Buttons::Down));
@@ -97,11 +97,13 @@ public:
 		hud.DrawButton(8, 6, 3, 3, IsPressed(Buttons::Right));
 		hud.DrawButton(5, 6, 3, 3, false);
 
-		hud.DrawButton(30, 7, 3, 3, IsPressed(Buttons::A));
-		hud.DrawButton(25, 7, 3, 3, IsPressed(Buttons::B));
+		hud.DrawButton(30, 7, 5, 3, IsPressed(Buttons::A));
+		hud.DrawButton(31, 6, 3, 5, IsPressed(Buttons::A));
+		hud.DrawButton(24, 7, 5, 3, IsPressed(Buttons::B));
+		hud.DrawButton(25, 6, 3, 5, IsPressed(Buttons::B));
 
 		hud.DrawButton(4, 0, 5, 2, IsPressed(Buttons::L));
-		hud.DrawButton(26, 0, 5, 2, IsPressed(Buttons::R));
+		hud.DrawButton(27, 0, 5, 2, IsPressed(Buttons::R));
 
 		hud.DrawButton(13, 9, 4, 2, IsPressed(Buttons::Select));
 		hud.DrawButton(18, 9, 4, 2, IsPressed(Buttons::Start));
