@@ -114,10 +114,6 @@ namespace Mesen.Windows
 			ConfigManager.Config.MainWindow.LoadWindowSettings(this);
 
 			Console.CancelKeyPress += Console_CancelKeyPress;
-
-#if DEBUG
-			this.AttachDevTools();
-#endif
 		}
 
         [MemberNotNull(nameof(_renderer))]
@@ -558,12 +554,12 @@ namespace Mesen.Windows
 			if(Math.Round(width) > Math.Round(finalSize.Width)) {
 				//Use renderer width to calculate the height instead of the opposite
 				//when current window dimensions would cause cropping horizontally
-				//if the screen width was calculated based on the height.
+				//if the screen width was calculated based on the height
 				width = finalSize.Width;
 				height = width / aspectRatio;
 			}
 
-			if(ConfigManager.Config.Video.FullscreenForceIntegerScale && VisualRoot is Window wnd && (wnd.WindowState == WindowState.FullScreen || wnd.WindowState == WindowState.Maximized)) {
+			if(ConfigManager.Config.Video.FullscreenForceIntegerScale && (WindowState == WindowState.FullScreen || WindowState == WindowState.Maximized)) {
 				FrameInfo baseSize = EmuApi.GetBaseScreenSize();
 				double scale = height * dpiScale / baseSize.Height;
 				if(scale != Math.Floor(scale)) {
@@ -677,7 +673,7 @@ namespace Mesen.Windows
 			}
 		}
 
-		protected override void OnLostFocus(RoutedEventArgs e)
+		protected override void OnLostFocus(FocusChangedEventArgs e)
 		{
 			base.OnLostFocus(e);
 			if(WindowState == WindowState.FullScreen && ConfigManager.Config.Video.UseExclusiveFullscreen) {

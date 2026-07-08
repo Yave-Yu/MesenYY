@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.Config;
@@ -13,9 +12,6 @@ namespace Mesen.Windows
 		public VideoRecordWindow()
 		{
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 		}
 
 		private void InitializeComponent()
@@ -29,7 +25,7 @@ namespace Mesen.Windows
 			bool isGif = model.Config.Codec == VideoCodec.GIF;
 
 			string initFilename = EmuApi.GetRomInfo().GetRomName() + (isGif ? ".gif" : ".avi");
-			string? filename = await FileDialogHelper.SaveFile(ConfigManager.AviFolder, initFilename, VisualRoot, isGif ? FileDialogHelper.GifExt : FileDialogHelper.AviExt);
+			string? filename = await FileDialogHelper.SaveFile(ConfigManager.AviFolder, initFilename, this.GetWindow(), isGif ? FileDialogHelper.GifExt : FileDialogHelper.AviExt);
 
 			if(filename != null) {
 				model.SavePath = filename;

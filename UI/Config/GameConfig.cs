@@ -1,7 +1,7 @@
-﻿using Mesen.Interop;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Mesen.Interop;
 using Mesen.Utilities;
 using Mesen.ViewModels;
-using ReactiveUI.Fody.Helpers;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -9,12 +9,12 @@ using System.Text.Json;
 
 namespace Mesen.Config
 {
-	public class GameConfig : BaseConfig<GameConfig>
+	public partial class GameConfig : BaseConfig<GameConfig>
 	{
-		[Reactive] public UInt32 DipSwitches { get; set; } = 0;
+		[ObservableProperty] public partial UInt32 DipSwitches { get; set; } = 0;
 
-		[Reactive] public bool OverrideOverscan { get; set; } = false;
-		[Reactive] public OverscanConfig Overscan { get; set; } = new();
+		[ObservableProperty] public partial bool OverrideOverscan { get; set; } = false;
+		[ObservableProperty] public partial OverscanConfig Overscan { get; set; } = new();
 
 		public void ApplyConfig()
 		{

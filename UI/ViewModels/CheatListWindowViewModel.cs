@@ -1,29 +1,28 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Selection;
 using Avalonia.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using DataBoxControl;
 using Mesen.Config;
 using Mesen.Debugger.Utilities;
 using Mesen.Interop;
 using Mesen.Utilities;
 using Mesen.Windows;
-using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reactive.Linq;
 
 namespace Mesen.ViewModels
 {
-	public class CheatListWindowViewModel : DisposableViewModel
+	public partial class CheatListWindowViewModel : DisposableViewModel
 	{
-		[Reactive] public MesenList<CheatCode> Cheats { get; private set; } = new();
-		[Reactive] public List<ContextMenuAction> ToolbarActions { get; private set; } = new();
-		[Reactive] public bool DisableAllCheats { get; set; } = false;
+		[ObservableProperty] public partial MesenList<CheatCode> Cheats { get; private set; } = new();
+		[ObservableProperty] public partial List<ContextMenuAction> ToolbarActions { get; private set; } = new();
+		[ObservableProperty] public partial bool DisableAllCheats { get; set; } = false;
 
-		[Reactive] public SelectionModel<CheatCode> Selection { get; set; } = new();
-		[Reactive] public SortState SortState { get; set; } = new();
+		[ObservableProperty] public partial SelectionModel<CheatCode> Selection { get; set; } = new();
+		[ObservableProperty] public partial SortState SortState { get; set; } = new();
 
 		public CheatWindowConfig Config { get; }
 

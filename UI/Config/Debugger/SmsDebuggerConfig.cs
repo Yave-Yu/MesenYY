@@ -1,10 +1,10 @@
-﻿using Mesen.ViewModels;
-using ReactiveUI.Fody.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Mesen.ViewModels;
 
 namespace Mesen.Config
 {
-	public class SmsDebuggerConfig : ViewModelBase
+	public partial class SmsDebuggerConfig : ViewModelBase
 	{
-		[Reactive] public bool BreakOnNopLoad { get; set; } = false;
+		[ObservableProperty] public partial bool BreakOnNopLoad { get; set; } = false;
 	}
 }

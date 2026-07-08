@@ -1,18 +1,18 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Mesen.Config;
 using Mesen.Interop;
 using Mesen.Localization;
 using Mesen.ViewModels;
-using ReactiveUI.Fody.Helpers;
 using System.Collections.Generic;
 
 namespace Mesen.Debugger.ViewModels
 {
-	public class WatchWindowViewModel : ViewModelBase
+	public partial class WatchWindowViewModel : ViewModelBase
 	{
-		[Reactive] public List<WatchTab> WatchTabs { get; set; } = new List<WatchTab>();
-		[Reactive] public WatchTab SelectedTab { get; set; } = null!;
+		[ObservableProperty] public partial List<WatchTab> WatchTabs { get; set; } = new List<WatchTab>();
+		[ObservableProperty] public partial WatchTab SelectedTab { get; set; } = null!;
 
 		public WatchWindowConfig Config { get; }
 
@@ -55,7 +55,7 @@ namespace Mesen.Debugger.ViewModels
 		}
 	}
 
-	public class WatchTab : DisposableViewModel
+	public partial class WatchTab : DisposableViewModel
 	{
 		public string TabName { get; }
 		public CpuType CpuType { get; }

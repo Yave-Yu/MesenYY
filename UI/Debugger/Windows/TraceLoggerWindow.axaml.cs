@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -28,9 +27,6 @@ namespace Mesen.Debugger.Windows
 		public TraceLoggerWindow(TraceLoggerViewModel model)
 		{
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 
 			_model = model;
 			_model.InitializeMenu(this);
@@ -40,10 +36,10 @@ namespace Mesen.Debugger.Windows
 			InitContextMenu(viewer);
 			_selectionHandler = new CodeViewerSelectionHandler(viewer, _model, (rowIndex, rowAddress) => rowIndex, false);
 
-			viewer.GetPropertyChangedObservable(DisassemblyViewer.VisibleRowCountProperty).Subscribe(x => {
+			_model.AddDisposable(viewer.ObserveProp(DisassemblyViewer.VisibleRowCountProperty, x => {
 				_model.VisibleRowCount = Math.Max(1, viewer.VisibleRowCount - 1);
 				_model.MaxScrollPosition = DebugApi.TraceLogBufferSize - _model.VisibleRowCount;
-			});
+			}));
 
 			DataContext = model;
 
@@ -192,7 +188,7 @@ namespace Mesen.Debugger.Windows
 
 		private async void OnStartLoggingClick(object sender, RoutedEventArgs e)
 		{
-			string? filename = await FileDialogHelper.SaveFile(ConfigManager.DebuggerFolder, EmuApi.GetRomInfo().GetRomName() + ".txt", VisualRoot, FileDialogHelper.TraceExt);
+			string? filename = await FileDialogHelper.SaveFile(ConfigManager.DebuggerFolder, EmuApi.GetRomInfo().GetRomName() + ".txt", this.GetWindow(), FileDialogHelper.TraceExt);
 			if(filename != null) {
 				_model.TraceFile = filename;
 				_model.IsLoggingToFile = true;

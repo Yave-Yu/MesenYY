@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Mesen.Debugger.Utilities;
 using System;
@@ -268,13 +267,13 @@ namespace Mesen.Controls
 			}
 		}
 
-		protected override void OnGotFocus(GotFocusEventArgs e)
+		protected override void OnGotFocus(FocusChangedEventArgs e)
 		{
 			base.OnGotFocus(e);
 			this.SelectAll();
 		}
 
-		protected override void OnLostFocus(RoutedEventArgs e)
+		protected override void OnLostFocus(FocusChangedEventArgs e)
 		{
 			base.OnLostFocus(e);
 			UpdateValueFromText();

@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.VisualTree;
 using Mesen.Config;
 using Mesen.Utilities;
 using Mesen.Windows;
@@ -41,7 +40,7 @@ namespace Mesen.Debugger.Controls
 			GetKeyWindow wnd = new GetKeyWindow(true);
 			wnd.SingleKeyMode = false;
 			wnd.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-			await wnd.ShowCenteredDialog(this.GetVisualRoot() as Visual);
+			await wnd.ShowCenteredDialog(this.GetWindow());
 			this.KeyBinding = wnd.DbgShortcutKey;
 		}
 

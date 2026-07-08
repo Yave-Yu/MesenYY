@@ -37,7 +37,8 @@ namespace Mesen.Debugger.Views
 		{
 			InitializeComponent();
 			_viewer = this.GetControl<DisassemblyViewer>("disViewer");
-			_viewer.GetPropertyChangedObservable(DisassemblyViewer.VisibleRowCountProperty).Subscribe(x => {
+			
+			AddDisposable(_viewer.ObserveProp(DisassemblyViewer.VisibleRowCountProperty, x => {
 				SourceViewViewModel? model = Model;
 				if(model == null) {
 					return;
@@ -51,7 +52,7 @@ namespace Mesen.Debugger.Views
 					model.ScrollToRowNumber(pos);
 					model.Refresh();
 				}
-			});
+			}));
 
 			InitContextMenu();
 		}

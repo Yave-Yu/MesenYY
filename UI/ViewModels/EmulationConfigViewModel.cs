@@ -1,14 +1,14 @@
 ﻿using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Mesen.Config;
 using Mesen.Utilities;
-using ReactiveUI.Fody.Helpers;
 
 namespace Mesen.ViewModels
 {
-	public class EmulationConfigViewModel : DisposableViewModel
+	public partial class EmulationConfigViewModel : DisposableViewModel
 	{
-		[Reactive] public EmulationConfig Config { get; set; }
-		[Reactive] public EmulationConfig OriginalConfig { get; set; }
+		[ObservableProperty] public partial EmulationConfig Config { get; set; }
+		[ObservableProperty] public partial EmulationConfig OriginalConfig { get; set; }
 
 		public EmulationConfigViewModel()
 		{

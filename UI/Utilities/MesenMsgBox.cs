@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Rendering;
 using Mesen.Localization;
 using Mesen.Windows;
 using System;
@@ -14,7 +13,7 @@ namespace Mesen.Utilities
 			return MesenMsgBox.Show(null, "UnexpectedError", MessageBoxButtons.OK, MessageBoxIcon.Error, ex.Message + Environment.NewLine + ex.StackTrace);
 		}
 
-		public static Task<DialogResult> Show(IRenderRoot? parent, string text, MessageBoxButtons buttons, MessageBoxIcon icon, params string[] args)
+		public static Task<DialogResult> Show(Window? parent, string text, MessageBoxButtons buttons, MessageBoxIcon icon, params string[] args)
 		{
 			Window? wnd = parent as Window;
 			if(parent != null && wnd == null) {

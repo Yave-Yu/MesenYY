@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -27,9 +26,6 @@ namespace Mesen.Debugger.Windows
 			DataContext = model;
 
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 		}
 
 		private void InitializeComponent()

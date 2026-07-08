@@ -1,10 +1,10 @@
-﻿using ReactiveUI.Fody.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Mesen.Config
 {
-	public class FontConfig : BaseConfig<FontConfig>
+	public partial class FontConfig : BaseConfig<FontConfig>
 	{
-		[Reactive] public string FontFamily { get; set; } = "";
-		[Reactive] public double FontSize { get; set; } = 12;
+		[ObservableProperty] public partial string FontFamily { get; set; } = "";
+		[ObservableProperty] public partial double FontSize { get; set; } = 12;
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Mesen.Config;
 using Mesen.Config.Shortcuts;
 using Mesen.Debugger.Utilities;
@@ -8,28 +9,24 @@ using Mesen.Interop;
 using Mesen.Localization;
 using Mesen.Utilities;
 using Mesen.Windows;
-using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 
 namespace Mesen.ViewModels
 {
-	public class MainMenuViewModel : ViewModelBase
+	public partial class MainMenuViewModel : ViewModelBase
 	{
 		public MainWindowViewModel MainWindow { get; set; }
 
-		[Reactive] public List<object> FileMenuItems { get; set; } = new();
-		[Reactive] public List<object> GameMenuItems { get; set; } = new();
-		[Reactive] public List<object> OptionsMenuItems { get; set; } = new();
-		[Reactive] public List<object> ToolsMenuItems { get; set; } = new();
-		[Reactive] public List<object> DebugMenuItems { get; set; } = new();
-		[Reactive] public List<object> HelpMenuItems { get; set; } = new();
-
-		[Reactive] private List<object> _netPlayControllers { get; set; } = new();
+		[ObservableProperty] public partial List<object> FileMenuItems { get; set; } = new();
+		[ObservableProperty] public partial List<object> GameMenuItems { get; set; } = new();
+		[ObservableProperty] public partial List<object> OptionsMenuItems { get; set; } = new();
+		[ObservableProperty] public partial List<object> ToolsMenuItems { get; set; } = new();
+		[ObservableProperty] public partial List<object> DebugMenuItems { get; set; } = new();
+		[ObservableProperty] public partial List<object> HelpMenuItems { get; set; } = new();
 
 		private RomInfo RomInfo => MainWindow.RomInfo;
 		private bool IsGameRunning => RomInfo.Format != RomFormat.Unknown;
@@ -53,7 +50,7 @@ namespace Mesen.ViewModels
 		{
 			if(_cfgWindow == null) {
 				_cfgWindow = new ConfigWindow(tab);
-				_cfgWindow.Closed += cfgWindow_Closed;
+				_cfgWindow.Closed += CfgWindow_Closed;
 				_cfgWindow.ShowCentered((Control)wnd);
 			} else {
 				(_cfgWindow.DataContext as ConfigViewModel)!.SelectTab(tab);
@@ -61,7 +58,7 @@ namespace Mesen.ViewModels
 			}
 		}
 
-		private void cfgWindow_Closed(object? sender, EventArgs e)
+		private void CfgWindow_Closed(object? sender, EventArgs e)
 		{
 			_cfgWindow = null;
 			if(ConfigManager.Config.Preferences.GameSelectionScreenMode == GameSelectionMode.Disabled && MainWindow.RecentGames.Visible) {
@@ -296,7 +293,6 @@ namespace Mesen.ViewModels
 				new MainMenuAction() {
 					ActionType = ActionType.Speed,
 					SubActions = new List<object> {
-						//GetSpeedMenuItem(ActionType.NormalSpeed, 100),
 						new MainMenuAction(EmulatorShortcut.NormalSpeed) {
 							ActionType = ActionType.NormalSpeed
 						},
@@ -770,12 +766,12 @@ namespace Mesen.ViewModels
 				GetVideoRecorderMenu(wnd),
 
 				new ContextMenuSeparator() {
-					IsVisible = () => MainWindow.RomInfo.ConsoleType == ConsoleType.Nes
+					IsVisible = () =>  MainWindow.RomInfo.ConsoleType == ConsoleType.Nes && MainWindow.RomInfo.Format != RomFormat.Nsf
 				},
 
 				new MainMenuAction() {
 					ActionType = ActionType.HdPacks,
-					IsVisible = () => MainWindow.RomInfo.ConsoleType == ConsoleType.Nes,
+					IsVisible = () => MainWindow.RomInfo.ConsoleType == ConsoleType.Nes && MainWindow.RomInfo.Format != RomFormat.Nsf,
 					SubActions = new List<object> {
 						new MainMenuAction() {
 							ActionType = ActionType.InstallHdPack,
@@ -869,7 +865,7 @@ namespace Mesen.ViewModels
 			_selectControllerAction = new MainMenuAction() {
 				ActionType = ActionType.SelectController,
 				IsEnabled = () => NetplayApi.IsConnected() || NetplayApi.IsServerRunning(),
-				SubActions = _netPlayControllers
+				SubActions = new()
 			};
 
 			return new MainMenuAction() {

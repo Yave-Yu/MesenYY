@@ -1,23 +1,21 @@
 ﻿using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Mesen.Config;
 using Mesen.Config.Shortcuts;
 using Mesen.Utilities;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
 
 namespace Mesen.ViewModels
 {
-	public class PreferencesConfigViewModel : DisposableViewModel
+	public partial class PreferencesConfigViewModel : DisposableViewModel
 	{
-		[Reactive] public PreferencesConfig Config { get; set; }
-		[Reactive] public PreferencesConfig OriginalConfig { get; set; }
-		[ObservableAsProperty] public bool ShowCustomSize { get; }
-
+		[ObservableProperty] public partial PreferencesConfig Config { get; set; }
+		[ObservableProperty] public partial PreferencesConfig OriginalConfig { get; set; }
+		
 		public string DataStorageLocation { get; }
 		public bool IsOsx { get; }
+		public bool ShowCustomSize { get; }
 
 		public List<ShortcutKeyInfo> ShortcutKeys { get; set; }
 
@@ -164,7 +162,6 @@ namespace Mesen.ViewModels
 				return;
 			}
 
-			AddDisposable(this.WhenAnyValue(_ => _.Config.HudSize).Select(_ => _ == HudDisplaySize.Fixed).ToPropertyEx(this, _ => _.ShowCustomSize));
 			AddDisposable(ReactiveHelper.RegisterRecursiveObserver(Config, (s, e) => {
 				Config.ApplyConfig();
 				PreferencesConfig.UpdateTheme();

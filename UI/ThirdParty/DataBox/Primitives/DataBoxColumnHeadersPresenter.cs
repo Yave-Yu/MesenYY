@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using DataBoxControl.Primitives.Layout;
+using Mesen.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -47,7 +48,7 @@ public class DataBoxColumnHeadersPresenter : Panel
 			Children.Add(columnHeader);
 			_columnHeaders.Add(columnHeader);
 
-			var disposable = column.GetObservable(DataBoxColumn.MeasureWidthProperty).Subscribe(_ => {
+			var disposable = column.ObserveProp(DataBoxColumn.MeasureWidthProperty, x => {
 				InvalidateMeasure();
 				InvalidateVisual();
 			});

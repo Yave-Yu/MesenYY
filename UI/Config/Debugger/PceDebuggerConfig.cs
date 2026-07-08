@@ -1,12 +1,12 @@
-﻿using Mesen.ViewModels;
-using ReactiveUI.Fody.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Mesen.ViewModels;
 
 namespace Mesen.Config
 {
-	public class PceDebuggerConfig : ViewModelBase
+	public partial class PceDebuggerConfig : ViewModelBase
 	{
-		[Reactive] public bool BreakOnBrk { get; set; } = false;
-		[Reactive] public bool BreakOnUnofficialOpCode { get; set; } = false;
-		[Reactive] public bool BreakOnInvalidVramAddress { get; set; } = false;
+		[ObservableProperty] public partial bool BreakOnBrk { get; set; } = false;
+		[ObservableProperty] public partial bool BreakOnUnofficialOpCode { get; set; } = false;
+		[ObservableProperty] public partial bool BreakOnInvalidVramAddress { get; set; } = false;
 	}
 }

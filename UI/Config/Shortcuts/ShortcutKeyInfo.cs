@@ -1,12 +1,11 @@
-﻿using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Mesen.Config.Shortcuts
 {
-	public class ShortcutKeyInfo : ReactiveObject
+	public partial class ShortcutKeyInfo : ObservableObject
 	{
-		[Reactive] public EmulatorShortcut Shortcut { get; set; }
-		[Reactive] public KeyCombination KeyCombination { get; set; } = new KeyCombination();
-		[Reactive] public KeyCombination KeyCombination2 { get; set; } = new KeyCombination();
+		[ObservableProperty] public partial EmulatorShortcut Shortcut { get; set; }
+		[ObservableProperty] public partial KeyCombination KeyCombination { get; set; } = new KeyCombination();
+		[ObservableProperty] public partial KeyCombination KeyCombination2 { get; set; } = new KeyCombination();
 	}
 }

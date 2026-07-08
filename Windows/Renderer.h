@@ -11,7 +11,8 @@ using namespace DirectX;
 
 class Emulator;
 
-namespace DirectX {
+namespace DirectX
+{
 	class SpriteBatch;
 }
 
@@ -32,7 +33,7 @@ private:
 
 	ID3D11Device* _pd3dDevice = nullptr;
 	ID3D11DeviceContext* _pDeviceContext = nullptr;
-	IDXGISwapChain1* _pSwapChain = nullptr;
+	IDXGISwapChain* _pSwapChain = nullptr;
 	ID3D11RenderTargetView* _pRenderTargetView = nullptr;
 
 	atomic<bool> _needFlip = false;
@@ -74,7 +75,12 @@ private:
 
 	atomic<int> _resetCounter = 0;
 
+	void LogError(const char* msg, HRESULT hr);
+
+	HRESULT InitDeviceLegacy();
 	HRESULT InitDevice();
+	HRESULT InitDeviceCommon();
+
 	void CleanupDevice();
 
 	void SetScreenSize(uint32_t width, uint32_t height);
@@ -85,12 +91,12 @@ private:
 
 	bool CreateHudTexture(HudRenderInfo& hud, uint32_t newWidth, uint32_t newHeight);
 	void DrawHud(HudRenderInfo& hud, RenderSurfaceInfo& hudSurface);
-		
+
 	HRESULT CreateRenderTargetView();
 	void ReleaseRenderTargetView();
 	HRESULT CreateEmuTextureBuffers();
 	void ResetTextureBuffers();
-	
+
 	DXGI_FORMAT GetTextureFormat();
 
 public:

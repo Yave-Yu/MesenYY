@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
@@ -47,9 +46,6 @@ namespace Mesen.Debugger.Windows
 		public ScriptWindow(ScriptWindowViewModel model)
 		{
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 
 			UpdateSyntaxDef();
 			_highlighting = HighlightingLoader.Load(_syntaxDef, HighlightingManager.Instance);

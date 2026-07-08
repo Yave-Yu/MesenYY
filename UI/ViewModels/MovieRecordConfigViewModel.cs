@@ -1,15 +1,15 @@
-﻿using Mesen.Config;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Mesen.Config;
 using Mesen.Interop;
 using Mesen.Utilities;
-using ReactiveUI.Fody.Helpers;
 using System.IO;
 
 namespace Mesen.ViewModels
 {
-	public class MovieRecordConfigViewModel : ViewModelBase
+	public partial class MovieRecordConfigViewModel : ViewModelBase
 	{
-		[Reactive] public string SavePath { get; set; }
-		[Reactive] public MovieRecordConfig Config { get; set; }
+		[ObservableProperty] public partial string SavePath { get; set; }
+		[ObservableProperty] public partial MovieRecordConfig Config { get; set; }
 
 		public MovieRecordConfigViewModel()
 		{

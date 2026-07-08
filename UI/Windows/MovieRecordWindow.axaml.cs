@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.Config;
@@ -13,9 +12,6 @@ namespace Mesen.Windows
 		public MovieRecordWindow()
 		{
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 		}
 
 		private void InitializeComponent()
@@ -27,7 +23,7 @@ namespace Mesen.Windows
 		{
 			MovieRecordConfigViewModel model = (MovieRecordConfigViewModel)DataContext!;
 
-			string? filename = await FileDialogHelper.SaveFile(ConfigManager.MovieFolder, EmuApi.GetRomInfo().GetRomName() + "." + FileDialogHelper.MesenMovieExt, VisualRoot, FileDialogHelper.MesenMovieExt);
+			string? filename = await FileDialogHelper.SaveFile(ConfigManager.MovieFolder, EmuApi.GetRomInfo().GetRomName() + "." + FileDialogHelper.MesenMovieExt, this.GetWindow(), FileDialogHelper.MesenMovieExt);
 			if(filename != null) {
 				model.SavePath = filename;
 			}

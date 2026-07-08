@@ -1,8 +1,7 @@
-﻿using Mesen.Config;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Mesen.Config;
 using Mesen.Utilities;
 using Mesen.ViewModels;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +11,7 @@ using System.Reflection;
 
 namespace Mesen.Debugger.ViewModels
 {
-	public class DebuggerConfigWindowViewModel : DisposableViewModel
+	public partial class DebuggerConfigWindowViewModel : DisposableViewModel
 	{
 		public DebuggerFontConfig Fonts { get; set; }
 		public DebuggerConfig Debugger { get; set; }
@@ -21,7 +20,7 @@ namespace Mesen.Debugger.ViewModels
 
 		public List<object> CpuTypeList { get; set; } = new();
 
-		[Reactive] public DebugConfigWindowTab SelectedIndex { get; set; }
+		[ObservableProperty] public partial DebugConfigWindowTab SelectedIndex { get; set; }
 
 		public List<DebuggerShortcutInfo> SharedShortcuts { get; set; } = new();
 		public List<DebuggerShortcutInfo> MemoryToolsShortcuts { get; set; } = new();
@@ -102,7 +101,7 @@ namespace Mesen.Debugger.ViewModels
 			);
 		}
 
-		private void RevertChanges<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] T>(T current, T original) where T : ReactiveObject
+		private void RevertChanges<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] T>(T current, T original) where T : ObservableObject
 		{
 			if(_changes.TryGetValue(current, out HashSet<string>? changes)) {
 				foreach(string propertyName in changes) {

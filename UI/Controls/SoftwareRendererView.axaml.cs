@@ -3,11 +3,11 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Mesen.Config;
 using Mesen.Interop;
 using Mesen.Utilities;
 using Mesen.ViewModels;
-using ReactiveUI.Fody.Helpers;
 using System;
 
 namespace Mesen.Controls
@@ -76,12 +76,12 @@ namespace Mesen.Controls
 		}
 	}
 
-	public class SoftwareRendererViewModel : ViewModelBase
+	public partial class SoftwareRendererViewModel : ViewModelBase
 	{
-		[Reactive] public DynamicBitmap? FrameSurface { get; set; }
-		[Reactive] public DynamicBitmap? EmuHudSurface { get; set; }
-		[Reactive] public DynamicBitmap? ScriptHudSurface { get; set; }
-		[Reactive] public double Width { get; set; }
-		[Reactive] public double Height { get; set; }
+		[ObservableProperty] public partial DynamicBitmap? FrameSurface { get; set; }
+		[ObservableProperty] public partial DynamicBitmap? EmuHudSurface { get; set; }
+		[ObservableProperty] public partial DynamicBitmap? ScriptHudSurface { get; set; }
+		[ObservableProperty] public partial double Width { get; set; }
+		[ObservableProperty] public partial double Height { get; set; }
 	}
 }

@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.ViewModels;
-using Mesen.Windows;
+using Mesen.Utilities;
 
 namespace Mesen.Controls
 {
@@ -64,7 +64,7 @@ namespace Mesen.Controls
 
 		private void NavigateTo(ConfigWindowTab console)
 		{
-			if(VisualRoot is ConfigWindow wnd && wnd.DataContext is ConfigViewModel cfg) {
+			if(this.GetWindow()?.DataContext is ConfigViewModel cfg) {
 				cfg.SelectTab(console);
 
 				switch(console) {

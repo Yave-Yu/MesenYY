@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Rendering;
 using Mesen.Config;
 using Mesen.Interop;
 using Mesen.Localization;
@@ -57,7 +56,7 @@ namespace Mesen.Utilities
 			}
 		}
 
-		public static async Task<bool> SelectFirmwareFile(FirmwareType type, string selectedFile, IRenderRoot? wnd)
+		public static async Task<bool> SelectFirmwareFile(FirmwareType type, string selectedFile, Window? wnd)
 		{
 			FirmwareFiles knownFirmwares = type.GetFirmwareInfo();
 

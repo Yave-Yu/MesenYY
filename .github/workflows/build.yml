@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         platform: [
-          {netversion: 8.x, targetframework: net8.0, aot: true, singleFile: false, aotString: " - AoT"}
+          {netversion: 10.x, targetframework: net10.0, aot: true, singleFile: false, aotString: " - AoT"}
         ]
       fail-fast: false
     runs-on: windows-2025-vs2026
@@ -74,7 +74,7 @@ jobs:
       - name: Install .NET Core
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 8.x
+          dotnet-version: 10.x
 
       - name: Install dependencies
         run: |
@@ -118,7 +118,7 @@ jobs:
       - name: Install .NET Core
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 8.x
+          dotnet-version: 10.x
 
       - name: Install dependencies
         run: |
@@ -165,7 +165,7 @@ jobs:
       - name: Install .NET Core
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 8.x
+          dotnet-version: 10.x
 
       - name: Install dependencies
         run: |

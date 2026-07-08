@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
@@ -18,9 +17,6 @@ namespace Mesen.Debugger.Windows
 			DataContext = _model;
 
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 
 			if(Design.IsDesignMode) {
 				return;

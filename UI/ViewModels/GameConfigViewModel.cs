@@ -1,13 +1,13 @@
 ﻿using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Mesen.Config;
 using Mesen.Utilities;
-using ReactiveUI.Fody.Helpers;
 
 namespace Mesen.ViewModels
 {
-	public class GameConfigViewModel : DisposableViewModel
+	public partial class GameConfigViewModel : DisposableViewModel
 	{
-		[Reactive] public GameConfig Config { get; set; }
+		[ObservableProperty] public partial GameConfig Config { get; set; }
 		public GameDipSwitches DipSwitches { get; }
 
 		public GameConfigViewModel()

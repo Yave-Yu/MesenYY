@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -25,10 +24,6 @@ namespace Mesen.Debugger.Windows
 			_model = model;
 
 			AddHandler(CommentEditWindow.KeyDownEvent, this.KeyDownHandler, RoutingStrategies.Tunnel);
-
-#if DEBUG
-			this.AttachDevTools();
-#endif
 		}
 
 		private void InitializeComponent()

@@ -2,7 +2,7 @@
 
 namespace Mesen.Config
 {
-	public class CheatWindowConfig : BaseWindowConfig<CheatWindowConfig>
+	public partial class CheatWindowConfig : BaseWindowConfig<CheatWindowConfig>
 	{
 		public bool DisableAllCheats { get; set; } = false;
 		public List<int> ColumnWidths { get; set; } = new();

@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -17,9 +16,6 @@ namespace Mesen.Debugger.Windows
 		public ProfilerWindow()
 		{
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 
 			_model = new ProfilerWindowViewModel(this);
 			DataContext = _model;

@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.Debugger.ViewModels;
@@ -15,10 +14,6 @@ namespace Mesen.Debugger.Windows
 			DataContext = _model;
 
 			InitializeComponent();
-
-#if DEBUG
-			this.AttachDevTools();
-#endif
 		}
 
 		private void InitializeComponent()

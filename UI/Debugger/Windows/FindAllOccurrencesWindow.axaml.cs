@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -24,9 +23,6 @@ namespace Mesen.Debugger.Windows
 			MatchWholeWord = _lastMatchWholeWord;
 
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 		}
 
 		private void InitializeComponent()

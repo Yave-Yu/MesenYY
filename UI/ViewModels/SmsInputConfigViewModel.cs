@@ -1,12 +1,12 @@
-﻿using Mesen.Config;
-using ReactiveUI.Fody.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Mesen.Config;
 using System;
 
 namespace Mesen.ViewModels
 {
-	public class SmsInputConfigViewModel : DisposableViewModel
+	public partial class SmsInputConfigViewModel : DisposableViewModel
 	{
-		[Reactive] public SmsConfig Config { get; set; }
+		[ObservableProperty] public partial SmsConfig Config { get; set; }
 
 		public Enum[] AvailableControllerTypesP12 => new Enum[] {
 			ControllerType.None,

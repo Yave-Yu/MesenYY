@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -20,11 +19,8 @@ namespace Mesen.Windows
 		public CheatEditWindow(CheatCode cheat)
 		{
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 
-			_model = new CheatEditWindowViewModel(cheat);
+			_model = new CheatEditWindowViewModel(cheat, () => Close());
 			DataContext = _model;
 		}
 

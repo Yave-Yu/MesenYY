@@ -90,9 +90,9 @@ public class FirmwareSelect : UserControl
 	private async void btnBrowse_OnClick(object sender, RoutedEventArgs e)
 	{
 		while(true) {
-			string? selectedFile = await FileDialogHelper.OpenFile(null, VisualRoot, FileDialogHelper.FirmwareExt);
+			string? selectedFile = await FileDialogHelper.OpenFile(null, this.GetWindow(), FileDialogHelper.FirmwareExt);
 			if(selectedFile?.Length > 0 && File.Exists(selectedFile)) {
-				if(await FirmwareHelper.SelectFirmwareFile(FirmwareType, selectedFile, VisualRoot)) {
+				if(await FirmwareHelper.SelectFirmwareFile(FirmwareType, selectedFile, this.GetWindow())) {
 					break;
 				}
 			} else {
@@ -106,7 +106,7 @@ public class FirmwareSelect : UserControl
 	{
 		string path = Path.Combine(ConfigManager.FirmwareFolder, Filename);
 		if(File.Exists(path)) {
-			DialogResult result = await MesenMsgBox.Show(VisualRoot, "PromptDeleteFirmware", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, path);
+			DialogResult result = await MesenMsgBox.Show(this.GetWindow(), "PromptDeleteFirmware", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, path);
 			if(result == DialogResult.OK) {
 				File.Delete(path);
 			}

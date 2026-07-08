@@ -1,6 +1,6 @@
 ﻿namespace Mesen.Config
 {
-	public class MainWindowConfig : BaseWindowConfig<MainWindowConfig>
+	public partial class MainWindowConfig : BaseWindowConfig<MainWindowConfig>
 	{
 	}
 }

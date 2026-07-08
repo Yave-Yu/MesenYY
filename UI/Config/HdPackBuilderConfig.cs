@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Mesen.Config
 {
-	public class HdPackBuilderConfig : BaseConfig<HdPackBuilderConfig>
+	public partial class HdPackBuilderConfig : BaseConfig<HdPackBuilderConfig>
 	{
 		public ScaleFilterType FilterType { get; set; } = ScaleFilterType.Prescale;
 		public UInt32 Scale { get; set; } = 1;

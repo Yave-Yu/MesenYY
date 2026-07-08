@@ -1,10 +1,10 @@
-﻿using Mesen.ViewModels;
-using ReactiveUI.Fody.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Mesen.ViewModels;
 
 namespace Mesen.Config
 {
-	public class WsDebuggerConfig : ViewModelBase
+	public partial class WsDebuggerConfig : ViewModelBase
 	{
-		[Reactive] public bool BreakOnUndefinedOpCode { get; set; } = false;
+		[ObservableProperty] public partial bool BreakOnUndefinedOpCode { get; set; } = false;
 	}
 }

@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.Config;
@@ -12,9 +11,6 @@ namespace Mesen.Windows
 		public NetplayConnectWindow()
 		{
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 		}
 
 		private void InitializeComponent()

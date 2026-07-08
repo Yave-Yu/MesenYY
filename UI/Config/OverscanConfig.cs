@@ -1,14 +1,14 @@
-﻿using ReactiveUI.Fody.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 
 namespace Mesen.Config
 {
-	public class OverscanConfig : BaseConfig<OverscanConfig>
+	public partial class OverscanConfig : BaseConfig<OverscanConfig>
 	{
-		[Reactive][MinMax(0, 100)] public UInt32 Left { get; set; } = 0;
-		[Reactive][MinMax(0, 100)] public UInt32 Right { get; set; } = 0;
-		[Reactive][MinMax(0, 95)] public UInt32 Top { get; set; } = 0;
-		[Reactive][MinMax(0, 95)] public UInt32 Bottom { get; set; } = 0;
+		[ObservableProperty][MinMax(0, 100)] public partial UInt32 Left { get; set; } = 0;
+		[ObservableProperty][MinMax(0, 100)] public partial UInt32 Right { get; set; } = 0;
+		[ObservableProperty][MinMax(0, 95)] public partial UInt32 Top { get; set; } = 0;
+		[ObservableProperty][MinMax(0, 95)] public partial UInt32 Bottom { get; set; } = 0;
 
 		public InteropOverscanDimensions ToInterop()
 		{

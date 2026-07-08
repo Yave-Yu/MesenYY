@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -104,7 +103,7 @@ namespace Mesen.Windows
 			_isDoubleTap = true;
 		}
 
-		public static async Task<CheatDbGameEntry?> Show(ConsoleType consoleType, Visual? parent)
+		public static async Task<CheatDbGameEntry?> Show(ConsoleType consoleType, Control? parent)
 		{
 			CheatDatabaseWindow wnd = new CheatDatabaseWindow(consoleType);
 			await wnd.ShowCenteredDialog(parent);

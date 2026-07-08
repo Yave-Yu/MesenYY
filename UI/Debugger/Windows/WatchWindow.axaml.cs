@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
@@ -19,9 +18,6 @@ namespace Mesen.Debugger.Windows
 		public WatchWindow(WatchWindowViewModel model)
 		{
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 
 			_model = model;
 			DataContext = model;

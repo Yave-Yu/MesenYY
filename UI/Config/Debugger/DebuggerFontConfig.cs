@@ -1,16 +1,16 @@
 ﻿using Avalonia;
 using Avalonia.Media;
-using ReactiveUI.Fody.Helpers;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Mesen.Config
 {
-	public class DebuggerFontConfig : BaseConfig<DebuggerFontConfig>
+	public partial class DebuggerFontConfig : BaseConfig<DebuggerFontConfig>
 	{
-		[Reactive] public FontConfig DisassemblyFont { get; set; } = new() { FontFamily = "Consolas", FontSize = 14 };
-		[Reactive] public FontConfig MemoryViewerFont { get; set; } = new() { FontFamily = "Consolas", FontSize = 14 };
-		[Reactive] public FontConfig AssemblerFont { get; set; } = new() { FontFamily = "Consolas", FontSize = 14 };
-		[Reactive] public FontConfig ScriptWindowFont { get; set; } = new() { FontFamily = "Consolas", FontSize = 14 };
-		[Reactive] public FontConfig OtherMonoFont { get; set; } = new() { FontFamily = "Consolas", FontSize = 12 };
+		[ObservableProperty] public partial FontConfig DisassemblyFont { get; set; } = new() { FontFamily = "Consolas", FontSize = 14 };
+		[ObservableProperty] public partial FontConfig MemoryViewerFont { get; set; } = new() { FontFamily = "Consolas", FontSize = 14 };
+		[ObservableProperty] public partial FontConfig AssemblerFont { get; set; } = new() { FontFamily = "Consolas", FontSize = 14 };
+		[ObservableProperty] public partial FontConfig ScriptWindowFont { get; set; } = new() { FontFamily = "Consolas", FontSize = 14 };
+		[ObservableProperty] public partial FontConfig OtherMonoFont { get; set; } = new() { FontFamily = "Consolas", FontSize = 12 };
 
 		public void ApplyConfig()
 		{

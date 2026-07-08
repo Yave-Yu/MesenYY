@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Selection;
 using Avalonia.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Mesen.Config;
 using Mesen.Debugger.Labels;
 using Mesen.Debugger.Utilities;
@@ -9,19 +10,18 @@ using Mesen.Debugger.Windows;
 using Mesen.Interop;
 using Mesen.Utilities;
 using Mesen.ViewModels;
-using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 
 namespace Mesen.Debugger.ViewModels
 {
-	public class CallStackViewModel : DisposableViewModel
+	public partial class CallStackViewModel : DisposableViewModel
 	{
 		public CpuType CpuType { get; }
 		public DebuggerWindowViewModel Debugger { get; }
 
-		[Reactive] public MesenList<StackInfo> CallStackContent { get; private set; } = new();
-		[Reactive] public SelectionModel<StackInfo?> Selection { get; set; } = new();
+		[ObservableProperty] public partial MesenList<StackInfo> CallStackContent { get; private set; } = new();
+		[ObservableProperty] public partial SelectionModel<StackInfo?> Selection { get; set; } = new();
 		public List<int> ColumnWidths { get; } = ConfigManager.Config.Debug.Debugger.CallStackColumnWidths;
 
 		private StackFrameInfo[] _stackFrames = Array.Empty<StackFrameInfo>();

@@ -1,12 +1,12 @@
 ﻿using Mesen.Config;
-using ReactiveUI.Fody.Helpers;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 
 namespace Mesen.ViewModels
 {
-	public class CvInputConfigViewModel : DisposableViewModel
+	public partial class CvInputConfigViewModel : DisposableViewModel
 	{
-		[Reactive] public CvConfig Config { get; set; }
+		[ObservableProperty] public partial CvConfig Config { get; set; }
 
 		public Enum[] AvailableControllerTypesP12 => new Enum[] {
 			ControllerType.None,

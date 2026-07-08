@@ -40,9 +40,6 @@ namespace Mesen.Debugger.Windows
 			_memType = memType;
 
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 		}
 
 		private void InitializeComponent()

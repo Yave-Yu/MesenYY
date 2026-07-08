@@ -141,7 +141,7 @@ namespace Mesen.Config.Shortcuts
 		StopRecordHdPack,
 
 		LastValidValue,
-		[Obsolete] LoadRandomGame,
+		[Obsolete] LoadRandomGame
 	}
 
 	public static class EmulatorShortcutExtensions

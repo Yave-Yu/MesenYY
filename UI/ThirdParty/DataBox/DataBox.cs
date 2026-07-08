@@ -5,13 +5,12 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Selection;
 using Avalonia.Data;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.Metadata;
 using Avalonia.Threading;
 using DataBoxControl.Primitives;
-using DynamicData;
 using Mesen.Utilities;
 using System;
 using System.Collections;
@@ -268,7 +267,7 @@ public class DataBox : TemplatedControl
 	internal void OnCellPointerPressed(object? sender, RoutedEventArgs e)
 	{
 		if(sender is DataBoxCell cell) {
-			if(cell.Column is DataBoxCheckBoxColumn && Selection.SelectedItems.IndexOf(cell.DataContext) >= 0) {
+			if(cell.Column is DataBoxCheckBoxColumn && Selection.SelectedItems.Contains(cell.DataContext)) {
 				//Prevent selection change when clicking checkbox column when multiple items are selected
 				e.Handled = true;
 			}
@@ -354,10 +353,10 @@ public class DataBox : TemplatedControl
 			return false;
 		}
 
-		if(column is DataBoxTextColumn textColumn && textColumn.Binding is CompiledBindingExtension columnBinding) {
-#pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
-			Binding binding = new Binding(columnBinding.Path.ToString(), BindingMode.OneTime);
-#pragma warning restore IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
+		if(column is DataBoxTextColumn textColumn && textColumn.Binding is CompiledBinding columnBinding) {
+#pragma warning disable IL2026, IL3050 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
+			Binding binding = new Binding(columnBinding.Path?.ToString() ?? "");
+#pragma warning restore IL2026, IL3050 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
 			int i = 0;
 			foreach(object item in Items) {
 				binding.Source = item;
@@ -389,10 +388,10 @@ public class DataBox : TemplatedControl
 		List<Binding?> bindings = new();
 		for(int i = 0; i < Columns.Count; i++) {
 			DataBoxColumn column = Columns[i];
-			if(column is DataBoxTextColumn textColumn && textColumn.Binding is CompiledBindingExtension columnBinding) {
-#pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
-				bindings.Add(new Binding(columnBinding.Path.ToString(), BindingMode.OneTime));
-#pragma warning restore IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
+			if(column is DataBoxTextColumn textColumn && textColumn.Binding is CompiledBinding columnBinding) {
+#pragma warning disable IL2026, IL3050 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
+				bindings.Add(new Binding(columnBinding.Path?.ToString() ?? ""));
+#pragma warning restore IL2026, IL3050 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
 
 				sb.Append(textColumn.Header);
 				if(i < Columns.Count - 1) {
@@ -407,7 +406,7 @@ public class DataBox : TemplatedControl
 		foreach(object item in Items) {
 			for(int i = 0; i < Columns.Count; i++) {
 				DataBoxColumn column = Columns[i];
-				if(column is DataBoxTextColumn textColumn && textColumn.Binding is CompiledBindingExtension columnBinding) {
+				if(column is DataBoxTextColumn textColumn && textColumn.Binding is CompiledBinding columnBinding) {
 					Binding? binding = bindings[i];
 					if(binding == null) {
 						continue;

@@ -5,7 +5,6 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using DataBoxControl;
-using DynamicData;
 using Mesen.Debugger.Controls;
 using Mesen.Debugger.Labels;
 using Mesen.Debugger.Utilities;
@@ -28,9 +27,6 @@ namespace Mesen.Debugger.Windows
 		public EventViewerWindow(CpuType cpuType)
 		{
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 
 			PictureViewer viewer = this.GetControl<ScrollPictureViewer>("picViewer").InnerViewer;
 			DataBox listView = this.GetControl<DataBox>("lstEvents");

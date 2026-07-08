@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Mesen.Config;
@@ -58,9 +57,6 @@ namespace Mesen.Debugger.Windows
 			}
 
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 		}
 
 		private static UInt32[] GenerateWsPalette()

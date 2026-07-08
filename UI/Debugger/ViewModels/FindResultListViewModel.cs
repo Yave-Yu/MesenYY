@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Selection;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using DataBoxControl;
 using Mesen.Config;
 using Mesen.Debugger.Disassembly;
@@ -8,20 +9,18 @@ using Mesen.Debugger.Utilities;
 using Mesen.Interop;
 using Mesen.Utilities;
 using Mesen.ViewModels;
-using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reactive.Linq;
 
 namespace Mesen.Debugger.ViewModels;
 
-public class FindResultListViewModel : DisposableViewModel
+public partial class FindResultListViewModel : DisposableViewModel
 {
-	[Reactive] public MesenList<FindResultViewModel> FindResults { get; private set; } = new();
-	[Reactive] public SelectionModel<FindResultViewModel?> Selection { get; set; } = new() { SingleSelect = false };
-	[Reactive] public SortState SortState { get; set; } = new();
+	[ObservableProperty] public partial MesenList<FindResultViewModel> FindResults { get; private set; } = new();
+	[ObservableProperty] public partial SelectionModel<FindResultViewModel?> Selection { get; set; } = new() { SingleSelect = false };
+	[ObservableProperty] public partial SortState SortState { get; set; } = new();
 	public List<int> ColumnWidths { get; } = ConfigManager.Config.Debug.Debugger.FindResultColumnWidths;
 
 	public DebuggerWindowViewModel Debugger { get; }

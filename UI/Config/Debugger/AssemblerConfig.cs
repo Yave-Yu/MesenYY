@@ -1,6 +1,6 @@
 ﻿namespace Mesen.Config
 {
-	public class AssemblerConfig : BaseWindowConfig<AssemblerConfig>
+	public partial class AssemblerConfig : BaseWindowConfig<AssemblerConfig>
 	{
 	}
 }

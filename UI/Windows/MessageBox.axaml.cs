@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Mesen.Localization;
@@ -13,9 +12,6 @@ namespace Mesen.Windows
 		public MessageBox()
 		{
 			InitializeComponent();
-#if DEBUG
-			this.AttachDevTools();
-#endif
 		}
 
 		private void InitializeComponent()

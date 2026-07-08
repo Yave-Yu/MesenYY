@@ -1,24 +1,22 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Selection;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Mesen.Interop;
 using Mesen.Utilities;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Text.Json;
 
 namespace Mesen.ViewModels
 {
-	public class CheatDatabaseViewModel : DisposableViewModel
+	public partial class CheatDatabaseViewModel : DisposableViewModel
 	{
 		private List<CheatDbGameEntry> _entries;
 
-		[Reactive] public IEnumerable<CheatDbGameEntry> FilteredEntries { get; set; }
-		[Reactive] public SelectionModel<CheatDbGameEntry?> SelectionModel { get; set; } = new();
-		[Reactive] public string SearchString { get; set; } = "";
+		[ObservableProperty] public partial IEnumerable<CheatDbGameEntry> FilteredEntries { get; set; }
+		[ObservableProperty] public partial SelectionModel<CheatDbGameEntry?> SelectionModel { get; set; } = new();
+		[ObservableProperty] public partial string SearchString { get; set; } = "";
 
 		[Obsolete("For designer only")]
 		public CheatDatabaseViewModel() : this(ConsoleType.Snes) { }
@@ -35,20 +33,22 @@ namespace Mesen.ViewModels
 
 			_entries = cheatDb.Games;
 			FilteredEntries = _entries;
-			AddDisposable(this.WhenAnyValue(x => x.SearchString).Subscribe(x => {
-				if(string.IsNullOrWhiteSpace(x)) {
-					FilteredEntries = _entries;
-				} else {
-					FilteredEntries = _entries.Where(e => e.Name.Contains(x, StringComparison.OrdinalIgnoreCase));
-				}
-
-				SelectionModel.SelectedItem = FilteredEntries.FirstOrDefault();
-			}));
 
 			if(!Design.IsDesignMode) {
 				string sha1 = EmuApi.GetRomHash(HashType.Sha1Cheat);
 				SelectionModel.SelectedItem = _entries.Find(e => e.Sha1 == sha1);
 			}
+		}
+
+		partial void OnSearchStringChanged(string value)
+		{
+			if(string.IsNullOrWhiteSpace(value)) {
+				FilteredEntries = _entries;
+			} else {
+				FilteredEntries = _entries.Where(e => e.Name.Contains(value, StringComparison.OrdinalIgnoreCase));
+			}
+
+			SelectionModel.SelectedItem = FilteredEntries.FirstOrDefault();
 		}
 	}
 }
