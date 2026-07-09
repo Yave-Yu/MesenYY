@@ -18,8 +18,6 @@ namespace Mesen.ViewModels
 
 		[ObservableProperty] public partial Enum[] AvailableCheatTypes { get; private set; } = Array.Empty<Enum>();
 
-		private MainWindowViewModel MainWndModel { get; }
-
 		[Obsolete("For designer only")]
 		public CheatEditWindowViewModel() : this(new CheatCode(), () => { }) { }
 

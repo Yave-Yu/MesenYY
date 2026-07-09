@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls;
+using Avalonia.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Mesen.Debugger.Controls;
 using Mesen.Interop;
 using Mesen.ViewModels;
