@@ -1,4 +1,6 @@
-﻿using Avalonia.Media;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
