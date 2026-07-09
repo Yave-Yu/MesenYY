@@ -15,7 +15,6 @@ namespace Mesen.ViewModels
 		
 		public string DataStorageLocation { get; }
 		public bool IsOsx { get; }
-		public bool ShowCustomSize { get; }
 
 		public List<ShortcutKeyInfo> ShortcutKeys { get; set; }
 

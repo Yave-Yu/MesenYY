@@ -158,7 +158,7 @@
 							<TextBlock Text="{l:Translate lblHudDisplaySize}" />
 							<c:EnumComboBox SelectedItem="{Binding Config.HudSize}" MinWidth="125" />
 						</StackPanel>
-						<StackPanel Orientation="Horizontal" IsVisible="{Binding Config.ShowHudSize, Converter={StaticResource EnumMatchConverter}, ConverterParameter={x:Static cfg:HudSize.Fixed}}">
+						<StackPanel Orientation="Horizontal" IsVisible="{Binding Config.HudSize, Converter={StaticResource EnumMatchConverter}, ConverterParameter={x:Static cfg:HudDisplaySize.Fixed}}">
 							<c:MesenSlider
 								Margin="0 -8 0 0"
 								Minimum="1"

@@ -75,7 +75,7 @@ void SystemHud::DrawString(DebugHud* hud, uint32_t screenWidth, string text, int
 
 void SystemHud::ShowFpsCounter(DebugHud* hud, uint32_t screenWidth, int lineNumber) const
 {
-	int yPos = 10 + 10 * lineNumber;
+	int yPos = 8 + DrawStringCommand::RowHeight * lineNumber;
 
 	string fpsString = string("FPS: ") + StringUtilities::ToString(_currentFPS, 1);
 	uint32_t length = DrawStringCommand::MeasureString(fpsString).X;
@@ -84,7 +84,7 @@ void SystemHud::ShowFpsCounter(DebugHud* hud, uint32_t screenWidth, int lineNumb
 
 void SystemHud::ShowGameTimer(DebugHud* hud, uint32_t screenWidth, int lineNumber) const
 {
-	int yPos = 10 + 10 * lineNumber;
+	int yPos = 8 + DrawStringCommand::RowHeight * lineNumber;
 	uint32_t frameCount = _emu->GetFrameCount();
 	double frameRate = _emu->GetFps();
 	uint32_t seconds = (uint32_t)(frameCount / frameRate) % 60;
@@ -103,7 +103,7 @@ void SystemHud::ShowGameTimer(DebugHud* hud, uint32_t screenWidth, int lineNumbe
 
 void SystemHud::ShowFrameCounter(DebugHud* hud, uint32_t screenWidth, int lineNumber) const
 {
-	int yPos = 10 + 10 * lineNumber;
+	int yPos = 8 + DrawStringCommand::RowHeight * lineNumber;
 	uint32_t frameCount = _emu->GetFrameCount();
 
 	string frameCounter = MessageManager::Localize("Frame") + ": " + std::to_string(frameCount);
@@ -113,7 +113,7 @@ void SystemHud::ShowFrameCounter(DebugHud* hud, uint32_t screenWidth, int lineNu
 
 void SystemHud::ShowLagCounter(DebugHud* hud, uint32_t screenWidth, int lineNumber) const
 {
-	int yPos = 10 + 10 * lineNumber;
+	int yPos = 8 + DrawStringCommand::RowHeight * lineNumber;
 	uint32_t count = _emu->GetLagCounter();
 
 	string lagCounter = MessageManager::Localize("Lag") + ": " + std::to_string(count);
@@ -292,7 +292,7 @@ void SystemHud::UpdateHud()
 			_fpsTimer.Reset();
 		}
 
-		if(_currentFPS > 5000) {
+		if(_currentFPS > 9999) {
 			_currentFPS = 0;
 		}
 	}
