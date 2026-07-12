@@ -42,7 +42,7 @@ OverscanDimensions SnesDefaultVideoFilter::GetOverscan()
 void SnesDefaultVideoFilter::InitLookupTable()
 {
 	VideoConfig config = _emu->GetSettings()->GetVideoConfig();
-	SnesConfig snesConfig = _emu->GetSettings()->GetSnesConfig();
+	SnesConfig& snesConfig = _emu->GetSettings()->GetSnesConfig();
 
 	InitConversionMatrix(config.Hue, config.Saturation);
 
