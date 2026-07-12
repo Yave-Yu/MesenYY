@@ -378,7 +378,11 @@
 			<Control ID="lblRamPowerOnState">RAM初始状态：</Control>
 			<Control ID="grpGeneral">常规</Control>
 			<Control ID="chkAllowInvalidInput">允许同时按上+下、左+右</Control>
-			
+
+			<Control ID="grpOverclocking">超频</Control>
+			<Control ID="lblOverclockHint">超频能有效降低游戏拖慢，但也有可能导致异常。提升下面的数值以超频，但不会应用于SGB。</Control>
+			<Control ID="lblOverclockScanlineCount">附加扫描线：</Control>
+
 			<Control ID="tpgVideo">视频</Control>
 			<Control ID="lblGameboyPalette">Game Boy（DMG）调色板</Control>
 			<Control ID="lblGbBackground">背景：</Control>
@@ -394,6 +398,7 @@
 			<Control ID="lblLcdSettings">LCD设置</Control>
 			<Control ID="chkGbBlendFrames">LCD帧混合</Control>
 			<Control ID="chkGbcAdjustColors">LCD色彩校正</Control>
+			<Control ID="chkRemoveSpriteLimit">移除活动块限制</Control>
 			<Control ID="chkDisableBackground">禁用背景</Control>
 			<Control ID="chkDisableSprites">禁用活动块</Control>
 

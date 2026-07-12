@@ -22,12 +22,15 @@ namespace Mesen.Config
 		[ObservableProperty] public partial bool BlendFrames { get; set; } = false;
 		[ObservableProperty] public partial bool GbcAdjustColors { get; set; } = false;
 
+		[ObservableProperty] public partial bool RemoveSpriteLimit { get; set; } = false;
 		[ObservableProperty] public partial bool DisableBackground { get; set; } = false;
 		[ObservableProperty] public partial bool DisableSprites { get; set; } = false;
 		[ObservableProperty] public partial bool HideSgbBorders { get; set; } = false;
 
 		[ObservableProperty] public partial RamState RamPowerOnState { get; set; } = RamState.AllZeros;
 		[ObservableProperty] public partial bool AllowInvalidInput { get; set; } = false;
+
+		[ObservableProperty][MinMax(0, 1000)] public partial UInt32 OverclockScanlineCount { get; set; } = 0;
 
 		[ObservableProperty] public partial UInt32[] BgColors { get; set; } = new UInt32[] { 0xFFDEEF94, 0xFFADC642, 0xFF528431, 0xFF214A21 };
 		[ObservableProperty] public partial UInt32[] Obj0Colors { get; set; } = new UInt32[] { 0xFFDEEF94, 0xFFADC642, 0xFF528431, 0xFF214A21 };
@@ -54,12 +57,15 @@ namespace Mesen.Config
 
 				BlendFrames = BlendFrames,
 				GbcAdjustColors = GbcAdjustColors,
+				RemoveSpriteLimit = RemoveSpriteLimit,
 				DisableBackground = DisableBackground,
 				DisableSprites = DisableSprites,
 				HideSgbBorders = HideSgbBorders,
 
 				RamPowerOnState = RamPowerOnState,
 				AllowInvalidInput = AllowInvalidInput,
+
+				OverclockScanlineCount = OverclockScanlineCount,
 
 				BgColors = BgColors,
 				Obj0Colors = Obj0Colors,
@@ -94,12 +100,15 @@ namespace Mesen.Config
 		[MarshalAs(UnmanagedType.I1)] public bool BlendFrames;
 		[MarshalAs(UnmanagedType.I1)] public bool GbcAdjustColors;
 
+		[MarshalAs(UnmanagedType.I1)] public bool RemoveSpriteLimit;
 		[MarshalAs(UnmanagedType.I1)] public bool DisableBackground;
 		[MarshalAs(UnmanagedType.I1)] public bool DisableSprites;
 		[MarshalAs(UnmanagedType.I1)] public bool HideSgbBorders;
 
 		public RamState RamPowerOnState;
 		[MarshalAs(UnmanagedType.I1)] public bool AllowInvalidInput;
+
+		public UInt32 OverclockScanlineCount;
 
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
 		public UInt32[] BgColors;

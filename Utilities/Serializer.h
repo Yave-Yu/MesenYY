@@ -132,6 +132,17 @@ private:
 	}
 
 	template<typename T>
+	void ReadValue(T& value, uint8_t* src, int size)
+	{
+		uint8_t* ptr = (uint8_t*)&value;
+		constexpr bool isBigEndian = false;
+		constexpr int mask = isBigEndian ? size - 1 : 0;
+		for(int i = 0; i < size; i++) {
+			ptr[i ^ mask] = src[i];
+		}
+	}
+
+	template<typename T>
 	void WriteMapFormat(string& key, T& value)
 	{
 		if constexpr(std::is_same<T, bool>::value) {
@@ -230,7 +241,7 @@ public:
 
 	uint32_t GetVersion() { return _version; }
 	bool IsSaving() { return _saving; }
-	
+
 	SerializeFormat GetFormat() { return _format; }
 	vector<string>& GetMapKeys() { return _mapSaveKeys; }
 	vector<SerializeMapValue>& GetMapValues() { return _mapSaveValues; }
@@ -269,7 +280,7 @@ public:
 		static_assert(!std::is_pointer<T>::value, "[Serializer] Unexpected pointer");
 		static_assert(!std::is_class<T>::value || std::is_base_of<ISerializable, T>::value, "[Serializer] Object does not implement ISerializable");
 		static_assert(std::is_arithmetic<T>::value || std::is_enum<T>::value || std::is_base_of<ISerializable, T>::value, "[Serializer] Invalid value type");
-		
+
 		if constexpr(std::is_base_of<ISerializable, T>::value) {
 			Stream((ISerializable&)value, name, index);
 		} else {
@@ -302,6 +313,11 @@ public:
 							SerializeValue& savedValue = result->second;
 							if(savedValue.Size >= sizeof(T)) {
 								ReadValue(value, savedValue.DataPtr);
+							} else if(savedValue.Size > 0) {
+								//If the saved value is a smaller size than the current value, set the value to 0 and load the available data
+								//This is for backward-compatibility (can happen when a value is changed from e.g uint8_t to uint16_t, etc.)
+								memset(&value, 0, sizeof(T));
+								ReadValue(value, savedValue.DataPtr, savedValue.Size);
 							} else {
 								//TODO review this - is it better to keep the state as-is if the data can't be found?
 								//Setting to 0 can break compatibility with old save states - maybe keeping the current state is safer?
@@ -489,7 +505,7 @@ public:
 
 	void PushNamePrefix(const char* name, int index = -1);
 	void PopNamePrefix();
-	void SaveTo(ostream &file, int compressionLevel = 1);
+	void SaveTo(ostream& file, int compressionLevel = 1);
 	bool LoadFrom(istream& file);
 	void LoadFromMap(unordered_map<string, SerializeMapValue>& map);
 };

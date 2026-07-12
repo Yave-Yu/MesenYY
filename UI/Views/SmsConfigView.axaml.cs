@@ -27,7 +27,7 @@ public class SmsConfigView : UserControl
 		}
 	}
 
-	private void btnSelectPreset_OnClick(object sender, RoutedEventArgs e)
+	private void BtnSelectPreset_OnClick(object sender, RoutedEventArgs e)
 	{
 		((Button)sender).ContextMenu?.Open();
 	}

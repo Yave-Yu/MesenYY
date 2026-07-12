@@ -131,7 +131,7 @@
 										<Button
 											Grid.Column="2"
 											Content="{l:Translate btnSelectPreset}"
-											Click="btnSelectPreset_OnClick"
+											Click="BtnSelectPreset_OnClick"
 										>
 											<Button.ContextMenu>
 												<ContextMenu Placement="BottomEdgeAlignedLeft">
