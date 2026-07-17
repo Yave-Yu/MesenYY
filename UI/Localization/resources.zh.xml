@@ -1978,6 +1978,7 @@ E
 			<Value ID="None">无</Value>
 			<Value ID="SnesController">SNES控制器</Value>
 			<Value ID="SnesRumbleController">SNES振动</Value>
+			<Value ID="SnesBlueRetroController">SNES BlueRetro</Value>
 			<Value ID="SnesMouse">SNES鼠标</Value>
 			<Value ID="SuperScope">超级瞄准镜</Value>
 			<Value ID="SnesNttDataKeypad">NTT数字键盘</Value>

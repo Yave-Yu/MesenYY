@@ -2979,6 +2979,9 @@
     <ClInclude Include="SNES\Input\SnesRumbleController.h">
       <Filter>SNES\Input</Filter>
     </ClInclude>
+    <ClCompile Include="SNES\Input\SnesBlueRetroController.h">
+      <Filter>SNES\Input</Filter>
+    </ClCompile>
     <ClInclude Include="SNES\Input\SnesNttDataKeypad.h">
       <Filter>SNES\Input</Filter>
     </ClInclude>
@@ -3366,6 +3369,9 @@
       <Filter>SNES\Debugger</Filter>
     </ClCompile>
     <ClCompile Include="SNES\Input\SnesRumbleController.cpp">
+      <Filter>SNES\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="SNES\Input\SnesBlueRetroController.cpp">
       <Filter>SNES\Input</Filter>
     </ClCompile>
     <ClCompile Include="SNES\Input\SnesNttDataKeypad.cpp">

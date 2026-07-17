@@ -11,7 +11,7 @@ enum class EmulationFlags
 	InBackground = 0x08,
 	ConsoleMode = 0x10,
 	TestMode = 0x20,
-	OutputToStdout = 0x40,
+	OutputToStdout = 0x40
 };
 
 enum class ScaleFilterType
@@ -23,7 +23,7 @@ enum class ScaleFilterType
 	Super2xSai = 4,
 	SuperEagle = 5,
 	Prescale = 6,
-	LcdGrid = 7,
+	LcdGrid = 7
 };
 
 enum class VideoFilterType
@@ -77,7 +77,7 @@ enum class NtscBisqwitFilterScale
 {
 	_2x,
 	_4x,
-	_8x,
+	_8x
 };
 
 struct VideoConfig
@@ -184,6 +184,7 @@ enum class ControllerType
 	SuperScope,
 	Multitap,
 	SnesRumbleController,
+	SnesBlueRetroController,
 	SnesNttDataKeypad,
 	AsciiTurboFileTwinTf2,
 	AsciiTurboFileTwinStf,
@@ -350,7 +351,7 @@ enum class RamState
 {
 	Random = 0,
 	AllZeros = 1,
-	AllOnes = 2,
+	AllOnes = 2
 };
 
 enum class ConsoleRegion
@@ -467,7 +468,7 @@ enum class GbaRtcType
 {
 	AutoDetect = 0,
 	Enabled = 1,
-	Disabled = 2,
+	Disabled = 2
 };
 
 enum class GbaCartridgeType
@@ -621,7 +622,7 @@ enum class StereoFilterType
 	None = 0,
 	Delay = 1,
 	Panning = 2,
-	CombFilter = 3,
+	CombFilter = 3
 };
 
 enum class VsDualOutputOption
@@ -904,7 +905,7 @@ struct DebugConfig
 enum class HudDisplaySize
 {
 	Fixed,
-	Scaled,
+	Scaled
 };
 
 struct PreferencesConfig
@@ -1082,7 +1083,7 @@ enum class EmulatorShortcut
 	StartRecordHdPack,
 	StopRecordHdPack,
 
-	ShortcutCount,
+	ShortcutCount
 };
 
 struct KeyCombination
@@ -1144,5 +1145,5 @@ enum class DebuggerFlags
 	PceDebuggerEnabled = (1 << 9),
 	SmsDebuggerEnabled = (1 << 10),
 	GbaDebuggerEnabled = (1 << 11),
-	WsDebuggerEnabled = (1 << 12),
+	WsDebuggerEnabled = (1 << 12)
 };

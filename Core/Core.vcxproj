@@ -587,8 +587,9 @@
     <ClInclude Include="Netplay\ClientConnectionData.h" />
     <ClInclude Include="SNES\DSP\DspTypes.h" />
     <ClInclude Include="SNES\DSP\DspVoice.h" />
-    <ClInclude Include="SNES\Input\SnesNttDataKeypad.h" />
     <ClInclude Include="SNES\Input\SnesRumbleController.h" />
+    <ClInclude Include="SNES\Input\SnesBlueRetroController.h" />
+    <ClInclude Include="SNES\Input\SnesNttDataKeypad.h" />
     <ClInclude Include="SNES\Input\AsciiTurboFileTwinStf.h" />
     <ClInclude Include="SNES\Input\AsciiTurboFileTwinTf2.h" />
     <ClInclude Include="Shared\Utilities\AvMergeUtilities.h" />
@@ -986,8 +987,9 @@
     <ClCompile Include="SNES\Debugger\TraceLogger\St018TraceLogger.cpp" />
     <ClCompile Include="SNES\DSP\Dsp.cpp" />
     <ClCompile Include="SNES\DSP\DspVoice.cpp" />
-    <ClCompile Include="SNES\Input\SnesNttDataKeypad.cpp" />
     <ClCompile Include="SNES\Input\SnesRumbleController.cpp" />
+    <ClCompile Include="SNES\Input\SnesBlueRetroController.cpp" />
+    <ClCompile Include="SNES\Input\SnesNttDataKeypad.cpp" />
     <ClCompile Include="SNES\SnesConsole.cpp" />
     <ClCompile Include="Shared\EmulatorLock.cpp" />
     <ClCompile Include="SNES\SnesControlManager.cpp" />

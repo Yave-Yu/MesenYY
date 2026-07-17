@@ -16,6 +16,7 @@ namespace Mesen.ViewModels
 			ControllerType.SnesNttDataKeypad,
 			ControllerType.Multitap,
 			ControllerType.SnesRumbleController,
+			ControllerType.SnesBlueRetroController
 		};
 
 		public Enum[] AvailableControllerTypesP2 => new Enum[] {
@@ -33,7 +34,7 @@ namespace Mesen.ViewModels
 			ControllerType.None,
 			ControllerType.SnesController,
 			ControllerType.SnesMouse,
-			ControllerType.SuperScope,
+			ControllerType.SuperScope
 		};
 
 		[Obsolete("For designer only")]
