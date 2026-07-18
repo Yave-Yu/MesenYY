@@ -35,7 +35,6 @@ void SnesCpu::Reset()
 	_state.PrevIrqSource = (uint8_t)SnesIrqSource::None;
 }
 
-// clang-format off
 void SnesCpu::RunOp()
 {
 	switch(GetOpCode()) {
@@ -297,7 +296,6 @@ void SnesCpu::RunOp()
 		case 0xFF: AddrMode_AbsLngIdxX(); SBC(); break;
 	}
 }
-// clang-format on
 
 SnesCpuState& SnesCpu::GetState()
 {

@@ -56,19 +56,18 @@ void Dsp::Reset()
 
 bool Dsp::CheckCounter(int32_t rate)
 {
-	// clang-format off
 	static uint16_t const rates[32] =
 	{
 		UINT16_MAX,
 		2048, 1536,
-		1280, 1024,  768,
+		1280, 1024, 768,
 		640,  512,  384,
 		320,  256,  192,
-		160,  128,   96,
+		160,  128,  96,
 		80,   64,   48,
 		40,   32,   24,
 		20,   16,   12,
-		10,    8,    6,
+		10,   8,    6,
 		5,    4,    3,
 		2,
 		1
@@ -76,7 +75,7 @@ bool Dsp::CheckCounter(int32_t rate)
 
 	static uint16_t const offsets[32] =
 	{
-		1, 0, 1040,
+		1,   0, 1040,
 		536, 0, 1040,
 		536, 0, 1040,
 		536, 0, 1040,
@@ -89,7 +88,6 @@ bool Dsp::CheckCounter(int32_t rate)
 		0,
 		0
 	};
-	// clang-format on
 
 	return (((uint16_t)_state.Counter + offsets[rate]) % rates[rate]) == 0;
 }
@@ -108,7 +106,6 @@ void Dsp::Write(uint8_t reg, uint8_t value)
 	_state.Regs[reg] = value;
 	_state.ExternalRegs[reg] = value;
 
-	// clang-format off
 	switch(reg & 0x0F) {
 		case (int)DspVoiceRegs::Envelope: _state.EnvRegBuffer = value; break;
 		case (int)DspVoiceRegs::Out: _state.OutRegBuffer = value; break;
@@ -124,7 +121,6 @@ void Dsp::Write(uint8_t reg, uint8_t value)
 			}
 			break;
 	}
-	// clang-format on
 }
 
 int32_t Dsp::CalculateFir(int index, int ch)
@@ -270,7 +266,6 @@ void Dsp::Exec()
 	uint8_t step = _state.Step;
 	_state.Step = (_state.Step + 1) & 0x1F;
 
-	// clang-format off
 	switch(step) {
 		case  0: _voices[0].Step5(); _voices[1].Step2(); break;
 		case  1: _voices[0].Step6(); _voices[1].Step3(); break;
@@ -370,7 +365,6 @@ void Dsp::Exec()
 
 		case 31: _voices[0].Step4(); _voices[2].Step1(); break;
 	}
-	// clang-format on
 }
 
 void Dsp::Serialize(Serializer& s)

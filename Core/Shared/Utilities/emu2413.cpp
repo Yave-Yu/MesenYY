@@ -1,4 +1,3 @@
-// clang-format off
 //Disable warnings
 #if defined(_MSC_VER)
 	#pragma warning(push, 0)
