@@ -16,13 +16,13 @@ WsCartBandai2003::WsCartBandai2003(WsRtc* rtc) : WsCart()
 void WsCartBandai2003::LoadBattery()
 {
 	WsCart::LoadBattery();
-	_rtc->LoadBattery();
+	_rtc->LoadBattery("WS");
 }
 
 void WsCartBandai2003::SaveBattery()
 {
 	WsCart::SaveBattery();
-	_rtc->SaveBattery();
+	_rtc->SaveBattery("WS");
 }
 
 uint32_t WsCartBandai2003::GetSelectedBank(uint8_t index)

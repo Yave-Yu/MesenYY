@@ -18,14 +18,14 @@ WsCartWonderWitch::WsCartWonderWitch(WsRtc* rtc) : WsCartBandai2003(rtc)
 void WsCartWonderWitch::LoadBattery()
 {
 	WsCartBandai2003::LoadBattery();
-	_emu->GetBatteryManager()->LoadBattery(".flash", _prgRom, _prgRomSize);
+	_emu->GetBatteryManager()->LoadBattery("WS", ".flash", _prgRom, _prgRomSize);
 }
 
 void WsCartWonderWitch::SaveBattery()
 {
 	WsCartBandai2003::SaveBattery();
 	if(_saveFlashRom) {
-		_emu->GetBatteryManager()->SaveBattery(".flash", _prgRom, _prgRomSize);
+		_emu->GetBatteryManager()->SaveBattery("WS", ".flash", _prgRom, _prgRomSize);
 	}
 }
 
