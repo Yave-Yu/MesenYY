@@ -440,10 +440,28 @@ public struct WsEepromState
 	[MarshalAs(UnmanagedType.I1)] public bool InternalEepromWriteProtected;
 }
 
+public enum WsCartType
+{
+	Bandai2001,
+	Bandai2003,
+	WonderWitch,
+	Unknown
+}
+
 public struct WsCartState
 {
-	[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-	public byte[] SelectedBanks;
+	public WsCartType CartType;
+	[MarshalAs(UnmanagedType.I1)] public bool RomInRamBank;
+	[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public byte[] SelectedBanks;
+	[MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)] public byte[] ExtSelectedBanks;
+}
+
+public struct WsRtcState
+{
+	public byte Data;
+	public byte Command;
+	[MarshalAs(UnmanagedType.I1)] public bool Ready;
+	[MarshalAs(UnmanagedType.I1)] public bool Busy;
 }
 
 public struct WsState : BaseState
@@ -459,5 +477,6 @@ public struct WsState : BaseState
 	public WsEepromState InternalEeprom;
 	public WsCartState Cart;
 	public WsEepromState CartEeprom;
+	public WsRtcState CartRtc;
 	public WsModel Model;
 }

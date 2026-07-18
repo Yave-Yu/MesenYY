@@ -2994,11 +2994,20 @@
     <ClInclude Include="Shared\Utilities\AvMergeUtilities.h">
       <Filter>Shared\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Shared\Utilities\S3511ARtc.h">
+      <Filter>Shared\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="WS\Carts\WsRtc.h">
       <Filter>WS\Carts</Filter>
     </ClInclude>
-    <ClInclude Include="Shared\Utilities\S3511ARtc.h">
-      <Filter>Shared\Utilities</Filter>
+    <ClInclude Include="WS\Carts\WsCartBandai2003.h">
+      <Filter>WS\Carts</Filter>
+    </ClInclude>
+    <ClInclude Include="WS\Carts\WsCartWonderWitch.h">
+      <Filter>WS\Carts</Filter>
+    </ClInclude>
+    <ClInclude Include="WS\Carts\WsCartBandai2001.h">
+      <Filter>WS\Carts</Filter>
     </ClInclude>
     <ClInclude Include="WS\Input\PcV2Controller.h">
       <Filter>WS\Input</Filter>
@@ -3381,6 +3390,15 @@
       <Filter>Shared\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="WS\Carts\WsRtc.cpp">
+      <Filter>WS\Carts</Filter>
+    </ClCompile>
+    <ClCompile Include="WS\Carts\WsCartWonderWitch.cpp">
+      <Filter>WS\Carts</Filter>
+    </ClCompile>
+    <ClCompile Include="WS\Carts\WsCartBandai2003.cpp">
+      <Filter>WS\Carts</Filter>
+    </ClCompile>
+    <ClCompile Include="WS\Carts\WsCartBandai2001.cpp">
       <Filter>WS\Carts</Filter>
     </ClCompile>
   </ItemGroup>
