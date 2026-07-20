@@ -1,17 +1,13 @@
 #include "pch.h"
 #include "SNES/Spc.h"
 #include "SNES/SnesMemoryManager.h"
+#include "Shared/Audio/SoundMixer.h"
 #include "Shared/Emulator.h"
-#include "Utilities/HexUtilities.h"
 
 void Spc::Run()
 {
 	if(!_enabled) {
 		//Used to temporarily disable the SPC when overclocking is enabled
-		return;
-	} else if(_state.StopState != SnesCpuStopState::Running) {
-		//STOP or SLEEP were executed - execution is stopped forever.
-		_emu->ProcessHaltedCpu<CpuType::Spc>();
 		return;
 	}
 
@@ -63,841 +59,256 @@ void Spc::Exec()
 	switch(_opCode) {
 		case 0x00: NOP(); break;
 		case 0x01: TCALL<0>(); break;
-		case 0x02:
-			Addr_Dir();
-			SET1<0>();
-			break;
-		case 0x03:
-			Addr_Dir();
-			BBS<0>();
-			break;
-		case 0x04:
-			Addr_Dir();
-			OR_Acc();
-			break;
-		case 0x05:
-			Addr_Abs();
-			OR_Acc();
-			break;
-		case 0x06:
-			Addr_IndX();
-			OR_Acc();
-			break;
-		case 0x07:
-			Addr_DirIdxXInd();
-			OR_Acc();
-			break;
-		case 0x08:
-			Addr_Imm();
-			OR_Imm();
-			break;
-		case 0x09:
-			Addr_DirToDir();
-			OR();
-			break;
-		case 0x0A:
-			Addr_AbsBit();
-			OR1();
-			break;
-		case 0x0B:
-			Addr_Dir();
-			ASL();
-			break;
-		case 0x0C:
-			Addr_Abs();
-			ASL();
-			break;
+		case 0x02: Addr_Dir(); SET1<0>(); break;
+		case 0x03: Addr_Dir(); BBS<0>(); break;
+		case 0x04: Addr_Dir(); OR_Acc(); break;
+		case 0x05: Addr_Abs(); OR_Acc(); break;
+		case 0x06: Addr_IndX(); OR_Acc(); break;
+		case 0x07: Addr_DirIdxXInd(); OR_Acc(); break;
+		case 0x08: Addr_Imm(); OR_Imm(); break;
+		case 0x09: Addr_DirToDir(); OR(); break;
+		case 0x0A: Addr_AbsBit(); OR1(); break;
+		case 0x0B: Addr_Dir(); ASL(); break;
+		case 0x0C: Addr_Abs(); ASL(); break;
 		case 0x0D: PHP(); break;
-		case 0x0E:
-			Addr_Abs();
-			TSET1();
-			break;
+		case 0x0E: Addr_Abs(); TSET1(); break;
 		case 0x0F: BRK(); break;
-		case 0x10:
-			Addr_Rel();
-			BPL();
-			break;
+		case 0x10: Addr_Rel(); BPL(); break;
 		case 0x11: TCALL<1>(); break;
-		case 0x12:
-			Addr_Dir();
-			CLR1<0>();
-			break;
-		case 0x13:
-			Addr_Dir();
-			BBC<0>();
-			break;
-		case 0x14:
-			Addr_DirIdxX();
-			OR_Acc();
-			break;
-		case 0x15:
-			Addr_AbsIdxX();
-			OR_Acc();
-			break;
-		case 0x16:
-			Addr_AbsIdxY();
-			OR_Acc();
-			break;
-		case 0x17:
-			Addr_DirIndIdxY();
-			OR_Acc();
-			break;
-		case 0x18:
-			Addr_DirImm();
-			OR();
-			break;
-		case 0x19:
-			Addr_IndXToIndY();
-			OR();
-			break;
-		case 0x1A:
-			Addr_Dir();
-			DECW();
-			break;
-		case 0x1B:
-			Addr_DirIdxX();
-			ASL();
-			break;
+		case 0x12: Addr_Dir(); CLR1<0>(); break;
+		case 0x13: Addr_Dir(); BBC<0>(); break;
+		case 0x14: Addr_DirIdxX(); OR_Acc(); break;
+		case 0x15: Addr_AbsIdxX(); OR_Acc(); break;
+		case 0x16: Addr_AbsIdxY(); OR_Acc(); break;
+		case 0x17: Addr_DirIndIdxY(); OR_Acc(); break;
+		case 0x18: Addr_DirImm(); OR(); break;
+		case 0x19: Addr_IndXToIndY(); OR(); break;
+		case 0x1A: Addr_Dir(); DECW(); break;
+		case 0x1B: Addr_DirIdxX(); ASL(); break;
 		case 0x1C: ASL_Acc(); break;
 		case 0x1D: DEX(); break;
-		case 0x1E:
-			Addr_Abs();
-			CPX();
-			break;
-		case 0x1F:
-			Addr_AbsIdxXInd();
-			JMP();
-			break;
+		case 0x1E: Addr_Abs(); CPX(); break;
+		case 0x1F: Addr_AbsIdxXInd(); JMP(); break;
 		case 0x20: CLRP(); break;
 		case 0x21: TCALL<2>(); break;
-		case 0x22:
-			Addr_Dir();
-			SET1<1>();
-			break;
-		case 0x23:
-			Addr_Dir();
-			BBS<1>();
-			break;
-		case 0x24:
-			Addr_Dir();
-			AND_Acc();
-			break;
-		case 0x25:
-			Addr_Abs();
-			AND_Acc();
-			break;
-		case 0x26:
-			Addr_IndX();
-			AND_Acc();
-			break;
-		case 0x27:
-			Addr_DirIdxXInd();
-			AND_Acc();
-			break;
-		case 0x28:
-			Addr_Imm();
-			AND_Imm();
-			break;
-		case 0x29:
-			Addr_DirToDir();
-			AND();
-			break;
-		case 0x2A:
-			Addr_AbsBit();
-			NOR1();
-			break;
-		case 0x2B:
-			Addr_Dir();
-			ROL();
-			break;
-		case 0x2C:
-			Addr_Abs();
-			ROL();
-			break;
+		case 0x22: Addr_Dir(); SET1<1>(); break;
+		case 0x23: Addr_Dir(); BBS<1>(); break;
+		case 0x24: Addr_Dir(); AND_Acc(); break;
+		case 0x25: Addr_Abs(); AND_Acc(); break;
+		case 0x26: Addr_IndX(); AND_Acc(); break;
+		case 0x27: Addr_DirIdxXInd(); AND_Acc(); break;
+		case 0x28: Addr_Imm(); AND_Imm(); break;
+		case 0x29: Addr_DirToDir(); AND(); break;
+		case 0x2A: Addr_AbsBit(); NOR1(); break;
+		case 0x2B: Addr_Dir(); ROL(); break;
+		case 0x2C: Addr_Abs(); ROL(); break;
 		case 0x2D: PHA(); break;
-		case 0x2E:
-			Addr_Dir();
-			CBNE();
-			break;
-		case 0x2F:
-			Addr_Rel();
-			BRA();
-			break;
-		case 0x30:
-			Addr_Rel();
-			BMI();
-			break;
+		case 0x2E: Addr_Dir(); CBNE(); break;
+		case 0x2F: Addr_Rel(); BRA(); break;
+		case 0x30: Addr_Rel(); BMI(); break;
 		case 0x31: TCALL<3>(); break;
-		case 0x32:
-			Addr_Dir();
-			CLR1<1>();
-			break;
-		case 0x33:
-			Addr_Dir();
-			BBC<1>();
-			break;
-		case 0x34:
-			Addr_DirIdxX();
-			AND_Acc();
-			break;
-		case 0x35:
-			Addr_AbsIdxX();
-			AND_Acc();
-			break;
-		case 0x36:
-			Addr_AbsIdxY();
-			AND_Acc();
-			break;
-		case 0x37:
-			Addr_DirIndIdxY();
-			AND_Acc();
-			break;
-		case 0x38:
-			Addr_DirImm();
-			AND();
-			break;
-		case 0x39:
-			Addr_IndXToIndY();
-			AND();
-			break;
-		case 0x3A:
-			Addr_Dir();
-			INCW();
-			break;
-		case 0x3B:
-			Addr_DirIdxX();
-			ROL();
-			break;
+		case 0x32: Addr_Dir(); CLR1<1>(); break;
+		case 0x33: Addr_Dir(); BBC<1>(); break;
+		case 0x34: Addr_DirIdxX(); AND_Acc(); break;
+		case 0x35: Addr_AbsIdxX(); AND_Acc(); break;
+		case 0x36: Addr_AbsIdxY(); AND_Acc(); break;
+		case 0x37: Addr_DirIndIdxY(); AND_Acc(); break;
+		case 0x38: Addr_DirImm(); AND(); break;
+		case 0x39: Addr_IndXToIndY(); AND(); break;
+		case 0x3A: Addr_Dir(); INCW(); break;
+		case 0x3B: Addr_DirIdxX(); ROL(); break;
 		case 0x3C: ROL_Acc(); break;
 		case 0x3D: INX(); break;
-		case 0x3E:
-			Addr_Dir();
-			CPX();
-			break;
-		case 0x3F:
-			Addr_Abs();
-			JSR();
-			break;
+		case 0x3E: Addr_Dir(); CPX(); break;
+		case 0x3F: Addr_Abs(); JSR(); break;
 		case 0x40: SETP(); break;
 		case 0x41: TCALL<4>(); break;
-		case 0x42:
-			Addr_Dir();
-			SET1<2>();
-			break;
-		case 0x43:
-			Addr_Dir();
-			BBS<2>();
-			break;
-		case 0x44:
-			Addr_Dir();
-			EOR_Acc();
-			break;
-		case 0x45:
-			Addr_Abs();
-			EOR_Acc();
-			break;
-		case 0x46:
-			Addr_IndX();
-			EOR_Acc();
-			break;
-		case 0x47:
-			Addr_DirIdxXInd();
-			EOR_Acc();
-			break;
-		case 0x48:
-			Addr_Imm();
-			EOR_Imm();
-			break;
-		case 0x49:
-			Addr_DirToDir();
-			EOR();
-			break;
-		case 0x4A:
-			Addr_AbsBit();
-			AND1();
-			break;
-		case 0x4B:
-			Addr_Dir();
-			LSR();
-			break;
-		case 0x4C:
-			Addr_Abs();
-			LSR();
-			break;
+		case 0x42: Addr_Dir(); SET1<2>(); break;
+		case 0x43: Addr_Dir(); BBS<2>(); break;
+		case 0x44: Addr_Dir(); EOR_Acc(); break;
+		case 0x45: Addr_Abs(); EOR_Acc(); break;
+		case 0x46: Addr_IndX(); EOR_Acc(); break;
+		case 0x47: Addr_DirIdxXInd(); EOR_Acc(); break;
+		case 0x48: Addr_Imm(); EOR_Imm(); break;
+		case 0x49: Addr_DirToDir(); EOR(); break;
+		case 0x4A: Addr_AbsBit(); AND1(); break;
+		case 0x4B: Addr_Dir(); LSR(); break;
+		case 0x4C: Addr_Abs(); LSR(); break;
 		case 0x4D: PHX(); break;
-		case 0x4E:
-			Addr_Abs();
-			TCLR1();
-			break;
+		case 0x4E: Addr_Abs(); TCLR1(); break;
 		case 0x4F: PCALL(); break;
-		case 0x50:
-			Addr_Rel();
-			BVC();
-			break;
+		case 0x50: Addr_Rel(); BVC(); break;
 		case 0x51: TCALL<5>(); break;
-		case 0x52:
-			Addr_Dir();
-			CLR1<2>();
-			break;
-		case 0x53:
-			Addr_Dir();
-			BBC<2>();
-			break;
-		case 0x54:
-			Addr_DirIdxX();
-			EOR_Acc();
-			break;
-		case 0x55:
-			Addr_AbsIdxX();
-			EOR_Acc();
-			break;
-		case 0x56:
-			Addr_AbsIdxY();
-			EOR_Acc();
-			break;
-		case 0x57:
-			Addr_DirIndIdxY();
-			EOR_Acc();
-			break;
-		case 0x58:
-			Addr_DirImm();
-			EOR();
-			break;
-		case 0x59:
-			Addr_IndXToIndY();
-			EOR();
-			break;
-		case 0x5A:
-			Addr_Dir();
-			CMPW();
-			break;
-		case 0x5B:
-			Addr_DirIdxX();
-			LSR();
-			break;
+		case 0x52: Addr_Dir(); CLR1<2>(); break;
+		case 0x53: Addr_Dir(); BBC<2>(); break;
+		case 0x54: Addr_DirIdxX(); EOR_Acc(); break;
+		case 0x55: Addr_AbsIdxX(); EOR_Acc(); break;
+		case 0x56: Addr_AbsIdxY(); EOR_Acc(); break;
+		case 0x57: Addr_DirIndIdxY(); EOR_Acc(); break;
+		case 0x58: Addr_DirImm(); EOR(); break;
+		case 0x59: Addr_IndXToIndY(); EOR(); break;
+		case 0x5A: Addr_Dir(); CMPW(); break;
+		case 0x5B: Addr_DirIdxX(); LSR(); break;
 		case 0x5C: LSR_Acc(); break;
 		case 0x5D: TAX(); break;
-		case 0x5E:
-			Addr_Abs();
-			CPY();
-			break;
-		case 0x5F:
-			Addr_Abs();
-			JMP();
-			break;
+		case 0x5E: Addr_Abs(); CPY(); break;
+		case 0x5F: Addr_Abs(); JMP(); break;
 		case 0x60: CLRC(); break;
 		case 0x61: TCALL<6>(); break;
-		case 0x62:
-			Addr_Dir();
-			SET1<3>();
-			break;
-		case 0x63:
-			Addr_Dir();
-			BBS<3>();
-			break;
-		case 0x64:
-			Addr_Dir();
-			CMP_Acc();
-			break;
-		case 0x65:
-			Addr_Abs();
-			CMP_Acc();
-			break;
-		case 0x66:
-			Addr_IndX();
-			CMP_Acc();
-			break;
-		case 0x67:
-			Addr_DirIdxXInd();
-			CMP_Acc();
-			break;
-		case 0x68:
-			Addr_Imm();
-			CMP_Imm();
-			break;
-		case 0x69:
-			Addr_DirToDir();
-			CMP();
-			break;
-		case 0x6A:
-			Addr_AbsBit();
-			NAND1();
-			break;
-		case 0x6B:
-			Addr_Dir();
-			ROR();
-			break;
-		case 0x6C:
-			Addr_Abs();
-			ROR();
-			break;
+		case 0x62: Addr_Dir(); SET1<3>(); break;
+		case 0x63: Addr_Dir(); BBS<3>(); break;
+		case 0x64: Addr_Dir(); CMP_Acc(); break;
+		case 0x65: Addr_Abs(); CMP_Acc(); break;
+		case 0x66: Addr_IndX(); CMP_Acc(); break;
+		case 0x67: Addr_DirIdxXInd(); CMP_Acc(); break;
+		case 0x68: Addr_Imm(); CMP_Imm(); break;
+		case 0x69: Addr_DirToDir(); CMP(); break;
+		case 0x6A: Addr_AbsBit(); NAND1(); break;
+		case 0x6B: Addr_Dir(); ROR(); break;
+		case 0x6C: Addr_Abs(); ROR(); break;
 		case 0x6D: PHY(); break;
-		case 0x6E:
-			Addr_Dir();
-			DBNZ();
-			break;
+		case 0x6E: Addr_Dir(); DBNZ(); break;
 		case 0x6F: RTS(); break;
-		case 0x70:
-			Addr_Rel();
-			BVS();
-			break;
+		case 0x70: Addr_Rel(); BVS(); break;
 		case 0x71: TCALL<7>(); break;
-		case 0x72:
-			Addr_Dir();
-			CLR1<3>();
-			break;
-		case 0x73:
-			Addr_Dir();
-			BBC<3>();
-			break;
-		case 0x74:
-			Addr_DirIdxX();
-			CMP_Acc();
-			break;
-		case 0x75:
-			Addr_AbsIdxX();
-			CMP_Acc();
-			break;
-		case 0x76:
-			Addr_AbsIdxY();
-			CMP_Acc();
-			break;
-		case 0x77:
-			Addr_DirIndIdxY();
-			CMP_Acc();
-			break;
-		case 0x78:
-			Addr_DirImm();
-			CMP();
-			break;
-		case 0x79:
-			Addr_IndXToIndY();
-			CMP();
-			break;
-		case 0x7A:
-			Addr_Dir();
-			ADDW();
-			break;
-		case 0x7B:
-			Addr_DirIdxX();
-			ROR();
-			break;
+		case 0x72: Addr_Dir(); CLR1<3>(); break;
+		case 0x73: Addr_Dir(); BBC<3>(); break;
+		case 0x74: Addr_DirIdxX(); CMP_Acc(); break;
+		case 0x75: Addr_AbsIdxX(); CMP_Acc(); break;
+		case 0x76: Addr_AbsIdxY(); CMP_Acc(); break;
+		case 0x77: Addr_DirIndIdxY(); CMP_Acc(); break;
+		case 0x78: Addr_DirImm(); CMP(); break;
+		case 0x79: Addr_IndXToIndY(); CMP(); break;
+		case 0x7A: Addr_Dir(); ADDW(); break;
+		case 0x7B: Addr_DirIdxX(); ROR(); break;
 		case 0x7C: ROR_Acc(); break;
 		case 0x7D: TXA(); break;
-		case 0x7E:
-			Addr_Dir();
-			CPY();
-			break;
+		case 0x7E: Addr_Dir(); CPY(); break;
 		case 0x7F: RTI(); break;
 		case 0x80: SETC(); break;
 		case 0x81: TCALL<8>(); break;
-		case 0x82:
-			Addr_Dir();
-			SET1<4>();
-			break;
-		case 0x83:
-			Addr_Dir();
-			BBS<4>();
-			break;
-		case 0x84:
-			Addr_Dir();
-			ADC_Acc();
-			break;
-		case 0x85:
-			Addr_Abs();
-			ADC_Acc();
-			break;
-		case 0x86:
-			Addr_IndX();
-			ADC_Acc();
-			break;
-		case 0x87:
-			Addr_DirIdxXInd();
-			ADC_Acc();
-			break;
-		case 0x88:
-			Addr_Imm();
-			ADC_Imm();
-			break;
-		case 0x89:
-			Addr_DirToDir();
-			ADC();
-			break;
-		case 0x8A:
-			Addr_AbsBit();
-			EOR1();
-			break;
-		case 0x8B:
-			Addr_Dir();
-			DEC();
-			break;
-		case 0x8C:
-			Addr_Abs();
-			DEC();
-			break;
-		case 0x8D:
-			Addr_Imm();
-			LDY_Imm();
-			break;
+		case 0x82: Addr_Dir(); SET1<4>(); break;
+		case 0x83: Addr_Dir(); BBS<4>(); break;
+		case 0x84: Addr_Dir(); ADC_Acc(); break;
+		case 0x85: Addr_Abs(); ADC_Acc(); break;
+		case 0x86: Addr_IndX(); ADC_Acc(); break;
+		case 0x87: Addr_DirIdxXInd(); ADC_Acc(); break;
+		case 0x88: Addr_Imm(); ADC_Imm(); break;
+		case 0x89: Addr_DirToDir(); ADC(); break;
+		case 0x8A: Addr_AbsBit(); EOR1(); break;
+		case 0x8B: Addr_Dir(); DEC(); break;
+		case 0x8C: Addr_Abs(); DEC(); break;
+		case 0x8D: Addr_Imm(); LDY_Imm(); break;
 		case 0x8E: PLP(); break;
-		case 0x8F:
-			Addr_DirImm();
-			MOV_Imm();
-			break;
-		case 0x90:
-			Addr_Rel();
-			BCC();
-			break;
+		case 0x8F: Addr_DirImm(); MOV_Imm(); break;
+		case 0x90: Addr_Rel(); BCC(); break;
 		case 0x91: TCALL<9>(); break;
-		case 0x92:
-			Addr_Dir();
-			CLR1<4>();
-			break;
-		case 0x93:
-			Addr_Dir();
-			BBC<4>();
-			break;
-		case 0x94:
-			Addr_DirIdxX();
-			ADC_Acc();
-			break;
-		case 0x95:
-			Addr_AbsIdxX();
-			ADC_Acc();
-			break;
-		case 0x96:
-			Addr_AbsIdxY();
-			ADC_Acc();
-			break;
-		case 0x97:
-			Addr_DirIndIdxY();
-			ADC_Acc();
-			break;
-		case 0x98:
-			Addr_DirImm();
-			ADC();
-			break;
-		case 0x99:
-			Addr_IndXToIndY();
-			ADC();
-			break;
-		case 0x9A:
-			Addr_Dir();
-			SUBW();
-			break;
-		case 0x9B:
-			Addr_DirIdxX();
-			DEC();
-			break;
+		case 0x92: Addr_Dir(); CLR1<4>(); break;
+		case 0x93: Addr_Dir(); BBC<4>(); break;
+		case 0x94: Addr_DirIdxX(); ADC_Acc(); break;
+		case 0x95: Addr_AbsIdxX(); ADC_Acc(); break;
+		case 0x96: Addr_AbsIdxY(); ADC_Acc(); break;
+		case 0x97: Addr_DirIndIdxY(); ADC_Acc(); break;
+		case 0x98: Addr_DirImm(); ADC(); break;
+		case 0x99: Addr_IndXToIndY(); ADC(); break;
+		case 0x9A: Addr_Dir(); SUBW(); break;
+		case 0x9B: Addr_DirIdxX(); DEC(); break;
 		case 0x9C: DEC_Acc(); break;
 		case 0x9D: TSX(); break;
 		case 0x9E: DIV(); break;
 		case 0x9F: XCN(); break;
 		case 0xA0: EI(); break;
 		case 0xA1: TCALL<10>(); break;
-		case 0xA2:
-			Addr_Dir();
-			SET1<5>();
-			break;
-		case 0xA3:
-			Addr_Dir();
-			BBS<5>();
-			break;
-		case 0xA4:
-			Addr_Dir();
-			SBC_Acc();
-			break;
-		case 0xA5:
-			Addr_Abs();
-			SBC_Acc();
-			break;
-		case 0xA6:
-			Addr_IndX();
-			SBC_Acc();
-			break;
-		case 0xA7:
-			Addr_DirIdxXInd();
-			SBC_Acc();
-			break;
-		case 0xA8:
-			Addr_Imm();
-			SBC_Imm();
-			break;
-		case 0xA9:
-			Addr_DirToDir();
-			SBC();
-			break;
-		case 0xAA:
-			Addr_AbsBit();
-			LDC();
-			break;
-		case 0xAB:
-			Addr_Dir();
-			INC();
-			break;
-		case 0xAC:
-			Addr_Abs();
-			INC();
-			break;
-		case 0xAD:
-			Addr_Imm();
-			CPY_Imm();
-			break;
+		case 0xA2: Addr_Dir(); SET1<5>(); break;
+		case 0xA3: Addr_Dir(); BBS<5>(); break;
+		case 0xA4: Addr_Dir(); SBC_Acc(); break;
+		case 0xA5: Addr_Abs(); SBC_Acc(); break;
+		case 0xA6: Addr_IndX(); SBC_Acc(); break;
+		case 0xA7: Addr_DirIdxXInd(); SBC_Acc(); break;
+		case 0xA8: Addr_Imm(); SBC_Imm(); break;
+		case 0xA9: Addr_DirToDir(); SBC(); break;
+		case 0xAA: Addr_AbsBit(); LDC(); break;
+		case 0xAB: Addr_Dir(); INC(); break;
+		case 0xAC: Addr_Abs(); INC(); break;
+		case 0xAD: Addr_Imm(); CPY_Imm(); break;
 		case 0xAE: PLA(); break;
-		case 0xAF:
-			Addr_IndX();
-			STA_AutoIncX();
-			break;
-		case 0xB0:
-			Addr_Rel();
-			BCS();
-			break;
+		case 0xAF: Addr_IndX(); STA_AutoIncX(); break;
+		case 0xB0: Addr_Rel(); BCS(); break;
 		case 0xB1: TCALL<11>(); break;
-		case 0xB2:
-			Addr_Dir();
-			CLR1<5>();
-			break;
-		case 0xB3:
-			Addr_Dir();
-			BBC<5>();
-			break;
-		case 0xB4:
-			Addr_DirIdxX();
-			SBC_Acc();
-			break;
-		case 0xB5:
-			Addr_AbsIdxX();
-			SBC_Acc();
-			break;
-		case 0xB6:
-			Addr_AbsIdxY();
-			SBC_Acc();
-			break;
-		case 0xB7:
-			Addr_DirIndIdxY();
-			SBC_Acc();
-			break;
-		case 0xB8:
-			Addr_DirImm();
-			SBC();
-			break;
-		case 0xB9:
-			Addr_IndXToIndY();
-			SBC();
-			break;
-		case 0xBA:
-			Addr_Dir();
-			LDW();
-			break;
-		case 0xBB:
-			Addr_DirIdxX();
-			INC();
-			break;
+		case 0xB2: Addr_Dir(); CLR1<5>(); break;
+		case 0xB3: Addr_Dir(); BBC<5>(); break;
+		case 0xB4: Addr_DirIdxX(); SBC_Acc(); break;
+		case 0xB5: Addr_AbsIdxX(); SBC_Acc(); break;
+		case 0xB6: Addr_AbsIdxY(); SBC_Acc(); break;
+		case 0xB7: Addr_DirIndIdxY(); SBC_Acc(); break;
+		case 0xB8: Addr_DirImm(); SBC(); break;
+		case 0xB9: Addr_IndXToIndY(); SBC(); break;
+		case 0xBA: Addr_Dir(); LDW(); break;
+		case 0xBB: Addr_DirIdxX(); INC(); break;
 		case 0xBC: INC_Acc(); break;
 		case 0xBD: TXS(); break;
 		case 0xBE: DAS(); break;
-		case 0xBF:
-			Addr_IndX();
-			LDA_AutoIncX();
-			break;
+		case 0xBF: Addr_IndX(); LDA_AutoIncX(); break;
 		case 0xC0: DI(); break;
 		case 0xC1: TCALL<12>(); break;
-		case 0xC2:
-			Addr_Dir();
-			SET1<6>();
-			break;
-		case 0xC3:
-			Addr_Dir();
-			BBS<6>();
-			break;
-		case 0xC4:
-			Addr_Dir();
-			STA();
-			break;
-		case 0xC5:
-			Addr_Abs();
-			STA();
-			break;
-		case 0xC6:
-			Addr_IndX();
-			STA();
-			break;
-		case 0xC7:
-			Addr_DirIdxXInd();
-			STA();
-			break;
-		case 0xC8:
-			Addr_Imm();
-			CPX_Imm();
-			break;
-		case 0xC9:
-			Addr_Abs();
-			STX();
-			break;
-		case 0xCA:
-			Addr_AbsBit();
-			STC();
-			break;
-		case 0xCB:
-			Addr_Dir();
-			STY();
-			break;
-		case 0xCC:
-			Addr_Abs();
-			STY();
-			break;
-		case 0xCD:
-			Addr_Imm();
-			LDX_Imm();
-			break;
+		case 0xC2: Addr_Dir(); SET1<6>(); break;
+		case 0xC3: Addr_Dir(); BBS<6>(); break;
+		case 0xC4: Addr_Dir(); STA(); break;
+		case 0xC5: Addr_Abs(); STA(); break;
+		case 0xC6: Addr_IndX(); STA(); break;
+		case 0xC7: Addr_DirIdxXInd(); STA(); break;
+		case 0xC8: Addr_Imm(); CPX_Imm(); break;
+		case 0xC9: Addr_Abs(); STX(); break;
+		case 0xCA: Addr_AbsBit(); STC(); break;
+		case 0xCB: Addr_Dir(); STY(); break;
+		case 0xCC: Addr_Abs(); STY(); break;
+		case 0xCD: Addr_Imm(); LDX_Imm(); break;
 		case 0xCE: PLX(); break;
 		case 0xCF: MUL(); break;
-		case 0xD0:
-			Addr_Rel();
-			BNE();
-			break;
+		case 0xD0: Addr_Rel(); BNE(); break;
 		case 0xD1: TCALL<13>(); break;
-		case 0xD2:
-			Addr_Dir();
-			CLR1<6>();
-			break;
-		case 0xD3:
-			Addr_Dir();
-			BBC<6>();
-			break;
-		case 0xD4:
-			Addr_DirIdxX();
-			STA();
-			break;
-		case 0xD5:
-			Addr_AbsIdxX();
-			STA();
-			break;
-		case 0xD6:
-			Addr_AbsIdxY();
-			STA();
-			break;
-		case 0xD7:
-			Addr_DirIndIdxY();
-			STA();
-			break;
-		case 0xD8:
-			Addr_Dir();
-			STX();
-			break;
-		case 0xD9:
-			Addr_DirIdxY();
-			STX();
-			break;
-		case 0xDA:
-			Addr_Dir();
-			STW();
-			break;
-		case 0xDB:
-			Addr_DirIdxX();
-			STY();
-			break;
+		case 0xD2: Addr_Dir(); CLR1<6>(); break;
+		case 0xD3: Addr_Dir(); BBC<6>(); break;
+		case 0xD4: Addr_DirIdxX(); STA(); break;
+		case 0xD5: Addr_AbsIdxX(); STA(); break;
+		case 0xD6: Addr_AbsIdxY(); STA(); break;
+		case 0xD7: Addr_DirIndIdxY(); STA(); break;
+		case 0xD8: Addr_Dir(); STX(); break;
+		case 0xD9: Addr_DirIdxY(); STX(); break;
+		case 0xDA: Addr_Dir(); STW(); break;
+		case 0xDB: Addr_DirIdxX(); STY(); break;
 		case 0xDC: DEY(); break;
 		case 0xDD: TYA(); break;
-		case 0xDE:
-			Addr_DirIdxX();
-			CBNE();
-			break;
+		case 0xDE: Addr_DirIdxX(); CBNE(); break;
 		case 0xDF: DAA(); break;
 		case 0xE0: CLRV(); break;
 		case 0xE1: TCALL<14>(); break;
-		case 0xE2:
-			Addr_Dir();
-			SET1<7>();
-			break;
-		case 0xE3:
-			Addr_Dir();
-			BBS<7>();
-			break;
-		case 0xE4:
-			Addr_Dir();
-			LDA();
-			break;
-		case 0xE5:
-			Addr_Abs();
-			LDA();
-			break;
-		case 0xE6:
-			Addr_IndX();
-			LDA();
-			break;
-		case 0xE7:
-			Addr_DirIdxXInd();
-			LDA();
-			break;
-		case 0xE8:
-			Addr_Imm();
-			LDA_Imm();
-			break;
-		case 0xE9:
-			Addr_Abs();
-			LDX();
-			break;
-		case 0xEA:
-			Addr_AbsBit();
-			NOT1();
-			break;
-		case 0xEB:
-			Addr_Dir();
-			LDY();
-			break;
-		case 0xEC:
-			Addr_Abs();
-			LDY();
-			break;
+		case 0xE2: Addr_Dir(); SET1<7>(); break;
+		case 0xE3: Addr_Dir(); BBS<7>(); break;
+		case 0xE4: Addr_Dir(); LDA(); break;
+		case 0xE5: Addr_Abs(); LDA(); break;
+		case 0xE6: Addr_IndX(); LDA(); break;
+		case 0xE7: Addr_DirIdxXInd(); LDA(); break;
+		case 0xE8: Addr_Imm(); LDA_Imm(); break;
+		case 0xE9: Addr_Abs(); LDX(); break;
+		case 0xEA: Addr_AbsBit(); NOT1(); break;
+		case 0xEB: Addr_Dir(); LDY(); break;
+		case 0xEC: Addr_Abs(); LDY(); break;
 		case 0xED: NOTC(); break;
 		case 0xEE: PLY(); break;
-		case 0xEF: SLEEP(); break;
-		case 0xF0:
-			Addr_Rel();
-			BEQ();
-			break;
+		case 0xEF: STOP(); break;
+		case 0xF0: Addr_Rel(); BEQ(); break;
 		case 0xF1: TCALL<15>(); break;
-		case 0xF2:
-			Addr_Dir();
-			CLR1<7>();
-			break;
-		case 0xF3:
-			Addr_Dir();
-			BBC<7>();
-			break;
-		case 0xF4:
-			Addr_DirIdxX();
-			LDA();
-			break;
-		case 0xF5:
-			Addr_AbsIdxX();
-			LDA();
-			break;
-		case 0xF6:
-			Addr_AbsIdxY();
-			LDA();
-			break;
-		case 0xF7:
-			Addr_DirIndIdxY();
-			LDA();
-			break;
-		case 0xF8:
-			Addr_Dir();
-			LDX();
-			break;
-		case 0xF9:
-			Addr_DirIdxY();
-			LDX();
-			break;
-		case 0xFA:
-			Addr_DirToDir();
-			MOV();
-			break;
-		case 0xFB:
-			Addr_DirIdxX();
-			LDY();
-			break;
+		case 0xF2: Addr_Dir(); CLR1<7>(); break;
+		case 0xF3: Addr_Dir(); BBC<7>(); break;
+		case 0xF4: Addr_DirIdxX(); LDA(); break;
+		case 0xF5: Addr_AbsIdxX(); LDA(); break;
+		case 0xF6: Addr_AbsIdxY(); LDA(); break;
+		case 0xF7: Addr_DirIndIdxY(); LDA(); break;
+		case 0xF8: Addr_Dir(); LDX(); break;
+		case 0xF9: Addr_DirIdxY(); LDX(); break;
+		case 0xFA: Addr_DirToDir(); MOV(); break;
+		case 0xFB: Addr_DirIdxX(); LDY(); break;
 		case 0xFC: INY(); break;
 		case 0xFD: TAY(); break;
 		case 0xFE: DBNZ_Y(); break;
@@ -2763,18 +2174,18 @@ void Spc::NOP()
 	EndOp();
 }
 
-void Spc::SLEEP()
-{
-	//WAI
-	_state.StopState = SnesCpuStopState::WaitingForIrq;
-	EndOp();
-	ExitExecLoop();
-}
-
 void Spc::STOP()
 {
-	//STP
+	//STOP / SLEEP
+	if(_state.StopState == SnesCpuStopState::Running) {
+		//Prevent looping audio when SPC is stopped
+		_emu->GetSoundMixer()->StopAudio();
+	}
+
 	_state.StopState = SnesCpuStopState::Stopped;
 	EndOp();
 	ExitExecLoop();
+
+	//Repeat this instruction endlessly to stop execution
+	_state.PC--;
 }
