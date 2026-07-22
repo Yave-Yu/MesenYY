@@ -140,7 +140,7 @@ namespace Mesen.Utilities
 					LoadPatchFile(filename);
 				} else if(ext == "." + FileDialogHelper.MesenSaveStateExt) {
 					EmuApi.LoadStateFile(filename);
-				} else if(EmuApi.IsRunning() && (ext == "." + FileDialogHelper.MesenMovieExt || ext == "." + FileDialogHelper.BizHawkMovieExt || ext == "." + FileDialogHelper.GbaHawkMovieExt)) {
+				} else if(EmuApi.IsRunning() && ext == "." + FileDialogHelper.MesenMovieExt) {
 					RecordApi.MoviePlay(filename);
 				} else {
 					LoadRom(filename);

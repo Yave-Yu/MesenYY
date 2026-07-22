@@ -682,7 +682,6 @@
     <ClInclude Include="Debugger\MemoryAccessCounter.h" />
     <ClInclude Include="Netplay\MessageType.h" />
     <ClInclude Include="Netplay\MovieDataMessage.h" />
-    <ClInclude Include="Shared\Movies\BizHawkMovie.h" />
     <ClInclude Include="Shared\Movies\MovieTypes.h" />
     <ClInclude Include="SNES\Coprocessors\MSU1\Msu1.h" />
     <ClInclude Include="SNES\Input\Multitap.h" />
@@ -1054,7 +1053,6 @@
     <ClCompile Include="Debugger\MemoryDumper.cpp" />
     <ClCompile Include="SNES\SnesMemoryManager.cpp" />
     <ClCompile Include="SNES\MemoryMappings.cpp" />
-    <ClCompile Include="Shared\Movies\BizHawkMovie.cpp" />
     <ClCompile Include="Shared\Movies\MesenMovie.cpp" />
     <ClCompile Include="Shared\MessageManager.cpp" />
     <ClCompile Include="Shared\Movies\MovieManager.cpp" />

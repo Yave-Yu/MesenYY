@@ -2991,9 +2991,6 @@
     <ClInclude Include="SNES\Input\AsciiTurboFileTwinTf2.h">
       <Filter>SNES\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Shared\Movies\BizHawkMovie.h">
-      <Filter>Shared\Movies</Filter>
-    </ClInclude>
     <ClInclude Include="Shared\Utilities\AvMergeUtilities.h">
       <Filter>Shared\Utilities</Filter>
     </ClInclude>
@@ -3388,9 +3385,6 @@
     </ClCompile>
     <ClCompile Include="SNES\Input\SnesNttDataKeypad.cpp">
       <Filter>SNES\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Shared\Movies\BizHawkMovie.cpp">
-      <Filter>Shared\Movies</Filter>
     </ClCompile>
     <ClCompile Include="Shared\Utilities\S3511ARtc.cpp">
       <Filter>Shared\Utilities</Filter>

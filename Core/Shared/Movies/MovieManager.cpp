@@ -3,7 +3,6 @@
 #include "Utilities/VirtualFile.h"
 #include "Utilities/ZipReader.h"
 #include "Shared/Emulator.h"
-#include "Shared/Movies/BizHawkMovie.h"
 #include "Shared/Movies/MovieManager.h"
 #include "Shared/Movies/MesenMovie.h"
 #include "Shared/Movies/MovieRecorder.h"
@@ -37,8 +36,6 @@ void MovieManager::Play(VirtualFile file, bool forTest)
 			vector<string> files = reader.GetFileList();
 			if(std::find(files.begin(), files.end(), "GameSettings.txt") != files.end()) {
 				player.reset(new MesenMovie(_emu, forTest));
-			} else if(std::find(files.begin(), files.end(), "Input Log.txt") != files.end()) {
-				player.reset(new BizHawkMovie(_emu, false));
 			}
 		}
 
