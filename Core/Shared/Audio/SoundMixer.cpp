@@ -71,12 +71,11 @@ double SoundMixer::GetGainRate()
 		case ConsoleType::Nes:
 			return 1.9;
 		case ConsoleType::Gameboy:
+		case ConsoleType::PcEngine:
 			return 1.6;
 		case ConsoleType::Gba:
-		case ConsoleType::PcEngine:
-			return 1.5;
 		case ConsoleType::Ws:
-			return 1.2;
+			return 1.3;
 		default:
 			return 1.0;
 	}
@@ -95,13 +94,14 @@ void SoundMixer::PlayAudioBuffer(int16_t* samples, uint32_t sampleCount, uint32_
 
 	uint32_t masterVolume = audioPlayer ? audioPlayer->GetVolume() : cfg.MasterVolume;
 	if(!isRecording) {
+		bool ffReduceVolume = cfg.ReduceSoundInFastForward && settings->CheckFlag(EmulationFlags::TurboOrRewind);
 		if(!audioPlayer && settings->CheckFlag(EmulationFlags::InBackground)) {
 			if(cfg.MuteSoundInBackground) {
 				masterVolume = 0;
-			} else if(cfg.ReduceSoundInBackground) {
+			} else if(cfg.ReduceSoundInBackground || ffReduceVolume) {
 				masterVolume = cfg.VolumeReduction == 100 ? 0 : masterVolume * (100 - cfg.VolumeReduction) / 100;
 			}
-		} else if(cfg.ReduceSoundInFastForward && settings->CheckFlag(EmulationFlags::TurboOrRewind)) {
+		} else if(ffReduceVolume) {
 			masterVolume = cfg.VolumeReduction == 100 ? 0 : masterVolume * (100 - cfg.VolumeReduction) / 100;
 		}
 	}
