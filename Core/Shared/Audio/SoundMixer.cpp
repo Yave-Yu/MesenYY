@@ -71,9 +71,10 @@ double SoundMixer::GetGainRate()
 		case ConsoleType::Nes:
 			return 1.9;
 		case ConsoleType::Gameboy:
-		case ConsoleType::PcEngine:
 			return 1.6;
+		case ConsoleType::PcEngine:
 		case ConsoleType::Gba:
+			return 1.5;
 		case ConsoleType::Ws:
 			return 1.3;
 		default:
