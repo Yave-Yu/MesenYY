@@ -31,6 +31,7 @@ namespace Mesen.Config
 
 		[ObservableProperty] public partial RamState RamPowerOnState { get; set; } = RamState.AllZeros;
 		[ObservableProperty] public partial bool EnableRandomPowerOnState { get; set; } = false;
+		[ObservableProperty][MinMax(32000, 32200)] public partial UInt32 AdpcmClockSpeed { get; set; } = 32100;
 
 		[ObservableProperty][MinMax(0, 100)] public partial UInt32 Channel1Vol { get; set; } = 100;
 		[ObservableProperty][MinMax(0, 100)] public partial UInt32 Channel2Vol { get; set; } = 100;
@@ -76,6 +77,7 @@ namespace Mesen.Config
 
 				RamPowerOnState = RamPowerOnState,
 				EnableRandomPowerOnState = EnableRandomPowerOnState,
+				AdpcmClockSpeed = AdpcmClockSpeed,
 
 				Channel1Vol = Channel1Vol,
 				Channel2Vol = Channel2Vol,
@@ -128,6 +130,7 @@ namespace Mesen.Config
 
 		public RamState RamPowerOnState;
 		[MarshalAs(UnmanagedType.I1)] public bool EnableRandomPowerOnState;
+		public UInt32 AdpcmClockSpeed;
 
 		public UInt32 Channel1Vol;
 		public UInt32 Channel2Vol;

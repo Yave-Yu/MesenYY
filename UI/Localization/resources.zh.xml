@@ -493,6 +493,8 @@
 			<Control ID="chkRandomPowerOnState">随机开机状态</Control>
 			<Control ID="chkEnableCdRomForHuCardGames">运行HuCard游戏时启用CD-ROM模拟</Control>
 			<Control ID="chkDisableCdRomSaveRamForHuCardGames">运行HuCard游戏时禁用CD-ROM存档</Control>
+			<Control ID="lblAdpcmClockSpeed">ADPCM播放速度：</Control>
+			<Control ID="lblAdpcmClockSpeedDefault">Hz（默认32100Hz）</Control>
 			<Control ID="chkUseHuC6280aAudio">使用HuC6280A音频（减少爆音）</Control>
 			
 			<Control ID="tpgInput">按键</Control>
@@ -1784,7 +1786,7 @@
 		<Message ID="SetKeyHint">按任意一个键设定新绑定。</Message>
 		<Message ID="SetKeyMouseHint">按键盘、控制器、鼠标上任意一个键设定新绑定。</Message>
 
-		<Message ID="SpcClockSpeedMsg">= {0} Hz（默认40）</Message>
+		<Message ID="SpcClockSpeedMsg">= {0} Hz（默认40Hz）</Message>
 E
 		<Message ID="FirmwareNotFound">此游戏需要依靠固件运行：{0}&#xA;&#xA;　文件：{1}&#xA;　大小：{2}字节&#xA;&#xA;选择此文件来加载？</Message>
 		<Message ID="FirmwareMismatch">选择的文件不匹配{0}的要求。&#xA;&#xA;　固件SHA256：&#xA;{1}&#xA;&#xA;此文件SHA256：&#xA;{2}&#xA;&#xA;仍使用此文件继续？</Message>
