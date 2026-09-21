@@ -183,6 +183,7 @@ namespace Mesen.Debugger.ViewModels
 					IsEnabled = () => Selection.SelectedItems.Count == 1 && Selection.SelectedIndex > 0,
 					OnClick = () => {
 						MoveUp(Selection.SelectedIndex);
+						Selection.SelectedIndex--;
 					}
 				},
 
@@ -193,6 +194,7 @@ namespace Mesen.Debugger.ViewModels
 					IsEnabled = () => Selection.SelectedItems.Count == 1 && Selection.SelectedIndex < WatchEntries.Count - 2,
 					OnClick = () => {
 						MoveDown(Selection.SelectedIndex);
+						Selection.SelectedIndex--;
 					}
 				},
 
