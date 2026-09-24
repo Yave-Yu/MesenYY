@@ -8,6 +8,8 @@ namespace Mesen.Config
 {
 	public partial class VideoConfig : BaseConfig<VideoConfig>
 	{
+		[ObservableProperty] public partial string ShaderFile { get; set; } = "";
+
 		[ObservableProperty][MinMax(0.1, 5.0)] public partial double CustomAspectRatio { get; set; } = 1.0;
 		[ObservableProperty] public partial VideoFilterType VideoFilter { get; set; } = VideoFilterType.None;
 		[ObservableProperty] public partial VideoAspectRatio AspectRatio { get; set; } = VideoAspectRatio.NoStretching;
@@ -62,10 +64,15 @@ namespace Mesen.Config
 			VideoAspectRatio aspectRatio = AspectRatio;
 			VideoFilterType videoFilter = VideoFilter;
 			bool bilinearInterpolation = UseBilinearInterpolation;
+			string shaderFile = ShaderFile;
 
 			ConsoleOverrideConfig? overrides = ConsoleOverrideConfig.GetActiveOverride();
 			if(overrides?.OverrideVideoFilter == true) {
 				videoFilter = overrides.VideoFilter;
+			}
+
+			if(overrides?.OverrideShader == true) {
+				shaderFile = overrides.ShaderFile;
 			}
 
 			if(overrides?.OverrideAspectRatio == true) {
@@ -76,6 +83,8 @@ namespace Mesen.Config
 			if(overrides?.OverrideBilinearInterpolation == true) {
 				bilinearInterpolation = overrides.OverrideBilinearInterpolation;
 			}
+			
+			ShaderConfigHelper.LoadConfig(shaderFile).ApplyConfig();
 
 			ConfigApi.SetVideoConfig(new InteropVideoConfig() {
 				CustomAspectRatio = customAspectRatio,

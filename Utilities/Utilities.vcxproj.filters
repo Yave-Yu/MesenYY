@@ -129,6 +129,15 @@
     <ClInclude Include="Video\IVideoRecorder.h">
       <Filter>Video</Filter>
     </ClInclude>
+    <ClInclude Include="Video\librashader_ld.h">
+      <Filter>Video</Filter>
+    </ClInclude>
+    <ClInclude Include="Video\librashader.h">
+      <Filter>Video</Filter>
+    </ClInclude>
+    <ClInclude Include="Video\LibrashaderUtilities.h">
+      <Filter>Video</Filter>
+    </ClInclude>
     <ClInclude Include="Patches\IpsPatcher.h">
       <Filter>Patches</Filter>
     </ClInclude>

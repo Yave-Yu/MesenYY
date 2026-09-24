@@ -130,8 +130,6 @@ namespace Mesen.Config
 
 		public void ApplyConfig()
 		{
-			ConfigManager.Config.Video.ApplyConfig();
-
 			UInt32[] palette = new UInt32[512];
 			Array.Copy(UserPalette, palette, UserPalette.Length);
 			bool isFullPalette = UserPalette.Length == 512;

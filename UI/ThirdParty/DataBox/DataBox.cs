@@ -48,42 +48,42 @@ public class DataBox : TemplatedControl
 		  defaultBindingMode: BindingMode.TwoWay);
 
 	public static readonly DirectProperty<DataBox, AvaloniaList<DataBoxColumn>> ColumnsProperty =
-		  AvaloniaProperty.RegisterDirect<DataBox, AvaloniaList<DataBoxColumn>>(
+		AvaloniaProperty.RegisterDirect<DataBox, AvaloniaList<DataBoxColumn>>(
 				nameof(Columns),
 				o => o.Columns);
 
 	public static readonly StyledProperty<SortMode> SortModeProperty =
-		  AvaloniaProperty.Register<DataBox, SortMode>(nameof(SortMode), SortMode.None);
+		AvaloniaProperty.Register<DataBox, SortMode>(nameof(SortMode), SortMode.None);
 
 	public static readonly StyledProperty<ICommand?> SortCommandProperty =
-		 AvaloniaProperty.Register<DataBoxColumn, ICommand?>(nameof(SortCommand));
+		AvaloniaProperty.Register<DataBox, ICommand?>(nameof(SortCommand));
 
 	public static readonly StyledProperty<SortState> SortStateProperty =
-		 AvaloniaProperty.Register<DataBoxColumn, SortState>(nameof(SortState));
+		AvaloniaProperty.Register<DataBox, SortState>(nameof(SortState));
 
 	public static readonly StyledProperty<List<int>> ColumnWidthsProperty =
-		 AvaloniaProperty.Register<DataBoxColumn, List<int>>(nameof(ColumnWidths));
+		AvaloniaProperty.Register<DataBox, List<int>>(nameof(ColumnWidths));
 
 	public static readonly StyledProperty<bool> CanUserResizeColumnsProperty =
-		  AvaloniaProperty.Register<DataBox, bool>(nameof(CanUserResizeColumns));
+		AvaloniaProperty.Register<DataBox, bool>(nameof(CanUserResizeColumns));
 
 	public static readonly StyledProperty<bool> DisableSearchProperty =
-		  AvaloniaProperty.Register<DataBox, bool>(nameof(DisableSearch));
+		AvaloniaProperty.Register<DataBox, bool>(nameof(DisableSearch));
 
 	public static readonly StyledProperty<DataBoxGridLinesVisibility> GridLinesVisibilityProperty =
-		  AvaloniaProperty.Register<DataBox, DataBoxGridLinesVisibility>(nameof(GridLinesVisibility));
+		AvaloniaProperty.Register<DataBox, DataBoxGridLinesVisibility>(nameof(GridLinesVisibility));
 
 	public static readonly StyledProperty<SelectionMode> SelectionModeProperty =
 	 AvaloniaProperty.Register<DataBox, SelectionMode>(nameof(SelectionMode));
 
 	public static readonly StyledProperty<bool> IsReadOnlyProperty =
-		  AvaloniaProperty.Register<DataBox, bool>(nameof(IsReadOnly));
+		AvaloniaProperty.Register<DataBox, bool>(nameof(IsReadOnly));
 
 	public static readonly StyledProperty<IBrush> HorizontalGridLinesBrushProperty =
-		 AvaloniaProperty.Register<DataBox, IBrush>(nameof(HorizontalGridLinesBrush));
+		AvaloniaProperty.Register<DataBox, IBrush>(nameof(HorizontalGridLinesBrush));
 
 	public static readonly StyledProperty<IBrush> VerticalGridLinesBrushProperty =
-		 AvaloniaProperty.Register<DataBox, IBrush>(nameof(VerticalGridLinesBrush));
+		AvaloniaProperty.Register<DataBox, IBrush>(nameof(VerticalGridLinesBrush));
 
 	private IEnumerable? _items = Array.Empty<object?>();
 	private ISelectionModel _selection = new SelectionModel<object?>();

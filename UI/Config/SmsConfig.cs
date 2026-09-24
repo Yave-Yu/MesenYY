@@ -44,8 +44,6 @@ public partial class SmsConfig : BaseConfig<SmsConfig>
 
 	public void ApplyConfig()
 	{
-		ConfigManager.Config.Video.ApplyConfig();
-
 		ConfigApi.SetSmsConfig(new InteropSmsConfig() {
 			Port1 = Port1.ToInterop(),
 			Port2 = Port2.ToInterop(),

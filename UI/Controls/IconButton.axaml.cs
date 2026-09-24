@@ -10,7 +10,7 @@ namespace Mesen.Controls
 	{
 		protected override Type StyleKeyOverride => typeof(Button);
 
-		public static readonly StyledProperty<string> IconProperty = AvaloniaProperty.Register<KeyBindingButton, string>(nameof(Icon), "");
+		public static readonly StyledProperty<string> IconProperty = AvaloniaProperty.Register<IconButton, string>(nameof(Icon), "");
 
 		public string Icon
 		{

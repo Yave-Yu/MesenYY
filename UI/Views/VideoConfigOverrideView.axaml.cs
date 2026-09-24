@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Mesen.Config;
+using Mesen.Interop;
 using Mesen.Localization;
 using System;
 using System.Linq;
@@ -32,8 +33,11 @@ namespace Mesen.Views
 			set { SetValue(AvailableValuesProperty, value); }
 		}
 
+		public bool ShowShaderConfig { get; }
+
 		public VideoConfigOverrideView()
 		{
+			ShowShaderConfig = ConfigApi.CheckShaderSupport();
 			InitializeComponent();
 		}
 

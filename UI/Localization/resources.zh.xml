@@ -20,8 +20,9 @@
 			<Control ID="chkEnableAudio">启用音频</Control>
 			<Control ID="lblSampleRate">采样率：</Control>
 			<Control ID="lblLatencyMs">毫秒</Control>
-			<Control ID="lblLatencyWarning">缓冲过低可能会产生破音</Control>
+			<Control ID="lblLatencyWarning">为音频设置多长的缓冲空间，并不代表设置多少毫秒就一定会延迟多少毫秒，相反缓冲空间过低还可能会产生破音。&#13;Windows推荐使用WASAPI驱动，支持更短的缓冲空间。</Control>
 			<Control ID="lblAudioLatency">缓冲：</Control>
+			<Control ID="lblAudioDriver">驱动：</Control>
 			<Control ID="lblAudioDevice">设备：</Control>
 			<Control ID="lblVolume">音量：</Control>
 			<Control ID="grpVolume">音量</Control>
@@ -192,6 +193,8 @@
 			<Control ID="mnuPresetRgb">RGB</Control>
 			<Control ID="mnuPresetMonochrome">黑白</Control>
 
+			<Control ID="lblShaderSettings">着色器设置</Control>
+
 			<Control ID="tpgAdvanced">高级</Control>
 			<Control ID="lblScreenRotation">屏幕旋转：</Control>
 			<Control ID="chkUseSoftwareRenderer">软件渲染（需重启模拟器）</Control>
@@ -226,8 +229,13 @@
 			<Control ID="lblHeader">全局设置替代</Control>
 			<Control ID="chkOverrideBilinearInterpolation">替代双线性插值</Control>
 			<Control ID="chkOverrideVideoFilter">替代滤镜：</Control>
+			<Control ID="chkOverrideShader">替代着色器：</Control>
 			<Control ID="chkOverrideAspectRatio">替代比例：</Control>
 			<Control ID="lblCustomRatio">自定义：</Control>
+		</Form>
+
+		<Form ID="ShaderSelector">
+			<Control ID="btnLoadShader">加载着色器…</Control>
 		</Form>
 
 		<Form ID="SnesConfigView">
@@ -962,6 +970,13 @@
 			
 			<Control ID="tabDipSwitches">DIP开关</Control>
 			
+			<Control ID="btnOk">确定</Control>
+			<Control ID="btnCancel">取消</Control>
+		</Form>
+
+		<Form ID="ShaderConfigWindow">
+			<Control ID="wndTitle">着色器设置</Control>
+			<Control ID="btnReset">恢复默认</Control>
 			<Control ID="btnOk">确定</Control>
 			<Control ID="btnCancel">取消</Control>
 		</Form>
@@ -1846,6 +1861,8 @@ E
 		<Message ID="btnYes">是</Message>
 		<Message ID="btnNo">否</Message>
 
+		<Message ID="None">无</Message>
+
 		<Message ID="ScriptSaveConfirmation">此Lua脚本还有未保存的改动，你想保存吗？</Message>
 		
 		<Message ID="AssemblerConfirmation">{0}&#xA;&#xA;可以？</Message>
@@ -1854,6 +1871,8 @@ E
 		<Message ID="LabelOrCommentRequired">标签或注释必须指定。</Message>
 		<Message ID="AddressOutOfRange">此地址超界了。</Message>
 		<Message ID="AddressHasOtherLabel">另一个标签已存在于{0}</Message>
+		
+		<Message ID="RecentShaders">最近着色器</Message>
 	</Messages>
 	<Enums>
 		<Enum ID="EmulatorShortcut">
@@ -2543,6 +2562,12 @@ E
 			<Value ID="StartWithoutSaveData">开机</Value>
 			<Value ID="StartWithSaveData">开机带存档</Value>
 			<Value ID="CurrentState">当前进度</Value>
+		</Enum>
+		<Enum ID="AudioBackendType">
+			<Value ID="Default">默认</Value>
+			<Value ID="Wasapi">WASAPI</Value>
+			<Value ID="DirectSound">DirectSound</Value>
+			<Value ID="Sdl2">SDL2</Value>
 		</Enum>
 		<Enum ID="AudioSampleRate">
 			<Value ID="_11025">11025 Hz</Value>
@@ -3624,6 +3649,7 @@ E
 			<Value ID="Fullscreen">全屏</Value>
 			<Value ID="KeepSize">记住尺寸</Value>
 			<Value ID="VideoFilter">滤镜</Value>
+			<Value ID="Shader">着色器</Value>
 			<Value ID="Region">制式/型号</Value>
 
 			<Value ID="Audio">音频</Value>
@@ -3758,6 +3784,14 @@ E
 
 			<Value ID="CopyToClipboard">复制到剪贴板</Value>
 			<Value ID="ResetProfilerData">重置分析器数据</Value>
+			
+			<Value ID="Shader">着色器</Value>
+			<Value ID="LoadShader">加载着色器…</Value>
+			<Value ID="AllShaders">全部着色器</Value>
+			<Value ID="ClearShader">移除着色器</Value>
+			<Value ID="ShaderSettings">配置着色器…</Value>
+			<Value ID="OpenShaderFolder">打开着色器文件夹</Value>
+			<Value ID="NoShadersFound">Shaders文件夹的着色器（.slangp文件）会显示在这里。</Value>
 		</Enum>
 	</Enums>
 </Resources>

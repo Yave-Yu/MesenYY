@@ -39,8 +39,6 @@ public partial class WsConfig : BaseConfig<WsConfig>
 		ControllerVertical.Type = ControllerType.WsControllerVertical;
 		ControllerPcV2.Type = ControllerType.PcV2Controller;
 
-		ConfigManager.Config.Video.ApplyConfig();
-
 		ConfigApi.SetWsConfig(new InteropWsConfig() {
 			ControllerHorizontal = ControllerHorizontal.ToInterop(),
 			ControllerVertical = ControllerVertical.ToInterop(),

@@ -38,8 +38,6 @@ namespace Mesen.Config
 
 		public void ApplyConfig()
 		{
-			ConfigManager.Config.Video.ApplyConfig();
-
 			ConfigApi.SetGbaConfig(new InteropGbaConfig() {
 				Controller = Controller.ToInterop(),
 

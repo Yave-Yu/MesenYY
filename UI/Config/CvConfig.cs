@@ -28,8 +28,6 @@ public partial class CvConfig : BaseConfig<CvConfig>
 
 	public void ApplyConfig()
 	{
-		ConfigManager.Config.Video.ApplyConfig();
-
 		ConfigApi.SetCvConfig(new InteropCvConfig() {
 			Port1 = Port1.ToInterop(),
 			Port2 = Port2.ToInterop(),

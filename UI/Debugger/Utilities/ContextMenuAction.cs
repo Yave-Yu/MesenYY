@@ -124,7 +124,7 @@ namespace Mesen.Debugger.Utilities
 
 		[ObservableProperty] public partial string TooltipText { get; set; } = "";
 
-		private static SimpleCommand _emptyCommand = new SimpleCommand(() => { });
+		private SimpleCommand _emptyCommand = new SimpleCommand(() => { });
 
 		private SimpleCommand? _clickCommand;
 		public SimpleCommand? ClickCommand
@@ -132,7 +132,7 @@ namespace Mesen.Debugger.Utilities
 			get
 			{
 				Update();
-				return _clickCommand ?? ContextMenuAction._emptyCommand;
+				return _clickCommand ?? _emptyCommand;
 			}
 		}
 
@@ -199,6 +199,7 @@ namespace Mesen.Debugger.Utilities
 						action.Dispose();
 					}
 				}
+				_subActions = null;
 			}
 		}
 	}
@@ -259,6 +260,10 @@ namespace Mesen.Debugger.Utilities
 	public class ContextMenuSeparator : ContextMenuAction
 	{
 		public override string Name => "-";
+
+		protected override string InternalShortcutText => Header;
+
+		public string Header { get; set; } = "";
 
 		public ContextMenuSeparator()
 		{
@@ -878,5 +883,20 @@ namespace Mesen.Debugger.Utilities
 		ResetProfilerData,
 		[IconFile("Copy")]
 		CopyToClipboard,
+		
+		[IconFile("Television")]
+		Shader,
+		[IconFile("Folder")]
+		ShaderFolder,
+		[IconFile("Folder")]
+		LoadShader,
+		[IconFile("Close")]
+		ClearShader,
+		AllShaders,
+		[IconFile("Settings")]
+		ShaderSettings,
+		[IconFile("Help")]
+		NoShadersFound,
+		OpenShaderFolder
 	}
 }

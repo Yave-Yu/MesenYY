@@ -31,6 +31,7 @@ namespace Mesen.Utilities
 [JsonSerializable(typeof(GameDipSwitches))]
 [JsonSerializable(typeof(CheatCodes))]
 [JsonSerializable(typeof(GameConfig))]
+[JsonSerializable(typeof(ShaderConfig))]
 [JsonSerializable(typeof(DebugWorkspace))]
 [JsonSourceGenerationOptions(
 	WriteIndented = true,

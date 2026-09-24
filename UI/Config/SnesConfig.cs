@@ -73,8 +73,6 @@ namespace Mesen.Config
 
 		public void ApplyConfig()
 		{
-			ConfigManager.Config.Video.ApplyConfig();
-
 			ConfigApi.SetSnesConfig(new InteropSnesConfig() {
 				Port1 = Port1.ToInterop(),
 				Port1A = Port1.ToInterop(Port1A.Type),
