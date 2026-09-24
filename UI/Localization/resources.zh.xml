@@ -20,7 +20,7 @@
 			<Control ID="chkEnableAudio">启用音频</Control>
 			<Control ID="lblSampleRate">采样率：</Control>
 			<Control ID="lblLatencyMs">毫秒</Control>
-			<Control ID="lblLatencyWarning">为音频设置多长的缓冲空间，并不代表设置多少毫秒就一定会延迟多少毫秒，相反缓冲空间过低还可能会产生破音。&#13;Windows推荐使用WASAPI驱动，支持更短的缓冲空间。</Control>
+			<Control ID="lblLatencyWarning">为音频设置多长的缓冲空间，并不代表设置多少毫秒就一定会延迟多少毫秒，相反缓冲空间过低还会产生破音。&#13;Windows推荐使用WASAPI驱动，支持更短的缓冲空间。</Control>
 			<Control ID="lblAudioLatency">缓冲：</Control>
 			<Control ID="lblAudioDriver">驱动：</Control>
 			<Control ID="lblAudioDevice">设备：</Control>
@@ -1872,7 +1872,7 @@ E
 		<Message ID="AddressOutOfRange">此地址超界了。</Message>
 		<Message ID="AddressHasOtherLabel">另一个标签已存在于{0}</Message>
 		
-		<Message ID="RecentShaders">最近着色器</Message>
+		<Message ID="RecentShaders">最近着色器 </Message>
 	</Messages>
 	<Enums>
 		<Enum ID="EmulatorShortcut">

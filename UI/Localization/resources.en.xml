@@ -1872,7 +1872,7 @@ E
 		<Message ID="AddressOutOfRange">The address is out of range.</Message>
 		<Message ID="AddressHasOtherLabel">Another label exists for this address: {0}</Message>
 		
-		<Message ID="RecentShaders">Recent shaders</Message>
+		<Message ID="RecentShaders">Recent shaders </Message>
 	</Messages>
 	<Enums>
 		<Enum ID="EmulatorShortcut">
