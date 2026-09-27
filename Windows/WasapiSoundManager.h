@@ -26,6 +26,8 @@ private:
 	bool _playing = false;
 
 	uint32_t _bufferFrameCount = 0;
+	
+	bool _waitForHalfBuffer = false;
 
 	Microsoft::WRL::ComPtr<IAudioClient> _audioClient;
 	Microsoft::WRL::ComPtr<IAudioRenderClient> _renderClient;
