@@ -15,7 +15,7 @@ namespace Mesen.Utilities
 	{
 		private MainWindow _mainWindow;
 
-		private List<uint> _speedValues = new List<uint> { 1, 3, 6, 12, 25, 50, 75, 100, 150, 200, 250, 300, 350, 400, 450, 500, 750, 1000, 2000, 4000 };
+		private List<uint> _speedValues = new List<uint> { 1, 3, 6, 12, 25, 50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 2000, 4000 };
 
 		public ShortcutHandler(MainWindow mainWindow)
 		{
