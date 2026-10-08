@@ -2728,12 +2728,12 @@ E
 			<Value ID="Unspecified">未指定</Value>
 			<Value ID="StandardControllers">标准控制器</Value>
 			<Value ID="FourScore">四分插（NES）</Value>
-			<Value ID="FourPlayerAdapter">四人适配器（红白机）</Value>
+			<Value ID="FourPlayerAdapter">纯四人适配器（红白机）</Value>
 			<Value ID="VsSystem">VS系统</Value>
 			<Value ID="VsSystemSwapped">VS系统-互换1/2P</Value>
-			<Value ID="VsSystemSwapAB">VS系统-互换A/B键</Value>
+			<Value ID="EightPlayers">四分插（NES）+Hori四人适配器（红白机）</Value>
 			<Value ID="VsZapper">VS光枪</Value>
-			<Value ID="Zapper">光枪</Value>
+			<Value ID="Zapper1">光枪（$4017）</Value>
 			<Value ID="TwoZappers">双人光枪</Value>
 			<Value ID="BandaiHypershot">Bandai Hypershot</Value>
 			<Value ID="PowerPadSideA">力量毯A面</Value>
@@ -2766,10 +2766,10 @@ E
 			<Value ID="SuborKeyboard">小霸王键盘</Value>
 			<Value ID="SuborKeyboardMouse1">小霸王键盘+Marco Winners鼠标</Value>
 			<Value ID="SuborKeyboardMouse2">小霸王键盘+小霸王鼠标（$4016）</Value>
-			<Value ID="SnesMouse">SNES鼠标</Value>
-			<Value ID="GenericMulticart">Generic Multicart</Value>
+			<Value ID="SnesMouse1">SNES鼠标（$4016）</Value>
+			<Value ID="GenericMulticart">通用合卡</Value>
 			<Value ID="SnesControllers">SNES控制器</Value>
-			<Value ID="RacerMateBicycle">RacerMate Bicycle</Value>
+			<Value ID="RacerMateBicycle">RacerMate摩托车</Value>
 			<Value ID="UForce">U-Force</Value>
 			<Value ID="RobStackUp">R.O.B. Stack-Up</Value>
 			<Value ID="CityPatrolmanLightgun">City Patrolman光枪</Value>
@@ -2785,6 +2785,27 @@ E
 			<Value ID="VenomTVDance">Venom电视跳舞毯</Value>
 			<Value ID="LgTvRemote">LG电视遥控器</Value>
 			<Value ID="FcnsController">FCNS控制器</Value>
+			<Value ID="KingFishingController">King钓鱼控制器</Value>
+			<Value ID="CroakyKaraokeController">Croaky卡拉OK控制器</Value>
+			<Value ID="KingwonKeyboard">晶旺键盘</Value>
+			<Value ID="ZechengKeyboard">泽诚键盘</Value>
+			<Value ID="SuborKeyboardMouse4">小霸王键盘+左90旋转PS/2鼠标（$4017）</Value>
+			<Value ID="Ps2KeyboardMouse">UM6578 PS/2键盘+PS/2鼠标（$4017）</Value>
+			<Value ID="Ps2Mouse">UM6578 PS/2鼠标</Value>
+			<Value ID="YuxingMouse">裕兴鼠标（$4016）</Value>
+			<Value ID="SuborKeyboardMouse5">小霸王键盘+裕兴鼠标（$4016）</Value>
+			<Value ID="GiggleTvPump">Giggle TV Pump</Value>
+			<Value ID="BbkKeyboardMouse">步步高键盘+右90旋转PS/2鼠标（$4017）</Value>
+			<Value ID="MagicalCooking">魔法烹饪</Value>
+			<Value ID="SnesMouse2">SNES鼠标（$4017）</Value>
+			<Value ID="Zapper2">光枪（$4016）</Value>
+			<Value ID="ArkanoidControllerPrototype">打砖块控制器（原型）</Value>
+			<Value ID="TvMahjongGame">TV麻将游戏控制器</Value>
+			<Value ID="MahjongGekitouDensetsu">麻将激斗传说控制器</Value>
+			<Value ID="SuborKeyboardMouse6">小霸王键盘+横着倒置PS/2鼠标（$4017）</Value>
+			<Value ID="IbmKeyboard">IBM电脑/XT键盘</Value>
+			<Value ID="SuborKeyboardMouse7">小霸王键盘+Mega Book鼠标</Value>
+			<Value ID="HoriTrack">Hori Track</Value>
 		</Enum>
 
 		<Enum ID="FirmwareType">
