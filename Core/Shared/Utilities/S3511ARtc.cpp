@@ -196,7 +196,7 @@ void S3511ARtc::ProcessCommand()
 
 uint8_t S3511ARtc::ToBCD(int value)
 {
-	return (value / 10 << 4) + value % 10;
+	return ((value / 10) << 4) + value % 10;
 }
 
 void S3511ARtc::GetSystemClock()
@@ -243,9 +243,7 @@ void S3511ARtc::UpdateTime()
 		tm.tm_hour += 12;
 	}
 	tm.tm_mday = (_state.Day & 0x0F) + ((_state.Day >> 4) * 10);
-
-	int month = _state.Month - 1;
-	tm.tm_mon = (month & 0x0F) + ((month >> 4) * 10);
+	tm.tm_mon = ((_state.Month & 0x0F) + ((_state.Month >> 4) * 10)) - 1;
 	tm.tm_year = 100 + (_state.Year & 0x0F) + ((_state.Year >> 4) * 10);
 
 	std::time_t tt = TimeUtilities::TmToUtc(&tm);
@@ -291,7 +289,7 @@ void S3511ARtc::UpdateTime()
 
 	_state.Day = ToBCD(newTm.tm_mday);
 
-	month = newTm.tm_mon + 1;
+	int month = newTm.tm_mon + 1;
 	_state.Month = ToBCD(month);
 
 	int year = newTm.tm_year - 100;
