@@ -35,8 +35,8 @@ WsApu::WsApu(Emulator* emu, WsConsole* console, WsMemoryManager* memoryManager, 
 	_soundBuffer = new int16_t[WsApu::MaxSamples * 2];
 	memset(_soundBuffer, 0, WsApu::MaxSamples * 2 * sizeof(int16_t));
 
-	_filterL.SetCutoffFrequency(24, WsApu::ApuFrequency);
-	_filterR.SetCutoffFrequency(24, WsApu::ApuFrequency);
+	_filterL.SetCutoffFrequency(16, WsApu::ApuFrequency);
+	_filterR.SetCutoffFrequency(16, WsApu::ApuFrequency);
 }
 
 WsApu::~WsApu()

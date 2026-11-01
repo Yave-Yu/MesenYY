@@ -1,8 +1,8 @@
 Compare to Mesen2 and MesenCE, MesenYY has following features:
 
 - Louder master volume (minus SNES and SMS), similar to other emulator (e.g. NES to FCEUX, GB/GBC to SameBoy, GBA to mGBA)
-- Separately store battery save by console, not store together anymore
-- Auto savestate also updates battery save, made battery save safer
+- Separately store battery save by console, it won't store together anymore
+- Auto savestate also updates battery save, make battery save up to date
 - New 11x and 12x window size, suitable for GB, GBA, and WS on 4K monitor (for someone prefers windowed mode)
 - New 100% speed shortcut setting, same as FCEUX and BizHawk
 - Tweaked HUD font, removed some symbols' former blank, now "22:33"/"22.33" looks more comfortable

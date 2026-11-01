@@ -523,8 +523,8 @@ void GbaApu::UpdateSampleRate()
 	_sampleRate = (32 * 1024) << _state.SamplingRate;
 
 	//Used to remove DC offset from audio signal
-	_filterL.SetCutoffFrequency(24, _sampleRate);
-	_filterR.SetCutoffFrequency(24, _sampleRate);
+	_filterL.SetCutoffFrequency(20, _sampleRate);
+	_filterR.SetCutoffFrequency(20, _sampleRate);
 }
 
 bool GbaApu::IsOddApuCycle()
