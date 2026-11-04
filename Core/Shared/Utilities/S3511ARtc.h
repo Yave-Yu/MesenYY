@@ -42,7 +42,9 @@ private:
 
 	void ProcessCommand();
 
-	uint8_t ToBCD(int value);
+	uint8_t ToBCD(uint8_t value);
+	uint8_t UnBCD(uint8_t value);
+	
 	void GetSystemClock();
 	void Reset();
 	void UpdateTime();

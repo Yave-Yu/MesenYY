@@ -194,9 +194,14 @@ void S3511ARtc::ProcessCommand()
 	}
 }
 
-uint8_t S3511ARtc::ToBCD(int value)
+uint8_t S3511ARtc::ToBCD(uint8_t value)
 {
 	return ((value / 10) << 4) + value % 10;
+}
+
+uint8_t S3511ARtc::UnBCD(uint8_t value)
+{
+	return (value >> 4) * 10 + (value & 0x0F);
 }
 
 void S3511ARtc::GetSystemClock()
@@ -235,16 +240,15 @@ void S3511ARtc::UpdateTime()
 	}
 
 	std::tm tm = {};
-	tm.tm_sec = (_state.Second & 0x0F) + ((_state.Second >> 4) * 10);
-	tm.tm_min = (_state.Minute & 0x0F) + ((_state.Minute >> 4) * 10);
-	int hour = _state.Hour & 0x3F;
-	tm.tm_hour = (hour & 0x0F) + ((hour >> 4) * 10);
+	tm.tm_sec = UnBCD(_state.Second);
+	tm.tm_min = UnBCD(_state.Minute);
+	tm.tm_hour = UnBCD(_state.Hour & 0x3F);
 	if((_state.Hour & 0x80) && tm.tm_hour < 12) {
 		tm.tm_hour += 12;
 	}
-	tm.tm_mday = (_state.Day & 0x0F) + ((_state.Day >> 4) * 10);
-	tm.tm_mon = ((_state.Month & 0x0F) + ((_state.Month >> 4) * 10)) - 1;
-	tm.tm_year = 100 + (_state.Year & 0x0F) + ((_state.Year >> 4) * 10);
+	tm.tm_mday = UnBCD(_state.Day);
+	tm.tm_mon = UnBCD(_state.Month) - 1;
+	tm.tm_year = UnBCD(_state.Year) + 100;
 
 	std::time_t tt = TimeUtilities::TmToUtc(&tm);
 	if(tt == -1) {
@@ -278,7 +282,7 @@ void S3511ARtc::UpdateTime()
 	if(is24hMode) {
 		_state.Hour = ToBCD(newTm.tm_hour);
 	} else {
-		hour = newTm.tm_hour >= 12 ? newTm.tm_hour - 12 : newTm.tm_hour;
+		int hour = newTm.tm_hour >= 12 ? newTm.tm_hour - 12 : newTm.tm_hour;
 		_state.Hour = ToBCD(hour);
 	}
 
