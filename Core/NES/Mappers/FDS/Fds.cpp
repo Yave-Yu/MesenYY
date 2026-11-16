@@ -137,21 +137,58 @@ void Fds::WriteFdsDisk(uint8_t value)
 
 void Fds::ClockIrq()
 {
+	//Timer IRQ
 	if(_irqEnabled) {
 		if(_irqCounter == 0) {
-			_cpu->SetIrqSource(IRQSource::External);
+			_timerIrqPending = true;
 			_irqCounter = _irqReloadValue;
 			if(!_irqRepeatEnabled) {
 				_irqEnabled = false;
 			}
+			UpdateIrqState();
 		} else {
 			_irqCounter--;
 		}
+	}
+	
+	//DRAM refresh watchdog: https://forums.nesdev.org/viewtopic.php?t=26359
+	if(_diskRegEnabled) {
+		//"IRQ is asserted when the [12-bit] cycle timer underflows while $4023.D7 = 1."
+		if(_watchdogTimer == 0) {
+			_watchdogTimer = 4095;
+			_watchdogIrqPending = _watchdogIrqEnabled;
+			UpdateIrqState();
+		} else {
+			_watchdogTimer--;
+		}
+
+		//7-bit refresh counter: "...increment on every CPU cycle spent accessing memory outside of PRG-RAM,
+		// pause on CPU cycles accessing PRG-RAM"
+		if(!_dramAccessed) {
+			if(_dramRow == 0x7F) {
+				_dramRow = 0;
+				_watchdogTimer = 3245; //"...reload with 3245 when refresh counter overflows"
+			} else {
+				_dramRow++;
+			}
+		}
+	}
+	_dramAccessed = false;
+}
+
+void Fds::UpdateIrqState()
+{
+	if(!(_timerIrqPending || _watchdogIrqPending)) {
+		_cpu->ClearIrqSource(IRQSource::External);
+	} else {
+		_cpu->SetIrqSource(IRQSource::External);
 	}
 }
 
 uint8_t Fds::ReadRam(uint16_t addr)
 {
+	_dramAccessed = (addr >= 0x6000 && addr < 0xE000);
+
 	if(addr == 0xE18C && !_gameStarted && (_memoryManager->DebugRead(0x100) & 0xC0)) {
 		//$E18B is the NMI entry point (using $E18C due to dummy reads)
 		//When NMI occurs while $100 & $C0 != 0, it typically means that the game is starting.
@@ -215,6 +252,12 @@ uint8_t Fds::ReadRam(uint16_t addr)
 	return BaseMapper::InternalRead(addr);
 }
 
+void Fds::WriteRam(uint16_t addr, uint8_t value)
+{
+	_dramAccessed = (addr >= 0x6000 && addr < 0xE000);
+	BaseMapper::WriteRam(addr, value);
+}
+
 void Fds::ProcessAutoDiskInsert()
 {
 	if(IsAutoInsertDiskEnabled()) {
@@ -270,6 +313,7 @@ void Fds::ProcessCpuClock()
 	BaseProcessCpuClock();
 
 	ClockIrq();
+	
 	_audio->Clock();
 
 	if(_diskNumber == Fds::NoDiskInserted || !_motorOn) {
@@ -425,13 +469,19 @@ void Fds::WriteRegister(uint16_t addr, uint8_t value)
 			if(_irqEnabled) {
 				_irqCounter = _irqReloadValue;
 			} else {
-				_cpu->ClearIrqSource(IRQSource::External);
+				_timerIrqPending = false;
+				UpdateIrqState();
 			}
 			break;
 
 		case 0x4023:
 			_diskRegEnabled = value & 0x01;
 			_soundRegEnabled = value & 0x02;
+			_watchdogIrqEnabled = value & 0x80;
+
+			if(!_watchdogIrqEnabled) {
+				_watchdogIrqPending = false;
+			}
 
 			if(!_diskRegEnabled) {
 				_irqEnabled = false;
@@ -449,9 +499,16 @@ void Fds::WriteRegister(uint16_t addr, uint8_t value)
 				//Disabling disk registers forces $4026 (external connector) = 0x7F
 				_extConWriteReg = 0x7F;
 
-				_cpu->ClearIrqSource(IRQSource::External);
+				//Reset DRAM refresh watchdog
+				_dramRow = 0;
+				_watchdogTimer = 4095;
+
+				_timerIrqPending = false;
+				_watchdogIrqPending = false;
 				_cpu->ClearIrqSource(IRQSource::FdsDisk);
 			}
+
+			UpdateIrqState();
 
 			if(!_soundRegEnabled) {
 				_audio->WriteRegister(0x4080, 0x80); //Based on instant muting
@@ -506,13 +563,15 @@ uint8_t Fds::ReadRegister(uint16_t addr)
 				//These 2 pins are open bus
 				value &= 0x24;
 
-				value |= _cpu->HasIrqSource(IRQSource::External) ? 0x01 : 0x00;
-				//value |= _transferComplete ? 0x02 : 0x00;
+				value |= _timerIrqPending ? 0x01 : 0x00;
+				value |= _watchdogIrqPending ? 0x02 : 0x00;
 				value |= GetMirroringType() == MirroringType::Horizontal ? 0x08 : 0x00;
 				value |= _useQdFormat && _badCrc ? 0x10 : 0x00;
-				//value |= _endOfHead ? 0x40 : 0x00;
 				value |= _transferComplete ? 0x80 : 0x00;
-
+				
+				//"Reading this register acknowledges all IRQs from the FDS except for the byte transfer flag"
+				_timerIrqPending = false;
+				_watchdogIrqPending = false;
 				_cpu->ClearIrqSource(IRQSource::External);
 				return value;
 
@@ -602,11 +661,37 @@ void Fds::Serialize(Serializer& s)
 	SV(_crcAccumulator);
 
 	if(s.IsSaving()) {
+		SV(_timerIrqPending);
+		SV(_watchdogIrqPending);
+		SV(_watchdogIrqEnabled);
+		SV(_dramAccessed);
+		SV(_dramRow);
+		SV(_watchdogTimer);
+
 		for(int i = 0; i < (int)_fdsDiskSides.size(); i++) {
 			vector<uint8_t> ipsData = IpsPatcher::CreatePatch(_orgDiskSides[i], _fdsDiskSides[i]);
 			SVVectorI(ipsData);
 		}
 	} else {
+		if(!s.ContainsKey("timerIrqPending")) {
+			//Backwards compatibility with savetates that predate the watchdog's discovery
+			_timerIrqPending = _cpu->HasIrqSource(IRQSource::External); //External source was previously reserved for the timer IRQ
+			_watchdogIrqPending = false;
+			//$4023.D7 is missing, so assume based on $4023.D0 state
+			//(most commercial games don't touch the BIOS init value of $83)
+			_watchdogIrqEnabled = _diskRegEnabled;
+			_dramAccessed = false;
+			_dramRow = 0;
+			_watchdogTimer = 4095;
+		} else {
+			SV(_timerIrqPending);
+			SV(_watchdogIrqPending);
+			SV(_watchdogIrqEnabled);
+			SV(_dramAccessed);
+			SV(_dramRow);
+			SV(_watchdogTimer);
+		}
+
 		for(int i = 0; i < (int)_fdsDiskSides.size(); i++) {
 			vector<uint8_t> ipsData;
 			SVVectorI(ipsData);
@@ -669,9 +754,14 @@ vector<MapperStateEntry> Fds::GetMapperStateEntries()
 	entries.push_back(MapperStateEntry("$4022.1", "IRQ Enabled", _irqEnabled, MapperStateValueType::Bool));
 	entries.push_back(MapperStateEntry("", "IRQ Counter", _irqCounter, MapperStateValueType::Number16));
 
+	entries.push_back(MapperStateEntry("", "DRAM Refresh Watchdog"));
+	entries.push_back(MapperStateEntry("", "DRAM Row", _dramRow, MapperStateValueType::Number8));
+	entries.push_back(MapperStateEntry("", "Watchdog Timer", _watchdogTimer, MapperStateValueType::Number16));
+
 	entries.push_back(MapperStateEntry("", "I/O Control"));
 	entries.push_back(MapperStateEntry("$4023.0", "Disk Registers Enabled", _diskRegEnabled, MapperStateValueType::Bool));
 	entries.push_back(MapperStateEntry("$4023.1", "Audio Enabled", _soundRegEnabled, MapperStateValueType::Bool));
+	entries.push_back(MapperStateEntry("$4023.7", "DRAM Refresh Watchdog IRQ Enabled", _watchdogIrqEnabled, MapperStateValueType::Bool));
 
 	entries.push_back(MapperStateEntry("", "Disk Drive"));
 	entries.push_back(MapperStateEntry("$4025", "Drive Control"));
@@ -684,8 +774,8 @@ vector<MapperStateEntry> Fds::GetMapperStateEntries()
 	entries.push_back(MapperStateEntry("$4025.7", "Disk IRQ Enabled", _diskIrqEnabled, MapperStateValueType::Bool));
 
 	entries.push_back(MapperStateEntry("$4030", "Drive/IRQ Status"));
-	entries.push_back(MapperStateEntry("$4030.0", "Timer IRQ", _cpu->HasIrqSource(IRQSource::External), MapperStateValueType::Bool));
-	//entries.push_back(MapperStateEntry("$4030.1", "DRAM Refresh Watchdog IRQ", false, MapperStateValueType::Bool));
+	entries.push_back(MapperStateEntry("$4030.0", "Timer IRQ", _timerIrqPending, MapperStateValueType::Bool));
+	entries.push_back(MapperStateEntry("$4030.1", "DRAM Refresh Watchdog IRQ", _watchdogIrqPending, MapperStateValueType::Bool));
 	entries.push_back(MapperStateEntry("$4030.3", "Mirroring", GetMirroringType() == MirroringType::Horizontal ? "Horizontal" : "Vertical", GetMirroringType() == MirroringType::Horizontal ? 1 : 0));
 	entries.push_back(MapperStateEntry("$4030.5", "CRC Error", (_useQdFormat && _badCrc), MapperStateValueType::Bool));
 	//entries.push_back(MapperStateEntry("$4030.6", "End of Head", _endOfHead, MapperStateValueType::Bool));
